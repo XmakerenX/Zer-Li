@@ -136,7 +136,10 @@ public class ShowProductController implements ClientInterface{
     		String[] field = rows[i].split("\\,");	
     		
     		// remove the ending ] from the third field string
+    		field[0] = field[0].trim();
+    		field[1] = field[1].trim();
     		field[2] = field[2].replaceAll("\\]", "");
+    		field[2] = field[2].trim();
     		itemData.add(new Product(Integer.parseInt(field[0]), field[1], field[2]));
     	}
     	
@@ -166,9 +169,9 @@ public class ShowProductController implements ClientInterface{
     	ArrayList<String> message = new ArrayList<String>();
     	message.add("SET");
     	message.add("Product");
-    	message.add(ProductIDCol.getCellData(0));
-    	message.add(ProductNameCol.getCellData(0));
-    	message.add(ProductTypeCol.getCellData(0));
+    	message.add(ProductIDCol.getCellData(0).trim());
+    	message.add(ProductNameCol.getCellData(0).trim());
+    	message.add(ProductTypeCol.getCellData(0).trim());
     	
     	client.handleMessageFromClientUI(message);
     	
