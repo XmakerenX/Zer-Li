@@ -126,7 +126,7 @@ public class ShowProductController implements ClientInterface{
 		boolean found = false;
 		for (int i = 0; i < productsToUpdate.size(); i++)
 		{
-			if (productsToUpdate.get(i).newID == oldID)
+			if (productsToUpdate.get(i).newID.equals(oldID))
 			{
 				productsToUpdate.get(i).newID = newID;
 				found = true;
