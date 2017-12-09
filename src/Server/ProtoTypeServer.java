@@ -26,11 +26,11 @@ public class ProtoTypeServer extends AbstractServer {
 	   *
 	   * @param port The port number to connect on.
 	   */
-	  public ProtoTypeServer(int port) 
+	  public ProtoTypeServer(int port, String username, String password) 
 	  {
 	    super(port);
 	    
-	    connectToDB();
+	    connectToDB(username, password);
 	  }
 	  
 	  //Instance methods ************************************************
@@ -144,7 +144,7 @@ public class ProtoTypeServer extends AbstractServer {
 	      ("Server has stopped listening for connections.");
 	  }
 	  
-	  public void connectToDB()
+	  public void connectToDB(String username, String password)
 	  {
 			// init driver
 			try {
@@ -154,7 +154,7 @@ public class ProtoTypeServer extends AbstractServer {
 
 			// init connection to database
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://0.0.0.0/prototype", "root", "UA1557da");
+				conn = DriverManager.getConnection("jdbc:mysql://0.0.0.0/prototype", username, password);
 
 			} catch (SQLException ex) {/* handle any errors */
 				System.out.println("SQLException: " + ex.getMessage());
@@ -172,26 +172,39 @@ public class ProtoTypeServer extends AbstractServer {
 	   */
 	  public static void main(String[] args) 
 	  {
-	    int port = 0; //Port to listen on
+		  String DBusername = "";
+		  String DBpassword = "";
+		  int port = 0; //Port to listen on
 
-	    try
-	    {
-	      port = Integer.parseInt(args[0]); //Get port from command line
-	    }
-	    catch(Throwable t)
-	    {
-	      port = DEFAULT_PORT; //Set port to 5555
-	    }
-		
-	    ProtoTypeServer sv = new ProtoTypeServer(port);
-	    
-	    try 
-	    {
-	      sv.listen(); //Start listening for connections
-	    } 
-	    catch (Exception ex) 
-	    {
-	      System.out.println("ERROR - Could not listen for clients!");
-	    }
+		  try
+		  {
+			  DBusername = args[0];
+			  DBpassword = args[1];
+		  }
+		  catch (ArrayIndexOutOfBoundsException e)
+		  {
+			  System.out.println("no DB credential was given quitting...");
+			  System.exit(0);
+		  }
+		  
+		  try
+		  {
+			  port = Integer.parseInt(args[3]); //Get port from command line
+		  }
+		  catch(Throwable t)
+		  {
+			  port = DEFAULT_PORT; //Set port to 5555
+		  }
+
+		  ProtoTypeServer sv = new ProtoTypeServer(port, DBusername, DBpassword);
+
+		  try 
+		  {
+			  sv.listen(); //Start listening for connections
+		  } 
+		  catch (Exception ex) 
+		  {
+			  System.out.println("ERROR - Could not listen for clients!");
+		  }
 	  }
 }

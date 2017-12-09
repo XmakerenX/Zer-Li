@@ -9,11 +9,11 @@ public class Client  extends AbstractClient{
 	
 	private ClientInterface UI;
 	
-	public Client(String host, int port, ClientInterface UI)
+	public Client(String host, int port)
 	throws IOException
 	{
 		super(host, port);
-		this.UI = UI;
+		UI = null;
 		// open connection to server
 		// and handles messages from it in a new thread
 		openConnection();
@@ -26,7 +26,8 @@ public class Client  extends AbstractClient{
 	*/
 	public void handleMessageFromServer(Object msg) 
 	{
-		UI.display(msg.toString());
+		if (UI != null)
+			UI.display(msg.toString());
 	}
 	/**
 	* This method handles all data coming from the UI            
@@ -47,6 +48,11 @@ public class Client  extends AbstractClient{
 			quit();
 		}
 	}	
+	
+	public void setUI(ClientInterface newUI)
+	{
+		UI = newUI;
+	}
 	
 	  /**
 	  * This method terminates the client.
