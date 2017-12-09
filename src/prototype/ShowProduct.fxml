@@ -7,24 +7,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="434.0" prefWidth="523.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prototype.ShowProductController">
+<BorderPane prefHeight="434.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prototype.ShowProductController">
    <center>
-      <AnchorPane prefHeight="449.0" prefWidth="523.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="434.0" prefWidth="434.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="productView" layoutX="92.0" layoutY="48.0" prefHeight="327.0" prefWidth="321.0">
+            <TableView fx:id="productView" layoutX="39.0" layoutY="45.0" prefHeight="327.0" prefWidth="383.0">
               <columns>
-                <TableColumn fx:id="ProductIDCol" onEditCommit="#onEditCommit" prefWidth="94.0" text="Product ID" />
-                <TableColumn fx:id="ProductNameCol" onEditCommit="#onEditCommit" prefWidth="120.0" text="Product Name" />
-                  <TableColumn fx:id="ProductTypeCol" onEditCommit="#onEditCommit" prefWidth="105.0" text="Product Type" />
+                <TableColumn fx:id="ProductIDCol" prefWidth="87.0" text="Product ID" />
+                <TableColumn fx:id="ProductNameCol" prefWidth="187.0" text="Product Name" />
+                  <TableColumn fx:id="ProductTypeCol" prefWidth="108.0" text="Product Type" />
               </columns>
             </TableView>
-            <Label fx:id="productLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="8.0" prefHeight="11.0" prefWidth="114.0" text="Product">
+            <Label fx:id="productLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="171.0" layoutY="14.0" prefHeight="11.0" prefWidth="114.0" text="Product">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
-            <Button fx:id="buttonUpdate" layoutX="439.0" layoutY="186.0" mnemonicParsing="false" onAction="#OnUpdate" text="Update" />
-            <Button fx:id="buttonRefresh" layoutX="221.0" layoutY="386.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
+            <Button fx:id="buttonUpdate" layoutX="356.0" layoutY="394.0" mnemonicParsing="false" onAction="#OnUpdate" text="Update" />
+            <Button fx:id="buttonRefresh" layoutX="194.0" layoutY="394.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
          </children>
       </AnchorPane>
    </center>

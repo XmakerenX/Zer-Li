@@ -100,7 +100,8 @@ public class ProtoTypeServer extends AbstractServer {
 					  System.out.println("updating database");
 					  stmt = conn.createStatement();
 					  
-					  stmt.executeUpdate("UPDATE Product SET ProductName=\""+userInput.get(3)+"\" ,ProductType=\""+userInput.get(4)+"\" WHERE ProductID="+userInput.get(2)+";");
+					  //stmt.executeUpdate("UPDATE Product SET ProductName=\""+userInput.get(3)+"\" ,ProductType=\""+userInput.get(4)+"\" WHERE ProductID="+userInput.get(2)+";");
+					  stmt.executeUpdate("UPDATE Product SET ProductID="+userInput.get(3)+" ,ProductName=\""+userInput.get(4)+"\" ,ProductType=\""+userInput.get(5)+"\" WHERE ProductID="+userInput.get(2)+";");
 					  
 				  } catch (SQLException e) {e.printStackTrace();}
 				  

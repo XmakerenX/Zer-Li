@@ -26,7 +26,7 @@ public class Product implements Serializable {
 	
 	public void setID(int newID)
 	{
-		ID.set(""+ID);
+		ID.set(""+newID);
 	}
 	
 	public String getName()

@@ -35,7 +35,7 @@ public class Main extends Application {
 				client.setUI(controller);
 				controller.initData(client);
 
-				Scene scene = new Scene(root,525,450);
+				Scene scene = new Scene(root,458,450);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 
