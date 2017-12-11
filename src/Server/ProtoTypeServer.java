@@ -17,7 +17,7 @@ import prototype.Product;
 public class ProtoTypeServer extends AbstractServer {
 
 	  final public static int DEFAULT_PORT = 5555;
-	  private Connection conn;
+	  private Connection conn = null;
 	
 	  //Constructors ****************************************************
 	  
@@ -141,8 +141,20 @@ public class ProtoTypeServer extends AbstractServer {
 	   */
 	  protected void serverStopped()
 	  {
-	    System.out.println
-	      ("Server has stopped listening for connections.");
+	    System.out.println("Server has stopped listening for connections.");
+	    // close connection to DB
+	    if (conn != null)
+	    {
+	    	try
+	    	{
+	    		conn.close();
+	    	}
+	    	catch (SQLException ex) {/* handle any errors */
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+	    }
 	  }
 	  
 	  public void connectToDB(String username, String password)
