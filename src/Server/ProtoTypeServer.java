@@ -119,11 +119,6 @@ public class ProtoTypeServer extends AbstractServer {
 			  break;
 		  }
 		  
-		  //System.out.println("["+userInput.get(0)+", "+userInput.get(1)+", "+userInput.get(2)+"]");
-		  //parsingTheData(conn, userInput);
-
-		  //System.out.println("Message received: " + msg + " from " + client);
-		  //this.sendToAllClients(msg);
 	  }
 	  
 	  /**
@@ -167,7 +162,7 @@ public class ProtoTypeServer extends AbstractServer {
 
 			// init connection to database
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://0.0.0.0/prototype", username, password);
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/prototype", username, password);
 
 			} catch (SQLException ex) {/* handle any errors */
 				System.out.println("SQLException: " + ex.getMessage());

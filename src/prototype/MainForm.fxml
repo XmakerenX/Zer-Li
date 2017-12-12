@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prototype.MainFormController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="273.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="31.0" layoutY="14.0" text="List of Products" />
+            <ComboBox id="productCbx" fx:id="productCbx" layoutX="31.0" layoutY="37.0" prefHeight="26.0" prefWidth="163.0" promptText="Select a Product" />
+            <Button id="showProductBtn" fx:id="showProductBtn" layoutX="31.0" layoutY="74.0" mnemonicParsing="false" onAction="#onShowProductInfo" text="Show Product Info" />
+            <Button id="exitBtn" fx:id="exitBtn" layoutX="101.0" layoutY="148.0" mnemonicParsing="false" onAction="#onExit" text="Exit" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

@@ -25,19 +25,19 @@ public class Main extends Application {
 			parseArgs();
 			
 			if (client != null)
-			{
-
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowProduct.fxml"));
+			{			
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainForm.fxml"));
 				BorderPane root = (BorderPane)loader.load();
 
-				ShowProductController controller = loader.<ShowProductController>getController();
+				MainFormController controller = loader.<MainFormController>getController();
 				// add controller to client
 				client.setUI(controller);
 				controller.initData(client);
 
-				Scene scene = new Scene(root,458,450);
+				Scene scene = new Scene(root,273,200);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
+				primaryStage.setTitle("Prototype");
 
 
 				primaryStage.show();
