@@ -5,7 +5,9 @@ Credit: Ariel Berkovich, Matan Keren, Evgeny Khanchin, Daniel Krutikov
 The time had come for us to stop diagraming, and thus, we have created a prototype.
 
 
-currently supports: Client server architecture(including configurations)
+currently supports: 
+
+		    Client server architecture(including configurations)
                     
 		    GUI
                     
@@ -13,10 +15,13 @@ currently supports: Client server architecture(including configurations)
                     
 		    editing of name
 todo:
+      
       -order packages and classes as best
      
      -make sure the classes are divided to three groups: entities, controllers and GUI
       
+
+
 
  	
 
