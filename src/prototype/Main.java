@@ -1,8 +1,12 @@
 package prototype;
 	
+import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
 
 import client.Client;
 import javafx.application.Application;
@@ -86,41 +90,34 @@ public class Main extends Application
 		if (client != null)
 			client.quit();
 	}
-	
+//----------------------------------------------------------------------	
 	protected ArrayList<Object> parseArgs()
 	{
-		ArrayList<Object> output = new ArrayList<Object>();
+		String serverIP;
+		String serverPort;
 		String host = "";
 		int port = DEFAULT_PORT;
-		// read command line parameters
-		List<String> args = getParameters().getRaw();
+		Config clientConf = new Config("client.properties");
+
+
+		serverIP =clientConf.getProperty("SERVER_IP");
+		serverPort = clientConf.getProperty("CLIENT_PORT");
 		
-		// set host(Server)
-		try 
+		
+		
+		if(serverIP.equals("local"))   	   {host = "localhost";}
+		if(serverPort.equals("default"))   {port = DEFAULT_PORT;}
+		else
 		{
-			host = args.get(0);
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			host = "localhost";
+			port = Integer.parseInt(serverPort);
 		}
 		
-		if (host != "")
-		{
-			// set port
-			try {
-				port = Integer.parseInt(args.get(1));
-			}catch(IndexOutOfBoundsException | NumberFormatException e)
-			{
-				port = DEFAULT_PORT;
-			}
-		}
+		ArrayList<Object> output = new ArrayList<Object>();
 		output.add(host);
 		output.add(port);
 		
 		return output;
 	}
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
