@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import prototype.Config;
 import prototype.Product;
 
 public class ProtoTypeServer extends AbstractServer {
@@ -181,28 +182,22 @@ public class ProtoTypeServer extends AbstractServer {
 	  public static void main(String[] args) 
 	  {
 		  String DBusername = "";
-		  String DBpassword = "";
-		  int port = 0; //Port to listen on
-
-		  try
+		  String DBpassword = "";	
+		  Config serverConfig = new Config("server.properties");
+		  int port = DEFAULT_PORT; //Port to listen on
+		 
+		  DBusername = serverConfig.getProperty("DB_USERNAME");
+		  DBpassword = serverConfig.getProperty("DB_PASSWORD");
+		  
+		  if(!serverConfig.getProperty("SERVER_PORT").equals("default"))
 		  {
-			  DBusername = args[0];
-			  DBpassword = args[1];
-		  }
-		  catch (ArrayIndexOutOfBoundsException e)
-		  {
-			  System.out.println("no DB credential was given quitting...");
-			  System.exit(0);
+			  try 
+			  {
+			  port = Integer.parseInt(serverConfig.getProperty("SERVER_PORT"));
+			  }
+			  catch(Throwable t) {};
 		  }
 		  
-		  try
-		  {
-			  port = Integer.parseInt(args[3]); //Get port from command line
-		  }
-		  catch(Throwable t)
-		  {
-			  port = DEFAULT_PORT; //Set port to 5555
-		  }
 
 		  ProtoTypeServer sv = new ProtoTypeServer(port, DBusername, DBpassword);
 
