@@ -93,7 +93,7 @@ public class Main extends Application
 		Config clientConf = new Config("client.properties");
 
 
-		serverIP =clientConf.getProperty("SERVER_IP");
+		serverIP =clientConf.getProperty("SERVER_IP").trim();
 		serverPort = clientConf.getProperty("CLIENT_PORT");
 		
 		if(serverIP.equals("local") || serverIP.equals("")) 
