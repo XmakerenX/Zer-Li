@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import prototype.Config;
@@ -23,9 +21,11 @@ public class ProtoTypeServer extends AbstractServer {
 	  //Constructors ****************************************************
 	  
 	  /**
-	   * Constructs an instance of the echo server.
+	   * Constructs an instance of the Prototype Server
 	   *
 	   * @param port The port number to connect on.
+	   * @param username The useranme to connect with
+	   * @param password The password to connect with
 	   */
 	  public ProtoTypeServer(int port, String username, String password) 
 	  {
@@ -158,8 +158,11 @@ public class ProtoTypeServer extends AbstractServer {
 			// init driver
 			try {
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
-			} catch (Exception ex) {
-				/* handle the error */}
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) 
+			{
+				System.out.println("Failed to get jdbc Driver");
+				System.exit(0);
+			}
 
 			// init connection to database
 			try {
@@ -169,6 +172,7 @@ public class ProtoTypeServer extends AbstractServer {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
+				System.exit(0);
 			}
 	  }
 	  
@@ -176,15 +180,13 @@ public class ProtoTypeServer extends AbstractServer {
 	   * This method is responsible for the creation of 
 	   * the server instance (there is no UI in this phase).
 	   *
-	   * @param args[0] The port number to listen on.  Defaults to 5555 
-	   *          if no argument is entered.
 	   */
 	  public static void main(String[] args) 
 	  {
 		  String DBusername = "";
 		  String DBpassword = "";	
-		  Config serverConfig = new Config("server.properties");
 		  int port = DEFAULT_PORT; //Port to listen on
+		  Config serverConfig = new Config("server.properties");
 		 
 		  DBusername = serverConfig.getProperty("DB_USERNAME");
 		  DBpassword = serverConfig.getProperty("DB_PASSWORD");
@@ -193,9 +195,12 @@ public class ProtoTypeServer extends AbstractServer {
 		  {
 			  try 
 			  {
-			  port = Integer.parseInt(serverConfig.getProperty("SERVER_PORT"));
+				  port = Integer.parseInt(serverConfig.getProperty("SERVER_PORT"));
 			  }
-			  catch(Throwable t) {};
+			  catch(NumberFormatException e) 
+			  {
+				  System.out.println("port in server.properties is invalid");
+			  }
 		  }
 		  
 
@@ -203,9 +208,10 @@ public class ProtoTypeServer extends AbstractServer {
 
 		  try 
 		  {
-			  sv.listen(); //Start listening for connections
+			  //Start listening for connections
+			  sv.listen();
 		  } 
-		  catch (Exception ex) 
+		  catch (IOException ex) 
 		  {
 			  System.out.println("ERROR - Could not listen for clients!");
 		  }

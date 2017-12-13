@@ -1,13 +1,7 @@
 package prototype;
 	
-import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
-
 import client.Client;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,8 +14,8 @@ public class Main extends Application
 {
 	
 	//vars:
-			final public static int DEFAULT_PORT = 5555;
-			private Client client = null;
+	final public static int DEFAULT_PORT = 5555;
+	private Client client = null;
 
 			
 //*************************************************************************************************
@@ -33,7 +27,7 @@ public class Main extends Application
 			initClient();
 			openNewClientGui(primaryStage);
 		}
-		catch(Exception e)
+		catch(IOException e)
 		{
 			e.printStackTrace();
 			//exit program:
@@ -46,7 +40,7 @@ public class Main extends Application
 	
 //----------------------------------------------------------------------
 	
-	private void initClient() throws NullPointerException
+	private void initClient()
 	{
 		ArrayList<Object> args = parseArgs();
 		
@@ -60,7 +54,7 @@ public class Main extends Application
 				catch(IOException e)
 				{
 					System.out.println("Failed to connect to "+host+":"+port);
-					throw new NullPointerException();
+					System.exit(0);
 				}
 	}
 //----------------------------------------------------------------------
@@ -95,7 +89,6 @@ public class Main extends Application
 	{
 		String serverIP;
 		String serverPort;
-		String host = "";
 		int port = DEFAULT_PORT;
 		Config clientConf = new Config("client.properties");
 
@@ -103,21 +96,30 @@ public class Main extends Application
 		serverIP =clientConf.getProperty("SERVER_IP");
 		serverPort = clientConf.getProperty("CLIENT_PORT");
 		
+		if(serverIP.equals("local") || serverIP.equals("")) 
+			serverIP = "localhost";
 		
-		
-		if(serverIP.equals("local"))   	   {host = "localhost";}
-		if(serverPort.equals("default"))   {port = DEFAULT_PORT;}
+		if(serverPort.equals("default"))
+			port = DEFAULT_PORT;
 		else
 		{
-			port = Integer.parseInt(serverPort);
+			try
+			{
+				port = Integer.parseInt(serverPort);
+			}
+			catch (NumberFormatException e)
+			{
+				port = DEFAULT_PORT;
+			}
 		}
 		
 		ArrayList<Object> output = new ArrayList<Object>();
-		output.add(host);
+		output.add(serverIP);
 		output.add(port);
 		
 		return output;
 	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
@@ -176,7 +175,7 @@ public class ShowProductController implements ClientInterface{
     void OnUpdate(ActionEvent event) {
     	//ArrayList<String> message = new ArrayList<String>();
     	
-    	int i,j,k;
+    	int i,j;
     	
     	for (i = 0; i < productsToUpdate.size(); i++)
     	{

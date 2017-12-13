@@ -2,7 +2,6 @@ package prototype;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import client.Client;
 import client.ClientInterface;
 import javafx.collections.FXCollections;
