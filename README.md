@@ -6,12 +6,16 @@ The time had come for us to stop diagraming, and thus, we have created a prototy
 
 
 currently supports: Client server architecture(including configurations)
-                    GUI
-                    view and select products from database
                     
-todo: -updating of products 
+		    GUI
+                    
+		    view and select products from database
+                    
+		    editing of name
+todo:
       -order packages and classes as best
-      -make sure the classes are divided to three groups: entities, controllers and GUI
+     
+     -make sure the classes are divided to three groups: entities, controllers and GUI
       
 
  	
