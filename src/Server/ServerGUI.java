@@ -6,8 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
@@ -47,21 +51,22 @@ public class ServerGUI extends Application{
 	{
 
 		System.out.print("start");
+	
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/Server/ServerForm.fxml"));
-		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ServerForm.fxml"));
+		Pane root = (Pane)loader.load();
+
 		Scene scene = new Scene(root);
-		//Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/prototype/application.css").toExternalForm());
-		primaryStage.setTitle("Academic Managment Tool");
 		primaryStage.setScene(scene);
-		
-		primaryStage.show();	
-		
-		
+		primaryStage.setTitle("Prototype");
+
+
+		primaryStage.show();
+
 	
 	}
 	public static void main(String[] args) {
+		launch(args);
 		System.out.print("main");
 	}
 
