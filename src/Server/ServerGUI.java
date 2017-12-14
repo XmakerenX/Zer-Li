@@ -12,38 +12,37 @@ import javafx.scene.layout.Pane;
 
 import java.net.URL;
 
+import Server.ProtoTypeServer2;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import prototype.Config;
 import prototype.MainFormController;
 
-public class ServerGUI extends Application{
 
-    @FXML // fx:id="shtDwnBtn"
-    private Button shtDwnBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="exitBtn"
-    private Button exitBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="startBtn"
-    private Button startBtn; // Value injected by FXMLLoader
+	public class ServerGUI extends Application {
 
-    @FXML
-    void exitForm(ActionEvent event) {
-    	System.out.println("Disconnected");
-    	System.exit(0);
-    }
+	    @FXML
+	    private Button exitBtn;
 
-    @FXML
-    void startServer(ActionEvent event) {
+	    @FXML
+	    private Button setupBtn;
+
+	    @FXML
+	    void setupConnection(ActionEvent event) {
     		ProtoTypeServer2 sv = new ProtoTypeServer2();
-    }
+	    }
 
-    @FXML
-    void shutDwnServer(ActionEvent event) {
+	    @FXML
+	    void exitWindow(ActionEvent event) {
+	    	System.out.println("Disconnected");
+	    	System.exit(0);
 
-    }
+	    }
+
+	
 
 	
 	@Override
@@ -53,21 +52,18 @@ public class ServerGUI extends Application{
 		System.out.print("start");
 	
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ServerForm.fxml"));
-		Pane root = (Pane)loader.load();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ServerGUI.fxml"));
+		BorderPane root = (BorderPane)loader.load();
 
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Prototype");
-
-
 		primaryStage.show();
 
 	
 	}
 	public static void main(String[] args) {
 		launch(args);
-		System.out.print("main");
 	}
 
 }
