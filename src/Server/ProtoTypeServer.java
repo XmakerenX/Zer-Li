@@ -58,9 +58,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "Product":
 			  {
 				  Statement stmt;
-				  //ArrayList<Product> data = new ArrayList<Product>();
-				  ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-				  //ObservableList<Product> data = FXCollections.observableArrayList();
+				  ArrayList<Product> data = new ArrayList<Product>();
 
 				  try 
 				  {
@@ -68,13 +66,8 @@ public class ProtoTypeServer extends AbstractServer {
 					  ResultSet rs = stmt.executeQuery("SELECT * FROM Product;");
 					  while(rs.next())
 					  {
-						  // save the values in data
-						  ArrayList<String> row = new ArrayList<String>();
-						  row.add(""+rs.getInt(1));
-						  row.add(rs.getString(2));
-						  row.add(rs.getString(3));
-						  data.add(row);
-						  //data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
+						  // save the values in data						  
+						  data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
 					  } 
 					  rs.close();
 					  System.out.println("sending message");

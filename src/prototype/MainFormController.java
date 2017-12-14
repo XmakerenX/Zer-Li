@@ -75,42 +75,18 @@ public class MainFormController implements ClientInterface {
     {
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
-    	String data = (String)message;
+    	
     	ArrayList<String> comboboxProductStrings = new ArrayList<String>();
-    	    	
-//    	// get the rows data from the data string by splitting around '['
-    	String[] rows = data.split("\\[");
-//    	
-    	// read fields data from each row
-    	// starting from 2 since 0,1 are empty
-    	for (int i = 2; i < rows.length; i++)
-    	{
-    		String[] field = rows[i].split("\\,");	
-    		
-    		// remove the ending ] from the third field string
-    		field[0] = field[0].trim();
-    		field[1] = field[1].trim();
-    		field[2] = field[2].replaceAll("\\]", "");
-    		field[2] = field[2].trim();
-    		Product p = new Product(Integer.parseInt(field[0]), field[1], field[2]);
-    		products.add(p);
-    		comboboxProductStrings.add(p.getName());
-    	}
+    	products = (ArrayList<Product>)message; 	
+    	
+    	for (int i = 0; i < products.size(); i++)
+    		comboboxProductStrings.add(products.get(i).getName());
     	
     	System.out.println(comboboxProductStrings);
     	ObservableList<String> comboBoxList = FXCollections.observableArrayList(comboboxProductStrings);
     	productCbx.setItems(comboBoxList);
     }
-    
-    public void requestProductInfo()
-    {
-    	ArrayList<String> message = new ArrayList<String>();
-    	
-    	message.add("GET");
-    	message.add("Product");
-    	client.handleMessageFromClientUI(message);
-    }
-    
+        
     public void initData(Client newClient)
     {
     	client = newClient;
