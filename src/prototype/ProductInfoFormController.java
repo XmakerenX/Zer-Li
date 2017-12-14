@@ -40,15 +40,8 @@ public class ProductInfoFormController {
     	p.setName(productNametxt.getText());
     	p.setType(productTypetxt.getText());
 
-		ArrayList<String> message = new ArrayList<String>();
-		message.add("SET"); 				// 0
-		message.add("Product"); 			// 1
-		message.add(p.getID().trim());		// 2
-		message.add(p.getID().trim());		// 3
-		message.add(p.getName().trim());	// 4
-		message.add(p.getType().trim());	// 5
-    	
-		client.handleMessageFromClientUI(message);
+    	// send update to DB
+    	ProdcutController.updateProduct(Integer.parseInt(p.getID()), p, client);
     }
 
     @FXML
@@ -73,7 +66,7 @@ public class ProductInfoFormController {
 		}
 		catch(IOException e)
 		{
-			System.out.println("Failed to open ProductInfoForm");
+			System.out.println("Failed to open MainForm");
 		}
     }
 

@@ -100,8 +100,6 @@ public class MainFormController implements ClientInterface {
     	System.out.println(comboboxProductStrings);
     	ObservableList<String> comboBoxList = FXCollections.observableArrayList(comboboxProductStrings);
     	productCbx.setItems(comboBoxList);
-//    	   	
-//    	productView.setItems(itemData);	
     }
     
     public void requestProductInfo()
@@ -116,7 +114,7 @@ public class MainFormController implements ClientInterface {
     public void initData(Client newClient)
     {
     	client = newClient;
-    	requestProductInfo();
+    	ProdcutController.requestProducts(client);
     }
     
 }
