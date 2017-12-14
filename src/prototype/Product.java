@@ -2,50 +2,54 @@ package prototype;
 
 import java.io.Serializable;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class Product implements Serializable {
 
 	public static final long serialVersionUID = 55L;
 	
-    private final SimpleStringProperty ID;
-    private final SimpleStringProperty name;
-    private final SimpleStringProperty type;
-	
-	public Product(int newID, String newName, String newType)
+    private long    ID;
+    private String name;
+    private String type;
+    
+	public Product(long newID, String newName, String newType)
 	{
-		ID = new SimpleStringProperty(""+newID);
-		name = new SimpleStringProperty(newName);
-		type = new SimpleStringProperty(newType);
+		ID = newID;
+		name = newName;
+		type = newType;
 	}
 	
-	public String getID()
+	public long getID()
 	{
-		return ID.get();
+		return ID;
 	}
 	
-	public void setID(int newID)
+	public void setID(long newID)
 	{
-		ID.set(""+newID);
+		ID = newID;
 	}
 	
 	public String getName()
 	{
-		return name.get();
+		return name;
 	}
 	
 	public void setName(String newName)
 	{
-		name.set(newName);
+		name = newName;
 	}
 	
 	public String getType()
 	{
-		return type.get();
+		return type;
 	}
 	
 	public void setType(String newType)
 	{
-		type.set(newType);
+		type = newType;
 	}
+	
+	public String toString()
+	{
+		return ID+", "+name+", "+type;
+	}
+	
 }

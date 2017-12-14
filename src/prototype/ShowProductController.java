@@ -16,19 +16,20 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.NumberStringConverter;
 
 public class ShowProductController implements ClientInterface{
 
 	private class TableID
 	{
-		TableID(String oldID, String newID)
+		TableID(long oldID, long newID)
 		{
 			this.oldID = oldID;
 			this.newID = newID;
 		}
 		
-		public String oldID;
-		public String newID;
+		public long oldID;
+		public long newID;
 	}
 	
 	private Client client;
@@ -38,7 +39,7 @@ public class ShowProductController implements ClientInterface{
     private TableView<Product> productView;
 
     @FXML
-    private TableColumn<Product, String> ProductIDCol;
+    private TableColumn<Product, Number> ProductIDCol;
 
     @FXML
     private TableColumn<Product, String> ProductNameCol;
@@ -65,22 +66,22 @@ public class ShowProductController implements ClientInterface{
     {
     	client = newClient;
     	
-    	getProductInfo();
+    	ProdcutController.requestProducts(client);
     }
     
     private void InitTableView()
     {
-    	ProductIDCol.setCellValueFactory( new PropertyValueFactory<Product,String>("ID"));
-    	ProductIDCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    	ProductIDCol.setCellValueFactory( new PropertyValueFactory<Product,Number>("ID"));
+    	ProductIDCol.setCellFactory(TextFieldTableCell.<Product, Number>forTableColumn(new NumberStringConverter()));
     	// Set onEditCommmit for ID field
     	ProductIDCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<Product, String>>() {
+    			new EventHandler<CellEditEvent<Product, Number>>() {
     				@Override
-    				public void handle(CellEditEvent<Product, String> t) {   					
-    					addProductToUpdate(t.getOldValue(), t.getNewValue());
+    				public void handle(CellEditEvent<Product, Number> t) {   					
+    					addProductToUpdate((Long)t.getOldValue(), (Long)t.getNewValue());
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
-    							).setID(Integer.parseInt(t.getNewValue()));
+    							).setID((Long)t.getNewValue());
     				}
     			}
     			);
@@ -92,7 +93,7 @@ public class ShowProductController implements ClientInterface{
     			new EventHandler<CellEditEvent<Product, String>>() {
     				@Override
     				public void handle(CellEditEvent<Product, String> t) {
-    					String ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
+    					long ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
     					addProductToUpdate(ID,ID);
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
@@ -108,7 +109,7 @@ public class ShowProductController implements ClientInterface{
     			new EventHandler<CellEditEvent<Product, String>>() {
     				@Override
     				public void handle(CellEditEvent<Product, String> t) {
-    					String ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
+    					long ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
     					addProductToUpdate(ID,ID);
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
@@ -120,12 +121,12 @@ public class ShowProductController implements ClientInterface{
     	productView.setEditable(true);
     }
     
-    private void addProductToUpdate(String oldID, String newID)
+    private void addProductToUpdate(long oldID, long newID)
     {
 		boolean found = false;
 		for (int i = 0; i < productsToUpdate.size(); i++)
 		{
-			if (productsToUpdate.get(i).newID.equals(oldID))
+			if (productsToUpdate.get(i).newID == oldID)
 			{
 				productsToUpdate.get(i).newID = newID;
 				found = true;
@@ -135,46 +136,23 @@ public class ShowProductController implements ClientInterface{
 			productsToUpdate.add(new TableID(oldID, newID));
     }
     
-    public void getProductInfo()
-    {
-    	ArrayList<String> message = new ArrayList<String>();
-    	
-    	message.add("GET");
-    	message.add("Product");
-    	client.handleMessageFromClientUI(message);
-    }
-    
     public void display(Object message)
     {
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
-    	String data = (String)message;
+    	
+    	ArrayList<Product> products = (ArrayList<Product>)message;
+    	    	
     	final ObservableList<Product> itemData = FXCollections.observableArrayList();
     	
-    	// get the rows data from the data string by splitting around '['
-    	String[] rows = data.split("\\[");
-    	
-    	// read fields data from each row
-    	// starting from 2 since 0,1 are empty
-    	for (int i = 2; i < rows.length; i++)
-    	{
-    		String[] field = rows[i].split("\\,");	
-    		
-    		// remove the ending ] from the third field string
-    		field[0] = field[0].trim();
-    		field[1] = field[1].trim();
-    		field[2] = field[2].replaceAll("\\]", "");
-    		field[2] = field[2].trim();
-    		itemData.add(new Product(Integer.parseInt(field[0]), field[1], field[2]));
-    	}
-    	   	
+    	for (int i = 0; i < products.size(); i++)
+    		itemData.add(products.get(i));
+    	    	   	
     	productView.setItems(itemData);	
     }
     
     @FXML
-    void OnUpdate(ActionEvent event) {
-    	//ArrayList<String> message = new ArrayList<String>();
-    	
+    void OnUpdate(ActionEvent event) {  	
     	int i,j;
     	
     	for (i = 0; i < productsToUpdate.size(); i++)
@@ -187,7 +165,7 @@ public class ShowProductController implements ClientInterface{
     		for ( j = 0; j < productView.getItems().size(); j++)
     		{
     			System.out.println(productsToUpdate.get(i).newID+"||"+productView.getItems().get(j).getID());
-    			if (productsToUpdate.get(i).newID.equals(productView.getItems().get(j).getID()))
+    			if (productsToUpdate.get(i).newID == (productView.getItems().get(j).getID()))
     			{
     				found = true;
     				break;
@@ -196,37 +174,28 @@ public class ShowProductController implements ClientInterface{
     		
     		if (found)
     		{
-    			message.add("SET"); 											// 0
-    			message.add("Product"); 										// 1
-    			message.add(productsToUpdate.get(i).oldID.trim());				// 2
-    			message.add(productView.getItems().get(j).getID().trim());		// 3
-    			message.add(productView.getItems().get(j).getName().trim());	// 4
-    			message.add(productView.getItems().get(j).getType().trim());	// 5
+    			Product updatedProduct = new Product(productView.getItems().get(j).getID(),
+    					productView.getItems().get(j).getName().trim(),
+    					productView.getItems().get(j).getType().trim());
+    			
+    			ProdcutController.updateProduct(productsToUpdate.get(i).oldID, updatedProduct, client);
     		}
     		else
     		{
     			System.out.println("Error didn't find matching row despite being impossible...");
     		}
-        	
-        	client.handleMessageFromClientUI(message);
         	found = false;
     	}
     	
     	productsToUpdate.clear();
     	// refresh products list from database
-    	getProductInfo();
+    	ProdcutController.requestProducts(client);
     }
 
     @FXML
     void onRefresh(ActionEvent event) {
     	productsToUpdate.clear();
-    	getProductInfo();
+    	ProdcutController.requestProducts(client);
     }
-    
-    // TODO: find why it won't let me remove this....
-    @FXML
-    void onEditCommit(ActionEvent event) {
 
-    }
-    
 }

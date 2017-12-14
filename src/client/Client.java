@@ -27,7 +27,7 @@ public class Client  extends AbstractClient{
 	public void handleMessageFromServer(Object msg) 
 	{
 		if (UI != null)
-			UI.display(msg.toString());
+			UI.display(msg);
 	}
 	/**
 	* This method handles all data coming from the UI            
@@ -42,8 +42,6 @@ public class Client  extends AbstractClient{
 		}
 		catch(IOException e)
 		{
-//			UI.display
-//			("Could not send message to server.  Terminating client.");
 			System.out.println("Could not send message to server.  Terminating client.");
 			quit();
 		}

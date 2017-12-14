@@ -61,14 +61,17 @@ public class Main extends Application
 	private void openNewClientGui(Stage primaryStage) throws IOException
 	{
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainForm.fxml"));
+				//FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowProduct.fxml"));
 				BorderPane root = (BorderPane)loader.load();
 
 				MainFormController controller = loader.<MainFormController>getController();
+				//ShowProductController controller = loader.<ShowProductController>getController();
 				// add controller to client
 				client.setUI(controller);
 				controller.initData(client);
 
-				Scene scene = new Scene(root,273,200);
+				//Scene scene = new Scene(root,273,200);
+				Scene scene = new Scene(root);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.setTitle("Prototype");

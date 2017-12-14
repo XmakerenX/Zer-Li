@@ -36,12 +36,13 @@ public class ProductInfoFormController {
 
     @FXML
     void OnSave(ActionEvent event) {
+    	long oldID = p.getID();
     	p.setID(Integer.parseInt(productIDtxt.getText()));
     	p.setName(productNametxt.getText());
     	p.setType(productTypetxt.getText());
 
     	// send update to DB
-    	ProdcutController.updateProduct(Integer.parseInt(p.getID()), p, client);
+    	ProdcutController.updateProduct(oldID, p, client);
     }
 
     @FXML
@@ -72,7 +73,7 @@ public class ProductInfoFormController {
 
 	public void loadProduct(Product p1){
 		this.p=p1;
-		this.productIDtxt.setText(p.getID());
+		this.productIDtxt.setText(""+p.getID());
 		this.productNametxt.setText(p.getName());
 		this.productTypetxt.setText(p.getType());
 	}
