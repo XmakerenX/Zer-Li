@@ -45,11 +45,13 @@ public class ProtoTypeServer extends AbstractServer {
 	  public void handleMessageFromClient
 	  (Object msg, ConnectionToClient client)
 	  {
+		  //Casting the received object back to an array list of strings
 		  ArrayList<String> userInput = (ArrayList<String>)msg;
 		  
 		  switch(userInput.get(0))
 		  {
 		  case "GET":
+			//saves all the product's as arrays of strings in another array called "data"
 		  {
 			  switch(userInput.get(1))
 			  {
@@ -89,6 +91,7 @@ public class ProtoTypeServer extends AbstractServer {
 		  }break;
 		  
 		  case "SET":
+			  //updates specific item's details in the Product table
 		  {
 			  switch (userInput.get(1))
 			  {
