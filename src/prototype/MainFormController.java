@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
-public class MainFormController implements ClientInterface {
+public class MainFormController extends FormController implements ClientInterface {
 
 	private Client client;
 	private ArrayList<Product> products = new ArrayList<Product>();
@@ -46,29 +46,32 @@ public class MainFormController implements ClientInterface {
 		if (productIndex == -1)
 			return;
 		
-    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		try
-		{
-			Pane root = loader.load(getClass().getResource("ProductInfoForm.fxml").openStream());
-					
-			ProductInfoFormController productFromController = loader.getController();
-
+    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		//Stage primaryStage = new Stage();
+		//FXMLLoader loader = new FXMLLoader();
+		//try
+	//	{
+			ProductInfoFormController productFromController = (ProductInfoFormController)children.get(0);
 			productFromController.loadProduct(products.get(productCbx.getSelectionModel().getSelectedIndex()));
-			productFromController.setClinet(client);
-			
-			Scene scene = new Scene(root);			
-			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Prototype");
-			primaryStage.show();
-		}
-		catch(IOException e)
-		{
-			System.out.println("Failed to open ProductInfoForm");
-		}
+			FormController.primaryStage.setScene(children.get(0).getScene());
+//			Pane root = loader.load(getClass().getResource("ProductInfoForm.fxml").openStream());
+//					
+//			ProductInfoFormController productFromController = loader.getController();
+//
+//			productFromController.loadProduct(products.get(productCbx.getSelectionModel().getSelectedIndex()));
+//			productFromController.setClinet(client);
+//			
+//			Scene scene = new Scene(root);			
+//			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+//			
+//			primaryStage.setScene(scene);	
+//			primaryStage.setTitle("Prototype");
+//			primaryStage.show();
+		//}
+//		catch(IOException e)
+//		{
+//			System.out.println("Failed to open ProductInfoForm");
+//		}
     }
 
     public void display(Object message)
@@ -91,6 +94,7 @@ public class MainFormController implements ClientInterface {
     {
     	client = newClient;
     	ProdcutController.requestProducts(client);
+    	productCbx.getSelectionModel().select(-1);
     }
     
 }

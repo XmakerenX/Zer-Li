@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ProductInfoFormController {
+public class ProductInfoFormController extends FormController{
 
 	private Product p;
 	private Client client;
@@ -47,28 +47,33 @@ public class ProductInfoFormController {
 
     @FXML
     void onClose(ActionEvent event) {
-    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		try
-		{
-			Pane root = loader.load(getClass().getResource("MainForm.fxml").openStream());
-			
-			MainFormController mainFormController = loader.getController();
-			mainFormController.initData(client);
-			client.setUI(mainFormController);
-			
-			Scene scene = new Scene(root);			
-			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Prototype");
-			primaryStage.show();
-		}
-		catch(IOException e)
-		{
-			System.out.println("Failed to open MainForm");
-		}
+    	
+    	MainFormController mainFormController = (MainFormController)parent;
+    	client.setUI(mainFormController);
+    	mainFormController.initData(client);
+    	FormController.primaryStage.setScene(parent.getScene());
+    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		//Stage primaryStage = new Stage();
+		//FXMLLoader loader = new FXMLLoader();
+//		try
+//		{
+//			Pane root = loader.load(getClass().getResource("MainForm.fxml").openStream());
+//			
+//			MainFormController mainFormController = loader.getController();
+//			mainFormController.initData(client);
+//			client.setUI(mainFormController);
+//			
+//			Scene scene = new Scene(root);			
+//			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+//			
+//			primaryStage.setScene(scene);	
+//			primaryStage.setTitle("Prototype");
+//			primaryStage.show();
+//		}
+//		catch(IOException e)
+//		{
+//			System.out.println("Failed to open MainForm");
+//		}
     }
 
 	public void loadProduct(Product p1){

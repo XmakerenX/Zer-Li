@@ -159,7 +159,7 @@ public class ProtoTypeServer extends AbstractServer {
 
 			// init connection to database
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://localhost/prototype", username, password);
+				conn = DriverManager.getConnection("jdbc:mysql://192.168.1.104/prototype", username, password);
 
 			} catch (SQLException ex) {/* handle any errors */
 				System.out.println("SQLException: " + ex.getMessage());
