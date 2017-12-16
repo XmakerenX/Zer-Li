@@ -19,6 +19,10 @@ public class Main extends Application
 
 			
 //*************************************************************************************************
+	/**
+	* Called at application start and initialize main GUI and client
+	*/
+//*************************************************************************************************	
 	@Override
 	public void start(Stage primaryStage) //--> this function is called on program start
 	{
@@ -35,11 +39,13 @@ public class Main extends Application
 			Platform.exit();
 		}
 	}
-//*************************************************************************************************	
 	
-	
-//----------------------------------------------------------------------
-	
+//*************************************************************************************************
+	/**
+	* Initialize Client from config file (client.properties)
+	* and open connection to server
+	*/
+//*************************************************************************************************
 	private void initClient()
 	{
 		ArrayList<Object> args = parseArgs();
@@ -57,37 +63,56 @@ public class Main extends Application
 					System.exit(0);
 				}
 	}
-//----------------------------------------------------------------------
+	
+//*************************************************************************************************
+	/**
+	*  Load the main GUI and set as the primaryStage
+	*  @param primaryStage the primary stage for this application, onto which the application scene can be set. The primary 
+	 stage will be embedded in the browser if the application was launched as an applet. Applications may create other 
+	 stages, if needed, but they will not be primary stages and will not be embedded in the browser.
+	*/
+//*************************************************************************************************
 	private void openNewClientGui(Stage primaryStage) throws IOException
 	{
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainForm.fxml"));
-				//FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowProduct.fxml"));
-				BorderPane root = (BorderPane)loader.load();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainForm.fxml"));
+		//FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowProduct.fxml"));
+		BorderPane root = (BorderPane)loader.load();
 
-				MainFormController controller = loader.<MainFormController>getController();
-				//ShowProductController controller = loader.<ShowProductController>getController();
-				// add controller to client
-				client.setUI(controller);
-				controller.initData(client);
+		MainFormController controller = loader.<MainFormController>getController();
+		//ShowProductController controller = loader.<ShowProductController>getController();
+		// add controller to client
+		client.setUI(controller);
+		controller.initData(client);
 
-				//Scene scene = new Scene(root,273,200);
-				Scene scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				primaryStage.setScene(scene);
-				primaryStage.setTitle("Prototype");
+		//Scene scene = new Scene(root,273,200);
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Prototype");
 
 
-				primaryStage.show();
+		primaryStage.show();
 	}
-//----------------------------------------------------------------------	
-	// called when program ends
+	
+//*************************************************************************************************
+	/**
+	* Called at application end
+	* Terminates client connection to server
+	*/
+//*************************************************************************************************
 	@Override
 	public void stop()
 	{
 		if (client != null)
 			client.quit();
 	}
-//----------------------------------------------------------------------	
+	
+//*************************************************************************************************
+	/**
+	* Parses the client config file
+	* @return an ArrayList holding the host ip and port of the server
+	*/
+//*************************************************************************************************	
 	protected ArrayList<Object> parseArgs()
 	{
 		String serverIP;
@@ -123,6 +148,11 @@ public class Main extends Application
 		return output;
 	}
 	
+//*************************************************************************************************
+	/**
+	* Starts the application 
+	*/
+//*************************************************************************************************
 	public static void main(String[] args) {
 		launch(args);
 	}

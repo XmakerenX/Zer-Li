@@ -6,6 +6,13 @@ import java.util.Properties;
 public class Config
 {
    Properties configFile;
+   
+//*************************************************************************************************
+   /**
+ 	*  Constructs a new Config
+ 	*  @param confName path to the config file?
+ 	*/
+//*************************************************************************************************
    public Config(String confName)
    {
 	   configFile = new java.util.Properties();
@@ -25,6 +32,11 @@ public class Config
 	   }
    }
 
+//*************************************************************************************************
+   /**
+ 	*  @see Properties.getProperty
+ 	*/
+//*************************************************************************************************
    public String getProperty(String key)
    {
 	   if (configFile != null)

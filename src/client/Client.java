@@ -9,6 +9,13 @@ public class Client  extends AbstractClient{
 	
 	private ClientInterface UI;
 	
+//*************************************************************************************************
+    /**
+  	*  Constructs a new Client
+  	*  @param host the host ip
+  	*  @param port the port with to connect to the server
+  	*/
+//*************************************************************************************************
 	public Client(String host, int port)
 	throws IOException
 	{
@@ -19,21 +26,26 @@ public class Client  extends AbstractClient{
 		openConnection();
 	}
 
+//*************************************************************************************************	
 	/**
-	This method handles all data that comes in from the server.
+	* This method handles all data that comes in from the server.
 	*
-	@param msg The message from the server.
+	* @param msg The message from the server.
 	*/
+//*************************************************************************************************
 	public void handleMessageFromServer(Object msg) 
 	{
 		if (UI != null)
 			UI.display(msg);
 	}
+
+//*************************************************************************************************
 	/**
 	* This method handles all data coming from the UI            
 	*
 	* @param message The message from the UI.    
 	*/
+//*************************************************************************************************	
 	public void handleMessageFromClientUI(ArrayList<String> message)  
 	{
 		try
@@ -47,21 +59,29 @@ public class Client  extends AbstractClient{
 		}
 	}	
 	
+//*************************************************************************************************
+    /**
+  	*  Sets the UI property
+  	*  @param newUI The current UI to forward messages to
+  	*/
+//*************************************************************************************************
 	public void setUI(ClientInterface newUI)
 	{
 		UI = newUI;
 	}
-	
-	  /**
-	  * This method terminates the client.
-	  */
-	  public void quit()
-	  {
-	    try
-	    {
-	      closeConnection();
-	    }
-	    catch(IOException e) {}
-	    System.exit(0);
-	  }
+
+//*************************************************************************************************	
+	/**
+	 * This method terminates the client.
+	 */
+//*************************************************************************************************
+	public void quit()
+	{
+		try
+		{
+			closeConnection();
+		}
+		catch(IOException e) {}
+		System.exit(0);
+	}
 }

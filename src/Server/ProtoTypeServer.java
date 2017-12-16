@@ -18,8 +18,9 @@ public class ProtoTypeServer extends AbstractServer {
 	  final public static int DEFAULT_PORT = 5555;
 	  private Connection conn = null;
 	
-	  //Constructors ****************************************************
-	  
+	  //-----------------------------------------------------------------
+	  // Constructors 
+	  //-----------------------------------------------------------------
 	  /**
 	   * Constructs an instance of the Prototype Server
 	   *
@@ -33,8 +34,10 @@ public class ProtoTypeServer extends AbstractServer {
 	    
 	    connectToDB(username, password);
 	  }
-	  
-	  //Instance methods ************************************************
+
+	  //-----------------------------------------------------------------
+	  // Instance methods
+	  //-----------------------------------------------------------------
 	  
 	  /**
 	   * This method handles any messages received from the client.
@@ -149,6 +152,12 @@ public class ProtoTypeServer extends AbstractServer {
 	    }
 	  }
 	  
+	  /**
+	   * This method overrides create a connection to the local database
+	   * 
+	   * @param username The DB username
+	   * @param password The DB passowrd
+	   */
 	  public void connectToDB(String username, String password)
 	  {
 			// init driver
