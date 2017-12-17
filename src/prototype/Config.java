@@ -1,4 +1,6 @@
 package prototype;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -10,24 +12,30 @@ public class Config
 //*************************************************************************************************
    /**
  	*  Constructs a new Config
- 	*  @param confName path to the config file?
+ 	*  @param confName path to the config file
  	*/
 //*************************************************************************************************
    public Config(String confName)
    {
 	   configFile = new java.util.Properties();
 	   try {
-		   InputStream  configStream = getClass().getClassLoader().getResourceAsStream("./config/"+confName);
-		   if (configStream!= null)
-			   configFile.load(getClass().getClassLoader().getResourceAsStream("./config/"+confName));
+		   // verify the file exists
+		   File f = new File(confName);
+		   if (f.isFile())
+		   {
+			   InputStream  configStream = new FileInputStream(confName);
+			   configFile.load(configStream);
+		   }
 		   else
 		   {
+			   System.out.println("could not load config file");   
 			   configFile = null;
-			   System.out.println("could not load config file");
 		   }
+
 	   }catch(IOException | IllegalArgumentException eta)
 	   {
 		   System.out.println("could not load config file");
+		   configFile = null;
 		   eta.printStackTrace();
 	   }
    }
