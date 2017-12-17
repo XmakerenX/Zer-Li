@@ -44,7 +44,7 @@ public class DBConnector {
 				if (conn != null)
 					conn.close();
 
-				conn = DriverManager.getConnection("jdbc:mysql://Arch-Leno/prototype", username, password);
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/prototype", username, password);
 
 			} catch (SQLException ex) {/* handle any errors */
 				System.out.println("SQLException: " + ex.getMessage());

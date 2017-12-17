@@ -137,17 +137,13 @@ public class ProtoTypeServer extends AbstractServer {
 	    db.closeConnection();
 	  }
 	  
-	  /**
-	   * This method is responsible for the creation of 
-	   * the server instance (there is no UI in this phase).
-	   *
-	   */
-	  public static void main(String[] args) 
+	  public static ArrayList<Object> parseConfigFile(String configFileNmae)
 	  {
 		  String DBusername = "";
 		  String DBpassword = "";	
 		  int port = DEFAULT_PORT; //Port to listen on
 		  Config serverConfig = new Config("server.properties");
+		  ArrayList<Object> output = new ArrayList<Object>();
 		 
 		  DBusername = serverConfig.getProperty("DB_USERNAME");
 		  DBpassword = serverConfig.getProperty("DB_PASSWORD");
@@ -164,8 +160,21 @@ public class ProtoTypeServer extends AbstractServer {
 			  }
 		  }
 		  
-
-		  ProtoTypeServer sv = new ProtoTypeServer(port, DBusername, DBpassword);
+		  output.add(port);
+		  output.add(DBusername);
+		  output.add(DBpassword);
+		  return output;
+	  }
+	  
+	  /**
+	   * This method is responsible for the creation of 
+	   * the server instance (there is no UI in this phase).
+	   *
+	   */
+	  public static void main(String[] args) 
+	  {	  
+		  ArrayList<Object> serverArgs = parseConfigFile("server.properties");
+		  ProtoTypeServer sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
 
 		  try 
 		  {
