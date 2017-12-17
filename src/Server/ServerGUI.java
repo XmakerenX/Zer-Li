@@ -30,9 +30,11 @@ import prototype.MainFormController;
 	    @FXML
 	    private Button setupBtn;
 
+	    private ProtoTypeServer2 sv;
+	    
 	    @FXML
 	    void setupConnection(ActionEvent event) {
-    		ProtoTypeServer2 sv = new ProtoTypeServer2();
+    		sv = new ProtoTypeServer2();
 	    }
 
 	    @FXML

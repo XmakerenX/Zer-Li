@@ -76,20 +76,20 @@ public class ProtoTypeServer2 extends AbstractServer {
 	  public void handleMessageFromClient
 	  (Object msg, ConnectionToClient client)
 	  {
+		  //Casting the received object back to an array list of strings
 		  ArrayList<String> userInput = (ArrayList<String>)msg;
 		  
 		  switch(userInput.get(0))
 		  {
 		  case "GET":
+			//saves all the product's as arrays of strings in another array called "data"
 		  {
 			  switch(userInput.get(1))
 			  {
 			  case "Product":
 			  {
 				  Statement stmt;
-				  //ArrayList<Product> data = new ArrayList<Product>();
-				  ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-				  //ObservableList<Product> data = FXCollections.observableArrayList();
+				  ArrayList<Product> data = new ArrayList<Product>();
 
 				  try 
 				  {
@@ -97,13 +97,8 @@ public class ProtoTypeServer2 extends AbstractServer {
 					  ResultSet rs = stmt.executeQuery("SELECT * FROM Product;");
 					  while(rs.next())
 					  {
-						  // save the values in data
-						  ArrayList<String> row = new ArrayList<String>();
-						  row.add(""+rs.getInt(1));
-						  row.add(rs.getString(2));
-						  row.add(rs.getString(3));
-						  data.add(row);
-						  //data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
+						  // save the values in data						  
+						  data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
 					  } 
 					  rs.close();
 					  System.out.println("sending message");
@@ -120,6 +115,7 @@ public class ProtoTypeServer2 extends AbstractServer {
 		  }break;
 		  
 		  case "SET":
+			  //updates specific item's details in the Product table
 		  {
 			  switch (userInput.get(1))
 			  {
