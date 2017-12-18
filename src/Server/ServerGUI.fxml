@@ -3,18 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane prefHeight="185.0" prefWidth="229.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="Server.ServerGUI">
+<BorderPane prefHeight="185.0" prefWidth="229.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerGUI">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="setupBtn" layoutX="20.0" layoutY="125.0" mnemonicParsing="false" onAction="#setupConnection" prefHeight="25.0" prefWidth="68.0" text="SetUp" />
             <Button fx:id="exitBtn" layoutX="159.0" layoutY="125.0" mnemonicParsing="false" onAction="#exitWindow" text="Exit" />
             <Label layoutX="62.0" layoutY="23.0" text="Welcome to Zer-li Server" />
-            <Label layoutX="21.0" layoutY="64.0" text="Status" />
+            <Label layoutX="21.0" layoutY="64.0" text="Status" visible="false" />
          </children>
       </AnchorPane>
    </center>
