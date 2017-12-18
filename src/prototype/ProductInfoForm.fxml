@@ -12,9 +12,9 @@
             <Label layoutX="17.0" layoutY="24.0" text="Product ID" />
             <Label layoutX="17.0" layoutY="71.0" text="Prodcut Name" />
             <Label layoutX="16.0" layoutY="115.0" text="Product Type" />
-            <TextField id="productIDtxt" fx:id="productIDtxt" layoutX="121.0" layoutY="24.0" />
+            <TextField id="productIDtxt" fx:id="productIDtxt" editable="false" layoutX="121.0" layoutY="24.0" />
             <TextField fx:id="productNametxt" layoutX="121.0" layoutY="66.0" />
-            <TextField fx:id="productTypetxt" layoutX="121.0" layoutY="115.0" />
+            <TextField fx:id="productTypetxt" editable="false" layoutX="121.0" layoutY="115.0" />
             <Button fx:id="saveBtn" layoutX="9.0" layoutY="160.0" mnemonicParsing="false" onAction="#OnSave" text="Save" />
             <Button fx:id="closeBtn" layoutX="173.0" layoutY="160.0" mnemonicParsing="false" onAction="#onClose" text="Close" />
          </children>

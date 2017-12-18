@@ -56,19 +56,35 @@ public class ShowProductController implements ClientInterface{
     @FXML
     private Button buttonRefresh;
     
+//*************************************************************************************************
+    /**
+  	*  Called by FXMLLoader on class initialization 
+  	*/
+//*************************************************************************************************
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
     	InitTableView();
     }
-
+    
+//*************************************************************************************************
+    /**
+  	*  Sets the client var and sends a request for a list of products from the server
+  	*  @param newClient The client
+  	*/
+//*************************************************************************************************
     public void initData(Client newClient)
     {
     	client = newClient;
     	
     	ProdcutController.requestProducts(client);
     }
-    
+
+//*************************************************************************************************
+    /**
+  	*  Initializes the Table View to be compatible with the product class (get and set class values)
+  	*/
+//*************************************************************************************************
     private void InitTableView()
     {
     	ProductIDCol.setCellValueFactory( new PropertyValueFactory<Product,Number>("ID"));
@@ -136,6 +152,13 @@ public class ShowProductController implements ClientInterface{
 			productsToUpdate.add(new TableID(oldID, newID));
     }
     
+ //*************************************************************************************************
+    /**
+  	*  Called from the client when the server sends a response
+  	*  fills the TableView with the received products data
+  	*  @param message The Server response , an ArrayList of products
+  	*/
+//*************************************************************************************************
     public void display(Object message)
     {
     	System.out.println(message.toString());
@@ -151,6 +174,12 @@ public class ShowProductController implements ClientInterface{
     	productView.setItems(itemData);	
     }
     
+//*************************************************************************************************
+    /**
+  	*  Called when the update button is pressed
+  	*  @param event The button press event
+  	*/
+ //*************************************************************************************************
     @FXML
     void OnUpdate(ActionEvent event) {  	
     	int i,j;
@@ -192,6 +221,12 @@ public class ShowProductController implements ClientInterface{
     	ProdcutController.requestProducts(client);
     }
 
+//*************************************************************************************************
+    /**
+  	*  Called when the refresh button is pressed
+  	*  @param event The button press event
+  	*/
+ //*************************************************************************************************
     @FXML
     void onRefresh(ActionEvent event) {
     	productsToUpdate.clear();

@@ -32,6 +32,12 @@ public class MainFormController extends FormController implements ClientInterfac
     @FXML
     private Button exitBtn;
 
+//*************************************************************************************************
+    /**
+  	*  Called when the exit button is pressed
+  	*  @param event The button press event
+  	*/
+ //*************************************************************************************************
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
@@ -53,6 +59,12 @@ public class MainFormController extends FormController implements ClientInterfac
     	System.exit(0);
     }
 
+//*************************************************************************************************
+    /**
+  	*  Called when the show product info button is pressed
+  	*  @param event The button press event
+  	*/
+//*************************************************************************************************
     @FXML
     void onShowProductInfo(ActionEvent event) {
     	
@@ -70,6 +82,13 @@ public class MainFormController extends FormController implements ClientInterfac
 		}
     }
 
+//*************************************************************************************************
+    /**
+  	*  Called from the client when the server sends a response
+  	*  fills the combobox with the received products names
+  	*  @param message The Server response , an ArrayList of products
+  	*/
+//*************************************************************************************************
     public void display(Object message)
     {
     	System.out.println(message.toString());
@@ -85,7 +104,13 @@ public class MainFormController extends FormController implements ClientInterfac
     	ObservableList<String> comboBoxList = FXCollections.observableArrayList(comboboxProductStrings);
     	productCbx.setItems(comboBoxList);
     }
-        
+
+//*************************************************************************************************
+    /**
+  	*  Sets the client var and sends a request for a list of products from the server
+  	*  @param newClient The client
+  	*/
+//*************************************************************************************************
     public void initData(Client newClient)
     {
     	System.out.println("initData");

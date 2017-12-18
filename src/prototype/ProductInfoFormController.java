@@ -34,6 +34,12 @@ public class ProductInfoFormController extends FormController{
     @FXML
     private Button closeBtn;
 
+//*************************************************************************************************
+    /**
+  	*  Called when the save button is pressed
+  	*  @param event The button press event
+  	*/
+//*************************************************************************************************
     @FXML
     void OnSave(ActionEvent event) {
     	long oldID = p.getID();
@@ -45,6 +51,12 @@ public class ProductInfoFormController extends FormController{
     	ProdcutController.updateProduct(oldID, p, client);
     }
 
+//*************************************************************************************************
+    /**
+  	*  Called when the close button is pressed
+  	*  @param event The button press event
+  	*/
+//*************************************************************************************************
     @FXML
     void onClose(ActionEvent event) {
     	
@@ -54,13 +66,25 @@ public class ProductInfoFormController extends FormController{
     	FormController.primaryStage.setScene(parent.getScene());
     }
 
+//*************************************************************************************************
+    /**
+  	*  sets the GUI text boxes with the given product data
+  	*  @param p1 The product data
+  	*/
+//*************************************************************************************************
 	public void loadProduct(Product p1){
 		this.p=p1;
 		this.productIDtxt.setText(""+p.getID());
 		this.productNametxt.setText(p.getName());
 		this.productTypetxt.setText(p.getType());
 	}
-	
+
+//*************************************************************************************************
+    /**
+  	*  Sets the client var
+  	*  @param client
+  	*/
+//*************************************************************************************************
 	public void setClinet(Client client)
 	{
 		this.client = client;
