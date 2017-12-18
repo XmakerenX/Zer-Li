@@ -63,37 +63,12 @@ public class Main extends Application
 				System.out.println("pills here!");
 				
 				FormController.primaryStage = primaryStage;
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainForm.fxml"));
-				//FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowProduct.fxml"));
-				BorderPane root = (BorderPane)loader.load();
-
-				MainFormController controller = loader.<MainFormController>getController();
-				//ShowProductController controller = loader.<ShowProductController>getController();
-				// add controller to client
+				MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
+				
 				client.setUI(controller);
 				controller.initData(client);
-				controller.setParent(null);
 
-				loader = new FXMLLoader(getClass().getResource("ProductInfoForm.fxml"));
-				BorderPane root2 = (BorderPane)loader.load();
-				ProductInfoFormController controller2 = loader.<ProductInfoFormController>getController();
-				controller2.setClinet(client);
-				
-				System.out.println("before!");
-				controller2.toString();
-				controller2.setScene(new Scene(root2));
-				System.out.println("after!");
-				controller2.setParent(controller);
-				
-				controller.addChild(controller2);
-				
-				//Scene scene = new Scene(root,273,200);
-				Scene scene = new Scene(root);
-				
-				controller.setScene(scene);
-				
-				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				primaryStage.setScene(scene);
+				primaryStage.setScene(controller.getScene());
 				primaryStage.setTitle("Prototype");
 
 
