@@ -79,6 +79,7 @@ public class Client  extends AbstractClient{
 	{
 		try
 		{
+			System.out.println("Closing clinet");
 			closeConnection();
 		}
 		catch(IOException e) {}

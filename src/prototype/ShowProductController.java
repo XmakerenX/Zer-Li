@@ -17,6 +17,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.NumberStringConverter;
+import product.ProdcutController;
+import product.Product;
 
 public class ShowProductController implements ClientInterface{
 

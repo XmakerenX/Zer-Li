@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import product.Product;
 import prototype.Config;
-import prototype.Product;
 
 public class ProtoTypeServer extends AbstractServer {
 
