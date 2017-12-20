@@ -7,8 +7,10 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import user.*;
 
 public class Main extends Application 
 {
@@ -77,10 +79,11 @@ public class Main extends Application
 				System.out.println("pills here!");
 				
 				FormController.primaryStage = primaryStage;
-				MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
+				//MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
+				UserGUIController controller = FormController.<UserGUIController, AnchorPane>loadFXML(getClass().getResource("../user/UserGUI.fxml"), null);
 				
-				client.setUI(controller);
-				controller.initData(client);
+				//client.setUI(controller);
+				//controller.initData(client);
 
 				primaryStage.setScene(controller.getScene());
 				primaryStage.setTitle("Prototype");

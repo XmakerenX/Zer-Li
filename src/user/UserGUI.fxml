@@ -5,16 +5,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="243.0" prefWidth="308.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.162-ea" fx:controller="UserGUIController">
+<AnchorPane prefHeight="243.0" prefWidth="308.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.UserGUIController">
    <children>
       <DialogPane prefHeight="156.0" prefWidth="308.0" />
-      <Button fx:id="loginBtn" layoutX="67.0" layoutY="173.0" mnemonicParsing="false" text="Login" />
       <TextField fx:id="usernameTxt" layoutX="69.0" layoutY="78.0" />
-      <TextField fx:id="passwordTxt" layoutX="70.0" layoutY="130.0" />
       <Label layoutX="67.0" layoutY="52.0" text="Username" />
       <Label layoutX="69.0" layoutY="106.0" text="Password" />
       <Label layoutX="135.0" layoutY="20.0" text="Zer-LI" />
-      <Button fx:id="exitBtn" layoutX="197.0" layoutY="173.0" mnemonicParsing="false" text="Exit" />
+      <PasswordField fx:id="passwordTxt" layoutX="69.0" layoutY="130.0" />
+      <Button fx:id="loginBtn" layoutX="67.0" layoutY="173.0" mnemonicParsing="false" onAction="#onLogin" text="Login" />
+      <Button fx:id="exitBtn" layoutX="197.0" layoutY="173.0" mnemonicParsing="false" onAction="#onExit" text="Exit" />
    </children>
 </AnchorPane>

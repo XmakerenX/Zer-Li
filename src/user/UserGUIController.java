@@ -3,6 +3,7 @@ package user;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import client.Client;
@@ -17,7 +18,7 @@ public class UserGUIController extends FormController {
     private TextField usernameTxt;
 
     @FXML
-    private TextField passwordTxt;
+    private PasswordField passwordTxt;
 
     @FXML
     private Button exitBtn;
