@@ -2,11 +2,12 @@ package utils;
 
 import java.io.Serializable;
 
-public class Replay implements Serializable{
+public class Replay implements Serializable
+{
 	public enum Type {SUCCESS, ERROR};
 	
 	Type type;
-	// on sucess holds the requested objects 
+	// on success holds the requested objects 
 	// on error holds the error message
 	Object message;
 	

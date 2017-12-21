@@ -88,7 +88,9 @@ public class DBConnector {
 		  {
 			  stmt = conn.createStatement();
 			  stmt.executeUpdate("UPDATE "+table+" SET "+fieldsToUpdate+" WHERE "+condition+ ";");
-		  }catch (SQLException ex) {
+		  }
+		  catch (SQLException ex) 
+		  {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());

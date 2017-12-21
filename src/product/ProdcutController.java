@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import client.Client;
 
-public class ProdcutController {
+public class ProdcutController 
+{
 
 //*************************************************************************************************
 	/**
@@ -41,5 +42,4 @@ public class ProdcutController {
     	
 		client.handleMessageFromClientUI(message);
 	}
-	
 }

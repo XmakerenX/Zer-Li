@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import product.Product;
-import prototype.Config;
 import user.LoginException;
 import user.User;
 import user.User.*;
 import user.UserController;
+import utils.Config;
 import utils.Replay;
 
 public class ProtoTypeServer extends AbstractServer {
