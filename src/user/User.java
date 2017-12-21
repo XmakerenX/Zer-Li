@@ -1,6 +1,8 @@
 package user;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 
 	public class  UserException extends Exception {
 
@@ -10,19 +12,20 @@ public class User {
 		}
 	}
 	
-	public enum Permissions {CUSTOMER, STORE_WORKER, STORE_MANAGER, NETWORK_WORKER,NETWORK_MANAGER, SYSTEM_MANAGER, 
-							CUSTOMER_SERVICE, CUSTOMER_SERVICE_EXPERT, CUSTOMER_SERVICE_WORKER};
+	public enum Permissions {CUSTOMER/*0*/ , STORE_WORKER/*1*/, STORE_MANAGER/*2*/, NETWORK_WORKER/*3*/,
+		NETWORK_MANAGER/*4*/,CUSTOMER_SERVICE/*5*/, CUSTOMER_SERVICE_EXPERT/*6*/, 
+		CUSTOMER_SERVICE_WORKER/*7*/, SYSTEM_MANAGER /*8*/};
 							
-	public enum Status {REGULAR, LOGGED_IN,BLOCKED};
+	public enum Status {REGULAR/*0*/, LOGGED_IN/*1*/, BLOCKED/*2*/};
 							
 	private String userName;
 	private String userPassword;
 	private Permissions userPermission;
-	private String personID;
+	private int personID;
 	private Status userStatus;
 	private int unsuccessfulTries;
 	
-	User(String userName, String userPassword, Permissions userPermission, String personID) throws UserException
+	public User(String userName, String userPassword, Permissions userPermission, int personID) throws UserException
 	{
 		setUserName(userName);
 		setUserPassword(userPassword);
@@ -30,6 +33,16 @@ public class User {
 		setPersonID(personID);
 		setUserStatus(Status.REGULAR);
 		clearUnsuccessfulTries();
+	}
+	
+	public User(String userName, String userPassword, User.Permissions userPermission, int personID, User.Status userStatus, int unsuccessfulTries) throws UserException
+	{
+		setUserName(userName);
+		setUserPassword(userPassword);
+		setUserPermission(userPermission);
+		setPersonID(personID);
+		setUserStatus(userStatus);
+		this.unsuccessfulTries = unsuccessfulTries;
 	}
 	
 	public String getUserName() {
@@ -62,11 +75,11 @@ public class User {
 		this.userPermission = userPermission;
 	}
 
-	public String getPersonID() {
+	public int getPersonID() {
 		return personID;
 	}
 
-	public void setPersonID(String personID) {
+	public void setPersonID(int personID) {
 		this.personID = personID;
 	}
 
@@ -94,4 +107,14 @@ public class User {
 		unsuccessfulTries = 0;
 	}
 	
+	//*************************************************************************************************
+    /**
+     * Returns a string representation of the Replay
+  	*  @return a string representation of the Replay
+  	*/
+//*************************************************************************************************
+	public String toString()
+	{
+		return userName+", "+userPassword + ", " + userPermission + "," + personID + ", " + userStatus + "," +unsuccessfulTries;
+	}
 }

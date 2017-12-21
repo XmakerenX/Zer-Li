@@ -54,13 +54,23 @@ public class DBConnector {
 			}
 	  }
 	  
-	  public ResultSet selectTableData(String fields, String table)
+	  public ResultSet selectTableData(String fields, String table, String condition)
 	  {
 		  Statement stmt;
 
 		  try {
 			  stmt = conn.createStatement();
-			  ResultSet rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+";");
+			  ResultSet rs;
+			  if (condition.length() == 0)
+			  {
+				  System.out.println("SELECT "+fields+" FROM "+table+";");
+				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+";");
+			  }
+			  else
+			  {
+				  System.out.println("SELECT "+fields+" FROM "+table+" Where "+condition+";");
+				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+" Where "+condition+";");
+			  }
 			  return rs;
 		  }catch (SQLException ex) {
 			  System.out.println("SQLException: " + ex.getMessage());

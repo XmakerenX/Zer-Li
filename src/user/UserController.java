@@ -17,28 +17,29 @@ public class UserController {
 		message.add(username);
 		message.add(password);
 		
+		
 		client.handleMessageFromClientUI(message);
 	}
 	
 	public static void verifyLogin(User user, String username , String password) throws LoginException
 	{
+		
 		if (user.getUserName().equals(username))
 		{
-			if (user.getUserStatus() != User.Status.BLOCKED)
+			if (user.getUserPassword().equals(password))
 			{
-				if (user.getUserPassword().equals(password))
-				{
-					user.clearUnsuccessfulTries();
-				}
-				else
-				{
-					user.incUnsuccessfulTries();
-					throw new LoginException("username or password is wrong");
-				}
+				if (user.getUserStatus() == User.Status.BLOCKED)
+					throw new LoginException("User is blocked");
+				
+				user.clearUnsuccessfulTries();
+
+				if (user.getUserStatus() == User.Status.LOGGED_IN)
+					throw new LoginException("User is already logged in!");
 			}
 			else
 			{
-				throw new LoginException("User is blocked");
+				user.incUnsuccessfulTries();
+				throw new LoginException("username or password is wrong");
 			}
 		}
 		else 

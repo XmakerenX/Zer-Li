@@ -12,6 +12,11 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import product.Product;
 import prototype.Config;
+import user.LoginException;
+import user.User;
+import user.User.*;
+import user.UserController;
+import utils.Replay;
 
 public class ProtoTypeServer extends AbstractServer {
 
@@ -40,6 +45,64 @@ public class ProtoTypeServer extends AbstractServer {
 	  //-----------------------------------------------------------------
 	  
 	  /**
+	   * This method sends replay to a client
+	   *
+	   * @param client The connection to whom to replay
+	   * @param r The Replay message
+	   */
+	  private void sendToClinet(ConnectionToClient client, Replay r)
+	  {
+		  try
+		  {
+			  System.out.println("sending message");
+			  client.sendToClient(r);
+		  }	
+		  catch (IOException e) {System.out.println("Could not send message to Client.");}
+	  }
+	  
+	  /**
+	   * logout the user connected using the given client
+	   *
+	   * @param client The connection which user to logout
+	   */
+	  private void logoutUser(ConnectionToClient client)
+	  {
+		  // check if the client has a user logged in the server 
+		  String username = (String)client.getInfo("username");
+		  if (username != null)
+		  {
+			  // make sure there is no way we are unblocking a blocked user!
+			  // log the user out
+			  client.setInfo("username", null);
+			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
+		  }
+	  }
+	  	  
+	  /**
+	   * logs out the user logged in exception client
+	   * @see AbastServer.clientException
+	   */
+	  synchronized protected void clientException(
+			    ConnectionToClient client, Throwable exception) {
+		  System.out.println("Clinet exception!");
+		  System.out.println("exception "+exception.getMessage());
+		  System.out.println(exception.getClass());
+		  
+		  logoutUser(client);
+	  }
+	  
+	  /**
+	   * logs out the user logged in the disconnected client
+	   * @see AbastServer.clientDisconnected
+	   */
+	  @Override
+	  synchronized protected void clientDisconnected(
+			    ConnectionToClient client) {
+		  System.out.println("Clinet disconnected");
+		  logoutUser(client);
+	  }
+	  
+	  /**
 	   * This method handles any messages received from the client.
 	   *
 	   * @param msg The message received from the client.
@@ -50,6 +113,8 @@ public class ProtoTypeServer extends AbstractServer {
 	  {
 		  //Casting the received object back to an array list of strings
 		  ArrayList<String> userInput = (ArrayList<String>)msg;
+		  
+		  System.out.println(userInput);
 		  
 		  switch(userInput.get(0))
 		  {
@@ -63,7 +128,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  ArrayList<Product> data = new ArrayList<Product>();
 				  try 
 				  {
-					  ResultSet rs = db.selectTableData("*", "Product");
+					  ResultSet rs = db.selectTableData("*", "Product", "");
 					  if (rs != null)
 					  {
 						  while(rs.next())
@@ -72,12 +137,10 @@ public class ProtoTypeServer extends AbstractServer {
 							  data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
 						  } 
 						  rs.close();
-						  System.out.println("sending message");
-						  client.sendToClient(data);
+						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, data));
 					  }
 
 				  } catch (SQLException e) {e.printStackTrace();}
-				  catch (IOException e) {System.out.println("Could not send message to Client.");}
 			  }break;
 
 			  default:
@@ -107,6 +170,56 @@ public class ProtoTypeServer extends AbstractServer {
 				  System.out.println("Error Invalid message received");
 				  break;
 			  
+			  }
+		  }break;
+		  
+		  case "Verify":
+		  {
+			  switch (userInput.get(1))
+			  {
+			  case "User":
+			  {
+				  User user = null;
+				  
+				  ResultSet rs =  db.selectTableData("*", "prototype.User", "userName=\""+userInput.get(2) +"\"");
+
+				  if (rs != null)
+				  {
+					  try
+					  {
+						  if (rs.first())
+						  {
+							  user = new User(rs.getString(1), rs.getString(2), User.Permissions.valueOf(rs.getString(3)), rs.getInt(4), User.Status.valueOf(rs.getString(5)), rs.getInt(6));
+						  }
+					  }catch (SQLException e) {e.printStackTrace();}
+					  catch (User.UserException ue) { ue.printStackTrace();}
+				  }
+				  
+				  if (user != null)
+				  {
+					  try
+					  {
+						  UserController.verifyLogin(user, userInput.get(2), userInput.get(3));
+						  // if client had a user logged in , log him out first
+						  logoutUser(client);
+						  client.setInfo("username", user.getUserName());
+						  db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
+						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, user));
+					  }
+					  catch (LoginException le)
+					  {
+						  if (le.getMessage().contains("blocked"))
+							  // logout user to prevent us from unblocking him on logout
+							  this.logoutUser(client);
+						  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries(), "username=\""+user.getUserName()+"\"");
+						  sendToClinet(client, new Replay(Replay.Type.ERROR, le.getMessage()));							  
+					  }
+				  }
+				  else
+				  {
+					  sendToClinet(client, new Replay(Replay.Type.ERROR, "username or password is wrong"));
+				  }
+			  }break;
 			  }
 		  }break;
 		  
@@ -165,6 +278,7 @@ public class ProtoTypeServer extends AbstractServer {
 		  output.add(DBpassword);
 		  return output;
 	  }
+	  
 	  
 	  /**
 	   * This method is responsible for the creation of 

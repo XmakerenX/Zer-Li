@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import product.ProdcutController;
 import product.Product;
+import utils.Replay;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -96,15 +97,20 @@ public class MainFormController extends FormController implements ClientInterfac
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
     	
-    	ArrayList<String> comboboxProductStrings = new ArrayList<String>();
-    	products = (ArrayList<Product>)message; 	
+    	Replay replay = (Replay)message;
     	
-    	for (int i = 0; i < products.size(); i++)
-    		comboboxProductStrings.add(products.get(i).getName());
-    	
-    	System.out.println(comboboxProductStrings);
-    	ObservableList<String> comboBoxList = FXCollections.observableArrayList(comboboxProductStrings);
-    	productCbx.setItems(comboBoxList);
+    	if (replay.getType() == Replay.Type.SUCCESS)
+    	{
+    		ArrayList<String> comboboxProductStrings = new ArrayList<String>();
+        	products = (ArrayList<Product>)replay.getMessage(); 	
+        	
+        	for (int i = 0; i < products.size(); i++)
+        		comboboxProductStrings.add(products.get(i).getName());
+        	
+        	System.out.println(comboboxProductStrings);
+        	ObservableList<String> comboBoxList = FXCollections.observableArrayList(comboboxProductStrings);
+        	productCbx.setItems(comboBoxList);
+    	}
     }
 
 //*************************************************************************************************

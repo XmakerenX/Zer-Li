@@ -85,4 +85,8 @@ public class Client  extends AbstractClient{
 		catch(IOException e) {}
 		System.exit(0);
 	}
+	
+	protected void connectionClosed() {
+		System.out.println("connection closed");
+	}
 }

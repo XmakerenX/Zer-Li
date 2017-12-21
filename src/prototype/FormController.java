@@ -39,6 +39,11 @@ public abstract class FormController {
 		this.parent = parent;
 	}
 	
+	public void setClinet(Client client)
+	{
+		this.client = client;
+	}
+	
 	public static <ControllerType extends FormController, PaneType extends Pane> ControllerType loadFXML(URL res, FormController parent) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(res);
