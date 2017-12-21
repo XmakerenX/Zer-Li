@@ -11,7 +11,7 @@ public class Client  extends AbstractClient{
 	
 //*************************************************************************************************
     /**
-  	*  Constructs a new Client
+  	*  Constructs a new client
   	*  @param host the host ip
   	*  @param port the port with to connect to the server
   	*/
