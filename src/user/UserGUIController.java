@@ -20,6 +20,7 @@ import utils.Replay;
 
 public class UserGUIController extends FormController implements ClientInterface  {
 
+	// holds the last replay we got from server
 	private Replay replay = null;
 	
     @FXML
@@ -47,22 +48,27 @@ public class UserGUIController extends FormController implements ClientInterface
     	{
     		synchronized(this)
     		{
+    			// wait for server response
     			this.wait();
     		}
     	
     		if (replay == null)
     			return;
     		
+    	// show success 
     	if (replay.getType() == Replay.Type.SUCCESS)
     	{
     		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
     		alert.showAndWait();
+    		// clear replay
     		replay = null;
     	}
     	else
     	{
+        	// show failure  
     		Alert alert = new Alert(AlertType.ERROR, (String)replay.getMessage(), ButtonType.OK);
     		alert.showAndWait();
+    		// clear replay
     		replay = null;
     	}
     	

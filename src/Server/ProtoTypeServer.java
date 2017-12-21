@@ -119,10 +119,10 @@ public class ProtoTypeServer extends AbstractServer {
 		  switch(userInput.get(0))
 		  {
 		  case "GET":
-			//saves all the product's as arrays of strings in another array called "data"
 		  {
 			  switch(userInput.get(1))
 			  {
+     		  //saves all the product's as arrays of strings in another array called "data"
 			  case "Product":
 			  {
 				  ArrayList<Product> data = new ArrayList<Product>();
@@ -150,10 +150,10 @@ public class ProtoTypeServer extends AbstractServer {
 		  }break;
 		  
 		  case "SET":
-			  //updates specific item's details in the Product table
 		  {
 			  switch (userInput.get(1))
 			  {
+			  //updates specific item's details in the Product table
 			  case "Product":
 			  {
 				  System.out.println(userInput);
@@ -165,11 +165,11 @@ public class ProtoTypeServer extends AbstractServer {
 				  String condition = "ProductID="+userInput.get(2); 
 				  db.executeUpdate("Product", productID + "," + productName + "," + productType, condition);
 			  }break;
-			  
+
 			  default:
 				  System.out.println("Error Invalid message received");
 				  break;
-			  
+
 			  }
 		  }break;
 		  
@@ -180,9 +180,11 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "User":
 			  {
 				  User user = null;
-				  
-				  ResultSet rs =  db.selectTableData("*", "prototype.User", "userName=\""+userInput.get(2) +"\"");
 
+				  // get the user form database
+				  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+userInput.get(2) +"\"");
+
+				  // if we got a result load it to  a User class
 				  if (rs != null)
 				  {
 					  try
@@ -195,6 +197,7 @@ public class ProtoTypeServer extends AbstractServer {
 					  catch (User.UserException ue) { ue.printStackTrace();}
 				  }
 				  
+				  // verify user
 				  if (user != null)
 				  {
 					  try
@@ -203,6 +206,7 @@ public class ProtoTypeServer extends AbstractServer {
 						  // if client had a user logged in , log him out first
 						  logoutUser(client);
 						  client.setInfo("username", user.getUserName());
+						  // update DB user has logged in
 						  db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
 						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, user));
 					  }
@@ -211,6 +215,8 @@ public class ProtoTypeServer extends AbstractServer {
 						  if (le.getMessage().contains("blocked"))
 							  // logout user to prevent us from unblocking him on logout
 							  this.logoutUser(client);
+						  
+						  //update DB user failed to log in
 						  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries(), "username=\""+user.getUserName()+"\"");
 						  sendToClinet(client, new Replay(Replay.Type.ERROR, le.getMessage()));							  
 					  }
