@@ -142,6 +142,28 @@ public class ProtoTypeServer extends AbstractServer {
 
 				  } catch (SQLException e) {e.printStackTrace();}
 			  }break;
+			  
+			  case "User":
+			  {
+				  ArrayList<User> data = new ArrayList<User>();
+				  try 
+				  {
+					  ResultSet rs = db.selectTableData("*", "Product", "PersonID = " + userInput.get(2));
+					  if (rs != null)
+					  {
+						  while(rs.next())
+						  {
+							  // save the values in data						  
+							  data.add(new User(rs.getString(1), rs.getString(2), (Permissions)rs.getString(3), Integer.parseInt(rs.getString(4)), (Status)rs.getString(5), 0));
+						  } 
+						  rs.close();
+						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, data));
+					  }
+					  else
+						  sendToClinet(client, new Replay(Replay.Type.ERROR, "User does not exists!"));
+
+				  } catch (SQLException e) {e.printStackTrace();}
+			  }break;
 
 			  default:
 				  System.out.println("Error Invalid message received");
@@ -165,7 +187,21 @@ public class ProtoTypeServer extends AbstractServer {
 				  String condition = "ProductID="+userInput.get(2); 
 				  db.executeUpdate("Product", productID + "," + productName + "," + productType, condition);
 			  }break;
-
+			  
+			  case "User":
+			  {
+				  System.out.println(userInput);
+				  System.out.println("updating database");
+				  
+				  String userName = "UserName="+userInput.get(3);
+				  String userPassword = "UserPassword=\""+userInput.get(4)+"\"";
+				  String userPermission = "UserPermission=\""+userInput.get(5)+"\"";
+				  String personID = "PersonID=\""+userInput.get(6)+"\"";
+				  String userStatus = "UserStatus=\""+userInput.get(7)+"\"";
+				  String condition = "ProductID="+userInput.get(2); 
+				  db.executeUpdate("Product", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus, condition);
+			  }break;
+			  
 			  default:
 				  System.out.println("Error Invalid message received");
 				  break;
@@ -184,7 +220,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  // get the user form database
 				  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+userInput.get(2) +"\"");
 
-				  // if we got a result load it to  a User class
+				  // if we got a result load it to a User class
 				  if (rs != null)
 				  {
 					  try

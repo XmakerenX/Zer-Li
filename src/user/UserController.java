@@ -1,5 +1,6 @@
 package user;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import client.Client;
@@ -50,15 +51,47 @@ public class UserController {
 		
 	}
 	
-	public static boolean createNewUser(String userName, String userPassword, Permissions userPermission, String personID, Status userStatus) throws UserException
+	/**
+	 * Creates new user and adds him to database
+	 * @param userName - user name in program program
+	 * @param userPassword - password to access the program
+	 * @param userPermission - permission to distinguish between users and their rights
+	 * @param personID - ID of the person who uses the program
+	 * @param userStatus - user's status, is he: blocked, logged in, or not connected yet (regular)
+	 * @param client - current running client
+	 */
+	
+	public static void createNewUser(String userName, String userPassword, Permissions userPermission, String personID, Status userStatus, Client client)
 	{
 		
-		return false;
+		ArrayList<String> message = new ArrayList<String>();
+		
+		message.add("SET"); 						
+		message.add("User"); 					
+		message.add(""+userName);					
+		message.add(""+userPassword);		
+		message.add(""+userPermission);
+		message.add(""+personID);
+		message.add(""+userStatus);
+		
+		client.handleMessageFromClientUI(message);
 	}
 	
-	public static boolean isUserExist(String personID)
+	/**
+	 * Checks whether the user exists in data base
+	 * @param personID - ID of the person who uses the program
+	 * @param client -  current running client
+	 */
+	
+	public static void isUserExist(String personID, Client client)
 	{
-		return false;
+		ArrayList<String> message = new ArrayList<String>();
+		
+		message.add("Get"); 						
+		message.add("User"); 					
+		message.add(""+personID);
+		
+		client.handleMessageFromClientUI(message);
 	}
 	
 	public static void updateUserDetails(User updatedUser)
