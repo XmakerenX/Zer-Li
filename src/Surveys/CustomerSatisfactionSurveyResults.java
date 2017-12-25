@@ -8,7 +8,7 @@ public class CustomerSatisfactionSurveyResults {
 	
 	
 	public CustomerSatisfactionSurveyResults(String[] answers) {
-		setDate();//<---------------------------------get this one
+//		setDate();//<---------------------------------get this one
 		setAnswers(answers);
 		
 	}

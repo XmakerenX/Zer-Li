@@ -148,13 +148,17 @@ public class ProtoTypeServer extends AbstractServer {
 				  ArrayList<User> data = new ArrayList<User>();
 				  try 
 				  {
-					  ResultSet rs = db.selectTableData("*", "Product", "PersonID = " + userInput.get(2));
+					  ResultSet rs = db.selectTableData("*", "User", "UserName = " + userInput.get(2));
 					  if (rs != null)
 					  {
 						  while(rs.next())
 						  {
 							  // save the values in data						  
-							  data.add(new User(rs.getString(1), rs.getString(2), (Permissions)rs.getString(3), Integer.parseInt(rs.getString(4)), (Status)rs.getString(5), 0));
+							  try {
+								data.add(new User(rs.getString(1), rs.getString(2), User.Permissions.valueOf(rs.getString(3)), rs.getInt(4), User.Status.valueOf(rs.getString(5)), rs.getInt(6)));
+							} catch (UserException e) {
+								e.printStackTrace();
+							}
 						  } 
 						  rs.close();
 						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, data));
@@ -193,13 +197,15 @@ public class ProtoTypeServer extends AbstractServer {
 				  System.out.println(userInput);
 				  System.out.println("updating database");
 				  
-				  String userName = "UserName="+userInput.get(3);
-				  String userPassword = "UserPassword=\""+userInput.get(4)+"\"";
-				  String userPermission = "UserPermission=\""+userInput.get(5)+"\"";
-				  String personID = "PersonID=\""+userInput.get(6)+"\"";
-				  String userStatus = "UserStatus=\""+userInput.get(7)+"\"";
-				  String condition = "ProductID="+userInput.get(2); 
-				  db.executeUpdate("Product", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus, condition);
+				  String userName = "UserName="+userInput.get(2);
+				  String userPassword = "UserPassword=\""+userInput.get(3)+"\"";
+				  String userPermission = "UserPermission=\""+userInput.get(4)+"\"";
+				  String personID = "PersonID=\""+userInput.get(5)+"\"";
+				  String userStatus = "UserStatus=\""+userInput.get(6)+"\"";
+				  String userUnsuccessfulTries = "UnsuccessfulTries=\""+userInput.get(7)+"\"";
+				  String condition = "UserName=\""+userInput.get(8)+"\""; 
+				  
+				  db.executeUpdate("User", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus + "," + userUnsuccessfulTries, condition);
 			  }break;
 			  
 			  default:
@@ -263,6 +269,28 @@ public class ProtoTypeServer extends AbstractServer {
 				  }
 			  }break;
 			  }
+		  }break;
+		  
+		  case "Create":
+		  {
+			  switch (userInput.get(1))
+			  {
+			  	case "User":
+			  	{
+					  System.out.println(userInput);
+					  System.out.println("updating database");
+					  
+					  String userName = userInput.get(2);
+					  String userPassword = userInput.get(3);
+					  String userPermission = userInput.get(4);
+					  String personID = userInput.get(5);
+					  String userStatus = userInput.get(6);
+					  String userUnsuccessfulTries = userInput.get(7);
+					  
+					  db.insertData("User", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus + "," + userUnsuccessfulTries);
+			  	}break;
+			  }
+			  
 		  }break;
 		  
 		  default:

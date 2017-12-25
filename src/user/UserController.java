@@ -66,41 +66,55 @@ public class UserController {
 		
 		ArrayList<String> message = new ArrayList<String>();
 		
-		message.add("SET"); 						
-		message.add("User"); 					
+		message.add("Create");					
+		message.add("User"); 
 		message.add(""+userName);					
 		message.add(""+userPassword);		
 		message.add(""+userPermission);
 		message.add(""+personID);
 		message.add(""+userStatus);
+		message.add("0");
 		
 		client.handleMessageFromClientUI(message);
 	}
 	
 	/**
-	 * Checks whether the user exists in data base
-	 * @param personID - ID of the person who uses the program
-	 * @param client -  current running client
+	 * Applies changes in user's info
+	 * @param updatedUser - updated User object
+	 * @param userName - old user name (in case it changed)
+	 * @param client - current running client
 	 */
 	
-	public static void isUserExist(String personID, Client client)
+	public static void updateUserDetails(User updatedUser, String formerUserName, Client client)
+	{
+		ArrayList<String> message = new ArrayList<String>();
+		
+		message.add("SET");
+		message.add("User"); 					
+		message.add(""+updatedUser.getUserName());
+		message.add(""+updatedUser.getUserPassword());		
+		message.add(""+updatedUser.getUserPermission());
+		message.add(""+updatedUser.getPersonID());
+		message.add(""+updatedUser.getUserStatus());
+		message.add(""+updatedUser.getUnsuccessfulTries());
+		message.add(""+formerUserName);
+		
+		client.handleMessageFromClientUI(message);
+	}
+	
+	/**
+	 * Gets user from data base
+	 * @param userName - user name (is the key) of the person who uses the program
+	 * @param client - current running client
+	 */
+	public static void getUser(String userName, Client client)
 	{
 		ArrayList<String> message = new ArrayList<String>();
 		
 		message.add("Get"); 						
 		message.add("User"); 					
-		message.add(""+personID);
+		message.add(""+userName);
 		
 		client.handleMessageFromClientUI(message);
-	}
-	
-	public static void updateUserDetails(User updatedUser)
-	{
-		
-	}
-	
-	public static User getUser(String personID)
-	{
-		return null;
 	}
 }

@@ -97,6 +97,23 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  public void insertData(String table, String fieldToInsert)
+	  {
+		  Statement stmt;
+		  
+		  try
+		  {
+			  stmt = conn.createStatement();
+			  stmt.executeUpdate("INSERT INTO "+table+" VALUES("+fieldToInsert+")");
+		  }
+		  catch (SQLException ex) 
+		  {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+		  }
+	  }
+	  
 	  public PreparedStatement createPreparedStatement(String query)
 	  {
 		  try

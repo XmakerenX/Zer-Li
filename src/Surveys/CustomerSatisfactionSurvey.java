@@ -28,14 +28,14 @@ public class CustomerSatisfactionSurvey {
 	}
 
 	public void setSurveyName(String surveyName) {
-		if()				//------------------------------check whether there's one in the data base already
+	/*	if()				//------------------------------check whether there's one in the data base already
 		{
 			this.surveyName = surveyName;
 		}
 		else
 		{
 			throw new SurveyException("Survey with the same name already exists");
-		}
+		}*/
 	}
 
 	public String[] getSurveyQuestions() {
