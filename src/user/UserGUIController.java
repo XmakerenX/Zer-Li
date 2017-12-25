@@ -16,7 +16,7 @@ import javax.swing.event.HyperlinkEvent.EventType;
 import client.Client;
 import client.ClientInterface;
 import prototype.FormController;
-import utils.Replay;
+import serverAPI.Replay;
 
 public class UserGUIController extends FormController implements ClientInterface  {
 

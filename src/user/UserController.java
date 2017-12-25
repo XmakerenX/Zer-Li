@@ -3,6 +3,7 @@ package user;
 import java.util.ArrayList;
 
 import client.Client;
+import serverAPI.LoginRequest;
 import user.User.Permissions;
 import user.User.Status;
 import user.User.*;
@@ -10,15 +11,8 @@ import user.User.*;
 public class UserController {
 	
 	public static void requestLogin(String username, String password, Client client)
-	{
-		ArrayList<String> message = new ArrayList<String>();
-		message.add("Verify"); 						
-		message.add("User");
-		message.add(username);
-		message.add(password);
-		
-		
-		client.handleMessageFromClientUI(message);
+	{		
+		client.handleMessageFromClientUI(new LoginRequest(username, password));
 	}
 	
 	public static void verifyLogin(User user, String username , String password) throws LoginException

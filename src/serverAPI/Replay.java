@@ -1,4 +1,4 @@
-package utils;
+package serverAPI;
 
 import java.io.Serializable;
 

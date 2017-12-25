@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ocsf.client.*;
+import serverAPI.Request;
 
 public class Client  extends AbstractClient{
 	
@@ -46,11 +47,12 @@ public class Client  extends AbstractClient{
 	* @param message The message from the UI.    
 	*/
 //*************************************************************************************************	
-	public void handleMessageFromClientUI(ArrayList<String> message)  
+	//public void handleMessageFromClientUI(ArrayList<String> message)
+	public void handleMessageFromClientUI(Request request)
 	{
 		try
 		{
-			sendToServer(message);
+			sendToServer(request);
 		}
 		catch(IOException e)
 		{

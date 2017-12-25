@@ -19,8 +19,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.NumberStringConverter;
 import product.ProdcutController;
 import product.Product;
+import serverAPI.Replay;
 
-public class ShowProductController implements ClientInterface{
+public class ShowProductController extends FormController implements ClientInterface{
 
 	private class TableID
 	{
@@ -166,14 +167,19 @@ public class ShowProductController implements ClientInterface{
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
     	
-    	ArrayList<Product> products = (ArrayList<Product>)message;
-    	    	
-    	final ObservableList<Product> itemData = FXCollections.observableArrayList();
+    	Replay replay = (Replay)message;
     	
-    	for (int i = 0; i < products.size(); i++)
-    		itemData.add(products.get(i));
-    	    	   	
-    	productView.setItems(itemData);	
+    	if (replay.getType() == Replay.Type.SUCCESS)
+    	{
+    		final ObservableList<Product> itemData = FXCollections.observableArrayList();
+    		
+    		ArrayList<Product> products = (ArrayList<Product>)replay.getMessage();
+    		
+    		for (int i = 0; i < products.size(); i++)
+        		itemData.add(products.get(i));
+        	    	   	
+        	productView.setItems(itemData);
+    	}
     }
     
 //*************************************************************************************************
@@ -233,6 +239,11 @@ public class ShowProductController implements ClientInterface{
     void onRefresh(ActionEvent event) {
     	productsToUpdate.clear();
     	ProdcutController.requestProducts(client);
+    }
+    
+    public void onSwitch(Client newClient)
+    {
+    	
     }
 
 }

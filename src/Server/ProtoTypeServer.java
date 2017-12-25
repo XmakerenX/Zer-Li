@@ -12,11 +12,17 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import product.Product;
 import prototype.Config;
+import serverAPI.GetRequest;
+import serverAPI.LoginRequest;
+import serverAPI.Replay;
+import serverAPI.Request;
+import serverAPI.UpdateRequest;
 import user.LoginException;
 import user.User;
 import user.User.*;
 import user.UserController;
-import utils.Replay;
+import utils.EntityFactory;
+import utils.EntityUpdater;
 
 public class ProtoTypeServer extends AbstractServer {
 
@@ -50,7 +56,7 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param client The connection to whom to replay
 	   * @param r The Replay message
 	   */
-	  private void sendToClinet(ConnectionToClient client, Replay r)
+	  private void sendToClient(ConnectionToClient client, Replay r)
 	  {
 		  try
 		  {
@@ -58,6 +64,30 @@ public class ProtoTypeServer extends AbstractServer {
 			  client.sendToClient(r);
 		  }	
 		  catch (IOException e) {System.out.println("Could not send message to Client.");}
+	  }
+	  
+	  private void loginUser(ConnectionToClient client, LoginRequest loginRequest,User user)
+	  {
+		  try
+		  {
+			  UserController.verifyLogin(user, loginRequest.getUsername(), loginRequest.getPassword());
+			  // if client had a user logged in , log him out first
+			  logoutUser(client);
+			  client.setInfo("username", user.getUserName());
+			  // update DB user has logged in
+			  db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
+			  sendToClient(client, new Replay(Replay.Type.SUCCESS, user));
+		  }
+		  catch (LoginException le)
+		  {
+			  if (le.getMessage().contains("blocked"))
+				  // logout user to prevent us from unblocking him on logout
+				  this.logoutUser(client);
+			  
+			  //update DB user failed to log in
+			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries(), "username=\""+user.getUserName()+"\"");
+			  sendToClient(client, new Replay(Replay.Type.ERROR, le.getMessage()));							  
+		  }
 	  }
 	  
 	  /**
@@ -133,132 +163,46 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param msg The message received from the client.
 	   * @param client The connection from which the message originated.
 	   */
-	  public void handleMessageFromClient
-	  (Object msg, ConnectionToClient client)
+	  public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	  {
-		  //Casting the received object back to an array list of strings
-		  ArrayList<String> userInput = (ArrayList<String>)msg;
+		  Request request = (Request)msg;
 		  
-		  System.out.println(userInput);
-		  
-		  switch(userInput.get(0))
+		  switch(request.getType())
 		  {
-		  case "GET":
+		  case "GetRequest":
 		  {
-			  switch(userInput.get(1))
-			  {
-     		  //saves all the product's as arrays of strings in another array called "data"
-			  case "Product":
-			  {
-				  ArrayList<Product> data = new ArrayList<Product>();
-				  try 
-				  {
-					  ResultSet rs = db.selectTableData("*", "Product", "");
-					  if (rs != null)
-					  {
-						  while(rs.next())
-						  {
-							  // save the values in data						  
-							  data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
-						  } 
-						  rs.close();
-						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, data));
-					  }
-
-				  } catch (SQLException e) {e.printStackTrace();}
-			  }break;
-
-			  default:
-				  System.out.println("Error Invalid message received");
-				  break;
-			  }
+			  GetRequest getRequest = (GetRequest)request;
+			  ResultSet rs = db.selectTableData("*", getRequest.getTable(), "");
+			  Object res =EntityFactory.loadEntity(getRequest.getTable(), rs);
+			  if (res != null)
+				  sendToClient(client, new Replay(Replay.Type.SUCCESS, res));
 		  }break;
 		  
-		  case "SET":
+		  case "UpdateRequest":
 		  {
-			  switch (userInput.get(1))
-			  {
-			  //updates specific item's details in the Product table
-			  case "Product":
-			  {
-				  System.out.println(userInput);
-				  System.out.println("updating database");
-
-				  String productID = "ProductID="+userInput.get(3);
-				  String productName = "ProductName=\""+userInput.get(4)+"\"";
-				  String productType = "ProductType=\""+userInput.get(5)+"\"";
-				  String condition = "ProductID="+userInput.get(2); 
-				  db.executeUpdate("Product", productID + "," + productName + "," + productType, condition);
-			  }break;
-
-			  default:
-				  System.out.println("Error Invalid message received");
-				  break;
-
-			  }
+			  UpdateRequest updateRequest =  (UpdateRequest)request;
+			  EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
 		  }break;
 		  
-		  case "Verify":
+		  case "LoginRequest":
 		  {
-			  switch (userInput.get(1))
+			  LoginRequest loginRequest = (LoginRequest)request;
+			  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+loginRequest.getUsername() +"\"");
+			  ArrayList<User> users = (ArrayList<User>)EntityFactory.loadEntity("User", rs);
+			  
+			  if (users.size() > 0)
 			  {
-			  case "User":
-			  {
-				  User user = null;
-
-				  // get the user form database
-				  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+userInput.get(2) +"\"");
-
-				  // if we got a result load it to  a User class
-				  if (rs != null)
-				  {
-					  try
-					  {
-						  if (rs.first())
-						  {
-							  user = new User(rs.getString(1), rs.getString(2), User.Permissions.valueOf(rs.getString(3)), rs.getInt(4), User.Status.valueOf(rs.getString(5)), rs.getInt(6));
-						  }
-					  }catch (SQLException e) {e.printStackTrace();}
-					  catch (User.UserException ue) { ue.printStackTrace();}
-				  }
-				  
-				  // verify user
-				  if (user != null)
-				  {
-					  try
-					  {
-						  UserController.verifyLogin(user, userInput.get(2), userInput.get(3));
-						  // if client had a user logged in , log him out first
-						  logoutUser(client);
-						  client.setInfo("username", user.getUserName());
-						  // update DB user has logged in
-						  db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
-						  sendToClinet(client, new Replay(Replay.Type.SUCCESS, user));
-					  }
-					  catch (LoginException le)
-					  {
-						  if (le.getMessage().contains("blocked"))
-							  // logout user to prevent us from unblocking him on logout
-							  this.logoutUser(client);
-						  
-						  //update DB user failed to log in
-						  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries(), "username=\""+user.getUserName()+"\"");
-						  sendToClinet(client, new Replay(Replay.Type.ERROR, le.getMessage()));							  
-					  }
-				  }
-				  else
-				  {
-					  sendToClinet(client, new Replay(Replay.Type.ERROR, "username or password is wrong"));
-				  }
-			  }break;
+				  loginUser(client, loginRequest,users.get(0));
 			  }
+			  else
+				  sendToClient(client, new Replay(Replay.Type.ERROR, "username or password is wrong"));
 		  }break;
 		  
 		  default:
 			  System.out.println("Error Invalid message received");
 			  break;
-		  }
 		  
+		  }		  
 	  }
 	  
 	  /**

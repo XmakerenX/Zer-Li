@@ -3,6 +3,8 @@ package product;
 import java.util.ArrayList;
 
 import client.Client;
+import serverAPI.GetRequest;
+import serverAPI.UpdateRequest;
 
 public class ProdcutController {
 
@@ -14,11 +16,7 @@ public class ProdcutController {
 //*************************************************************************************************
 	public static void requestProducts(Client client)
 	{
-    	ArrayList<String> message = new ArrayList<String>();
-    	
-    	message.add("GET");
-    	message.add("Product");
-    	client.handleMessageFromClientUI(message);
+    	client.handleMessageFromClientUI(new GetRequest("Product"));
 	}
 
 //*************************************************************************************************
@@ -30,16 +28,8 @@ public class ProdcutController {
 	*/
 //*************************************************************************************************
 	public static void updateProduct(long ProductID, Product updatedProduct, Client client)
-	{
-		ArrayList<String> message = new ArrayList<String>();
-		message.add("SET"); 						
-		message.add("Product"); 					
-		message.add(""+ProductID);					
-		message.add(""+updatedProduct.getID());		
-		message.add(updatedProduct.getName().trim());
-		message.add(updatedProduct.getType().trim());
-    	
-		client.handleMessageFromClientUI(message);
+	{	
+		client.handleMessageFromClientUI(new UpdateRequest("Product", ""+ProductID, updatedProduct));
 	}
 	
 }
