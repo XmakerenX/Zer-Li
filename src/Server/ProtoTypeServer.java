@@ -102,6 +102,31 @@ public class ProtoTypeServer extends AbstractServer {
 		  logoutUser(client);
 	  }
 	  
+	  public <T> void executeGetQueary(String tableName)
+	  {
+		  ArrayList<T> data = new ArrayList<T>();
+		  try 
+		  {
+			  ArrayList<Object> columnsData = new ArrayList<Object>();
+			  ResultSet rs = db.selectTableData("*", tableName, "");
+			  if (rs != null)
+			  {
+				  while(rs.next())
+				  {
+					  int columnCount = rs.getMetaData().getColumnCount();
+					  for (int i = 0; i < columnCount; i++)
+						  columnsData.add(rs.getObject(i));
+					  
+					  
+					  // save the values in data						  
+					  //data.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
+				  } 
+				  rs.close();
+			  }
+
+		  } catch (SQLException e) {e.printStackTrace();}
+	  }
+	  	  
 	  /**
 	   * This method handles any messages received from the client.
 	   *
