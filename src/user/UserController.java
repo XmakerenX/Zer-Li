@@ -72,7 +72,7 @@ public class UserController {
 	{
 		try {
 			User newUser = new User(userName, userPassword, userPermission, personID);
-			client.handleMessageFromClientUI(new AddRequest("USER", newUser));
+			client.handleMessageFromClientUI(new AddRequest("User", newUser));
 		} catch (UserException e) {
 			// TODO deal with error
 			// shouldn't get here!
