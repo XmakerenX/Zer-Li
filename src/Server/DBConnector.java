@@ -97,24 +97,10 @@ public class DBConnector {
 		  }
 	  }
 	  
-	  public PreparedStatement createPreparedStatement(String query)
-	  {
-		  try
-		  {
-			  PreparedStatement preparedStatement = conn.prepareStatement(query);
-			  return preparedStatement;
-		  }catch (SQLException ex) {
-			  System.out.println("SQLException: " + ex.getMessage());
-			  System.out.println("SQLState: " + ex.getSQLState());
-			  System.out.println("VendorError: " + ex.getErrorCode());
-			  return null;
-		  }
-	  }
-	  
 	  public void insertData(String table, String fieldToInsert)
 	  {
 		  Statement stmt;
-
+		  
 		  try
 		  {
 			  stmt = conn.createStatement();
@@ -128,6 +114,20 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  public PreparedStatement createPreparedStatement(String query)
+	  {
+		  try
+		  {
+			  PreparedStatement preparedStatement = conn.prepareStatement(query);
+			  return preparedStatement;
+		  }catch (SQLException ex) {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+			  return null;
+		  }
+	  }
+	  	  
 	  public String getTableKeyName(String table)
 	  {
 		  Statement stmt;

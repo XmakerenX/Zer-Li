@@ -87,10 +87,10 @@ public class UserController {
 	 * @param client - current running client
 	 */
 	public static void updateUserDetails(User updatedUser, String formerUserName, Client client)
-	{
+	{		
 		client.handleMessageFromClientUI(new UpdateRequest("User", formerUserName, updatedUser));
 	}
-	
+		
 	/**
 	 * Gets user from data base
 	 * @param userName - user name (is the key) of the person who uses the program

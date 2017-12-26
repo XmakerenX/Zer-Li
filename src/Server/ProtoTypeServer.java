@@ -183,7 +183,6 @@ public class ProtoTypeServer extends AbstractServer {
 			  }
 			  else
 				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
-			  
 		  }break;
 		  
 		  case "UpdateRequest":
@@ -211,7 +210,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  else
 				  sendToClient(client, new Response(Response.Type.ERROR, "username or password is wrong"));
 		  }break;
-		  
+		  		  
 		  default:
 			  System.out.println("Error Invalid message received");
 			  break;
