@@ -3,8 +3,14 @@ package product;
 public class CatalogItem extends Product
 {
 	
-	CatalogItem(long newID, String newName, String newType)
+	float salePrice;
+	//Image
+	
+	
+	public CatalogItem(int productID, String productName, String productType, float productPrice, int productAmount,
+			String productColor,float salesPrice) 
 	{
-		super(newID, newName, newType);
+		super(productID, productName, productType, productPrice, productAmount, productColor);
+		this.salePrice = salesPrice;
 	}
 }

@@ -25,14 +25,14 @@ public class ShowProductController extends FormController implements ClientInter
 
 	private class TableID
 	{
-		TableID(long oldID, long newID)
+		TableID(int oldID, int newID)
 		{
 			this.oldID = oldID;
 			this.newID = newID;
 		}
 		
-		public long oldID;
-		public long newID;
+		public int oldID;
+		public int newID;
 	}
 	
 	private Client client;
@@ -92,27 +92,28 @@ public class ShowProductController extends FormController implements ClientInter
     {
     	ProductIDCol.setCellValueFactory( new PropertyValueFactory<Product,Number>("ID"));
     	ProductIDCol.setCellFactory(TextFieldTableCell.<Product, Number>forTableColumn(new NumberStringConverter()));
+    	
     	// Set onEditCommmit for ID field
     	ProductIDCol.setOnEditCommit(
     			new EventHandler<CellEditEvent<Product, Number>>() {
     				@Override
     				public void handle(CellEditEvent<Product, Number> t) {   					
-    					addProductToUpdate((Long)t.getOldValue(), (Long)t.getNewValue());
+    					addProductToUpdate((int)t.getOldValue(), (int)t.getNewValue());
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
-    							).setID((Long)t.getNewValue());
+    							).setID((int)t.getNewValue());
     				}
     			}
     			);
 
-    	ProductNameCol.setCellValueFactory( new PropertyValueFactory<Product,String>("name"));
+    	ProductNameCol.setCellValueFactory( new PropertyValueFactory<Product,String>("Name"));
     	ProductNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
     	// Set onEditCommmit for Name field
     	ProductNameCol.setOnEditCommit(
     			new EventHandler<CellEditEvent<Product, String>>() {
     				@Override
     				public void handle(CellEditEvent<Product, String> t) {
-    					long ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
+    					int ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
     					addProductToUpdate(ID,ID);
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
@@ -120,27 +121,28 @@ public class ShowProductController extends FormController implements ClientInter
     				}
     			}
     			);
-
-    	ProductTypeCol.setCellValueFactory( new PropertyValueFactory<Product,String>("type"));
+    	ProductTypeCol.setCellValueFactory(new PropertyValueFactory<Product,String>("Type"));
     	ProductTypeCol.setCellFactory(TextFieldTableCell.forTableColumn());
     	// Set onEditCommmit for Type field
     	ProductTypeCol.setOnEditCommit(
     			new EventHandler<CellEditEvent<Product, String>>() {
     				@Override
     				public void handle(CellEditEvent<Product, String> t) {
-    					long ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
+    					int ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
     					addProductToUpdate(ID,ID);
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
     							).setType(t.getNewValue());
     				}
     			}
+    			
+
     			);
     	
     	productView.setEditable(true);
     }
     
-    private void addProductToUpdate(long oldID, long newID)
+    private void addProductToUpdate(int oldID, int newID)
     {
 		boolean found = false;
 		for (int i = 0; i < productsToUpdate.size(); i++)
@@ -176,8 +178,10 @@ public class ShowProductController extends FormController implements ClientInter
     		ArrayList<Product> products = (ArrayList<Product>)replay.getMessage();
     		
     		for (int i = 0; i < products.size(); i++)
+    		{
         		itemData.add(products.get(i));
-        	    	   	
+    		}
+    		
         	productView.setItems(itemData);
     	}
     }
@@ -211,11 +215,12 @@ public class ShowProductController extends FormController implements ClientInter
     		
     		if (found)
     		{
+    			/*
     			Product updatedProduct = new Product(productView.getItems().get(j).getID(),
     					productView.getItems().get(j).getName().trim(),
     					productView.getItems().get(j).getType().trim());
     			
-    			ProdcutController.updateProduct(productsToUpdate.get(i).oldID, updatedProduct, client);
+    			ProdcutController.updateProduct(productsToUpdate.get(i).oldID, updatedProduct, client);*/
     		}
     		else
     		{

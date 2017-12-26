@@ -25,8 +25,13 @@ public class EntityUpdater {
 		  String productID = "ProductID="+product.getID();
 		  String productName = "ProductName=\""+product.getName()+"\"";
 		  String productType = "ProductType=\""+product.getType()+"\"";
+		  String productPrice = "ProductType=\""+product.getPrice()+"\"";
+		  String productAmount= "ProductType=\""+product.getAmount()+"\"";
+		  String productColor = "ProductType=\""+product.getColor()+"\"";
+
 		  String condition = "ProductID="+oldKey; 
-		  db.executeUpdate("Product", productID + "," + productName + "," + productType, condition);
+		  db.executeUpdate("Product", productID + "," + productName + "," + productType+ ","+productPrice+ "," +
+				  			productAmount + "," +productColor, condition);
 	}
 	
 	private static void setUser(String oldKey, User user, DBConnector db)

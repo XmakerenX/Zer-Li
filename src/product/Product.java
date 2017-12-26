@@ -2,13 +2,18 @@ package product;
 
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product implements Serializable 
+{
 
 	public static final long serialVersionUID = 55L;
 	
-    private long    ID;
-    private String name;
-    private String type;
+    private int     productID;
+    private String  productName;
+    private String  productType;
+    private float   productPrice;
+    private int     productAmount;
+    private String  productColor;
+    
     
 //*************************************************************************************************
     /**
@@ -18,88 +23,80 @@ public class Product implements Serializable {
   	*  @param newType
   	*/
 //*************************************************************************************************
-	public Product(long newID, String newName, String newType)
+	public Product(int newID, String newName, String newType,
+					float productPrice, int productAmount,String productColor)
 	{
-		ID = newID;
-		name = newName;
-		type = newType;
+		this.productID = newID;
+		this.productName = newName;
+		this.productType = newType;
+		this.productPrice = productPrice;
+		this.productAmount = productAmount;
+		this.productColor = productColor;
 	}
 
-//*************************************************************************************************
-    /**
-  	*  Get the value of the ID property
-  	*  @return the ID property
-  	*/
-//*************************************************************************************************
-	public long getID()
-	{
-		return ID;
+
+	public int getID() {
+		return productID;
 	}
 
-//*************************************************************************************************
-    /**
-  	*  Set the value of the ID property
-  	*  @return the ID property
-  	*/
-//*************************************************************************************************
-	public void setID(long newID)
-	{
-		ID = newID;
+
+	public void setID(int productID) {
+		this.productID = productID;
 	}
 
-//*************************************************************************************************
-    /**
-  	*  Get the value of the Name property
-  	*  @return the Name property
-  	*/
-//*************************************************************************************************
-	public String getName()
-	{
-		return name;
+
+	public String getName() {
+		return productName;
 	}
 
-//*************************************************************************************************
-    /**
-  	*  Set the value of the Name property
-  	*  @return the Name property
-  	*/
-//*************************************************************************************************
-	public void setName(String newName)
-	{
-		name = newName;
+
+	public void setName(String productName) {
+		this.productName = productName;
 	}
 
-//*************************************************************************************************
-    /**
-  	*  Get the value of the Type property
-  	*  @return the Type property
-  	*/
-//*************************************************************************************************
-	public String getType()
-	{
-		return type;
+
+	public String getType() {
+		return productType;
 	}
 
-//*************************************************************************************************
-    /**
-  	*  Set the value of the Type property
-  	*  @return the Type property
-  	*/
-//*************************************************************************************************
-	public void setType(String newType)
-	{
-		type = newType;
+
+	public void setType(String productType) {
+		this.productType = productType;
 	}
 
-//*************************************************************************************************
-    /**
-     * Returns a string representation of the product
-  	*  @return a string representation of the product
-  	*/
-//*************************************************************************************************
-	public String toString()
-	{
-		return ID+", "+name+", "+type;
+
+	public float getPrice() {
+		return productPrice;
+	}
+
+
+	public void setPrice(float productPrice) {
+		this.productPrice = productPrice;
+	}
+
+
+	public int getAmount() {
+		return productAmount;
+	}
+
+
+	public void setAmount(int productAmount) {
+		this.productAmount = productAmount;
+	}
+
+
+	public String getColor() {
+		return productColor;
+	}
+
+
+	public void setColor(String productColor) {
+		this.productColor = productColor;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

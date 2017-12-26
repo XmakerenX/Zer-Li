@@ -35,7 +35,8 @@ public class EntityFactory {
 		  {
 			  while (rs.next())
 			  {
-				  products.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3)));
+				  products.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3),
+						  		rs.getFloat(4),rs.getInt(5),rs.getString(6)));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		 
