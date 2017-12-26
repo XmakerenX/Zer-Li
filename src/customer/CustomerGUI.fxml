@@ -8,6 +8,6 @@
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerGUI">
    <children>
       <DialogPane layoutX="-80.0" layoutY="-56.0" prefHeight="147.0" prefWidth="360.0" />
-      <Button layoutX="69.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="backBtn" layoutX="69.0" layoutY="33.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
    </children>
 </AnchorPane>

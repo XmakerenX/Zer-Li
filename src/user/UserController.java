@@ -5,16 +5,31 @@ import java.util.ArrayList;
 
 import client.Client;
 import serverAPI.AddRequest;
+import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
+import serverAPI.UpdateRequest;
 import user.User.*;
 
 public class UserController {
 	
+	/**
+	 * Sends a login reqeust to server
+	 * @param userName the username to login 
+	 * @param userPassword the user password for the login 
+	 * @param client - current running client
+	 */
 	public static void requestLogin(String username, String password, Client client)
 	{		
 		client.handleMessageFromClientUI(new LoginRequest(username, password));
 	}
 	
+	/**
+	 * Sends a login reqeust to server
+	 * @param user the user to verify against 
+	 * @param userName the username given to login with 
+	 * @param userPassword the user password to login with
+	 * @param client - current running client
+	 */
 	public static void verifyLogin(User user, String username , String password) throws LoginException
 	{
 		
@@ -53,7 +68,6 @@ public class UserController {
 	 * @param userStatus - user's status, is he: blocked, logged in, or not connected yet (regular)
 	 * @param client - current running client
 	 */
-	
 	public static void createNewUser(String userName, String userPassword, Permissions userPermission, int personID, Status userStatus, Client client)
 	{
 		try {
@@ -61,35 +75,29 @@ public class UserController {
 			client.handleMessageFromClientUI(new AddRequest("USER", newUser));
 		} catch (UserException e) {
 			// TODO deal with error
+			// shouldn't get here!
 			e.printStackTrace();
-		}
+		}	
+	}
 		
+	/**
+	 * Applies changes in user's info
+	 * @param updatedUser - updated User object
+	 * @param userName - old user name (in case it changed)
+	 * @param client - current running client
+	 */
+	public static void updateUserDetails(User updatedUser, String formerUserName, Client client)
+	{
+		client.handleMessageFromClientUI(new UpdateRequest("User", formerUserName, updatedUser));
 	}
 	
 	/**
-	 * Checks whether the user exists in data base
-	 * @param personID - ID of the person who uses the program
-	 * @param client -  current running client
+	 * Gets user from data base
+	 * @param userName - user name (is the key) of the person who uses the program
+	 * @param client - current running client
 	 */
-	
-	public static void isUserExist(String personID, Client client)
+	public static void getUser(String userName, Client client)
 	{
-		ArrayList<String> message = new ArrayList<String>();
-		
-		message.add("Get"); 						
-		message.add("User"); 					
-		message.add(""+personID);
-		
-		//client.handleMessageFromClientUI(message);
-	}
-	
-	public static void updateUserDetails(User updatedUser)
-	{
-		
-	}
-	
-	public static User getUser(String personID)
-	{
-		return null;
+		client.handleMessageFromClientUI(new GetRequestByKey("User", userName));
 	}
 }

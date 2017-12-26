@@ -49,7 +49,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	try
     	{
     		customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
-    		customerGUI.setClinet(client);
     	} catch(IOException e)
     	{
     		System.out.println("Failed to load CustomerGUI.fxml");
@@ -86,7 +85,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     		replay = null;
     		if (customerGUI != null)
     		{
-    			//customerGUI.setClinet(client);
+    			customerGUI.setClinet(client);
     			FormController.primaryStage.setScene(customerGUI.getScene());
     		}
     		

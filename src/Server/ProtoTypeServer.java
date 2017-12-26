@@ -13,6 +13,7 @@ import ocsf.server.ConnectionToClient;
 import product.Product;
 import serverAPI.AddRequest;
 import serverAPI.GetRequest;
+import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
 import serverAPI.Response;
 import serverAPI.Request;
@@ -150,17 +151,39 @@ public class ProtoTypeServer extends AbstractServer {
 		  {
 			  GetRequest getRequest = (GetRequest)request;
 			  ResultSet rs = db.selectTableData("*", getRequest.getTable(), "");
-			  Object res =EntityFactory.loadEntity(getRequest.getTable(), rs);
-			  if (res != null)
-				  sendToClient(client, new Response(Response.Type.SUCCESS, res));
+			  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequest.getTable(), rs);
+			  if (entityArray != null)
+			  {
+				  if (entityArray.size() > 0)
+					  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+				  else
+					  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+			  }
 			  else
 				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
 			  
 		  }break;
 		  
+		  //TODO: think about maybe combining GetRequest and GetRequestByKey cases
 		  case "GetRequestByKey":
 		  {
-			  //db.get
+			  GetRequestByKey getRequestByKey  = (GetRequestByKey)request;
+			  ResultSet rs;
+			  
+			  String condition = null;
+			  generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
+			  rs = db.selectTableData("*", getRequestByKey.getTable(), condition);
+			  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestByKey.getTable(), rs);
+			  if (entityArray != null)
+			  {
+				  if (entityArray.size() > 0)
+					  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+				  else
+					  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+			  }
+			  else
+				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+			  
 		  }break;
 		  
 		  case "UpdateRequest":
@@ -214,6 +237,43 @@ public class ProtoTypeServer extends AbstractServer {
 	    System.out.println("Server has stopped listening for connections.");
 	    // close connection to DB
 	    db.closeConnection();
+	  }
+	  
+	  /**
+	   * This method given a table and a primary key value generate a condition for it 
+	   * for the table product and key value 5 will generate in condition "ProductID=4"
+	   * @param table the table that the primary key belongs to
+	   * @param key the value of the primary key
+	   * @param condition the generated MySQL condition or error message
+	   * @return true if the condition was generated successfully , false if error was incurred
+	   * 
+	   */
+	  private boolean generateConditionForPrimayKey(String table, String key, String condition)
+	  {
+		  String primaryKeyName = db.getTableKeyName(table);
+		  
+		  if (primaryKeyName != null)
+		  {
+			  String colType = db.getColumnType(table, primaryKeyName);
+			  if (colType != null)
+			  {
+				  if (colType.equals("int"))
+					  condition = primaryKeyName+"="+primaryKeyName;
+				  else
+					  condition = primaryKeyName+"="+"\""+primaryKeyName+"\"";
+				  return true;
+			  }
+			  else
+			  {
+				  condition = "Failed to get primary key type";
+				  return false;
+			  }
+		  }
+		  else 
+		  {
+			  condition = "Failed to get primary key name";
+			  return false;
+		  }
 	  }
 	  
 	  public static ArrayList<Object> parseConfigFile(String configFileNmae)

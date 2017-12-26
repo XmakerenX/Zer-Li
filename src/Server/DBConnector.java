@@ -128,6 +128,42 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  public String getTableKeyName(String table)
+	  {
+		  Statement stmt;
+		  try
+		  {
+			  stmt = conn.createStatement();
+			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
+			  return rs.getString(5);
+		  }
+		  catch (SQLException ex) 
+		  {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+			  return null;
+		  }  
+	  }
+	  
+	  public String getColumnType(String table , String columnName)
+	  {
+		  Statement stmt;
+		  try
+		  {
+			  stmt = conn.createStatement();
+			  ResultSet rs = stmt.executeQuery("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
+			  return rs.getString(0);
+		  }
+		  catch (SQLException ex) 
+		  {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+			  return null;
+		  } 
+	  }
+	  
 	  public void closeConnection()
 	  {
 		  try

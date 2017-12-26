@@ -9,7 +9,7 @@ import product.Product;
 
 public class EntityFactory {
 	
-	  public static Object loadEntity(String table ,ResultSet rs)
+	  public static ArrayList<?> loadEntity(String table ,ResultSet rs)
 	  {
 	      switch (table)
 		  {
