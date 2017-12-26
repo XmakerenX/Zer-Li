@@ -81,13 +81,13 @@ public class Main extends Application
 				
 				FormController.primaryStage = primaryStage;
 				//MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
-				//LoginGUI controller = FormController.<LoginGUI, AnchorPane>loadFXML(getClass().getResource("../user/UserGUI.fxml"), null);
-				ShowProductController controller = FormController.<ShowProductController, BorderPane>loadFXML(getClass().getResource("ShowProduct.fxml"), null);
+				LoginGUI controller = FormController.<LoginGUI, AnchorPane>loadFXML(getClass().getResource("../user/UserGUI.fxml"), null);
+				//ShowProductController controller = FormController.<ShowProductController, BorderPane>loadFXML(getClass().getResource("ShowProduct.fxml"), null);
 				
 				
 				client.setUI(controller);
 				controller.setClinet(client);
-				controller.initData(client);
+				//controller.initData(client);
 
 				primaryStage.setScene(controller.getScene());
 				primaryStage.setTitle("Prototype");
