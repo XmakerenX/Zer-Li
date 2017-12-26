@@ -2,7 +2,7 @@ package serverAPI;
 
 import java.io.Serializable;
 
-public class Replay implements Serializable{
+public class Response implements Serializable{
 	public enum Type {SUCCESS, ERROR};
 	
 	Type type;
@@ -10,7 +10,7 @@ public class Replay implements Serializable{
 	// on error holds the error message
 	Object message;
 	
-	public Replay(Type type, Object message)
+	public Response(Type type, Object message)
 	{
 		this.type = type;
 		this.message = message;

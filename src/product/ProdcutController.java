@@ -6,7 +6,8 @@ import client.Client;
 import serverAPI.GetRequest;
 import serverAPI.UpdateRequest;
 
-public class ProdcutController {
+public class ProdcutController 
+{
 
 //*************************************************************************************************
 	/**
@@ -31,5 +32,4 @@ public class ProdcutController {
 	{	
 		client.handleMessageFromClientUI(new UpdateRequest("Product", ""+ProductID, updatedProduct));
 	}
-	
 }

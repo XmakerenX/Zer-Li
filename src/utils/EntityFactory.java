@@ -11,20 +11,23 @@ public class EntityFactory {
 	
 	  public static Object loadEntity(String table ,ResultSet rs)
 	  {
-		  switch (table)
+	      switch (table)
 		  {
 		  case "Product":
-			  return loadProducts(rs);
+			  return loadProducts(rs); 
 			  
 		  case "User":
 			  return loadUsers(rs);
 			  
 		  default:
 			  return null;
-		  }
-		  
+		  }  
 	  }
-	  
+	  /**
+	   * 
+	   * @param rs
+	   * @return
+	   */
 	  public static ArrayList<Product> loadProducts(ResultSet rs)
 	  {
 		  ArrayList<Product> products = new ArrayList<Product>();
@@ -57,4 +60,6 @@ public class EntityFactory {
 		  
 		  return users;
 	  }
+	  
+	  
 }

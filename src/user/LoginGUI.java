@@ -5,23 +5,31 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import product.ProdcutController;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 import javax.swing.event.HyperlinkEvent.EventType;
 
 import client.Client;
 import client.ClientInterface;
+import customer.CustomerGUI;
 import prototype.FormController;
-import serverAPI.Replay;
+import prototype.ProductInfoFormController;
+import serverAPI.Response;
 
-public class UserGUIController extends FormController implements ClientInterface  {
+public class LoginGUI extends FormController implements ClientInterface  {
 
 	// holds the last replay we got from server
-	private Replay replay = null;
+	private Response replay = null;
+	
+	CustomerGUI customerGUI;
 	
     @FXML
     private Button loginBtn;
@@ -36,13 +44,29 @@ public class UserGUIController extends FormController implements ClientInterface
     private Button exitBtn;
     
     @FXML
+    public void initialize(){
+        //Will be called by FXMLLoader
+    	try
+    	{
+    		customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
+    		customerGUI.setClinet(client);
+    	} catch(IOException e)
+    	{
+    		System.out.println("Failed to load CustomerGUI.fxml");
+    		e.printStackTrace();
+    		customerGUI = null;
+    	}
+    }
+    
+    @FXML
     void onExit(ActionEvent event) {
     	client.quit();
     	System.exit(0);
     }
 
     @FXML
-    void onLogin(ActionEvent event) {
+    void onLogin(ActionEvent event) 
+    {
     	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), client);
     	try
     	{
@@ -56,12 +80,18 @@ public class UserGUIController extends FormController implements ClientInterface
     			return;
     		
     	// show success 
-    	if (replay.getType() == Replay.Type.SUCCESS)
+    	if (replay.getType() == Response.Type.SUCCESS)
     	{
-    		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
-    		alert.showAndWait();
     		// clear replay
     		replay = null;
+    		if (customerGUI != null)
+    		{
+    			//customerGUI.setClinet(client);
+    			FormController.primaryStage.setScene(customerGUI.getScene());
+    		}
+    		
+//    		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
+//    		alert.showAndWait();
     	}
     	else
     	{
@@ -81,12 +111,16 @@ public class UserGUIController extends FormController implements ClientInterface
 
 	}
 	
+		
+	
+	
+	
 	public void display(Object message)
 	{
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
 		
-		Replay replay = (Replay)message;
+		Response replay = (Response)message;
 		
 		this.replay = replay;
 		synchronized(this)

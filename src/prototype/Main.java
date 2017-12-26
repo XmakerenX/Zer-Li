@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import user.*;
+import utils.Config;
 
 public class Main extends Application 
 {
@@ -80,7 +81,7 @@ public class Main extends Application
 				
 				FormController.primaryStage = primaryStage;
 				//MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
-				UserGUIController controller = FormController.<UserGUIController, AnchorPane>loadFXML(getClass().getResource("../user/UserGUI.fxml"), null);
+				LoginGUI controller = FormController.<LoginGUI, AnchorPane>loadFXML(getClass().getResource("../user/UserGUI.fxml"), null);
 				//ShowProductController controller = FormController.<ShowProductController, BorderPane>loadFXML(getClass().getResource("ShowProduct.fxml"), null);
 				
 				

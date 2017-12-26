@@ -16,7 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import product.ProdcutController;
 import product.Product;
-import serverAPI.Replay;
+import serverAPI.Response;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -97,9 +97,9 @@ public class MainFormController extends FormController implements ClientInterfac
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
     	
-    	Replay replay = (Replay)message;
+    	Response replay = (Response)message;
     	
-    	if (replay.getType() == Replay.Type.SUCCESS)
+    	if (replay.getType() == Response.Type.SUCCESS)
     	{
     		ArrayList<String> comboboxProductStrings = new ArrayList<String>();
         	products = (ArrayList<Product>)replay.getMessage(); 	

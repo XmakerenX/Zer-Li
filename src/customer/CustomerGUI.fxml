@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerGUI">
+   <children>
+      <DialogPane layoutX="-80.0" layoutY="-56.0" prefHeight="147.0" prefWidth="360.0" />
+      <Button layoutX="69.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
+   </children>
+</AnchorPane>

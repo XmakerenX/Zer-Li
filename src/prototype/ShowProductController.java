@@ -19,7 +19,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.NumberStringConverter;
 import product.ProdcutController;
 import product.Product;
-import serverAPI.Replay;
+import serverAPI.Response;
 
 public class ShowProductController extends FormController implements ClientInterface{
 
@@ -167,9 +167,9 @@ public class ShowProductController extends FormController implements ClientInter
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
     	
-    	Replay replay = (Replay)message;
+    	Response replay = (Response)message;
     	
-    	if (replay.getType() == Replay.Type.SUCCESS)
+    	if (replay.getType() == Response.Type.SUCCESS)
     	{
     		final ObservableList<Product> itemData = FXCollections.observableArrayList();
     		

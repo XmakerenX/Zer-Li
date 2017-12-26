@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import prototype.Config;
 import prototype.MainFormController;
+import utils.Config;
 
 public class ServerGUI extends Application {
 

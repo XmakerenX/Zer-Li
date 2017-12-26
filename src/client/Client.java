@@ -12,7 +12,7 @@ public class Client  extends AbstractClient{
 	
 //*************************************************************************************************
     /**
-  	*  Constructs a new Client
+  	*  Constructs a new client
   	*  @param host the host ip
   	*  @param port the port with to connect to the server
   	*/
@@ -84,8 +84,12 @@ public class Client  extends AbstractClient{
 			System.out.println("Closing clinet");
 			closeConnection();
 		}
-		catch(IOException e) {}
-		System.exit(0);
+		catch(IOException e) 
+		{
+			System.out.println("Failed to close client connection");
+			e.printStackTrace();
+			System.exit(0);	
+		}
 	}
 	
 	protected void connectionClosed() {
