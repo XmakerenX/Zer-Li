@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class Config
 {
-   Properties configFile;
+   public Properties configFile;
    
    
 //*************************************************************************************************
@@ -26,6 +26,7 @@ public class Config
 		   {
 			   InputStream  configStream = new FileInputStream(confName);
 			   configFile.load(configStream);
+			   configStream.close();
 		   }
 		   else
 		   {
