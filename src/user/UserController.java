@@ -68,10 +68,10 @@ public class UserController {
 	 * @param userStatus - user's status, is he: blocked, logged in, or not connected yet (regular)
 	 * @param client - current running client
 	 */
-	public static void createNewUser(String userName, String userPassword, Permissions userPermission, int personID, Status userStatus, Client client)
+	public static void createNewUser(String userName, String userPassword, Permissions userPermission, int personID, Client client)
 	{
 		try {
-			User newUser = new User(userName, userPassword, userPermission, personID);
+			User newUser = new User(userName, userPassword, userPermission, personID, User.Status.valueOf("REGULAR"), 0);
 			client.handleMessageFromClientUI(new AddRequest("User", newUser));
 		} catch (UserException e) {
 			// TODO deal with error

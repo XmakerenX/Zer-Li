@@ -37,11 +37,11 @@ public class EntityAdder {
 	
 	private static void addUser(User user, DBConnector db)
 	{		  
-		String userName = user.getUserName();
-		String userPassword = user.getUserPassword();
-		String userPermission = ""+user.getUserPermission();
+		String userName = "'"+user.getUserName()+"'";
+		String userPassword = "'"+user.getUserPassword()+"'";
+		String userPermission = "'"+user.getUserPermission()+"'";
 		String personID = ""+user.getPersonID();
-		String userStatus = ""+user.getUserStatus();
+		String userStatus = "'"+user.getUserStatus()+"'";
 		String userUnsuccessfulTries = ""+user.getUnsuccessfulTries();
 
 		db.insertData("User", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus + "," + userUnsuccessfulTries);

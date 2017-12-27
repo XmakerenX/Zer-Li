@@ -26,6 +26,7 @@ import prototype.FormController;
 import prototype.ProductInfoFormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
+import systemManager.systemManagerGUI;
 
 public class LoginGUI extends FormController implements ClientInterface  {
 
@@ -33,6 +34,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	private Response replay = null;
 	
 	CustomerGUI customerGUI;
+	systemManagerGUI sysManagerGUI;
 	
     @FXML
     private Button loginBtn;
@@ -57,6 +59,18 @@ public class LoginGUI extends FormController implements ClientInterface  {
     		e.printStackTrace();
     		customerGUI = null;
     	}
+    	
+        //Will be called by FXMLLoader
+    	try
+    	{
+    		sysManagerGUI = FormController.<systemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
+    	} catch(IOException e)
+    	{
+    		System.out.println("Failed to load SystemManagerGUI.fxml");
+    		e.printStackTrace();
+    		sysManagerGUI = null;
+    	}
+    	
     }
     
     @FXML
@@ -64,7 +78,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     {
     	Alert alert = new Alert(AlertType.INFORMATION);
     	alert.setTitle("Register Information");
-    	alert.setHeaderText("Registretion is done manually in a netword store.\nAsk the store manager to sign you up.");
+    	alert.setHeaderText("Registration is done manually in a network store.\nAsk the store manager to sign you up.");
     	
 
     	alert.showAndWait();
@@ -77,6 +91,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     void onLogin(ActionEvent event) 
     {
     	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), client);
+    	
     	try
     	{
     		synchronized(this)
@@ -91,13 +106,36 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	// show success 
     	if (replay.getType() == Response.Type.SUCCESS)
     	{
+    		User user = (User)replay.getMessage();
+    		String permission = ""+user.getUserPermission();
     		// clear replay
     		replay = null;
-    		if (customerGUI != null)
+    		
+    		switch (permission)
     		{
-    			customerGUI.setClinet(client);
-    			FormController.primaryStage.setScene(customerGUI.getScene());
+	    		case "CUSTOMER":
+	    		{
+	        		if (customerGUI != null)
+	        		{
+	        			customerGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(customerGUI.getScene());
+	        		}
+	    		}break;
+	    			
+	    		case "SYSTEM_MANAGER":
+	    		{
+	        		if (sysManagerGUI != null)
+	        		{
+	        			sysManagerGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
+	        		}
+	    		}break;
+    			
+	  		  default:
+				  System.out.println("Error Invalid message received");
+				  break;
     		}
+
     		
 //    		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
 //    		alert.showAndWait();
