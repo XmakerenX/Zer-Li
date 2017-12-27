@@ -112,6 +112,8 @@ public class ProtoTypeServer extends AbstractServer {
 			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
 		  }
 	  }
+	  
+	  
 	  	  
 	  /**
 	   * logs out the user logged in exception client
@@ -292,7 +294,34 @@ public class ProtoTypeServer extends AbstractServer {
 			  return false;
 		  }
 	  }
+//-------------------------------------------------------------------------------
+	  /** update config file. params are transferred from the serverGUI.
+	   * @param port
+	   * @param username
+	   * @param pass
+	   */
+	  public static void updateConfigFile(String configPath,String port,String username,String pass)
+	  {
+		  Config serverConfig = new Config(configPath);
+		  FileOutputStream out;
+		try 
+		{
+			
+			out = new FileOutputStream(configPath);
+			
+			  serverConfig.configFile.setProperty("DB_USERNAME", username);
+			  serverConfig.configFile.setProperty("DB_PASSWORD", pass);
+			  serverConfig.configFile.setProperty("SERVER_PORT", port);
+			  serverConfig.configFile.store(out, null);
+			  out.close();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	  
+	  }
+//-------------------------------------------------------------------------------
 	  public static ArrayList<Object> parseConfigFile(String configFileNmae)
 	  {
 		  String DBusername = "";
