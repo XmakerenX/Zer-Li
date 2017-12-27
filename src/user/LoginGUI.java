@@ -8,12 +8,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import product.ProdcutController;
+import product.Product;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.event.HyperlinkEvent.EventType;
 
@@ -22,6 +24,7 @@ import client.ClientInterface;
 import customer.CustomerGUI;
 import prototype.FormController;
 import prototype.ProductInfoFormController;
+import serverAPI.GetRequest;
 import serverAPI.Response;
 
 public class LoginGUI extends FormController implements ClientInterface  {
@@ -41,8 +44,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     private PasswordField passwordTxt;
 
     @FXML
-    private Button exitBtn;
-    
+    private Button registerInfo;    
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
@@ -58,9 +60,17 @@ public class LoginGUI extends FormController implements ClientInterface  {
     }
     
     @FXML
-    void onExit(ActionEvent event) {
-    	client.quit();
-    	System.exit(0);
+    void registerInfo(ActionEvent event) 
+    {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Register Information");
+    	alert.setHeaderText("Registretion is done manually in a netword store.\nAsk the store manager to sign you up.");
+    	
+
+    	alert.showAndWait();
+    	//messegeD
+    	//client.quit();
+    	//System.exit(0);
     }
 
     @FXML
@@ -116,12 +126,13 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	
 	public void display(Object message)
 	{
+		
     	System.out.println(message.toString());
     	System.out.println(message.getClass().toString());
 		
 		Response replay = (Response)message;
-		
 		this.replay = replay;
+		
 		synchronized(this)
 		{
 			this.notify();

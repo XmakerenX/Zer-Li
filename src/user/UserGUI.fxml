@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="243.0" prefWidth="308.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.LoginGUI">
+<AnchorPane prefHeight="398.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.LoginGUI">
    <children>
-      <DialogPane prefHeight="156.0" prefWidth="308.0" />
-      <TextField fx:id="usernameTxt" layoutX="69.0" layoutY="78.0" />
-      <Label layoutX="67.0" layoutY="52.0" text="Username" />
-      <Label layoutX="69.0" layoutY="106.0" text="Password" />
-      <Label layoutX="135.0" layoutY="20.0" text="Zer-LI" />
-      <PasswordField fx:id="passwordTxt" layoutX="69.0" layoutY="130.0" />
-      <Button fx:id="loginBtn" layoutX="67.0" layoutY="173.0" mnemonicParsing="false" onAction="#onLogin" text="Login" />
-      <Button fx:id="exitBtn" layoutX="197.0" layoutY="173.0" mnemonicParsing="false" onAction="#onExit" text="Exit" />
+      <DialogPane layoutX="-25.0" layoutY="-53.0" prefHeight="156.0" prefWidth="308.0" />
+      <TextField fx:id="usernameTxt" layoutX="48.0" layoutY="163.0">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <Label layoutX="104.0" layoutY="136.0" text="Username">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label layoutX="107.0" layoutY="199.0" text="Password">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <PasswordField fx:id="passwordTxt" layoutX="45.0" layoutY="224.0">
+         <font>
+            <Font size="15.0" />
+         </font></PasswordField>
+      <Button fx:id="loginBtn" layoutX="109.0" layoutY="281.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="67.0" text="Login">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="registerInfo" layoutX="76.0" layoutY="335.0" mnemonicParsing="false" onAction="#registerInfo" prefHeight="38.0" prefWidth="140.0" text="How to register?" />
+      <ImageView fx:id="logo" fitHeight="107.0" fitWidth="231.0" layoutX="30.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../zerLi%20logo%20.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

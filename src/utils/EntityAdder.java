@@ -10,27 +10,32 @@ public class EntityAdder {
 		switch (table)
 		{
 		case "Product":
-		{
-			addProdcut((Product)entity, db);
-		}break;
+					addProdcut((Product)entity, db);
+					break;
 		
 		case "User":
-		{
-			setUser((User)entity, db);
-		}break;
+			        addUser((User)entity, db);  
+			        break;
+		
+		default:break;
 		
 		}
 	}
 	
 	private static void addProdcut(Product product, DBConnector db)
 	{
-		  String productID = ""+product.getID();
-		  String productName = product.getName();
-		  String productType = product.getType();
-		  db.insertData("Prodcut", productID + "," + productName + "," + productType);
+		  String productID = "ProductID="+product.getID();
+		  String productName = "ProductName=\""+product.getName()+"\"";
+		  String productType = "ProductType=\""+product.getType()+"\"";
+		  String productPrice = "ProductType=\""+product.getPrice()+"\"";
+		  String productAmount= "ProductType=\""+product.getAmount()+"\"";
+		  String productColor = "ProductType=\""+product.getColor()+"\"";
+		  
+		  db.insertData("Prodcut",  productID + "," + productName + "," + productType+ ","+productPrice+ "," +
+		  			productAmount + "," +productColor);
 	}
 	
-	private static void setUser(User user, DBConnector db)
+	private static void addUser(User user, DBConnector db)
 	{		  
 		String userName = user.getUserName();
 		String userPassword = user.getUserPassword();

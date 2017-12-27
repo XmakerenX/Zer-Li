@@ -15,6 +15,7 @@ import serverAPI.AddRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
+import serverAPI.RemoveRequest;
 import serverAPI.Response;
 import serverAPI.Request;
 import serverAPI.UpdateRequest;
@@ -25,6 +26,7 @@ import user.UserController;
 import utils.Config;
 import utils.EntityAdder;
 import utils.EntityFactory;
+import utils.EntityRemover;
 import utils.EntityUpdater;
 
 public class ProtoTypeServer extends AbstractServer {
@@ -197,6 +199,22 @@ public class ProtoTypeServer extends AbstractServer {
 			  EntityAdder.addEntity(addRequest.getTable(), addRequest.getEntity(), db);
 		  }break;
 		  
+		  case "RemoveRequest":
+		  {
+		  
+			  RemoveRequest removeRequest =  (RemoveRequest)request;
+			  Boolean result = EntityRemover.removeEntity(removeRequest.getTable(), removeRequest.getKey(), db);
+			  if(result)
+			  {
+				  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+removeRequest.getKey() +
+						  		" was removed from table:"+removeRequest.getTable()));
+			  }
+			  else
+			  {
+				  sendToClient(client, new Response(Response.Type.ERROR, "Cannot remove entry with key:"+removeRequest.getKey() +
+					  		"from table:"+removeRequest.getTable()+"Are you sure it exists?"));
+			  }
+		  }
 		  case "LoginRequest":
 		  {
 			  LoginRequest loginRequest = (LoginRequest)request;

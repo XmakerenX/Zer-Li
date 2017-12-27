@@ -44,7 +44,7 @@ public class ProductInfoFormController extends FormController{
 //*************************************************************************************************
     @FXML
     void OnSave(ActionEvent event) {
-    	long oldID = p.getID();
+    	int oldID = p.getID();
     	p.setID(Integer.parseInt(productIDtxt.getText()));
     	p.setName(productNametxt.getText().trim());
     	p.setType(productTypetxt.getText().trim());
