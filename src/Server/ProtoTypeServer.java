@@ -2,30 +2,26 @@ package Server;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import product.Product;
 import serverAPI.AddRequest;
+import serverAPI.CheckExistsRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
 import serverAPI.RemoveRequest;
-import serverAPI.Response;
 import serverAPI.Request;
+import serverAPI.Response;
 import serverAPI.UpdateRequest;
 import user.LoginException;
 import user.User;
-import user.User.*;
 import user.UserController;
 import utils.Config;
 import utils.EntityAdder;
+import utils.EntityChecker;
 import utils.EntityFactory;
 import utils.EntityRemover;
 import utils.EntityUpdater;
@@ -152,92 +148,109 @@ public class ProtoTypeServer extends AbstractServer {
 		  Request request = (Request)msg;
 		  
 		  switch(request.getType())
-		  {
-		  case "GetRequest":
-		  {
-			  GetRequest getRequest = (GetRequest)request;
-			  ResultSet rs = db.selectTableData("*", getRequest.getTable(), "");
-			  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequest.getTable(), rs);
-			  if (entityArray != null)
+		  { //start of switch:
+			  case "GetRequest":
 			  {
-				  if (entityArray.size() > 0)
-					  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+				  GetRequest getRequest = (GetRequest)request;
+				  ResultSet rs = db.selectTableData("*", getRequest.getTable(), "");
+				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequest.getTable(), rs);
+				  if (entityArray != null)
+				  {
+					  if (entityArray.size() > 0)
+						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+					  else
+						  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+				  }
 				  else
-					  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
-			  }
-			  else
-				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+				  
+			  }break;
 			  
-		  }break;
-		  
-		  //TODO: think about maybe combining GetRequest and GetRequestByKey cases
-		  case "GetRequestByKey":
-		  {
-			  GetRequestByKey getRequestByKey  = (GetRequestByKey)request;
-			  ResultSet rs;
-			  
-			  String condition = null;
-			  generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
-			  rs = db.selectTableData("*", getRequestByKey.getTable(), condition);
-			  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestByKey.getTable(), rs);
-			  if (entityArray != null)
+			  //TODO: think about maybe combining GetRequest and GetRequestByKey cases
+			  case "GetRequestByKey":
 			  {
-				  if (entityArray.size() > 0)
-					  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+				  GetRequestByKey getRequestByKey  = (GetRequestByKey)request;
+				  ResultSet rs;
+				  
+				  String condition = null;
+				  generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
+				  rs = db.selectTableData("*", getRequestByKey.getTable(), condition);
+				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestByKey.getTable(), rs);
+				  if (entityArray != null)
+				  {
+					  if (entityArray.size() > 0)
+						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+					  else
+						  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+				  }
 				  else
-					  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
-			  }
-			  else
-				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
-		  }break;
-		  
-		  case "UpdateRequest":
-		  {
-			  UpdateRequest updateRequest =  (UpdateRequest)request;
-			  EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
-		  }break;
-		  
-		  case "AddRequest":
-		  {
-			  AddRequest addRequest = (AddRequest)request;
-			  EntityAdder.addEntity(addRequest.getTable(), addRequest.getEntity(), db);
-		  }break;
-		  
-		  case "RemoveRequest":
-		  {
-		  
-			  RemoveRequest removeRequest =  (RemoveRequest)request;
-			  Boolean result = EntityRemover.removeEntity(removeRequest.getTable(), removeRequest.getKey(), db);
-			  if(result)
-			  {
-				  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+removeRequest.getKey() +
-						  		" was removed from table:"+removeRequest.getTable()));
-			  }
-			  else
-			  {
-				  sendToClient(client, new Response(Response.Type.ERROR, "Cannot remove entry with key:"+removeRequest.getKey() +
-					  		"from table:"+removeRequest.getTable()+"Are you sure it exists?"));
-			  }
-		  }
-		  case "LoginRequest":
-		  {
-			  LoginRequest loginRequest = (LoginRequest)request;
-			  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+loginRequest.getUsername() +"\"");
-			  ArrayList<User> users = (ArrayList<User>)EntityFactory.loadEntity("User", rs);
+					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+			  }break;
 			  
-			  if (users.size() > 0)
+			  case "UpdateRequest":
 			  {
-				  loginUser(client, loginRequest,users.get(0));
+				  UpdateRequest updateRequest =  (UpdateRequest)request;
+				  EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
+			  }break;
+			  
+			  case "CheckExistsRequest":
+			  {
+				  CheckExistsRequest existsRequest =  (CheckExistsRequest)request;
+				  Boolean result = EntityChecker.doesExists(existsRequest.getTable(), existsRequest.getPrimaryKey(), db);
+				  if(result)
+				  {
+					  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+existsRequest.getPrimaryKey() +
+							  		" exists in table:"+existsRequest.getTable()));
+				  }
+				  else
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "entry with key:"+existsRequest.getPrimaryKey() +
+						  		" doesnt exists in table:"+existsRequest.getTable()));
+				  }
+				  break;
 			  }
-			  else
-				  sendToClient(client, new Response(Response.Type.ERROR, "username or password is wrong"));
-		  }break;
-		  		  
-		  default:
-			  System.out.println("Error Invalid message received");
-			  break;
-		     
-		  }		  
+			  case "AddRequest":
+			  {
+				  AddRequest addRequest = (AddRequest)request;
+				  EntityAdder.addEntity(addRequest.getTable(), addRequest.getEntity(), db);
+			  }break;
+			  
+			  case "RemoveRequest":
+			  {
+			  
+				  RemoveRequest removeRequest =  (RemoveRequest)request;
+				  Boolean result = EntityRemover.removeEntity(removeRequest.getTable(), removeRequest.getKey(), db);
+				  if(result)
+				  {
+					  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+removeRequest.getKey() +
+							  		" was removed from table:"+removeRequest.getTable()));
+				  }
+				  else
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "Cannot remove entry with key:"+removeRequest.getKey() +
+						  		"from table:"+removeRequest.getTable()+"Are you sure it exists?"));
+				  }
+				  break;
+			  }
+			  case "LoginRequest":
+			  {
+				  LoginRequest loginRequest = (LoginRequest)request;
+				  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+loginRequest.getUsername() +"\"");
+				  ArrayList<User> users = (ArrayList<User>)EntityFactory.loadEntity("User", rs);
+				  
+				  if (users.size() > 0)
+				  {
+					  loginUser(client, loginRequest,users.get(0));
+				  }
+				  else
+					  sendToClient(client, new Response(Response.Type.ERROR, "username or password is wrong"));
+			  }break;
+			  		  
+			  default:
+				  System.out.println("Error Invalid message received");
+				  break;
+			     
+		  }	//end of switch  
 	  }
 	  
 	  /**

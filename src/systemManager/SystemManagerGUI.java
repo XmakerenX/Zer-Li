@@ -7,13 +7,14 @@ import client.ClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import networkGUI.NetworkWorkerGUI;
 import prototype.FormController;
+import serverAPI.CheckExistsRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Response;
 import user.LoginGUI;
@@ -83,7 +84,6 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
     	alert.setHeaderText(username);
     	alert.showAndWait();
     	client.handleMessageFromClientUI(new RemoveRequest("User",username));
-    	
     }
     
     
