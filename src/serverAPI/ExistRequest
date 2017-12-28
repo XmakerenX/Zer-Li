@@ -1,6 +1,6 @@
 package serverAPI;
 
-public class ExistCheck extends Request
+public class ExistRequest extends Request
 {
 	
 	private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class ExistCheck extends Request
 	
 	public ExistCheck(String table,String key)
 	{
-	   super("ExistCheck");
+	   super("ExistRequest");
 	   this.table = table;
 	   this.key = key;
 	}
