@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import networkGUI.SystemManagerGUI;
 import product.ProdcutController;
 import product.Product;
 import javafx.scene.control.Button;
@@ -26,7 +27,6 @@ import prototype.FormController;
 import prototype.ProductInfoFormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
-import systemManager.systemManagerGUI;
 
 public class LoginGUI extends FormController implements ClientInterface  {
 
@@ -34,7 +34,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	private Response replay = null;
 	
 	CustomerGUI customerGUI;
-	systemManagerGUI sysManagerGUI;
+	SystemManagerGUI sysManagerGUI;
 	
     @FXML
     private Button loginBtn;
@@ -63,7 +63,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
         //Will be called by FXMLLoader
     	try
     	{
-    		sysManagerGUI = FormController.<systemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
+    		sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
     	} catch(IOException e)
     	{
     		System.out.println("Failed to load SystemManagerGUI.fxml");

@@ -73,7 +73,7 @@ public class ServerGUI extends Application
     		!serverPass.equals(newPass)     )
     	{
     	ProtoTypeServer.updateConfigFile("server.properties", newPort, newUsername, newPass);
-
+    	
     	Alert alert = new Alert(AlertType.INFORMATION);
     	alert.setTitle("new configurations saved");
     	alert.setHeaderText("new configurations were saved.\nTo apply changes,restart the server");

@@ -1,4 +1,4 @@
-package systemManager;
+package networkGUI;
 
 import java.io.IOException;
 
@@ -6,17 +6,21 @@ import client.Client;
 import client.ClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
+import serverAPI.RemoveRequest;
 import serverAPI.Response;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
 
 
 
-public class systemManagerGUI extends FormController implements ClientInterface {
+public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterface {
 	
 	// holds the last replay we got from server
 	private Response replay = null;
@@ -28,7 +32,10 @@ public class systemManagerGUI extends FormController implements ClientInterface 
 
 	@FXML // fx:id="createUserBtn"
 	private Button createUserBtn; 
-
+	
+    @FXML
+    private Button removeUserBtn;
+    
 	@FXML // fx:id="backBtn"
 	private Button backBtn;
 
@@ -62,6 +69,23 @@ public class systemManagerGUI extends FormController implements ClientInterface 
 			FormController.primaryStage.setScene(userCreationGUI.getScene());
 		}
     }
+    
+    @FXML
+    void onRemoveUser(ActionEvent event) 
+    {
+    	TextInputDialog getInputDialog = new TextInputDialog();
+    	getInputDialog.setHeaderText("Enter username to remove");
+    	getInputDialog.showAndWait();
+    	String username = getInputDialog.getResult();
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Bla");
+    	alert.setHeaderText(username);
+    	alert.showAndWait();
+    	client.handleMessageFromClientUI(new RemoveRequest("User",username));
+    	
+    }
+    
+    
     
 	public void onSwitch(Client newClient)
 	{

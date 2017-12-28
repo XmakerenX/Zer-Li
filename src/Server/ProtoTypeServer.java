@@ -77,6 +77,7 @@ public class ProtoTypeServer extends AbstractServer {
 		  try
 		  {
 			  UserController.verifyLogin(user, loginRequest.getUsername(), loginRequest.getPassword());
+			  
 			  // if client had a user logged in , log him out first
 			  logoutUser(client);
 			  client.setInfo("username", user.getUserName());
@@ -91,7 +92,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  this.logoutUser(client);
 			  
 			  //update DB user failed to log in
-			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries(), "username=\""+user.getUserName()+"\"");
+			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries()+1, "username=\""+user.getUserName()+"\"");
 			  sendToClient(client, new Response(Response.Type.ERROR, le.getMessage()));							  
 		  }
 	  }
@@ -110,7 +111,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  // make sure there is no way we are unblocking a blocked user!
 			  // log the user out
 			  client.setInfo("username", null);
-			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
+			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\""+"unsuccessfulTries=0", "username=\""+username+"\"");
 		  }
 	  }
 	  

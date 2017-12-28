@@ -7,8 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import networkGUI.SystemManagerGUI;
 import prototype.FormController;
-import systemManager.systemManagerGUI;
 
 public class NewUserCreationGUI extends FormController {
 
@@ -61,7 +61,7 @@ public class NewUserCreationGUI extends FormController {
     
     @FXML
     void onBack(ActionEvent event) {
-    	systemManagerGUI sysManagerGUI = (systemManagerGUI)parent;
+    	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
     	client.setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }

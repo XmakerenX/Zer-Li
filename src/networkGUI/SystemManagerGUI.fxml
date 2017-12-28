@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="294.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="systemManager.systemManagerGUI">
+   <children>
+      <Button fx:id="backBtn" layoutX="16.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <Button fx:id="createUserBtn" layoutX="90.0" layoutY="95.0" mnemonicParsing="false" onAction="#onCreateNewUser" text="Create new user" />
+      <Label fx:id="welcomeLbl" layoutX="67.0" layoutY="40.0" text="Welcome, system manager!" />
+      <Button fx:id="removeUserBtn" layoutX="90.0" layoutY="140.0" mnemonicParsing="false" onAction="#onRemoveUser" prefHeight="26.0" prefWidth="125.0" text="Remove User" />
+   </children>
+</AnchorPane>
