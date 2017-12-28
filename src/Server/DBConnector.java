@@ -96,7 +96,7 @@ public class DBConnector {
 			  System.out.println("VendorError: " + ex.getErrorCode());
 		  }
 	  }
-	  
+//---------------------------------------------------------------------
 	  public void insertData(String table, String fieldToInsert)
 	  {
 		  Statement stmt;
@@ -113,7 +113,26 @@ public class DBConnector {
 			  System.out.println("VendorError: " + ex.getErrorCode());
 		  }
 	  }
-	  
+//---------------------------------------------------------------------
+	  public Boolean removeEntry(String table,String key)
+	  {
+		   String primaryKey = this.getTableKeyName(table);		   
+		   Statement stmnt;
+		try 
+		{
+			stmnt = conn.createStatement();
+			stmnt.executeUpdate("delete from "+table+" where "+primaryKey+"="+"\""+key+"\"" +"limit 1");
+			return true;
+		} 
+		
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	  }
+//---------------------------------------------------------------------
 	  public PreparedStatement createPreparedStatement(String query)
 	  {
 		  try
@@ -134,7 +153,9 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
-			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
+			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY'");
+			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY'");
+			  rs.next();
 			  return rs.getString(5);
 		  }
 		  catch (SQLException ex) 
