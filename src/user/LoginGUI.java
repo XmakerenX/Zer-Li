@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import networkGUI.SystemManagerGUI;
 import product.ProdcutController;
 import product.Product;
 import javafx.scene.control.Button;
@@ -27,6 +26,8 @@ import prototype.FormController;
 import prototype.ProductInfoFormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
+import systemManager.SystemManagerGUI;
+
 
 public class LoginGUI extends FormController implements ClientInterface  {
 

@@ -92,7 +92,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  this.logoutUser(client);
 			  
 			  //update DB user failed to log in
-			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries()+1, "username=\""+user.getUserName()+"\"");
+			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()+1), "username=\""+user.getUserName()+"\"");
 			  sendToClient(client, new Response(Response.Type.ERROR, le.getMessage()));							  
 		  }
 	  }

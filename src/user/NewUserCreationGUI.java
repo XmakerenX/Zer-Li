@@ -7,8 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import networkGUI.SystemManagerGUI;
 import prototype.FormController;
+import systemManager.SystemManagerGUI;
 
 public class NewUserCreationGUI extends FormController {
 
