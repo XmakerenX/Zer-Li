@@ -1,0 +1,33 @@
+package serverAPI;
+
+public class ExistCheck extends Request
+{
+	
+	private static final long serialVersionUID = 1L;
+	String table;
+  String key;
+
+	public String getTable() {
+		return table;
+	}
+
+	public void setTable(String table) {
+		this.table = table;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	
+	public ExistCheck(String table,String key)
+	{
+	   super("ExistCheck");
+	   this.table = table;
+	   this.key = key;
+	}
+}
