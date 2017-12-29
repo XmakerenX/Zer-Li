@@ -29,7 +29,7 @@ public class ProdcutController
 	*  @param client The client connection to use to send the message to the server 
 	*/
 //*************************************************************************************************
-	public static void updateProduct(int ProductID, Product updatedProduct, Client client)
+	public static void updateProduct(long ProductID, Product updatedProduct, Client client)
 	{	
 		client.handleMessageFromClientUI(new UpdateRequest("Product", ""+ProductID, updatedProduct));
 	}

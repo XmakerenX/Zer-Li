@@ -25,14 +25,14 @@ public class ShowProductController extends FormController implements ClientInter
 
 	private class TableID
 	{
-		TableID(int oldID, int newID)
+		TableID(long oldID, long newID)
 		{
 			this.oldID = oldID;
 			this.newID = newID;
 		}
 		
-		public int oldID;
-		public int newID;
+		public long oldID;
+		public long newID;
 	}
 	
 	private Client client;
@@ -98,10 +98,10 @@ public class ShowProductController extends FormController implements ClientInter
     			new EventHandler<CellEditEvent<Product, Number>>() {
     				@Override
     				public void handle(CellEditEvent<Product, Number> t) {   					
-    					addProductToUpdate((int)t.getOldValue(), (int)t.getNewValue());
+    					addProductToUpdate((long)t.getOldValue(), (long)t.getNewValue());
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
-    							).setID((int)t.getNewValue());
+    							).setID((long)t.getNewValue());
     				}
     			}
     			);
@@ -113,7 +113,7 @@ public class ShowProductController extends FormController implements ClientInter
     			new EventHandler<CellEditEvent<Product, String>>() {
     				@Override
     				public void handle(CellEditEvent<Product, String> t) {
-    					int ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
+    					long ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
     					addProductToUpdate(ID,ID);
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
@@ -128,7 +128,7 @@ public class ShowProductController extends FormController implements ClientInter
     			new EventHandler<CellEditEvent<Product, String>>() {
     				@Override
     				public void handle(CellEditEvent<Product, String> t) {
-    					int ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
+    					long ID = t.getTableView().getItems().get(t.getTablePosition().getRow()).getID();
     					addProductToUpdate(ID,ID);
     					((Product) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
@@ -142,7 +142,7 @@ public class ShowProductController extends FormController implements ClientInter
     	productView.setEditable(true);
     }
     
-    private void addProductToUpdate(int oldID, int newID)
+    private void addProductToUpdate(long oldID, long newID)
     {
 		boolean found = false;
 		for (int i = 0; i < productsToUpdate.size(); i++)

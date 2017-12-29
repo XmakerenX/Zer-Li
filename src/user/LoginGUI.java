@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import networkGUI.NetworkWorkerGUI;
 import product.ProdcutController;
 import product.Product;
 import javafx.scene.control.Button;
@@ -36,6 +37,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	
 	CustomerGUI customerGUI;
 	SystemManagerGUI sysManagerGUI;
+	NetworkWorkerGUI networkWorkerGui;
 	
     @FXML
     private Button loginBtn;
@@ -54,6 +56,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 
     	customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
     	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
+    	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
     }
     
     @FXML
@@ -113,7 +116,16 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
 	    		}break;
-    			
+	    		case "NETWORK_WORKER":
+	    		{
+	    			
+	    			if (networkWorkerGui != null)
+	        		{
+	    				networkWorkerGui.setClinet(client);
+	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
+	        		}
+	    			break;
+	    		}
 	  		  default:
 				  System.out.println("Error Invalid message received");
 				  break;

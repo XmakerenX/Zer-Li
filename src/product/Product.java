@@ -7,7 +7,7 @@ public class Product implements Serializable
 
 	public static final long serialVersionUID = 55L;
 	
-    private int     productID;
+    private long     productID;
     private String  productName;
     private String  productType;
     private float   productPrice;
@@ -35,12 +35,12 @@ public class Product implements Serializable
 	}
 
 
-	public int getID() {
+	public long getID() {
 		return productID;
 	}
 
 
-	public void setID(int productID) {
+	public void setID(long productID) {
 		this.productID = productID;
 	}
 

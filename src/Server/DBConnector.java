@@ -141,7 +141,26 @@ public class DBConnector {
 			  System.out.println("VendorError: " + ex.getErrorCode());
 		  }
 	  }
-	  
+//---------------------------------------------------------------------
+	  public Boolean removeEntry(String table,String key)
+	  {
+		   String primaryKey = this.getTableKeyName(table);		   
+		   Statement stmnt;
+		try 
+		{
+			stmnt = conn.createStatement();
+			stmnt.executeUpdate("delete from "+table+" where "+primaryKey+"="+"\""+key+"\"" +"limit 1");
+			return true;
+		} 
+		
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	  }
+//---------------------------------------------------------------------
 	  public PreparedStatement createPreparedStatement(String query)
 	  {
 		  try
@@ -208,4 +227,34 @@ public class DBConnector {
 			  System.out.println("VendorError: " + ex.getErrorCode());
 		  }
 	  }
+//----------------------------------------------------------------------
+	public Boolean doesExists(String table, String key) 
+	{
+		   String primaryKey = this.getTableKeyName(table);		   
+		   Statement stmnt;
+		   ResultSet rs;
+		try 
+		{
+			stmnt = conn.createStatement();
+			rs = stmnt.executeQuery("Select * from "+table+" where "+primaryKey+"="+"\""+key+"\"");
+			rs.next();
+			try
+			{
+			   if(rs.getString(1) == null) return false;
+			   else
+				   return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		} 
+		
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
