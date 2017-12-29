@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="301.0" prefWidth="241.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="networkGUI.CustomerServiceGUI">
+   <children>
+      <Button fx:id="newSurveyBtn" layoutX="64.0" layoutY="68.0" mnemonicParsing="false" onAction="#onNewSurvey" text="Create new Survey" />
+      <Button fx:id="backBtn" layoutX="141.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <Label layoutX="33.0" layoutY="29.0" text="Welcome Customer Service" />
+      <Button fx:id="surveylistBtn" layoutX="64.0" layoutY="116.0" mnemonicParsing="false" onAction="#onSurveyList" prefHeight="25.0" prefWidth="114.0" text="Survey List" />
+   </children>
+</AnchorPane>

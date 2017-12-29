@@ -14,9 +14,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import networkGUI.CustomerServiceGUI;
 import javafx.scene.control.Alert.AlertType;
 import prototype.FormController;
 import serverAPI.Response;
+import systemManager.SystemManagerGUI;
 import user.User;
 
 public class SurveyCreationGUI extends FormController{
@@ -59,15 +61,17 @@ public class SurveyCreationGUI extends FormController{
 
     @FXML
     void closeWindow(ActionEvent event) {
-
+    	CustomerServiceGUI customerServiceGUI = (CustomerServiceGUI)parent;
+    	client.setUI(customerServiceGUI);
+    	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
     @FXML
     void createSurvey(ActionEvent event) {
-    	String[] questions = null;
+    	String[] questions = new String[8];
     	String surveyName = surveyNameTxtFld.getText();
-    	int questionsFault = 0;
-    	int nameFault = 0;
+    	int questionsFault = 0;							//FLAG - 1 = all 8 questions haven't been filled in
+    	int nameFault = 0;								//FLAG - 1 = the name of the survey hasn't been filled in
     	questions[0]=question1TxtFld.getText();
     	questions[1]=question2TxtFld.getText();
     	questions[2]=question3TxtFld.getText();
@@ -76,16 +80,16 @@ public class SurveyCreationGUI extends FormController{
     	questions[5]=question6TxtFld.getText();
     	questions[6]=question7TxtFld.getText();
     	questions[7]=question8TxtFld.getText();
-    	if(surveyName==null) nameFault=1;
+    	if(surveyName.equals("")) nameFault = 1;
     	for(int i=0; i<8; i++)
     	{
-    		if(questions[i]==null)
+    		if(questions[i].equals(""))
     		{
-    			questionsFault=1;
+    			questionsFault = 1;
     			break;
     		}		
     	}
-    	if(nameFault!=0 && questionsFault!=0)	//both survey name and 8 questions have been filled:
+    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 8 questions have been filled:
     	{
     		CustomerSatisfactionSurveyController.doesSurveyExist(surveyName, client);
     		try
@@ -105,11 +109,15 @@ public class SurveyCreationGUI extends FormController{
 	        		// show failure  
 	        		Alert alert = new Alert(AlertType.ERROR, "Survey with the same name already exists.", ButtonType.OK);
 	        		alert.showAndWait();
-	        		// clear replay
+	        		// clear response
 	        		response = null;
 	        	}
-	        	else
+	        	if(response.getType() == Response.Type.ERROR)
 	        	{
+	        		// clear response
+	        		response = null;
+Alert alert2 = new Alert(AlertType.ERROR, "RESPONSE ERROR.", ButtonType.OK);
+alert2.showAndWait();	        		
 	        		CustomerSatisfactionSurveyController.surveyCreation(surveyName, questions, client);
 	        		try
 	        		{
@@ -146,14 +154,10 @@ public class SurveyCreationGUI extends FormController{
     	}
     	else
     	{
-    		if(nameFault==1) {
+    		if(nameFault == 1 || questionsFault == 1) 
+    		{
     			// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "A name is needed to create a survey.", ButtonType.OK);
-	    		alert.showAndWait();
-    		}
-    		else {
-    			// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "You must input all eight(8) questions to create a survey.", ButtonType.OK);
+	    		Alert alert = new Alert(AlertType.ERROR, "A name and 8 questions are needed to create a survey.", ButtonType.OK);
 	    		alert.showAndWait();
     		}
     	}

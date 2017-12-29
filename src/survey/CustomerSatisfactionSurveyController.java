@@ -1,6 +1,9 @@
 package survey;
 
 import client.Client;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
 import serverAPI.GetRequestByKey;
