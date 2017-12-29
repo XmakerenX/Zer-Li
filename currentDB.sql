@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: prototype
+-- Host: localhost    Database: prototype
 -- ------------------------------------------------------
 -- Server version	5.7.20
 
@@ -26,7 +26,8 @@ CREATE TABLE `CatalogProduct` (
   `productID` int(11) NOT NULL,
   `salesPrice` float DEFAULT NULL,
   `Image` longblob,
-  PRIMARY KEY (`productID`)
+  PRIMARY KEY (`productID`),
+  CONSTRAINT `pID` FOREIGN KEY (`productID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,6 +37,7 @@ CREATE TABLE `CatalogProduct` (
 
 LOCK TABLES `CatalogProduct` WRITE;
 /*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
+INSERT INTO `CatalogProduct` VALUES (4,100,NULL),(5,-1,NULL),(6,-1,NULL);
 /*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +65,7 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES (1,'roses','bouquet',30,15,'Red'),(2,'Chrysanthemums','bouquet',20,20,'White'),(3,'Avalanche','bouquet',15,10,'Purple');
+INSERT INTO `Product` VALUES (1,'roses','Red',30,15,'Red'),(2,'Chrysanthemums','bouquet',20,20,'White'),(3,'Avalanche','bouquet',15,10,'Purple'),(4,'Panter','bouquet',151,5,'Purple'),(5,'Buttercup','bouquet',94,10,'Red'),(6,'Anemone','bouquet',123,15,'Red');
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +93,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -104,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-27  0:01:59
+-- Dump completed on 2017-12-29 15:23:58
