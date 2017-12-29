@@ -44,7 +44,7 @@ public class EntityUpdater {
 		  String unsuccessfulTries = "unsuccessfulTries="+user.getUnsuccessfulTries();
 		  String condition = "userName=\""+oldKey+"\""; 
 		  
-		  db.executeUpdate("Product", userName + "," + userPassword + "," + userPermission + ","+ 
-				  personID+", " + userStatus + ", " + unsuccessfulTries , condition);
+		  db.executeUpdate("User", userName + "," + userPassword + "," + userPermission + "," 
+				  +personID+", " + userStatus + ", " + unsuccessfulTries , condition);
 	}
 }

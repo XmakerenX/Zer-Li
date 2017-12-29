@@ -80,6 +80,32 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  public ResultSet selectJoinTablesData(String fields, String table, String joinTable, String condition)
+	  {
+		  Statement stmt;
+
+		  try {
+			  stmt = conn.createStatement();
+			  ResultSet rs;
+			  if (condition.length() == 0)
+			  {
+				  System.out.println("SELECT "+fields+" FROM "+table+ " INNER JOIN " + joinTable+";");
+				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+ " INNER JOIN " + joinTable+";");
+			  }
+			  else
+			  {
+				  System.out.println("SELECT "+fields+" FROM "+table+ " INNER JOIN "+ joinTable+ " ON " + condition + ";");
+				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+ " INNER JOIN "+ joinTable+ " ON " + condition + ";");
+			  }
+			  return rs;
+		  }catch (SQLException ex) {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+			  return null;
+		  }
+	  }
+	  
 	  public void executeUpdate(String table, String fieldsToUpdate, String condition)
 	  {
 		  Statement stmt;
@@ -87,6 +113,7 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
+			  System.out.println("UPDATE "+table+" SET "+fieldsToUpdate+" WHERE "+condition+ ";");
 			  stmt.executeUpdate("UPDATE "+table+" SET "+fieldsToUpdate+" WHERE "+condition+ ";");
 		  }
 		  catch (SQLException ex) 
@@ -104,6 +131,7 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
+			  System.out.println("INSERT INTO "+table+" VALUES("+fieldToInsert+")");
 			  stmt.executeUpdate("INSERT INTO "+table+" VALUES("+fieldToInsert+")");
 		  }
 		  catch (SQLException ex) 
@@ -134,8 +162,11 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
+			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
-			  return rs.getString(5);
+			  rs.next();
+			  //return rs.getString(5);
+			  return rs.getString("Column_name");
 		  }
 		  catch (SQLException ex) 
 		  {
@@ -152,6 +183,7 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
+			  System.out.println("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
 			  ResultSet rs = stmt.executeQuery("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
 			  return rs.getString(0);
 		  }
@@ -163,7 +195,7 @@ public class DBConnector {
 			  return null;
 		  } 
 	  }
-	  
+	  	  
 	  public void closeConnection()
 	  {
 		  try

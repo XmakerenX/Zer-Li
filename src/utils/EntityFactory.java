@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import user.User;
-
+import product.CatalogItem;
 import product.Product;
 
 public class EntityFactory {
@@ -19,14 +19,18 @@ public class EntityFactory {
 		  case "User":
 			  return loadUsers(rs);
 			  
+		  case "CatalogProduct":
+			  return loadCatalogItems(rs);
+			  
 		  default:
 			  return null;
 		  }  
 	  }
+	  
 	  /**
-	   * 
-	   * @param rs
-	   * @return
+	   * parse a ResultSet and returns an ArrayList of products from it
+	   * @param rs ResultSet of the query to get the products table
+	   * @return an arrayList of products made from the given ResultSet
 	   */
 	  public static ArrayList<Product> loadProducts(ResultSet rs)
 	  {
@@ -43,6 +47,11 @@ public class EntityFactory {
 		  return products;
 	  }
 	  
+	  /**
+	   * parse a ResultSet and returns an ArrayList of users from it
+	   * @param rs ResultSet of the query to get the users table
+	   * @return an arrayList of users made from the given ResultSet
+	   */
 	  public static ArrayList<User> loadUsers(ResultSet rs)
 	  {
 		  ArrayList<User> users = new ArrayList<User>();
@@ -60,6 +69,28 @@ public class EntityFactory {
 		  }
 		  
 		  return users;
+	  }
+	  
+	  /**
+	   * parse a ResultSet and returns an ArrayList of CatalogItem from it
+	   * @param rs ResultSet of the query to get the CatalogItem table
+	   * @return an arrayList of CatalogItems made from the given ResultSet
+	   */
+	  public static ArrayList<CatalogItem> loadCatalogItems(ResultSet rs)
+	  {
+		  ArrayList<CatalogItem> catalogItems = new ArrayList<CatalogItem>();
+		  try
+		  {
+			  while (rs.next())
+			  {
+				  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
+						  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"), rs.getFloat("salesPrice")));
+				  
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  
+		  
+		  return catalogItems;
 	  }
 	  
 	  

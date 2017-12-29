@@ -42,17 +42,11 @@ public class MainFormController extends FormController implements ClientInterfac
   	*/
  //*************************************************************************************************
     @FXML
+    //Will be called by FXMLLoader
     public void initialize(){
-        //Will be called by FXMLLoader
-    	try
-    	{
     		productFromController = FormController.<ProductInfoFormController, BorderPane>loadFXML(getClass().getResource("ProductInfoForm.fxml"), this);
-    		productFromController.setClinet(client);
-    	} catch(IOException e)
-    	{
-    		System.out.println("Failed to load ProductInfoForm.fxml");
-    		productFromController = null;
-    	}
+    		if (productFromController != null)
+    			productFromController.setClinet(client);
     }
     
     @FXML

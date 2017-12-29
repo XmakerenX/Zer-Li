@@ -49,29 +49,11 @@ public class LoginGUI extends FormController implements ClientInterface  {
     @FXML
     private Button registerInfo;    
     @FXML
+    //Will be called by FXMLLoader
     public void initialize(){
-        //Will be called by FXMLLoader
-    	try
-    	{
-    		customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
-    	} catch(IOException e)
-    	{
-    		System.out.println("Failed to load CustomerGUI.fxml");
-    		e.printStackTrace();
-    		customerGUI = null;
-    	}
-    	
-        //Will be called by FXMLLoader
-    	try
-    	{
-    		sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
-    	} catch(IOException e)
-    	{
-    		System.out.println("Failed to load SystemManagerGUI.fxml");
-    		e.printStackTrace();
-    		sysManagerGUI = null;
-    	}
-    	
+
+    	customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
+    	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
     }
     
     @FXML

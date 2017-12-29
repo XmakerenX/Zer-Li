@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="362.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CatalogGUI">
+   <children>
+      <DialogPane layoutY="-8.0" prefHeight="142.0" prefWidth="340.0" />
+      <TableView fx:id="catalogTable" layoutX="19.0" layoutY="63.0" prefHeight="288.0" prefWidth="372.0">
+        <columns>
+          <TableColumn fx:id="imageCol" prefWidth="75.0" text="Image" />
+          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="colorCol" prefWidth="75.0" text="Color" />
+            <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+        </columns>
+      </TableView>
+      <Label layoutX="133.0" layoutY="6.0" text="Catalog">
+         <font>
+            <Font size="37.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -44,17 +44,25 @@ public abstract class FormController {
 		this.client = client;
 	}
 	
-	public static <ControllerType extends FormController, PaneType extends Pane> ControllerType loadFXML(URL res, FormController parent) throws IOException
+	public static <ControllerType extends FormController, PaneType extends Pane> ControllerType loadFXML(URL res, FormController parent)
 	{
-		FXMLLoader loader = new FXMLLoader(res);
-		
-		PaneType root = (PaneType)loader.load();
-		ControllerType controller = loader.<ControllerType>getController();
-		controller.setParent(parent);
-		
-		Scene scene = new Scene(root);	
-		controller.setScene(scene);
-		
-		return controller;
+		try
+		{
+			FXMLLoader loader = new FXMLLoader(res);
+			
+			PaneType root = (PaneType)loader.load();
+			ControllerType controller = loader.<ControllerType>getController();
+			controller.setParent(parent);
+			
+			Scene scene = new Scene(root);	
+			controller.setScene(scene);
+			
+			return controller;
+		}catch(IOException e)
+		{
+    		System.out.println("Failed to load "+ res.getPath());
+    		e.printStackTrace();
+    		return null;
+		}
 	}
 }

@@ -13,6 +13,7 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import product.Product;
 import serverAPI.AddRequest;
+import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
@@ -111,7 +112,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  // make sure there is no way we are unblocking a blocked user!
 			  // log the user out
 			  client.setInfo("username", null);
-			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\""+"unsuccessfulTries=0", "username=\""+username+"\"");
+			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\""+","+"unsuccessfulTries=0", "username=\""+username+"\"");
 		  }
 	  }
 	  
@@ -189,6 +190,32 @@ public class ProtoTypeServer extends AbstractServer {
 			  }
 			  else
 				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+		  }break;
+		  
+		  case "GetJoinedTablesRequest":
+		  {
+			  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
+			  String tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
+			  String joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
+			  // make the join on the primary key between the tables who should be the same for this to work
+			  // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
+			  String condition = joinedTablesRequest.getTable()+"."+tableKeyName+"="
+					  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName;
+			  ResultSet rs = db.selectJoinTablesData("*", joinedTablesRequest.getTable(),
+					  joinedTablesRequest.getJoinedTable(), condition);
+			  
+			  ArrayList<?> entityArray = EntityFactory.loadEntity(joinedTablesRequest.getJoinedTable(), rs);
+			  if (entityArray != null)
+			  {
+				  if (entityArray.size() > 0)
+					  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+				  else
+					  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+			  }
+			  else
+				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+			  
+			  
 		  }break;
 		  
 		  case "UpdateRequest":

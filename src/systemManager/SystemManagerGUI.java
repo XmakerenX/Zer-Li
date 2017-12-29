@@ -2,6 +2,7 @@ package systemManager;
 
 import java.io.IOException;
 
+import catalog.CatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import javafx.event.ActionEvent;
@@ -40,7 +41,11 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 	@FXML // fx:id="backBtn"
 	private Button backBtn;
 
-	
+    @FXML
+    //Will be called by FXMLLoader
+    public void initialize(){
+    	userCreationGUI = FormController.<NewUserCreationGUI, AnchorPane>loadFXML(getClass().getResource("/user/NewUserCreationGUI.fxml"), this);
+    }
 	
     @FXML
     void onBack(ActionEvent event) {
@@ -52,17 +57,7 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
     }
 
     @FXML
-    void onCreateNewUser(ActionEvent event) {
-        //Will be called by FXMLLoader
-    	try
-    	{
-    		userCreationGUI = FormController.<NewUserCreationGUI, AnchorPane>loadFXML(getClass().getResource("/user/NewUserCreationGUI.fxml"), this);
-    	} catch(IOException e)
-    	{
-    		System.out.println("Failed to load NewUserCreationGUI.fxml");
-    		e.printStackTrace();
-    		userCreationGUI = null;
-    	}
+    void onCreateNewUser(ActionEvent event) {    	
     	
 		if ( userCreationGUI != null)
 		{
