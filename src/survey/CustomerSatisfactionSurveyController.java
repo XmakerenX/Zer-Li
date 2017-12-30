@@ -47,7 +47,7 @@ public class CustomerSatisfactionSurveyController {
 	//===============================================================================================================
 	public static void doesSurveyExist(String surveyName, Client client)
 	{
-		client.handleMessageFromClientUI(new CheckExistsRequest("surveys", surveyName));
+		client.handleMessageFromClientUI(new CheckExistsRequest("Surveys", surveyName));
 	}
 
 

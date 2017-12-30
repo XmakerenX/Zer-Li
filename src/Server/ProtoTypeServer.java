@@ -220,6 +220,9 @@ public class ProtoTypeServer extends AbstractServer {
 				  EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
 			  }break;
 			  
+			  //checks whether the entry exists in a specific table
+			  //Success - exists
+			  //Error - isn't found in the table
 			  case "CheckExistsRequest":
 			  {
 				  CheckExistsRequest existsRequest =  (CheckExistsRequest)request;
