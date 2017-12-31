@@ -5,37 +5,43 @@ import product.Product;
 import user.User;
 
 public class EntityAdder {
-	public static void addEntity(String table, Object entity, DBConnector db)
+	public static Boolean addEntity(String table, Object entity, DBConnector db)
 	{
 		switch (table)
 		{
 		case "Product":
-					addProdcut((Product)entity, db);
-					break;
+					return addProdcut((Product)entity, db);
 		
 		case "User":
-			        addUser((User)entity, db);  
-			        break;
+			        return addUser((User)entity, db);  
 		
-		default:break;
+		default:return false;
 		
 		}
 	}
 	
-	private static void addProdcut(Product product, DBConnector db)
+	private static Boolean addProdcut(Product product, DBConnector db)
 	{
-		  String productID = "ProductID="+product.getID();
-		  String productName = "ProductName=\""+product.getName()+"\"";
-		  String productType = "ProductType=\""+product.getType()+"\"";
-		  String productPrice = "ProductType=\""+product.getPrice()+"\"";
-		  String productAmount= "ProductType=\""+product.getAmount()+"\"";
-		  String productColor = "ProductType=\""+product.getColor()+"\"";
+		  String productID = Long.toString(product.getID());
+		  String productName = "'"+product.getName()+"'";
+		  String productType = "'"+product.getType()+"'";
+		  String productPrice = Float.toString(product.getPrice());
+		  String productAmount= Integer.toString(product.getAmount());
+		  String productColor = "'"+product.getColor()+"'";
 		  
-		  db.insertData("Prodcut",  productID + "," + productName + "," + productType+ ","+productPrice+ "," +
+		  try
+		  {
+		  db.insertData("Product", productID + "," + productName + "," + productType+ ","+productPrice+ "," +
 		  			productAmount + "," +productColor);
+		  return true;
+		  }
+		  catch(Exception e)
+		  {
+		  return false;
+		  }
 	}
 	
-	private static void addUser(User user, DBConnector db)
+	private static Boolean addUser(User user, DBConnector db)
 	{		  
 		String userName = "'"+user.getUserName()+"'";
 		String userPassword = "'"+user.getUserPassword()+"'";
@@ -43,7 +49,14 @@ public class EntityAdder {
 		String personID = ""+user.getPersonID();
 		String userStatus = "'"+user.getUserStatus()+"'";
 		String userUnsuccessfulTries = ""+user.getUnsuccessfulTries();
-
+		try
+		{
 		db.insertData("User", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus + "," + userUnsuccessfulTries);
+		return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 	}
 }

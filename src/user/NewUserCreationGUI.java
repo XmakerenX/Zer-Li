@@ -60,7 +60,8 @@ public class NewUserCreationGUI extends FormController {
     }
     
     @FXML
-    void onBack(ActionEvent event) {
+    void onBack(ActionEvent event) 
+    {
     	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
     	client.setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());

@@ -124,7 +124,7 @@ public class DBConnector {
 		  }
 	  }
 	  
-	  public void insertData(String table, String fieldToInsert)
+	  public void insertData(String table, String fieldToInsert) throws Exception
 	  {
 		  Statement stmt;
 		  
@@ -139,6 +139,7 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
+			  throw new Exception();
 		  }
 	  }
 //---------------------------------------------------------------------

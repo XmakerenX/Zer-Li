@@ -242,9 +242,17 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "AddRequest":
 			  {
 				  AddRequest addRequest = (AddRequest)request;
-				  EntityAdder.addEntity(addRequest.getTable(), addRequest.getEntity(), db);
-			  }break;
-			  
+				  Boolean result = EntityAdder.addEntity(addRequest.getTable(), addRequest.getEntity(), db);
+				  if(result == true)
+				  {
+					  sendToClient(client, new Response(Response.Type.SUCCESS,"entry was added to table:"+addRequest.getTable()));
+				  }
+				  else
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR,"Couldnt not add entry to table:"+addRequest.getTable()));
+				  }
+				  break;
+			  }
 			  case "RemoveRequest":
 			  {
 			  
