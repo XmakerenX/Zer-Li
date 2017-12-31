@@ -84,7 +84,8 @@ public class EntityFactory {
 			  while (rs.next())
 			  {
 				  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
-						  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"), rs.getFloat("salesPrice")));
+						  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"),
+						  rs.getFloat("salesPrice"), rs.getString("Image")));
 				  
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}

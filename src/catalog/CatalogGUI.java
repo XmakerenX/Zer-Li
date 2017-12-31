@@ -4,42 +4,65 @@ import java.util.ArrayList;
 
 import client.Client;
 import client.ClientInterface;
+import customer.CustomerGUI;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 import product.CatalogItem;
 import prototype.FormController;
 import serverAPI.Response;
+import user.LoginGUI;
 
 public class CatalogGUI extends FormController implements ClientInterface {
 
     @FXML
-    private TableView<CatalogItem> catalogTable;
+    private TableView<CatalogItemView> catalogTable;
 
     @FXML
-    private TableColumn<CatalogItem, ImageView> imageCol;
+    private TableColumn<CatalogItemView, ImageView> imageCol;
 
     @FXML
-    private TableColumn<CatalogItem, String> nameCol;
+    private TableColumn<CatalogItemView, String> nameCol;
 
     @FXML
-    private TableColumn<CatalogItem, String> typeCol;
+    private TableColumn<CatalogItemView, String> typeCol;
 
     @FXML
-    private TableColumn<CatalogItem, String> colorCol;
+    private TableColumn<CatalogItemView, String> colorCol;
 
     @FXML
-    private TableColumn<CatalogItem, Number> priceCol;
+    private TableColumn<CatalogItemView, Number> priceCol;
 	
+    @FXML
+    private TableColumn<CatalogItemView, Boolean> checkboxCol;
+    
+    @FXML
+    private Button backBtn;
+    
+    @FXML
+    private Button printBtn;
+    
+ // holds the last replay we got from server
+ 	private Response replay = null;
+    
 //*************************************************************************************************
     /**
   	*  Called by FXMLLoader on class initialization 
@@ -58,12 +81,14 @@ public class CatalogGUI extends FormController implements ClientInterface {
 //*************************************************************************************************
     private void InitTableView()
     {
-    	nameCol.setCellValueFactory( new PropertyValueFactory<CatalogItem,String>("Name"));
+    	imageCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView, ImageView>("image"));
+    	
+    	nameCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,String>("Name"));
     	nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
     	nameCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItem, String>>() {
+    			new EventHandler<CellEditEvent<CatalogItemView, String>>() {
     				@Override
-    				public void handle(CellEditEvent<CatalogItem, String> t) {
+    				public void handle(CellEditEvent<CatalogItemView, String> t) {
     					((CatalogItem) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
     							).setName(t.getNewValue());
@@ -71,12 +96,12 @@ public class CatalogGUI extends FormController implements ClientInterface {
     			}
     			);
     	
-    	typeCol.setCellValueFactory(new PropertyValueFactory<CatalogItem,String>("Type"));
+    	typeCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView,String>("Type"));
     	typeCol.setCellFactory(TextFieldTableCell.forTableColumn());
     	typeCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItem, String>>() {
+    			new EventHandler<CellEditEvent<CatalogItemView, String>>() {
     				@Override
-    				public void handle(CellEditEvent<CatalogItem, String> t) {
+    				public void handle(CellEditEvent<CatalogItemView, String> t) {
     					((CatalogItem) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
     							).setType(t.getNewValue());
@@ -84,12 +109,12 @@ public class CatalogGUI extends FormController implements ClientInterface {
     			}
     			);
     	
-    	colorCol.setCellValueFactory(new PropertyValueFactory<CatalogItem,String>("Color"));
+    	colorCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView,String>("Color"));
     	colorCol.setCellFactory(TextFieldTableCell.forTableColumn());
     	colorCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItem, String>>() {
+    			new EventHandler<CellEditEvent<CatalogItemView, String>>() {
     				@Override
-    				public void handle(CellEditEvent<CatalogItem, String> t) {
+    				public void handle(CellEditEvent<CatalogItemView, String> t) {
     					((CatalogItem) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
     							).setColor(t.getNewValue());
@@ -97,12 +122,12 @@ public class CatalogGUI extends FormController implements ClientInterface {
     			}
     			);
     	
-    	priceCol.setCellValueFactory( new PropertyValueFactory<CatalogItem,Number>("Price"));
-    	priceCol.setCellFactory(TextFieldTableCell.<CatalogItem, Number>forTableColumn(new NumberStringConverter()));
+    	priceCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,Number>("Price"));
+    	priceCol.setCellFactory(TextFieldTableCell.<CatalogItemView, Number>forTableColumn(new NumberStringConverter()));
     	priceCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItem, Number>>() {
+    			new EventHandler<CellEditEvent<CatalogItemView, Number>>() {
     				@Override
-    				public void handle(CellEditEvent<CatalogItem, Number> t) {   					
+    				public void handle(CellEditEvent<CatalogItemView, Number> t) {   					
     					((CatalogItem) t.getTableView().getItems().get(
     							t.getTablePosition().getRow())
     							).setPrice((float)t.getNewValue());
@@ -110,11 +135,72 @@ public class CatalogGUI extends FormController implements ClientInterface {
     			}
     			);
     	
-    	catalogTable.setEditable(false);
+    	checkboxCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,Boolean>("CheckBox"));
+    	checkboxCol.setCellValueFactory(
+    			new Callback<CellDataFeatures<CatalogItemView, Boolean>, ObservableValue<Boolean>>()
+    	{
+    		@Override
+    		public ObservableValue<Boolean> call(CellDataFeatures<CatalogItemView, Boolean> param)
+    		{
+    			return param.getValue().selectedProperty();
+    		}
+    	}
+    	);
+    	checkboxCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkboxCol));
+    	
+
+    	
+    	catalogTable.setEditable(true);
+    	checkboxCol.setEditable(true);
     }
     
     void onRefresh(ActionEvent event) {
     	CatalogController.requestCatalogItems(client);
+		synchronized(this)
+		{
+			// wait for server response
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	
+		if (replay == null)
+			return;
+		    	
+    	if (replay.getType() == Response.Type.SUCCESS)
+    	{
+    		final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
+    		
+    		ArrayList<CatalogItem> catalogitems = (ArrayList<CatalogItem>)replay.getMessage();
+    		
+    		for (int i = 0; i < catalogitems.size(); i++)
+    		{
+        		//itemData.add(catalogitems.get(i));
+    			itemData.add(new CatalogItemView(catalogitems.get(i)));
+    		}
+    	
+    		catalogTable.setItems(itemData);
+    	}
+    	
+    	replay = null;
+    }
+    
+    @FXML
+    void onBack(ActionEvent event) {
+    	FormController.primaryStage.setScene(parent.getScene());
+    }
+    
+    @FXML
+    void onPrint(ActionEvent event) {
+    	final ObservableList<CatalogItemView> itemData = catalogTable.getItems();
+    	
+    	for (CatalogItemView item : itemData)
+    	{
+    		System.out.println(item.getName()+ " "+ item.isSelected());
+    	}
     }
     
     //*************************************************************************************************
@@ -126,24 +212,34 @@ public class CatalogGUI extends FormController implements ClientInterface {
 //*************************************************************************************************
     public void display(Object message)
     {
-    	System.out.println(message.toString());
-    	System.out.println(message.getClass().toString());
+    	System.out.println("how ? what ?");
+    	//System.out.println(message.toString());
+    	//System.out.println(message.getClass().toString());
     	
-    	Response replay = (Response)message;
+    	System.out.println("?????????");
+    	replay = (Response)message;
+
+    	System.out.println("wtf?");
+		synchronized(this)
+		{
+			this.notify();
+		}
     	
-    	if (replay.getType() == Response.Type.SUCCESS)
-    	{
-    		final ObservableList<CatalogItem> itemData = FXCollections.observableArrayList();
-    		
-    		ArrayList<CatalogItem> catalogitems = (ArrayList<CatalogItem>)replay.getMessage();
-    		
-    		for (int i = 0; i < catalogitems.size(); i++)
-    		{
-        		itemData.add(catalogitems.get(i));
-    		}
-    		
-    		catalogTable.setItems(itemData);
-    	}
+//    	if (replay.getType() == Response.Type.SUCCESS)
+//    	{
+//    		final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
+//    		
+//    		ArrayList<CatalogItem> catalogitems = (ArrayList<CatalogItem>)replay.getMessage();
+//    		
+//    		for (int i = 0; i < catalogitems.size(); i++)
+//    		{
+//        		//itemData.add(catalogitems.get(i));
+//    			itemData.add(new CatalogItemView(catalogitems.get(i)));
+//    		}
+//    	
+//    		catalogTable.setItems(itemData);
+//    	}
+    	
     }
     
     @Override

@@ -41,8 +41,8 @@ public class CustomerGUI extends FormController {
     void onViewCatalog(ActionEvent event) {
     	if (catalogGui != null)
     	{
-    		catalogGui.setClinet(client);
     		client.setUI(catalogGui);
+    		catalogGui.setClinet(client);
     		FormController.primaryStage.setScene(catalogGui.getScene());
     	}
     }

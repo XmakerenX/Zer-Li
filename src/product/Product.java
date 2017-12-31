@@ -23,7 +23,7 @@ public class Product implements Serializable
   	*  @param newType
   	*/
 //*************************************************************************************************
-	public Product(int newID, String newName, String newType,
+	public Product(long newID, String newName, String newType,
 					float productPrice, int productAmount,String productColor)
 	{
 		this.productID = newID;

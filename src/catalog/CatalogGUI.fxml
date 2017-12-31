@@ -6,22 +6,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="362.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CatalogGUI">
+<AnchorPane prefHeight="399.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CatalogGUI">
    <children>
       <DialogPane layoutY="-8.0" prefHeight="142.0" prefWidth="340.0" />
-      <TableView fx:id="catalogTable" layoutX="19.0" layoutY="63.0" prefHeight="288.0" prefWidth="372.0">
+      <TableView fx:id="catalogTable" layoutX="15.0" layoutY="56.0" prefHeight="288.0" prefWidth="535.0">
         <columns>
-          <TableColumn fx:id="imageCol" prefWidth="75.0" text="Image" />
-          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="colorCol" prefWidth="75.0" text="Color" />
-            <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+          <TableColumn fx:id="imageCol" prefWidth="82.0" text="Image" />
+          <TableColumn fx:id="nameCol" prefWidth="104.0" text="Name" />
+            <TableColumn fx:id="typeCol" prefWidth="76.0" text="Type" />
+            <TableColumn fx:id="colorCol" prefWidth="76.0" text="Color" />
+            <TableColumn fx:id="priceCol" prefWidth="92.0" text="Price" />
+            <TableColumn fx:id="checkboxCol" prefWidth="104.0" text="Select to Buy" />
         </columns>
       </TableView>
-      <Label layoutX="133.0" layoutY="6.0" text="Catalog">
+      <Label layoutX="211.0" layoutY="11.0" text="Catalog">
          <font>
             <Font size="37.0" />
          </font>
       </Label>
+      <Button fx:id="backBtn" layoutX="258.0" layoutY="359.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <Button fx:id="printBtn" layoutX="15.0" layoutY="359.0" mnemonicParsing="false" onAction="#onPrint" text="Print" />
    </children>
 </AnchorPane>
