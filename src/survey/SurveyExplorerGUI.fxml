@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="484.0" prefWidth="409.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="survey.SurveyExplorerGUI">
+   <children>
+      <Label layoutX="29.0" layoutY="31.0" text="Select a survey:" />
+      <ComboBox fx:id="surveyComboBox" layoutX="29.0" layoutY="65.0" onAction="#onSurveyComboBox" prefHeight="25.0" prefWidth="349.0" />
+      <TabPane layoutX="29.0" layoutY="114.0" prefHeight="320.0" prefWidth="349.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Questions">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="362.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="1:" />
+                        <TextField fx:id="questionTxtFld1" layoutX="32.0" layoutY="10.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="47.0" text="2:" />
+                        <TextField fx:id="questionTxtFld2" layoutX="32.0" layoutY="43.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="80.0" text="3:" />
+                        <TextField fx:id="questionTxtFld3" layoutX="32.0" layoutY="76.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="114.0" text="4:" />
+                        <TextField fx:id="questionTxtFld4" layoutX="32.0" layoutY="110.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="148.0" text="5:" />
+                        <TextField fx:id="questionTxtFld5" layoutX="32.0" layoutY="144.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="181.0" prefHeight="17.0" prefWidth="10.0" text="6:" />
+                        <TextField fx:id="questionTxtFld6" layoutX="32.0" layoutY="177.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="214.0" prefHeight="17.0" prefWidth="10.0" text="7:" />
+                        <TextField fx:id="questionTxtFld7" layoutX="32.0" layoutY="210.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="14.0" layoutY="248.0" prefHeight="17.0" prefWidth="10.0" text="8:" />
+                        <TextField fx:id="questionTxtFld8" layoutX="32.0" layoutY="244.0" prefHeight="25.0" prefWidth="300.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Analysis">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="285.0" prefWidth="280.0">
+                     <children>
+                        <TextArea fx:id="analysisTextArea" layoutX="14.0" layoutY="14.0" prefHeight="262.0" prefWidth="325.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="backBtn" layoutX="299.0" layoutY="442.0" mnemonicParsing="false" onAction="#onBackBtn" prefHeight="25.0" prefWidth="70.0" text="Back" />
+   </children>
+</AnchorPane>

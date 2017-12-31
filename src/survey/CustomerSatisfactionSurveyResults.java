@@ -1,35 +1,38 @@
 package survey;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class CustomerSatisfactionSurveyResults {
-	private Date date;
-	private String[] answers;
+	private String date;
+	private int answers[] = new int[8];
 	
 	
-	public CustomerSatisfactionSurveyResults(String[] answers) {
-//		setDate();//<---------------------------------get this one
+	public CustomerSatisfactionSurveyResults(int[] answers) {
+		setDate();
 		setAnswers(answers);
 		
 	}
 
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate() 
+	{
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		this.date = timeStamp;
 	}
 
 
-	public String[] getAnswers() {
+	public int[] getAnswers() {
 		return answers;
 	}
 
 
-	public void setAnswers(String[] answers) {
+	public void setAnswers(int[] answers) {
 		this.answers = answers;
 	}
 
