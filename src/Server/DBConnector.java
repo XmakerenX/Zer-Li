@@ -205,6 +205,7 @@ public class DBConnector {
 			  stmt = conn.createStatement();
 			  System.out.println("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
 			  ResultSet rs = stmt.executeQuery("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
+			  rs.next();
 			  return rs.getString(0);
 		  }
 		  catch (SQLException ex) 
