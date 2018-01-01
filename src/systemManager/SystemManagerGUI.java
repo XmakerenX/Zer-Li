@@ -72,6 +72,7 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 		if ( userCreationGUI != null)
 		{
 			userCreationGUI.setClinet(client);
+			client.setUI(userCreationGUI);
 			FormController.primaryStage.setScene(userCreationGUI.getScene());
 		}
     }

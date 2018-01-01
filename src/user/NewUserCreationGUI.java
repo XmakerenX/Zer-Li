@@ -1,6 +1,9 @@
 package user;
 
 import client.Client;
+import client.ClientInterface;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,10 +21,13 @@ import prototype.FormController;
 import serverAPI.Response;
 import systemManager.SystemManagerGUI;
 
-public class NewUserCreationGUI extends FormController {
+public class NewUserCreationGUI extends FormController implements ClientInterface {
 	
 	// holds the last replay we got from server
 	private Response replay = null;
+	private boolean usernameFlag = false;
+	private boolean passwordFlag = false;
+	private boolean personIDFlag = false;
 
 	ObservableList<String> permissionsList = FXCollections.observableArrayList("Customer", "Store worker", "Store manager", "Network worker",
 																				"Network manager", "Customer service", "Customer service expert",
@@ -90,6 +96,9 @@ public class NewUserCreationGUI extends FormController {
     @FXML
     private PasswordField passwordField;
     
+    /**
+     * Initializes the combo box of permissions
+     */
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
@@ -98,6 +107,10 @@ public class NewUserCreationGUI extends FormController {
 		
     }
 
+    /**
+     * Creates user, if such doesn't exists already
+     * @param event - "Create user" button is pressed
+     */
     @FXML
     void onCreateUser(ActionEvent event) {
     	
@@ -128,21 +141,26 @@ public class NewUserCreationGUI extends FormController {
     	else
     	{
     		
+//        	String userName = usernameTxtField.getText();
+//        	String userPassword = passwordTxtField.getText();
+//        	String userPermission = permissionTxtField.getText();
+//        	String personID = personIDTxtField.getText();
+//        	
+//        	if(userName != null && userPassword != null && userPermission != null && personID != null)
+//        	{
+//            	UserController.createNewUser(userName, userPassword, User.Permissions.valueOf(userPermission), Integer.parseInt(personID), client);
+//        	}
     	}
     	
     	}catch(InterruptedException e) {}
     	
-//    	String userName = usernameTxtField.getText();
-//    	String userPassword = passwordTxtField.getText();
-//    	String userPermission = permissionTxtField.getText();
-//    	String personID = personIDTxtField.getText();
-//    	
-//    	if(userName != null && userPassword != null && userPermission != null && personID != null)
-//    	{
-//        	UserController.createNewUser(userName, userPassword, User.Permissions.valueOf(userPermission), Integer.parseInt(personID), client);
-//    	}
+
     }
     
+    /**
+     * Returns to previous GUI
+     * @param event - "Back" button is pressed
+     */
     @FXML
     void onBack(ActionEvent event) 
     {
@@ -151,9 +169,45 @@ public class NewUserCreationGUI extends FormController {
     	FormController.primaryStage.setScene(parent.getScene());
     }
     
-	public void onSwitch(Client newClient)
+
+    
+//    @FXML
+//    void onCheckUsernameLength(ActionEvent event) {
+//    	String username = usernameTxtField.getText();
+//    	
+//    	if(username.length() < 6)
+//    	{
+//    		okLbl1.setVisible(false);
+//    		tooShortLbl1.setVisible(true);
+//    		usernameFlag = false;	
+//    	}
+//    	else
+//    	{
+//    		tooShortLbl1.setVisible(false);
+//    		okLbl1.setVisible(true);
+//    		usernameFlag = true;
+//    	}
+//    }
+    
+	@Override
+	public void onSwitch(Client newClient) {
+
+
+	}
+	
+	public void display(Object message)
 	{
 		
+    	System.out.println(message.toString());
+    	System.out.println(message.getClass().toString());
+		
+		Response replay = (Response)message;
+		this.replay = replay;
+		
+		synchronized(this)
+		{
+			this.notify();
+		}
 	}
 
 }
