@@ -115,6 +115,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	        		if (sysManagerGUI != null)
 	        		{
+	        			sysManagerGUI.setUser(user);
 	        			sysManagerGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
@@ -144,7 +145,9 @@ public class LoginGUI extends FormController implements ClientInterface  {
 				  break;
     		}
 
-    		
+
+    		usernameTxt.setText("");;
+    	    passwordTxt.setText("");;
 //    		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
 //    		alert.showAndWait();
     	}

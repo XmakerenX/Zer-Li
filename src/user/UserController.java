@@ -7,13 +7,14 @@ import client.Client;
 import serverAPI.AddRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
+import serverAPI.LogoutRequest;
 import serverAPI.UpdateRequest;
 import user.User.*;
 
 public class UserController {
 	
 	/**
-	 * Sends a login reqeust to server
+	 * Sends a login request to server
 	 * @param userName the username to login 
 	 * @param userPassword the user password for the login 
 	 * @param client - current running client
@@ -24,7 +25,17 @@ public class UserController {
 	}
 	
 	/**
-	 * Sends a login reqeust to server
+	 * Sends a logout request to server
+	 * @param username - user's name to log out
+	 * @param client - current running client
+	 */
+	public static void requestLogout(User user, Client client)
+	{
+		client.handleMessageFromClientUI(new LogoutRequest(user));
+	}
+	
+	/**
+	 * Sends a login request to server
 	 * @param user the user to verify against 
 	 * @param userName the username given to login with 
 	 * @param userPassword the user password to login with
