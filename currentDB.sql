@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `CatalogProduct`;
 CREATE TABLE `CatalogProduct` (
   `productID` int(11) NOT NULL,
   `salesPrice` float DEFAULT NULL,
-  `Image` longblob,
+  `Image` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`productID`),
   CONSTRAINT `pID` FOREIGN KEY (`productID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -37,7 +37,7 @@ CREATE TABLE `CatalogProduct` (
 
 LOCK TABLES `CatalogProduct` WRITE;
 /*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
-INSERT INTO `CatalogProduct` VALUES (4,100,NULL),(5,-1,NULL),(6,-1,NULL);
+INSERT INTO `CatalogProduct` VALUES (4,100,'panter.jpg'),(5,-1,'buttercup.jpg'),(6,-1,NULL);
 /*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
