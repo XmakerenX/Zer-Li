@@ -13,6 +13,7 @@ import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
+import serverAPI.LogoutRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Request;
 import serverAPI.Response;
@@ -89,7 +90,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  this.logoutUser(client);
 			  
 			  //update DB user failed to log in
-			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()+1), "username=\""+user.getUserName()+"\"");
+			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()), "username=\""+user.getUserName()+"\"");
 			  sendToClient(client, new Response(Response.Type.ERROR, le.getMessage()));							  
 		  }
 	  }
@@ -174,7 +175,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  ResultSet rs;
 				  
 				  String condition = null;
-				  generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
+				  condition = generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
 				  rs = db.selectTableData("*", getRequestByKey.getTable(), condition);
 				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestByKey.getTable(), rs);
 				  if (entityArray != null)
@@ -283,6 +284,12 @@ public class ProtoTypeServer extends AbstractServer {
 				  else
 					  sendToClient(client, new Response(Response.Type.ERROR, "username or password is wrong"));
 			  }break;
+			  case "LogoutRequest":
+			  {
+				  LogoutRequest logoutRequest = (LogoutRequest)request;
+				  EntityUpdater.setEntity("prototype.User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
+			  }break;
+			  
 			  		  
 			  default:
 				  System.out.println("Error Invalid message received");
@@ -320,31 +327,32 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @return true if the condition was generated successfully , false if error was incurred
 	   * 
 	   */
-	  private boolean generateConditionForPrimayKey(String table, String key, String condition)
+	  private String generateConditionForPrimayKey(String table, String key, String condition)
 	  {
 		  String primaryKeyName = db.getTableKeyName(table);
 		  
 		  if (primaryKeyName != null)
 		  {
 			  String colType = db.getColumnType(table, primaryKeyName);
+			  System.out.println(""+colType);
 			  if (colType != null)
 			  {
 				  if (colType.equals("int"))
-					  condition = primaryKeyName+"="+primaryKeyName;
+					  condition = primaryKeyName+"="+key;
 				  else
-					  condition = primaryKeyName+"="+"\""+primaryKeyName+"\"";
-				  return true;
+					  condition = primaryKeyName+"="+"\""+key+"\"";
+				  return condition;
 			  }
 			  else
 			  {
 				  condition = "Failed to get primary key type";
-				  return false;
+				  return "";	//Temporary
 			  }
 		  }
 		  else 
 		  {
 			  condition = "Failed to get primary key name";
-			  return false;
+			  return "";	//Temporary
 		  }
 	  }
 //-------------------------------------------------------------------------------

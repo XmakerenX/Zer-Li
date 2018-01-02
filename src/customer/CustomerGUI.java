@@ -7,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import networkGUI.SystemManagerGUI;
 import prototype.FormController;
-import systemManager.SystemManagerGUI;
 import user.LoginGUI;
 
 public class CustomerGUI extends FormController {

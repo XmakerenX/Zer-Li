@@ -1,4 +1,4 @@
-package systemManager;
+package networkGUI;
 
 import java.io.IOException;
 
@@ -13,13 +13,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
-import networkGUI.NetworkWorkerGUI;
 import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Response;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
+import user.User;
+import user.UserController;
 
 
 
@@ -27,6 +28,9 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 	
 	// holds the last replay we got from server
 	private Response replay = null;
+	
+	//Current user's name
+	private User user;
 	
 	NewUserCreationGUI userCreationGUI;
 	
@@ -36,11 +40,11 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 	@FXML // fx:id="createUserBtn"
 	private Button createUserBtn; 
 	
-    @FXML
+    @FXML // fx:id="removeUserBtn"
     private Button removeUserBtn;
     
-	@FXML // fx:id="backBtn"
-	private Button backBtn;
+	@FXML // fx:id="logOutBtn"
+	private Button logOutBtn;
 
     @FXML
     //Will be called by FXMLLoader
@@ -49,7 +53,10 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
     }
 	
     @FXML
-    void onBack(ActionEvent event) {
+    void onLogOut(ActionEvent event) {
+    	
+    	user.setUserStatus(User.Status.valueOf("REGULAR"));
+    	UserController.requestLogout(user, client);
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
     	client.setUI(loginGUi);
@@ -63,6 +70,7 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 		if ( userCreationGUI != null)
 		{
 			userCreationGUI.setClinet(client);
+			client.setUI(userCreationGUI);
 			FormController.primaryStage.setScene(userCreationGUI.getScene());
 		}
     }
@@ -103,6 +111,10 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 			this.notify();
 		}
 	}
-
+	
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
 
 }

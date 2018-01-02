@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.NetworkWorkerGUI;
+import networkGUI.SystemManagerGUI;
 import product.ProdcutController;
 import product.Product;
 import javafx.scene.control.Button;
@@ -28,7 +29,6 @@ import prototype.FormController;
 import prototype.ProductInfoFormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
-import systemManager.SystemManagerGUI;
 
 
 public class LoginGUI extends FormController implements ClientInterface  {
@@ -57,7 +57,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     public void initialize(){
 
     	customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
-    	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/systemManager/SystemManagerGUI.fxml"), this);
+    	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/SystemManagerGUI.fxml"), this);
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
     	customerServiceGUI = FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
     }
@@ -115,6 +115,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	        		if (sysManagerGUI != null)
 	        		{
+	        			sysManagerGUI.setUser(user);
 	        			sysManagerGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
@@ -144,7 +145,9 @@ public class LoginGUI extends FormController implements ClientInterface  {
 				  break;
     		}
 
-    		
+
+    		usernameTxt.setText("");;
+    	    passwordTxt.setText("");;
 //    		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
 //    		alert.showAndWait();
     	}

@@ -185,7 +185,6 @@ public class DBConnector {
 			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  rs.next();
-			  //return rs.getString(5);
 			  return rs.getString("Column_name");
 		  }
 		  catch (SQLException ex) 
@@ -206,7 +205,7 @@ public class DBConnector {
 			  System.out.println("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
 			  ResultSet rs = stmt.executeQuery("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
 			  rs.next();
-			  return rs.getString(0);
+			  return rs.getString("DATA_TYPE");
 		  }
 		  catch (SQLException ex) 
 		  {
