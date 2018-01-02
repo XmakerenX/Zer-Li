@@ -70,24 +70,6 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Seven">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea fx:id="question7TxtFld" layoutX="14.0" layoutY="15.0" prefHeight="150.0" prefWidth="295.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="Eigth">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea fx:id="question8TxtFld" layoutX="14.0" layoutY="15.0" prefHeight="150.0" prefWidth="295.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
         </tabs>
       </TabPane>
       <Label layoutX="130.0" layoutY="22.0" text="Survey Creation Tool" />

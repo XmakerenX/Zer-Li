@@ -124,7 +124,7 @@ public class DBConnector {
 		  }
 	  }
 	  
-	  public void insertData(String table, String fieldToInsert)
+	  public void insertData(String table, String fieldToInsert) throws Exception
 	  {
 		  Statement stmt;
 		  
@@ -139,6 +139,7 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
+			  throw ex;
 		  }
 	  }
 //---------------------------------------------------------------------
@@ -184,7 +185,6 @@ public class DBConnector {
 			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  rs.next();
-			  //return rs.getString(5);
 			  return rs.getString("Column_name");
 		  }
 		  catch (SQLException ex) 
@@ -204,7 +204,8 @@ public class DBConnector {
 			  stmt = conn.createStatement();
 			  System.out.println("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
 			  ResultSet rs = stmt.executeQuery("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+table+"' AND COLUMN_NAME = '"+columnName+"';");
-			  return rs.getString(0);
+			  rs.next();
+			  return rs.getString("DATA_TYPE");
 		  }
 		  catch (SQLException ex) 
 		  {

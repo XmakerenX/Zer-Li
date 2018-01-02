@@ -41,14 +41,16 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
     @FXML // fx:id="questionTxtFld6"
     private TextField questionTxtFld6; // Value injected by FXMLLoader
 
-    @FXML // fx:id="questionTxtFld7"
-    private TextField questionTxtFld7; // Value injected by FXMLLoader
-
     @FXML // fx:id="analysisTextArea"
     private TextArea analysisTextArea; // Value injected by FXMLLoader
 
-    @FXML // fx:id="questionTxtFld8"
-    private TextField questionTxtFld8; // Value injected by FXMLLoader
+    //===============================================================================================================
+    @FXML
+    public void initialize() 
+ {
+    	//CustomerSatisfactionSurveyController.requestSurveys(client);
+    	
+ }
     
   //===============================================================================================================
     @FXML
