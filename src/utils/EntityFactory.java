@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import user.User;
 import product.CatalogItem;
 import product.Product;
+import survey.CustomerSatisfactionSurvey;
 
 public class EntityFactory {
 	
@@ -21,6 +22,9 @@ public class EntityFactory {
 			  
 		  case "CatalogProduct":
 			  return loadCatalogItems(rs);
+			  
+		  case "CustomerSatisfactionSurvey":
+			  return loadCustomerSatisfactionSurveys(rs);
 			  
 		  default:
 			  return null;
@@ -92,6 +96,37 @@ public class EntityFactory {
 		  
 		  
 		  return catalogItems;
+	  }
+	  
+	  //==========================================================================================================================
+	  /**
+	   * parse a ResultSet and returns an ArrayList of CustomerSatisfactionSurvey from it
+	   * @param rs ResultSet of the query to get the CustomerSatisfactionSurvey table
+	   * @return an arrayList of CustomerSatisfactionSurvey made from the given ResultSet
+	   */
+	  
+	  public static ArrayList<CustomerSatisfactionSurvey> loadCustomerSatisfactionSurveys(ResultSet rs)
+	  {
+		  ArrayList<CustomerSatisfactionSurvey> surveys = new ArrayList<CustomerSatisfactionSurvey>();
+		  try
+		  {
+			  String[] questionlist = new String[6];
+			  while (rs.next())
+			  {
+				  questionlist[0]=rs.getString("question1");
+				  questionlist[1]=rs.getString("question2");
+				  questionlist[2]=rs.getString("question3");
+				  questionlist[3]=rs.getString("question4");
+				  questionlist[4]=rs.getString("question5");
+				  questionlist[5]=rs.getString("question6");
+
+				  surveys.add(new CustomerSatisfactionSurvey(rs.getString("surveyName"), questionlist));
+				  
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  
+		  
+		  return surveys;
 	  }
 	  
 	  

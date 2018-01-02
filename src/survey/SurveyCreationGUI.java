@@ -40,7 +40,7 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     @FXML // fx:id="question6TxtFld"
     private TextArea  question6TxtFld; // Value injected by FXMLLoader
 
-    @FXML // fx:id="question4TxtFld"
+    @FXML // fx:id="question4TxtFld"DANI
     private TextArea  question4TxtFld; // Value injected by FXMLLoader
 
     @FXML // fx:id="cancelBtn"
@@ -52,17 +52,12 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     @FXML // fx:id="question5TxtFld"
     private TextArea  question5TxtFld; // Value injected by FXMLLoader
 
-    @FXML // fx:id="question8TxtFld"
-    private TextArea  question8TxtFld; // Value injected by FXMLLoader
-
     @FXML // fx:id="createBtn"
     private Button createBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="question2TxtFld"
     private TextArea  question2TxtFld; // Value injected by FXMLLoader
 
-    @FXML // fx:id="question7TxtFld"
-    private TextArea  question7TxtFld; // Value injected by FXMLLoader
   //==============================================================================================INITIALIZE FOR COMFORT=================
     @FXML
     //Will be called by FXMLLoader
@@ -74,8 +69,6 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     	question4TxtFld.setText("1");
     	question5TxtFld.setText("1");
     	question6TxtFld.setText("1");
-    	question7TxtFld.setText("1");
-    	question8TxtFld.setText("1");
     }
     
   //===============================================================================================================
@@ -88,9 +81,9 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
   //===============================================================================================================
     @FXML
     void createSurvey(ActionEvent event) {
-    	String[] questions = new String[8];
+    	String[] questions = new String[6];
     	String surveyName = surveyNameTxtFld.getText();
-    	int questionsFault = 0;							//FLAG - 1 = all 8 questions haven't been filled in
+    	int questionsFault = 0;							//FLAG - 1 = all 6 questions haven't been filled in
     	int nameFault = 0;								//FLAG - 1 = the name of the survey hasn't been filled in
     	//get all the questions from the GUI
     	questions[0]=question1TxtFld.getText();
@@ -99,12 +92,10 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     	questions[3]=question4TxtFld.getText();
     	questions[4]=question5TxtFld.getText();
     	questions[5]=question6TxtFld.getText();
-    	questions[6]=question7TxtFld.getText();
-    	questions[7]=question8TxtFld.getText();
     	
     	//Check whether the name or the questions haven't been fully filled in the form
     	if(surveyName.equals("")) nameFault = 1;
-    	for(int i=0; i<8; i++)
+    	for(int i=0; i<6; i++)
     	{
     		if(questions[i].equals(""))
     		{
@@ -112,7 +103,7 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     			break;
     		}		
     	}
-    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 8 questions have been filled:
+    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 6 questions have been filled:
     	{
     		CustomerSatisfactionSurveyController.doesSurveyExist(surveyName, client);
     		try
@@ -135,11 +126,9 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
 	        		// clear response
 	        		response = null;
 	        	}
-//	        	if(response.getType() == Response.Type.ERROR)
+	        	//if(response.getType() == Response.Type.ERROR)
 	        	else
 	        	{
-	        		response = null;        
-	        		
 	        		CustomerSatisfactionSurveyController.surveyCreation(surveyName, questions, client);
 	        		try
 	        		{
@@ -179,7 +168,7 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     		if(nameFault == 1 || questionsFault == 1) 
     		{
     			// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "A name and 8 questions are needed to create a survey.", ButtonType.OK);
+	    		Alert alert = new Alert(AlertType.ERROR, "A name and 6 questions are needed to create a survey.", ButtonType.OK);
 	    		alert.showAndWait();
     		}
     	}

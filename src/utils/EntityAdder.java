@@ -2,6 +2,7 @@ package utils;
 
 import Server.DBConnector;
 import product.Product;
+import survey.CustomerSatisfactionSurvey;
 import user.User;
 
 public class EntityAdder {
@@ -14,6 +15,9 @@ public class EntityAdder {
 		
 		case "User":
 			        return addUser((User)entity, db);  
+			        
+		case"surveys":
+					return addSurvey((CustomerSatisfactionSurvey)entity, db);
 		
 		default:return false;
 		
@@ -31,13 +35,13 @@ public class EntityAdder {
 		  
 		  try
 		  {
-		  db.insertData("Product", productID + "," + productName + "," + productType+ ","+productPrice+ "," +
+			  db.insertData("Product", productID + "," + productName + "," + productType+ ","+productPrice+ "," +
 		  			productAmount + "," +productColor);
-		  return true;
+			  return true;
 		  }
 		  catch(Exception e)
 		  {
-		  return false;
+			  return false;
 		  }
 	}
 	
@@ -52,11 +56,32 @@ public class EntityAdder {
 		try
 		{
 		db.insertData("User", userName + "," + userPassword + "," + userPermission + "," + personID + "," + userStatus + "," + userUnsuccessfulTries);
-		return true;
+			return true;
 		}
 		catch(Exception e)
 		{
 			return false;
 		}
+	}
+		
+		private static Boolean addSurvey(CustomerSatisfactionSurvey survey, DBConnector db)
+		{		  
+			String surveyName = "'"+survey.getSurveyName()+"'";
+			String question1 = "'"+survey.getSurveyQuestions()[0]+"'";
+			String question2 = "'"+survey.getSurveyQuestions()[1]+"'";
+			String question3 = "'"+survey.getSurveyQuestions()[2]+"'";
+			String question4 = "'"+survey.getSurveyQuestions()[3]+"'";
+			String question5 = "'"+survey.getSurveyQuestions()[4]+"'";
+			String question6 = "'"+survey.getSurveyQuestions()[5]+"'";
+			try
+			{
+			db.insertData("surveys", surveyName + "," + question1 + "," + question2 + "," + question3 + "," + question4 + "," + question5 + 
+					"," + question6 + "," + "Analysis");
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
 	}
 }

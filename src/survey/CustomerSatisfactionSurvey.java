@@ -1,26 +1,25 @@
 package survey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CustomerSatisfactionSurvey {
+public class CustomerSatisfactionSurvey implements Serializable{
+
+
+	private static final long serialVersionUID = 1L;
+	
+	
 	private String surveyName;
 	private String[] surveyQuestions;
 	private ArrayList<CustomerSatisfactionSurveyResults> surveyResults;
 	private String surveyAnalysis;
 	
-	public CustomerSatisfactionSurvey(String name, String[] questions) throws SurveyException
+	public CustomerSatisfactionSurvey(String name, String[] questions)
 	{
-		try 
-		{
-			setSurveyName(name);
-			setSurveyQuestions(questions);
-			setSurveyResults(null);
-		}
-		catch(SurveyException exception) 
-		{
-			throw exception;
-		}
-		
+
+		setSurveyName(name);
+		setSurveyQuestions(questions);
+		setSurveyResults(null);
 	}
 
 	public String getSurveyName() {
@@ -28,32 +27,16 @@ public class CustomerSatisfactionSurvey {
 	}
 
 	public void setSurveyName(String surveyName) {
-	/*	if()				//------------------------------check whether there's one in the data base already
-		{
+
 			this.surveyName = surveyName;
-		}
-		else
-		{
-			throw new SurveyException("Survey with the same name already exists");
-		}*/
+
 	}
 
 	public String[] getSurveyQuestions() {
 		return surveyQuestions;
 	}
 
-	public void setSurveyQuestions(String[] surveyQuestions) throws SurveyException {
-		if(surveyQuestions.length!=6)
-		{
-			for(int i=0; i<6; i++)
-			{
-				this.surveyQuestions[i]=surveyQuestions[i];
-			}
-		}
-		else
-		{
-			throw new SurveyException("You must input 6 questions to create a survey.");
-		}
+	public void setSurveyQuestions(String[] surveyQuestions)   {
 		this.surveyQuestions = surveyQuestions;
 	}
 

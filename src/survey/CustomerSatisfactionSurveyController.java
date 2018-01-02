@@ -6,6 +6,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
+import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
 import serverAPI.Response;
@@ -29,20 +30,9 @@ public class CustomerSatisfactionSurveyController {
 	 */
 	public static void surveyCreation(String surveyName, String[] questions, Client client)
 	{		
-		try {
-			CustomerSatisfactionSurvey newSurvey = new CustomerSatisfactionSurvey(surveyName, questions);
-			client.handleMessageFromClientUI(new AddRequest("surveys", newSurvey));
-		} catch (SurveyException e) {
-			// TODO deal with error
-			// shouldn't get here!
-			e.printStackTrace();
-		}	
+		CustomerSatisfactionSurvey newSurvey = new CustomerSatisfactionSurvey(surveyName, questions);
+		client.handleMessageFromClientUI(new AddRequest("surveys", newSurvey));
 	}
-	//===============================================================================================================
-//	public static void verifySurveyCreation (String surveyName, String[] questions) throws SurveyException
-//	{
-//		//checking if all the fields are alright and throwing exceptions if not so.
-//	}
 	
 	//===============================================================================================================
 	public static void doesSurveyExist(String surveyName, Client client)
@@ -50,5 +40,16 @@ public class CustomerSatisfactionSurveyController {
 		client.handleMessageFromClientUI(new CheckExistsRequest("Surveys", surveyName));
 	}
 
+	//*************************************************************************************************
+		/**
+		*  Sends a request to the DB for a list of the products
+		*  @param client The client connection to use to send the message to the server 
+		*/
+	//*************************************************************************************************
+		public static void requestSurveys(Client client)
+		{
+	    	client.handleMessageFromClientUI(new GetRequest("surveys"));
+	    	
+		}
 
 }
