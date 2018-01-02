@@ -1,4 +1,4 @@
-package systemManager;
+package networkGUI;
 
 import java.io.IOException;
 
@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
-import networkGUI.NetworkWorkerGUI;
 import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 import serverAPI.RemoveRequest;
@@ -56,7 +55,6 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
     @FXML
     void onLogOut(ActionEvent event) {
     	
-    	//UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), client);
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
     	UserController.requestLogout(user, client);
     	
@@ -118,6 +116,5 @@ public class SystemManagerGUI extends NetworkWorkerGUI implements ClientInterfac
 	{
 		this.user = user;
 	}
-
 
 }

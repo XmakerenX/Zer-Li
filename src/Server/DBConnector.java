@@ -139,7 +139,7 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  throw new Exception();
+			  throw ex;
 		  }
 	  }
 //---------------------------------------------------------------------
@@ -185,7 +185,6 @@ public class DBConnector {
 			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  rs.next();
-			  //return rs.getString(5);
 			  return rs.getString("Column_name");
 		  }
 		  catch (SQLException ex) 

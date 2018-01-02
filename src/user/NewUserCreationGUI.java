@@ -17,9 +17,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import networkGUI.SystemManagerGUI;
 import prototype.FormController;
 import serverAPI.Response;
-import systemManager.SystemManagerGUI;
 
 public class NewUserCreationGUI extends FormController implements ClientInterface {
 	
@@ -105,6 +105,27 @@ public class NewUserCreationGUI extends FormController implements ClientInterfac
 
 		permissionComboBox.setItems(permissionsList);
 		
+		//Checks whether the user name is long enough (longer than 6 characters).
+		usernameTxtField.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) 
+		    {
+		    	if(newValue.length() < 6)
+		    	{
+		    		okLbl1.setVisible(false);
+		    		tooShortLbl1.setVisible(true);
+		    		usernameFlag = false;	
+		    	}
+		    	else
+		    	{
+		    		tooShortLbl1.setVisible(false);
+		    		okLbl1.setVisible(true);
+		    		usernameFlag = true;
+		    	}
+		    }
+		});
+		
     }
 
     /**
@@ -167,27 +188,7 @@ public class NewUserCreationGUI extends FormController implements ClientInterfac
     	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
     	client.setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
-    }
-    
-
-    
-//    @FXML
-//    void onCheckUsernameLength(ActionEvent event) {
-//    	String username = usernameTxtField.getText();
-//    	
-//    	if(username.length() < 6)
-//    	{
-//    		okLbl1.setVisible(false);
-//    		tooShortLbl1.setVisible(true);
-//    		usernameFlag = false;	
-//    	}
-//    	else
-//    	{
-//    		tooShortLbl1.setVisible(false);
-//    		okLbl1.setVisible(true);
-//    		usernameFlag = true;
-//    	}
-//    }
+    }    
     
 	@Override
 	public void onSwitch(Client newClient) {

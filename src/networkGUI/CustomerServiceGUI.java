@@ -10,7 +10,6 @@ import prototype.FormController;
 import survey.ResultInputGUI;
 import survey.SurveyCreationGUI;
 import survey.SurveyExplorerGUI;
-import systemManager.SystemManagerGUI;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
 
