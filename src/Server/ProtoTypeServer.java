@@ -12,6 +12,7 @@ import serverAPI.CheckExistsRequest;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
+import serverAPI.ImageRequest;
 import serverAPI.LoginRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Request;
@@ -26,6 +27,7 @@ import utils.EntityChecker;
 import utils.EntityFactory;
 import utils.EntityRemover;
 import utils.EntityUpdater;
+import utils.ImageData;
 
 public class ProtoTypeServer extends AbstractServer {
 
@@ -108,7 +110,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  // make sure there is no way we are unblocking a blocked user!
 			  // log the user out
 			  client.setInfo("username", null);
-			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\""+","+"unsuccessfulTries=0", "username=\""+username+"\"");
+			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
 		  }
 	  }
 	  
@@ -118,8 +120,7 @@ public class ProtoTypeServer extends AbstractServer {
 	   * logs out the user logged in exception client
 	   * @see AbastServer.clientException
 	   */
-	  synchronized protected void clientException(
-			    ConnectionToClient client, Throwable exception) {
+	  synchronized protected void clientException(ConnectionToClient client, Throwable exception) {
 		  System.out.println("Client exception!");
 		  System.out.println("exception "+exception.getMessage());
 		  System.out.println(exception.getClass());
@@ -190,6 +191,7 @@ public class ProtoTypeServer extends AbstractServer {
 		  
 		  case "GetJoinedTablesRequest":
 		  {
+			  System.out.println("GetJoinedTablesRequest");
 			  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
 			  String tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
 			  String joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
@@ -201,15 +203,22 @@ public class ProtoTypeServer extends AbstractServer {
 					  joinedTablesRequest.getJoinedTable(), condition);
 			  
 			  ArrayList<?> entityArray = EntityFactory.loadEntity(joinedTablesRequest.getJoinedTable(), rs);
+			  
 			  if (entityArray != null)
 			  {
 				  if (entityArray.size() > 0)
+				  {
 					  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+				  }
 				  else
+				  {
 					  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+				  }
 			  }
 			  else
+			  {
 				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+			  }
 			  
 			  
 			  }break;
@@ -239,6 +248,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  }
 				  break;
 			  }
+			  
 			  case "AddRequest":
 			  {
 				  AddRequest addRequest = (AddRequest)request;
@@ -279,6 +289,29 @@ public class ProtoTypeServer extends AbstractServer {
 			  default:
 				  System.out.println("Error Invalid message received");
 				  break;
+				  
+			  case "ImageRequest":
+			  {
+				  ImageRequest imageRequest = (ImageRequest)request;
+				  ArrayList<ImageData> images = new ArrayList<ImageData>();
+				  for (String imageName : imageRequest.getImageNames())
+				  {
+					  try {
+						  // sanity check
+						  if (!imageName.equals(""))
+							  images.add(new ImageData(ImageData.ServerImagesDirectory+imageName));
+					} catch (IOException e) {
+						// we didn't find the image the client wanted... well tot bad...
+						System.out.println("ImageRequest: Failed to load "+ImageData.ServerImagesDirectory+imageName);
+						e.printStackTrace();
+					}
+				  }
+				  
+				  // no necessary a success 
+				  // but have to send the images we did find...
+				  // TODO: maybe add new type which indicated we got part of the data we wanted
+				  sendToClient(client, new Response(Response.Type.SUCCESS, images));
+			  }break;
 			     
 		  }	//end of switch  
 	  }

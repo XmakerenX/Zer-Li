@@ -36,6 +36,7 @@ public class Client  extends AbstractClient{
 //*************************************************************************************************
 	public void handleMessageFromServer(Object msg) 
 	{
+		System.out.println(msg.toString());
 		if (UI != null)
 			UI.display(msg);
 	}

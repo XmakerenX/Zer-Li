@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,10 +84,35 @@ public class EntityFactory {
 		  {
 			  while (rs.next())
 			  {
-				  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
-						  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"),
-						  rs.getFloat("salesPrice"), rs.getString("Image")));
-				  
+				  ImageData image = null;
+
+				  String imageName = rs.getString("Image");
+				  try {
+					  if (imageName != null)
+						  image = new ImageData(ImageData.ServerImagesDirectory+imageName);
+					  else
+						  image = null;
+				  } 
+				  catch (IOException e) {
+					  System.out.println("Failed to read file "+ImageData.ServerImagesDirectory+imageName);
+					  e.printStackTrace();
+				  }
+				  // check if image was found
+				  if (image != null)
+				  {
+					  //System.out.println(imageName+" was found");
+					  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
+							  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"),
+							  rs.getFloat("salesPrice"), image.getFileName(), image.getSha256()));
+				  }
+				  else
+				  {
+					  // image path of "" means there is no image for this item
+					  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
+							  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"),
+							  rs.getFloat("salesPrice"), "",null));
+				  }
+
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  

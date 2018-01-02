@@ -30,6 +30,7 @@ import product.CatalogItem;
 import prototype.FormController;
 import serverAPI.Response;
 import user.LoginGUI;
+import utils.ImageData;
 
 public class CatalogGUI extends FormController implements ClientInterface {
 
@@ -155,7 +156,9 @@ public class CatalogGUI extends FormController implements ClientInterface {
     }
     
     void onRefresh(ActionEvent event) {
+    	System.out.println("request catalog items");
     	CatalogController.requestCatalogItems(client);
+    	// wait for response
 		synchronized(this)
 		{
 			// wait for server response
@@ -169,17 +172,42 @@ public class CatalogGUI extends FormController implements ClientInterface {
 	
 		if (replay == null)
 			return;
-		    	
+		
+		System.out.println("process replay");
+		
     	if (replay.getType() == Response.Type.SUCCESS)
     	{
     		final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
     		
-    		ArrayList<CatalogItem> catalogitems = (ArrayList<CatalogItem>)replay.getMessage();
+    		ArrayList<CatalogItem> catalogItems = (ArrayList<CatalogItem>)replay.getMessage();
     		
-    		for (int i = 0; i < catalogitems.size(); i++)
+    		ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItems);
+    		replay = null;
+    		if (missingImages.size() > 0)
     		{
-        		//itemData.add(catalogitems.get(i));
-    			itemData.add(new CatalogItemView(catalogitems.get(i)));
+    			System.out.println("Missing images "+ missingImages);
+    			CatalogController.requestCatalogImages(missingImages, client);
+
+    			// wait for response 
+    			synchronized(this)
+    			{
+    				try {
+    					this.wait();
+    				} catch (InterruptedException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			}
+    			
+        		if (replay != null)
+        			CatalogController.saveCatalogImages((ArrayList<ImageData>)replay.getMessage());
+    		}
+    		
+    			
+    		for (int i = 0; i < catalogItems.size(); i++)
+    		{
+    			
+    			itemData.add(new CatalogItemView(catalogItems.get(i), "Cache//"));
     		}
     	
     		catalogTable.setItems(itemData);
@@ -212,34 +240,16 @@ public class CatalogGUI extends FormController implements ClientInterface {
 //*************************************************************************************************
     public void display(Object message)
     {
-    	System.out.println("how ? what ?");
-    	//System.out.println(message.toString());
-    	//System.out.println(message.getClass().toString());
+    	System.out.println(message.toString());
+    	System.out.println(message.getClass().toString());
     	
-    	System.out.println("?????????");
     	replay = (Response)message;
 
-    	System.out.println("wtf?");
 		synchronized(this)
 		{
 			this.notify();
 		}
-    	
-//    	if (replay.getType() == Response.Type.SUCCESS)
-//    	{
-//    		final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
-//    		
-//    		ArrayList<CatalogItem> catalogitems = (ArrayList<CatalogItem>)replay.getMessage();
-//    		
-//    		for (int i = 0; i < catalogitems.size(); i++)
-//    		{
-//        		//itemData.add(catalogitems.get(i));
-//    			itemData.add(new CatalogItemView(catalogitems.get(i)));
-//    		}
-//    	
-//    		catalogTable.setItems(itemData);
-//    	}
-    	
+    	    	
     }
     
     @Override

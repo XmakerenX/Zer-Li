@@ -9,27 +9,35 @@ import product.CatalogItem;
 
 public class CatalogItemView extends CatalogItem {
 
+	//private final String 
 	private BooleanProperty selected;
 	private ImageView image;
 	
 	public CatalogItemView(long productID, String productName, String productType, float productPrice, int productAmount,
-			String productColor,float salesPrice, String imagePath)
+			String productColor,float salesPrice, String imageName , byte[] imageCheckSum)
 	{
-		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imagePath);
+		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum);
 		selected = new SimpleBooleanProperty();
-		image = new ImageView(imagePath);
+		
+		if (imageName != null)
+		{
+			File file = new File(imageName);
+			image = new ImageView(file.toURI().toString());
+			image.setFitWidth(64);
+			image.setFitHeight(64);
+		}
 	}
 	
-	public CatalogItemView(CatalogItem catalogItem)
+	public CatalogItemView(CatalogItem catalogItem, String imagesDir)
 	{
 		super(catalogItem.getID(), catalogItem.getName(), catalogItem.getType(), catalogItem.getPrice(),
-				catalogItem.getAmount(), catalogItem.getColor(), catalogItem.getSalePrice(), catalogItem.getImagePath());
+				catalogItem.getAmount(), catalogItem.getColor(), catalogItem.getSalePrice(), catalogItem.getImageName(), catalogItem.getImageChecksum());
 		
 		selected = new SimpleBooleanProperty();
-		System.out.println(catalogItem.getImagePath());
-		if (catalogItem.getImagePath() != null)
+
+		if (catalogItem.getImageName() != null)
 		{
-			File file = new File(catalogItem.getImagePath());
+			File file = new File(imagesDir+catalogItem.getImageName());
 			image = new ImageView(file.toURI().toString());
 			image.setFitWidth(64);
 			image.setFitHeight(64);
