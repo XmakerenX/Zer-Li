@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="240.0" prefWidth="280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="networkGUI.StoreManagerGUI">
+   <children>
+      <Label fx:id="welcomeLbl" layoutX="72.0" layoutY="30.0" text="Welcome, store manager!" />
+      <Button fx:id="viewReportsBtn" layoutX="76.0" layoutY="95.0" mnemonicParsing="false" onAction="#onViewReports" prefHeight="25.0" prefWidth="128.0" text="View store's reports" />
+      <Button fx:id="createCustomerBtn" layoutX="76.0" layoutY="130.0" mnemonicParsing="false" onAction="#onCreateCustomer" prefHeight="25.0" prefWidth="128.0" text="Create new customer" />
+      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="200.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
+   </children>
+</AnchorPane>

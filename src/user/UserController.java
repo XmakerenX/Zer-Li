@@ -8,6 +8,7 @@ import serverAPI.AddRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.LoginRequest;
 import serverAPI.LogoutRequest;
+import serverAPI.RemoveRequest;
 import serverAPI.UpdateRequest;
 import user.User.*;
 
@@ -110,5 +111,15 @@ public class UserController {
 	public static void getUser(String userName, Client client)
 	{
 		client.handleMessageFromClientUI(new GetRequestByKey("User", userName));
+	}
+	
+	/**
+	 * Removes user's row from data base
+	 * @param userName - user name (is the key) to be deleted
+	 * @param client - currently running client
+	 */
+	public static void RemoveUser(String userName, Client client)
+	{
+    	client.handleMessageFromClientUI(new RemoveRequest("User", userName));
 	}
 }

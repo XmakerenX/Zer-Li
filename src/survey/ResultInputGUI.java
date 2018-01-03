@@ -224,7 +224,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	public void initComboBox()
 	{
 		CustomerSatisfactionSurveyController.requestSurveys(client);
-    	ArrayList<String> suveyNames = new ArrayList<String>();
+    	ArrayList<String> surveyNames = new ArrayList<String>();
     	CustomerSatisfactionSurveyController.requestSurveys(client);
     	try
     	{
@@ -240,6 +240,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
         	// show success 
         	if (response.getType() == Response.Type.SUCCESS)
         	{
+        		
         		response.getMessage().toString();
         		
         	}

@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import networkGUI.CustomerServiceExpertGUI;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.NetworkWorkerGUI;
+import networkGUI.StoreManagerGUI;
 import networkGUI.StoreWorkerGUI;
 import networkGUI.SystemManagerGUI;
 import product.ProdcutController;
@@ -42,12 +43,16 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	// holds the last replay we got from server
 	private Response replay = null;
 	
+	/**
+	 * All the GUI's are distinguished by users permissions and will be shown as main GUI after the log in.
+	 */
 	CustomerGUI customerGUI;
 	SystemManagerGUI sysManagerGUI;
 	NetworkWorkerGUI networkWorkerGui;
 	CustomerServiceGUI customerServiceGUI;
 	StoreWorkerGUI storeWorkerGUI;
 	CustomerServiceExpertGUI customerServiceExpertGUI;
+	StoreManagerGUI storeManagerGUI;
 	
 	/* For fast login only, edit user.properties:
 	 * 
@@ -82,6 +87,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	customerServiceGUI = FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
     	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
     	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
+    	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
     	
     	if(rememberSelect)
     	{
@@ -112,6 +118,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	//messegeD
     	//client.quit();
     	//System.exit(0);
+    	//blablbla
     }
 
     @FXML
@@ -172,6 +179,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	        			sysManagerGUI.setUser(user);
 	        			sysManagerGUI.setClinet(client);
+	        			client.setUI(sysManagerGUI);
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
 	    		}break;
@@ -215,6 +223,17 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    				customerServiceExpertGUI.setUser(user);
 	    				customerServiceExpertGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
+	        		}
+	    			break;
+	    		}
+	    		
+	    		case "STORE_MANAGER":
+	    		{
+	    			if (storeManagerGUI != null)
+	        		{
+	    				storeManagerGUI.setUser(user);
+	    				storeManagerGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(storeManagerGUI.getScene());
 	        		}
 	    			break;
 	    		}

@@ -57,6 +57,10 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 
     }
   //===============================================================================================================
+    /**
+     * Logs the user out of the system
+     * @param event - "Log out" button is pressed
+     */
     @FXML
     void onLogOut(ActionEvent event) {
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
