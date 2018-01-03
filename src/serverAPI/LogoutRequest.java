@@ -8,7 +8,7 @@ public class LogoutRequest extends Request {
 	
 	public LogoutRequest(User user)
 	{
-		super("LoginRequest");
+		super("LogoutRequest");
 		this.user = user;
 	}
 

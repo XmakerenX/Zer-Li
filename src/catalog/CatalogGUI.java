@@ -160,7 +160,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     
     void onRefresh(ActionEvent event) {
     	System.out.println("request catalog items");
-    	CatalogController.requestCatalogItems(client);
+    	CatalogController.requestCatalogItems(Client.client);
     	// wait for response
 		synchronized(this)
 		{
@@ -189,7 +189,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     		if (missingImages.size() > 0)
     		{
     			System.out.println("Missing images "+ missingImages);
-    			CatalogController.requestCatalogImages(missingImages, client);
+    			CatalogController.requestCatalogImages(missingImages, Client.client);
 
     			// wait for response 
     			synchronized(this)
@@ -271,7 +271,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     @Override
 	public void setClinet(Client client)
 	{
-    	super.setClinet(client);
+    	//super.setClinet(client);
     	onRefresh(null);
 	}
     

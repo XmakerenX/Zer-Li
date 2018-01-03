@@ -297,7 +297,8 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "LogoutRequest":
 			  {
 				  LogoutRequest logoutRequest = (LogoutRequest)request;
-				  EntityUpdater.setEntity("prototype.User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
+				  this.logoutUser(client);
+				  //EntityUpdater.setEntity("User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
 			  }break;
 			  
 			  		  

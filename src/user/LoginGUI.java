@@ -124,7 +124,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     @FXML
     void onLogin(ActionEvent event) 
     {
-    	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), client);
+    	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), Client.client);
     
     	try
     	{
@@ -168,7 +168,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	        		if (customerGUI != null)
 	        		{
-	        			customerGUI.setClinet(client);
+	        			customerGUI.setClinet(Client.client);
 	        			FormController.primaryStage.setScene(customerGUI.getScene());
 	        		}
 	    		}break;
@@ -178,7 +178,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		if (sysManagerGUI != null)
 	        		{
 	        			sysManagerGUI.setUser(user);
-	        			sysManagerGUI.setClinet(client);
+	        			sysManagerGUI.setClinet(Client.client);
 	        			client.setUI(sysManagerGUI);
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
@@ -187,7 +187,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	    			if (networkWorkerGui != null)
 	        		{
-	    				networkWorkerGui.setClinet(client);
+	    				networkWorkerGui.setClinet(Client.client);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
 	    			break;
@@ -198,7 +198,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (customerServiceGUI != null)
 	        		{
 	    				customerServiceGUI.setUser(user);
-	    				customerServiceGUI.setClinet(client);
+	    				customerServiceGUI.setClinet(Client.client);
 	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
 	        		}
 	    			break;
@@ -209,7 +209,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (storeWorkerGUI != null)
 	        		{
 	    				storeWorkerGUI.setUser(user);
-	    				storeWorkerGUI.setClinet(client);
+	    				storeWorkerGUI.setClinet(Client.client);
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
 	    			break;
@@ -221,7 +221,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (customerServiceExpertGUI != null)
 	        		{
 	    				customerServiceExpertGUI.setUser(user);
-	    				customerServiceExpertGUI.setClinet(client);
+	    				customerServiceExpertGUI.setClinet(Client.client);
 	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
 	        		}
 	    			break;
@@ -232,7 +232,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (storeManagerGUI != null)
 	        		{
 	    				storeManagerGUI.setUser(user);
-	    				storeManagerGUI.setClinet(client);
+	    				storeManagerGUI.setClinet(Client.client);
 	        			FormController.primaryStage.setScene(storeManagerGUI.getScene());
 	        		}
 	    			break;

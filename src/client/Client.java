@@ -9,6 +9,18 @@ import serverAPI.Request;
 public class Client  extends AbstractClient{
 	
 	private ClientInterface UI;
+	public static Client client = new Client();
+	
+//*************************************************************************************************
+    /**
+  	*  Constructs a new client
+  	*/
+//*************************************************************************************************
+	public Client()
+	{
+		super("localhost", 5555);
+		UI = null;
+	}
 	
 //*************************************************************************************************
     /**
@@ -27,6 +39,22 @@ public class Client  extends AbstractClient{
 		openConnection();
 	}
 
+//*************************************************************************************************
+    /**
+  	*  Open a connection to server
+  	*  @param host the host ip
+  	*  @param port the port with to connect to the server
+  	*/
+//*************************************************************************************************
+	public void startConnection(String host, int port) throws IOException
+	{
+		this.setHost(host);
+		this.setPort(port);
+		// open connection to server
+		// and handles messages from it in a new thread
+		openConnection();
+	}
+	
 //*************************************************************************************************	
 	/**
 	* This method handles all data that comes in from the server.
