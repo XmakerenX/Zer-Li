@@ -5,6 +5,8 @@ package client;
  * objects onto the client or server UIs.
  */
 public interface ClientInterface {
+	
+	public static int TIMEOUT = 5000;
 	  /**
 	   * Method that when overriden is used to display objects onto
 	   * a UI.

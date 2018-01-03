@@ -61,6 +61,9 @@ public class CatalogGUI extends FormController implements ClientInterface {
     @FXML
     private Button printBtn;
     
+    @FXML
+    private Button createOrderBtn;
+    
  // holds the last replay we got from server
  	private Response replay = null;
     
@@ -228,6 +231,19 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	for (CatalogItemView item : itemData)
     	{
     		System.out.println(item.getName()+ " "+ item.isSelected());
+    	}
+    }
+    
+    @FXML
+    void onCreateOrder(ActionEvent event) 
+    {
+    	final ObservableList<CatalogItemView> itemData = catalogTable.getItems();
+    	final ObservableList<CatalogItemView> itemsSelected = FXCollections.observableArrayList();
+    	
+    	for (CatalogItemView item : itemData)
+    	{
+    		if (item.isSelected())
+    			itemsSelected.add(item);
     	}
     }
     

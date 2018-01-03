@@ -2,14 +2,15 @@ package order;
 
 public class Order 
 {
-  public enum Status{}
-  String orderID ="";
-  String orderStatus ="";
+  public enum Status{NEW, READLY, DELIVERED}
+  int orderID;
+  Status orderStatus;
   Float  orderPrice;
   String orderRequiredDate="";
   String orderShipmentAdress="";
   String orderPaymentMethod="";
   String orderOriginStore="";
+    
   
   //todo:
   //ArrayList<ItemInOrder> = newArrayList<itemInOrder>();
@@ -36,7 +37,7 @@ public class Order
 		  
 	  }
 	//---------------------------------------------------
-	  public String getStatus()
+	  public Status getStatus()
 	  {
 	      return this.orderStatus;
 	  }

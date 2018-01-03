@@ -86,11 +86,18 @@ public class LoginGUI extends FormController implements ClientInterface  {
     		synchronized(this)
     		{
     			// wait for server response
-    			this.wait();
+    			this.wait(ClientInterface.TIMEOUT);
     		}
     	
     		if (replay == null)
+    		{
+    			Alert alert = new Alert(AlertType.ERROR);
+    		  	alert.setTitle("Server Respone timed out");
+    	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
+    	    	
+    	    	alert.showAndWait();
     			return;
+    		}
     		
     	// show success 
     	if (replay.getType() == Response.Type.SUCCESS)
@@ -122,7 +129,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		}break;
 	    		case "NETWORK_WORKER":
 	    		{
-	    			
 	    			if (networkWorkerGui != null)
 	        		{
 	    				networkWorkerGui.setClinet(client);
