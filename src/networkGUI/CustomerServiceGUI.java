@@ -12,12 +12,16 @@ import survey.SurveyCreationGUI;
 import survey.SurveyExplorerGUI;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
+import user.User;
+import user.UserController;
 
 public class CustomerServiceGUI extends FormController implements ClientInterface{
 
 	SurveyCreationGUI surveyCreationGUI;
-	ResultInputGUI resultInputGUI;
 	SurveyExplorerGUI surveyExplorer;
+	
+	//Current user's name
+	private User user;
 	
     @FXML // fx:id="surveylistBtn"
     private Button surveylistBtn; // Value injected by FXMLLoader
@@ -28,14 +32,11 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     @FXML // fx:id="backBtn"
     private Button backBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="inputResultsBtn"
-    private Button inputResultsBtn; // Value injected by FXMLLoader
   //===============================================================================================================
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
     	surveyCreationGUI = FormController.<SurveyCreationGUI, AnchorPane>loadFXML(getClass().getResource("/survey/SurveyCreationGUI.fxml"), this);
-    	resultInputGUI = FormController.<ResultInputGUI, AnchorPane>loadFXML(getClass().getResource("/survey/ResultInputGUI.fxml"), this);
     	surveyExplorer = FormController.<SurveyExplorerGUI, AnchorPane>loadFXML(getClass().getResource("/survey/SurveyExplorerGUI.fxml"), this);
     }
   //===============================================================================================================
@@ -46,16 +47,6 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     		client.setUI(surveyCreationGUI);
 			surveyCreationGUI.setClinet(client);
 			FormController.primaryStage.setScene(surveyCreationGUI.getScene());
-		}
-    }
-  //===============================================================================================================
-    @FXML
-    void onInputResults(ActionEvent event) {
-    	if ( resultInputGUI != null)
-		{
-    		client.setUI(resultInputGUI);
-    		resultInputGUI.setClinet(client);
-			FormController.primaryStage.setScene(resultInputGUI.getScene());
 		}
     }
   //===============================================================================================================
@@ -72,9 +63,13 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     @FXML
     void onBack(ActionEvent event) {
     	
+    	user.setUserStatus(User.Status.valueOf("REGULAR"));
+    	UserController.requestLogout(user, client);
+    	
     	LoginGUI loginGUi = (LoginGUI)parent;
     	client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
+    	
     }
   //===============================================================================================================
 	@Override
@@ -88,5 +83,10 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
 		// TODO Auto-generated method stub
 		
 	}
+	//===============================================================================================================
+		public void setUser(User user)
+		{
+			this.user = user;
+		}
 
 }

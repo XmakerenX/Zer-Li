@@ -7,16 +7,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import networkGUI.CustomerServiceExpertGUI;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.NetworkWorkerGUI;
+import networkGUI.StoreWorkerGUI;
 import networkGUI.SystemManagerGUI;
 import product.ProdcutController;
 import product.Product;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -29,6 +33,7 @@ import prototype.FormController;
 import prototype.ProductInfoFormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
+import utils.Config;
 
 
 public class LoginGUI extends FormController implements ClientInterface  {
@@ -40,7 +45,21 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	SystemManagerGUI sysManagerGUI;
 	NetworkWorkerGUI networkWorkerGui;
 	CustomerServiceGUI customerServiceGUI;
+	StoreWorkerGUI storeWorkerGUI;
+	CustomerServiceExpertGUI customerServiceExpertGUI;
 	
+	
+	
+	
+	/* For fast login only, edit user.properties:
+	 * 
+	 */
+	Config userConf = new Config("user.properties");
+	Boolean rememberSelect = userConf.getProperty("REMEMBER").equals("TRUE");
+
+	@FXML
+    private RadioButton rememberMeBtn;
+
     @FXML
     private Button loginBtn;
 
@@ -60,7 +79,25 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/SystemManagerGUI.fxml"), this);
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
     	customerServiceGUI = FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
+    	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
+    	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
+    	
+    	if(rememberSelect)
+    	{
+        	rememberMeBtn.setSelected(true);
+        	usernameTxt.setText(userConf.getProperty("USERNAME"));
+        	passwordTxt.setText(userConf.getProperty("PASSWORD"));
+        	
+    	}
+    	
     }
+    
+    @FXML
+    void onRememberMe(ActionEvent event) 
+    {
+    	
+    }
+    
     
     @FXML
     void registerInfo(ActionEvent event) 
@@ -80,7 +117,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     void onLogin(ActionEvent event) 
     {
     	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), client);
-    	
+    
     	try
     	{
     		synchronized(this)
@@ -102,6 +139,14 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	// show success 
     	if (replay.getType() == Response.Type.SUCCESS)
     	{
+    		if(rememberMeBtn.isSelected())
+    		{
+    			updateUserConfigFile("user.properties", usernameTxt.getText(), passwordTxt.getText(),"TRUE");
+    		}
+    		else
+    		{
+    			updateUserConfigFile("user.properties", "", "","FALSE");
+    		}
     		User user = (User)replay.getMessage();
     		String permission = ""+user.getUserPermission();
     		// clear replay
@@ -141,8 +186,32 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			
 	    			if (customerServiceGUI != null)
 	        		{
+	    				customerServiceGUI.setUser(user);
 	    				customerServiceGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
+	        		}
+	    			break;
+	    		}
+	    		case "STORE_WORKER":
+	    		{
+	    			
+	    			if (storeWorkerGUI != null)
+	        		{
+	    				storeWorkerGUI.setUser(user);
+	    				storeWorkerGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
+	        		}
+	    			break;
+	    		}
+	    			
+	    		case "CUSTOMER_SERVICE_EXPERT":
+	    		{
+	    			
+	    			if (customerServiceExpertGUI != null)
+	        		{
+	    				customerServiceExpertGUI.setUser(user);
+	    				customerServiceExpertGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
 	        		}
 	    			break;
 	    		}
@@ -177,7 +246,27 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	
 		
 	
-	
+	private static void updateUserConfigFile(String configPath,String user,String pass,String isSelected)
+	  {
+		  Config serverConfig = new Config(configPath);
+		  FileOutputStream out;
+		try 
+		{
+			
+			out = new FileOutputStream(configPath);
+			
+			  serverConfig.configFile.setProperty("USERNAME", user);
+			  serverConfig.configFile.setProperty("PASSWORD", pass);
+			  serverConfig.configFile.setProperty("REMEMBER", isSelected);
+			  serverConfig.configFile.store(out, null);
+			  out.close();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	  
+	  }
 	
 	public void display(Object message)
 	{

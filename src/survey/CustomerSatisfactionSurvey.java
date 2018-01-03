@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class CustomerSatisfactionSurvey implements Serializable{
 
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 12L;
 	
 	
 	private String surveyName;

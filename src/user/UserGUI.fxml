@@ -4,13 +4,14 @@
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="398.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.LoginGUI">
+<AnchorPane prefHeight="408.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.LoginGUI">
    <children>
       <DialogPane layoutX="-25.0" layoutY="-53.0" prefHeight="156.0" prefWidth="308.0" />
       <TextField fx:id="usernameTxt" layoutX="48.0" layoutY="163.0">
@@ -29,14 +30,25 @@
          <font>
             <Font size="15.0" />
          </font></PasswordField>
-      <Button fx:id="loginBtn" layoutX="109.0" layoutY="281.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="67.0" text="Login">
+      <Button fx:id="loginBtn" layoutX="107.0" layoutY="297.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="67.0" text="Login">
          <font>
             <Font size="15.0" />
          </font></Button>
-      <Button fx:id="registerInfo" layoutX="76.0" layoutY="335.0" mnemonicParsing="false" onAction="#registerInfo" prefHeight="38.0" prefWidth="140.0" text="How to register?" />
+      <Button fx:id="registerInfo" layoutX="72.0" layoutY="349.0" mnemonicParsing="false" onAction="#registerInfo" prefHeight="38.0" prefWidth="140.0" text="How to register?" />
       <ImageView fx:id="logo" fitHeight="107.0" fitWidth="231.0" layoutX="30.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../zerLi%20logo%20.png" />
+         </image>
+      </ImageView>
+      <RadioButton fx:id="rememberMeBtn" layoutX="80.0" layoutY="261.0" mnemonicParsing="false" onAction="#onRememberMe" text="Remember me" />
+      <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="19.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../user.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="29.0" fitWidth="28.0" layoutX="19.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pass.png" />
          </image>
       </ImageView>
    </children>

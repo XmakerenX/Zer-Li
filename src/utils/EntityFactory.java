@@ -3,11 +3,13 @@ package utils;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import user.User;
 import product.CatalogItem;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
+import survey.CustomerSatisfactionSurveyResults;
 
 public class EntityFactory {
 	
@@ -24,8 +26,12 @@ public class EntityFactory {
 		  case "CatalogProduct":
 			  return loadCatalogItems(rs);
 			  
-		  case "CustomerSatisfactionSurvey":
+		  case "surveys":
 			  return loadCustomerSatisfactionSurveys(rs);
+			  
+		  case "CustomerSatisfctionSurveyResults":
+			  return loadCustomerSatisfactionSurveys(rs);
+			  
 			  
 		  default:
 			  return null;
@@ -153,6 +159,39 @@ public class EntityFactory {
 		  
 		  
 		  return surveys;
+	  }
+	  
+	//==========================================================================================================================
+	  /**
+	   * parse a ResultSet and returns an ArrayList of CustomerSatisfactionSurveyResults from it
+	   * @param rs ResultSet of the query to get the CustomerSatisfactionSurveyResults table
+	   * @return an arrayList of CustomerSatisfactionSurveyResults made from the given ResultSet
+	   */
+	  
+	  public static ArrayList<CustomerSatisfactionSurveyResults> loadCustomerSatisfactionSurveyResults(ResultSet rs)
+	  {
+		  ArrayList<CustomerSatisfactionSurveyResults> surveyResults = new ArrayList<CustomerSatisfactionSurveyResults>();
+		  try
+		  {
+			  int[] results = new int[6];
+			  while (rs.next())
+			  {
+				  while (rs.next())
+				  {
+					  results[0]=rs.getInt("answer1");
+					  results[1]=rs.getInt("answer2");
+					  results[2]=rs.getInt("answer3");
+					  results[3]=rs.getInt("answer4");
+					  results[4]=rs.getInt("answer5");
+					  results[5]=rs.getInt("answer6");
+					  LocalDate date = rs.getObject( 3 , LocalDate.class );
+					  surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date));
+				  }				  
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  
+		  
+		  return surveyResults;
 	  }
 	  
 	  

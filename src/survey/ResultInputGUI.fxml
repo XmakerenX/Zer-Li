@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="370.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.ResultInputGUI">
+<AnchorPane prefHeight="309.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.ResultInputGUI">
    <children>
       <Label layoutX="31.0" layoutY="25.0" text="Choose a survey:" />
-      <Label layoutX="32.0" layoutY="101.0" text="Input results:" />
+      <Label layoutX="33.0" layoutY="101.0" text="Input results: 1-10" />
       <ComboBox fx:id="surveyComboBox" layoutX="40.0" layoutY="52.0" onAction="#onShowSurveys" prefHeight="25.0" prefWidth="195.0" />
       <TextField fx:id="answerTxtFld1" layoutX="61.0" layoutY="139.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="answerTxtFld2" layoutX="173.0" layoutY="139.0" prefHeight="25.0" prefWidth="41.0" />
@@ -16,17 +16,13 @@
       <TextField fx:id="answerTxtFld4" layoutX="173.0" layoutY="173.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="answerTxtFld5" layoutX="61.0" layoutY="208.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="answerTxtFld6" layoutX="173.0" layoutY="208.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld7" layoutX="61.0" layoutY="241.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld8" layoutX="173.0" layoutY="241.0" prefHeight="25.0" prefWidth="41.0" />
-      <Button fx:id="sendBtn" layoutX="41.0" layoutY="314.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="69.0" text="Send" />
-      <Button fx:id="cancelBtn" layoutX="166.0" layoutY="314.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="25.0" prefWidth="69.0" text="Cancel" />
+      <Button fx:id="sendBtn" layoutX="173.0" layoutY="266.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="69.0" text="Send" />
+      <Button fx:id="cancelBtn" layoutX="32.0" layoutY="266.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="25.0" prefWidth="69.0" text="Cancel" />
       <Label layoutX="32.0" layoutY="143.0" text="1" />
       <Label layoutX="146.0" layoutY="143.0" text="2" />
       <Label layoutX="32.0" layoutY="177.0" text="3" />
       <Label layoutX="146.0" layoutY="177.0" text="4" />
       <Label layoutX="146.0" layoutY="212.0" text="6" />
-      <Label layoutX="146.0" layoutY="245.0" text="8" />
       <Label layoutX="32.0" layoutY="212.0" text="5" />
-      <Label layoutX="32.0" layoutY="245.0" text="7" />
    </children>
 </AnchorPane>

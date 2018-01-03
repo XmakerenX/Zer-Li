@@ -62,13 +62,8 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
-    	surveyNameTxtFld.setText("123");
-    	question1TxtFld.setText("1");
-    	question2TxtFld.setText("1");//================REMOVE LATER ON============
-    	question3TxtFld.setText("1");
-    	question4TxtFld.setText("1");
-    	question5TxtFld.setText("1");
-    	question6TxtFld.setText("1");
+ 
+    	
     }
     
   //===============================================================================================================
@@ -79,6 +74,10 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
+    /**
+     * a method that creates a new survey
+     * @param event
+     */
     @FXML
     void createSurvey(ActionEvent event) {
     	String[] questions = new String[6];

@@ -48,7 +48,6 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
     @FXML
     public void initialize() 
  {
-    	//CustomerSatisfactionSurveyController.requestSurveys(client);
     	
  }
     
@@ -89,6 +88,13 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
 	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
 		
+	}
+	 //===============================================================================================================
+    @Override
+	public void setClinet(Client client)
+	{
+    	super.setClinet(client);
+    	//CustomerSatisfactionSurveyController.requestSurveys(client);
 	}
 
 }
