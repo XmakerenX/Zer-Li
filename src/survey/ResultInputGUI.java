@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import networkGUI.CustomerServiceGUI;
+import networkGUI.StoreWorkerGUI;
 import prototype.FormController;
 import serverAPI.Response;
 
@@ -32,17 +33,11 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     @FXML // fx:id="sendBtn"
     private Button sendBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="answerTxtFld8"
-    private TextField answerTxtFld8; // Value injected by FXMLLoader
-
     @FXML // fx:id="answerTxtFld5"
     private TextField answerTxtFld5; // Value injected by FXMLLoader
 
     @FXML // fx:id="answerTxtFld4"
     private TextField answerTxtFld4; // Value injected by FXMLLoader
-
-    @FXML // fx:id="answerTxtFld7"
-    private TextField answerTxtFld7; // Value injected by FXMLLoader
 
     @FXML // fx:id="answerTxtFld6"
     private TextField answerTxtFld6; // Value injected by FXMLLoader
@@ -54,13 +49,21 @@ public class ResultInputGUI extends FormController implements ClientInterface {
   //===============================================================================================================
     @FXML
     void onSendBtn(ActionEvent event) {
+    	int[] answers = new int[6];
+    	answers[0]=Integer.parseInt(answerTxtFld1.getText());
+    	answers[1]=Integer.parseInt(answerTxtFld2.getText());
+    	answers[2]=Integer.parseInt(answerTxtFld3.getText());
+    	answers[3]=Integer.parseInt(answerTxtFld4.getText());
+    	answers[4]=Integer.parseInt(answerTxtFld5.getText());
+    	answers[5]=Integer.parseInt(answerTxtFld6.getText());
+    	CustomerSatisfactionSurveyResultsController.addResults((String)surveyComboBox.getSelectionModel().getSelectedItem(), answers, client);
 
     }
   //===============================================================================================================
     @FXML
     void onCancel(ActionEvent event) {
-    	CustomerServiceGUI customerServiceGUI = (CustomerServiceGUI)parent;
-    	client.setUI(customerServiceGUI);
+    	StoreWorkerGUI storeWorkerGUI = (StoreWorkerGUI)parent;
+    	client.setUI(storeWorkerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================

@@ -3,6 +3,7 @@ package utils;
 import Server.DBConnector;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
+import survey.CustomerSatisfactionSurveyResults;
 import user.User;
 
 public class EntityAdder {
@@ -16,8 +17,11 @@ public class EntityAdder {
 		case "User":
 			        return addUser((User)entity, db);  
 			        
-		case"surveys":
+		case "surveys":
 					return addSurvey((CustomerSatisfactionSurvey)entity, db);
+					
+		case "CustomerSatisfactionSurveyResults":
+					return addSurveyResults((CustomerSatisfactionSurveyResults)entity, db);
 		
 		default:return false;
 		
@@ -77,6 +81,29 @@ public class EntityAdder {
 			{
 			db.insertData("surveys", surveyName + "," + question1 + "," + question2 + "," + question3 + "," + question4 + "," + question5 + 
 					"," + question6 + "," + "Analysis");
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+	}
+		
+		
+		private static Boolean addSurveyResults(CustomerSatisfactionSurveyResults surveyResults, DBConnector db)
+		{		  
+			String surveyName = "'"+surveyResults.getOfSurvey()+"'";
+			String answer1 = "'"+surveyResults.getAnswers()[0]+"'";
+			String answer2 = "'"+surveyResults.getAnswers()[1]+"'";
+			String answer3 = "'"+surveyResults.getAnswers()[2]+"'";
+			String answer4 = "'"+surveyResults.getAnswers()[3]+"'";
+			String answer5 = "'"+surveyResults.getAnswers()[4]+"'";
+			String answer6 = "'"+surveyResults.getAnswers()[5]+"'";
+			java.sql.Date sqlDate = java.sql.Date.valueOf( surveyResults.getDate() );
+			try
+			{
+			db.insertData("customersatisfactionsurveyresults", sqlDate + "," + surveyName + "," + answer1 + "," + answer2 + "," + answer3 + "," + answer4 + "," + answer5 + 
+					"," + answer6);
 				return true;
 			}
 			catch(Exception e)

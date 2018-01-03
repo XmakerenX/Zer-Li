@@ -79,6 +79,10 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
+    /**
+     * a method that creates a new survey
+     * @param event
+     */
     @FXML
     void createSurvey(ActionEvent event) {
     	String[] questions = new String[6];

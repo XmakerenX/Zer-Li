@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.NetworkWorkerGUI;
+import networkGUI.StoreWorkerGUI;
 import networkGUI.SystemManagerGUI;
 import product.ProdcutController;
 import product.Product;
@@ -43,7 +44,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	SystemManagerGUI sysManagerGUI;
 	NetworkWorkerGUI networkWorkerGui;
 	CustomerServiceGUI customerServiceGUI;
-	
+	StoreWorkerGUI storeWorkerGUI;
 	
 	
 	
@@ -76,6 +77,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/SystemManagerGUI.fxml"), this);
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
     	customerServiceGUI = FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
+    	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
     	
     	if(rememberSelect)
     	{
@@ -177,6 +179,17 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				customerServiceGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
+	        		}
+	    			break;
+	    		}
+	    		case "STORE_WORKER":
+	    		{
+	    			
+	    			if (storeWorkerGUI != null)
+	        		{
+	    				storeWorkerGUI.setUser(user);
+	    				storeWorkerGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
 	    			break;
 	    		}
