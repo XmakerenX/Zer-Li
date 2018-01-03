@@ -3,3 +3,4 @@
 .project
 *.orig
 .directory
+user.properties

@@ -20,6 +20,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,14 +49,11 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	StoreWorkerGUI storeWorkerGUI;
 	CustomerServiceExpertGUI customerServiceExpertGUI;
 	
-	
-	
-	
 	/* For fast login only, edit user.properties:
 	 * 
 	 */
-	Config userConf = new Config("user.properties");
-	Boolean rememberSelect = userConf.getProperty("REMEMBER").equals("TRUE");
+	Config userConf;
+	Boolean rememberSelect;
 
 	@FXML
     private RadioButton rememberMeBtn;
@@ -75,6 +73,9 @@ public class LoginGUI extends FormController implements ClientInterface  {
     //Will be called by FXMLLoader
     public void initialize(){
 
+    	userConf = new Config("user.properties");
+    	rememberSelect = userConf.getProperty("REMEMBER").equals("TRUE");
+    	
     	customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
     	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/SystemManagerGUI.fxml"), this);
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
@@ -141,10 +142,12 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	{
     		if(rememberMeBtn.isSelected())
     		{
+    			rememberSelect = true;
     			updateUserConfigFile("user.properties", usernameTxt.getText(), passwordTxt.getText(),"TRUE");
     		}
     		else
     		{
+    			rememberSelect = false;
     			updateUserConfigFile("user.properties", "", "","FALSE");
     		}
     		User user = (User)replay.getMessage();
@@ -248,6 +251,15 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	
 	private static void updateUserConfigFile(String configPath,String user,String pass,String isSelected)
 	  {
+		  File configFile = new File(configPath);
+		  if (!configFile.exists())
+			try {
+				configFile.createNewFile();
+			} catch (IOException e1) {
+				System.out.println("Failed to create "+ configPath);
+				e1.printStackTrace();
+			}
+		  
 		  Config serverConfig = new Config(configPath);
 		  FileOutputStream out;
 		try 
