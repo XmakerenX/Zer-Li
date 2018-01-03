@@ -12,11 +12,16 @@ import survey.SurveyCreationGUI;
 import survey.SurveyExplorerGUI;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
+import user.User;
+import user.UserController;
 
 public class CustomerServiceGUI extends FormController implements ClientInterface{
 
 	SurveyCreationGUI surveyCreationGUI;
 	SurveyExplorerGUI surveyExplorer;
+	
+	//Current user's name
+	private User user;
 	
     @FXML // fx:id="surveylistBtn"
     private Button surveylistBtn; // Value injected by FXMLLoader
@@ -58,9 +63,13 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     @FXML
     void onBack(ActionEvent event) {
     	
+    	user.setUserStatus(User.Status.valueOf("REGULAR"));
+    	UserController.requestLogout(user, client);
+    	
     	LoginGUI loginGUi = (LoginGUI)parent;
     	client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
+    	
     }
   //===============================================================================================================
 	@Override
@@ -74,5 +83,10 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
 		// TODO Auto-generated method stub
 		
 	}
+	//===============================================================================================================
+		public void setUser(User user)
+		{
+			this.user = user;
+		}
 
 }

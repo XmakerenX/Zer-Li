@@ -51,6 +51,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 		{
     		resultInputGUI.setClinet(client);
 			client.setUI(resultInputGUI);
+			resultInputGUI.initComboBox();
 			FormController.primaryStage.setScene(resultInputGUI.getScene());
 		}
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="452.0" prefWidth="277.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyAnalysisGUI">
+   <children>
+      <Button fx:id="backBtn" layoutX="20.0" layoutY="413.0" mnemonicParsing="false" onAction="#onBackBtn" prefHeight="25.0" prefWidth="59.0" text="Back" />
+      <Button fx:id="sendBtn" layoutX="204.0" layoutY="413.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="59.0" text="Send" />
+      <TextArea fx:id="analysisTxtField" layoutX="26.0" layoutY="259.0" prefHeight="137.0" prefWidth="225.0" />
+      <Label layoutX="27.0" layoutY="226.0" text="Analysis:" />
+      <ComboBox layoutX="26.0" layoutY="39.0" prefHeight="25.0" prefWidth="225.0" />
+      <Label layoutX="12.0" layoutY="22.0" text="Choose a survey" />
+      <Label layoutX="13.0" layoutY="82.0" text="Avarage results for each questin:" />
+      <Label layoutX="20.0" layoutY="111.0" text="1:" />
+      <Label layoutX="139.0" layoutY="111.0" text="2:" />
+      <Label layoutX="20.0" layoutY="144.0" text="3:" />
+      <Label layoutX="139.0" layoutY="144.0" text="4:" />
+      <Label layoutX="20.0" layoutY="177.0" text="5:" />
+      <Label layoutX="139.0" layoutY="177.0" text="6:" />
+      <TextField fx:id="avgResultQuestion1" layoutX="43.0" layoutY="107.0" prefHeight="25.0" prefWidth="46.0" />
+      <TextField fx:id="avgResultQuestion2" layoutX="163.0" layoutY="107.0" prefHeight="25.0" prefWidth="46.0" />
+      <TextField fx:id="avgResultQuestion3" layoutX="43.0" layoutY="140.0" prefHeight="25.0" prefWidth="46.0" />
+      <TextField fx:id="avgResultQuestion4" layoutX="163.0" layoutY="140.0" prefHeight="25.0" prefWidth="46.0" />
+      <TextField fx:id="avgResultQuestion5" layoutX="43.0" layoutY="173.0" prefHeight="25.0" prefWidth="46.0" />
+      <TextField fx:id="avgResultQuestion6" layoutX="163.0" layoutY="173.0" prefHeight="25.0" prefWidth="46.0" />
+   </children>
+</AnchorPane>

@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import networkGUI.CustomerServiceExpertGUI;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.NetworkWorkerGUI;
 import networkGUI.StoreWorkerGUI;
@@ -45,6 +46,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	NetworkWorkerGUI networkWorkerGui;
 	CustomerServiceGUI customerServiceGUI;
 	StoreWorkerGUI storeWorkerGUI;
+	CustomerServiceExpertGUI customerServiceExpertGUI;
 	
 	
 	
@@ -78,6 +80,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
     	customerServiceGUI = FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
     	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
+    	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
     	
     	if(rememberSelect)
     	{
@@ -177,6 +180,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			
 	    			if (customerServiceGUI != null)
 	        		{
+	    				customerServiceGUI.setUser(user);
 	    				customerServiceGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
 	        		}
@@ -190,6 +194,18 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    				storeWorkerGUI.setUser(user);
 	    				storeWorkerGUI.setClinet(client);
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
+	        		}
+	    			break;
+	    		}
+	    			
+	    		case "CUSTOMER_SERVICE_EXPERT":
+	    		{
+	    			
+	    			if (customerServiceExpertGUI != null)
+	        		{
+	    				customerServiceExpertGUI.setUser(user);
+	    				customerServiceExpertGUI.setClinet(client);
+	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
 	        		}
 	    			break;
 	    		}

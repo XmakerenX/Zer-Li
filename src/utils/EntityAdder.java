@@ -1,5 +1,9 @@
 package utils;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import Server.DBConnector;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
@@ -100,9 +104,10 @@ public class EntityAdder {
 			String answer5 = "'"+surveyResults.getAnswers()[4]+"'";
 			String answer6 = "'"+surveyResults.getAnswers()[5]+"'";
 			java.sql.Date sqlDate = java.sql.Date.valueOf( surveyResults.getDate() );
+
 			try
 			{
-			db.insertData("customersatisfactionsurveyresults", sqlDate + "," + surveyName + "," + answer1 + "," + answer2 + "," + answer3 + "," + answer4 + "," + answer5 + 
+			db.insertData("customersatisfactionsurveyresults", null + "," + surveyName + "," + "'" + sqlDate + "'" + "," + answer1 + "," + answer2 + "," + answer3 + "," + answer4 + "," + answer5 + 
 					"," + answer6);
 				return true;
 			}

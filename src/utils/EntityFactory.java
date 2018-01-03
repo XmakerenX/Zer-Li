@@ -26,7 +26,7 @@ public class EntityFactory {
 		  case "CatalogProduct":
 			  return loadCatalogItems(rs);
 			  
-		  case "CustomerSatisfactionSurvey":
+		  case "surveys":
 			  return loadCustomerSatisfactionSurveys(rs);
 			  
 		  case "CustomerSatisfctionSurveyResults":
