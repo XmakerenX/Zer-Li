@@ -74,5 +74,10 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	public void setOfSurvey(String ofSurvey) {
 		this.ofSurvey = ofSurvey;
 	}
+	
+	public String toString()
+	{
+		return "Results of survey: " + this.getOfSurvey();
+	}
 
 }

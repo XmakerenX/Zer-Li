@@ -1,14 +1,19 @@
 
 package survey;
 
+import java.util.ArrayList;
+
 import client.Client;
 import client.ClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import networkGUI.CustomerServiceGUI;
 import prototype.FormController;
 import serverAPI.Response;
@@ -18,7 +23,7 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
 	private Response response = null;
 
     @FXML // fx:id="surveyComboBox"
-    private ComboBox<?> surveyComboBox; // Value injected by FXMLLoader
+    private ComboBox<String> surveyComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="questionTxtFld1"
     private TextField questionTxtFld1; // Value injected by FXMLLoader
@@ -54,8 +59,44 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
   //===============================================================================================================
     @FXML
     void onSurveyComboBox(ActionEvent event) {
+    	String surveyName = surveyComboBox.getValue();
+    	CustomerSatisfactionSurveyController.getSurvey(surveyName, client);
+    	try
+    	{
+    		synchronized(this)
+    		{
+    			// wait for server response
+    			this.wait();
+    		}
+    	
+    		if (response == null)
+    			return;
+        		
+        	// show success 
+        	if (response.getType() == Response.Type.SUCCESS)
+        	{
+        		CustomerSatisfactionSurvey result = (CustomerSatisfactionSurvey)((ArrayList<CustomerSatisfactionSurvey>)response.getMessage()).get(0);
+        		questionTxtFld1.setText(result.getSurveyQuestions()[0]);
+        		questionTxtFld2.setText(result.getSurveyQuestions()[1]);
+        		questionTxtFld3.setText(result.getSurveyQuestions()[2]);
+        		questionTxtFld4.setText(result.getSurveyQuestions()[3]);
+        		questionTxtFld5.setText(result.getSurveyQuestions()[4]);
+        		questionTxtFld6.setText(result.getSurveyQuestions()[5]);
+        		analysisTextArea.setText(result.getSurveyAnalysis());
+        		// clear response
+        		response = null;
+        	}
+        	else
+        	{
+        		Alert alert = new Alert(AlertType.ERROR, "Could not load surveys", ButtonType.OK);
+        		alert.showAndWait();
+        		// clear response
+        		response = null;
+        	}
+    	}
+        catch(InterruptedException e) {}
+	}
 
-    }
   //===============================================================================================================
     @FXML
     void onBackBtn(ActionEvent event) {
@@ -94,7 +135,44 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
 	public void setClinet(Client client)
 	{
     	super.setClinet(client);
-    	//CustomerSatisfactionSurveyController.requestSurveys(client);
+	}
+  //===============================================================================================================
+	public void initComboBox()
+	{
+    	ArrayList<String> surveyNames = new ArrayList<String>();
+    	CustomerSatisfactionSurveyController.requestSurveys(Client.client);
+    	try
+    	{
+    		synchronized(this)
+    		{
+    			// wait for server response
+    			this.wait();
+    		}
+    	
+    		if (response == null)
+    			return;
+        		
+        	// show success 
+        	if (response.getType() == Response.Type.SUCCESS)
+        	{
+        		ArrayList<CustomerSatisfactionSurvey> results = (ArrayList<CustomerSatisfactionSurvey>)response.getMessage();
+        		for(int i=0; i<results.size(); i++)
+        			surveyNames.add(results.get(i).getSurveyName());
+ 
+        		//ObservableList<String> surveyNamesObservable = FXCollections.observableArrayList(surveyNames);
+        		surveyComboBox.getItems().setAll(surveyNames);
+        		// clear response
+        		response = null;
+        	}
+        	else
+        	{
+        		Alert alert = new Alert(AlertType.ERROR, "Could not load surveys", ButtonType.OK);
+        		alert.showAndWait();
+        		// clear response
+        		response = null;
+        	}
+    	}
+        catch(InterruptedException e) {}
 	}
 
 }

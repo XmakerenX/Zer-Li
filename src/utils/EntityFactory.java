@@ -152,7 +152,7 @@ public class EntityFactory {
 				  questionlist[4]=rs.getString("question5");
 				  questionlist[5]=rs.getString("question6");
 
-				  surveys.add(new CustomerSatisfactionSurvey(rs.getString("surveyName"), questionlist));
+				  surveys.add(new CustomerSatisfactionSurvey(rs.getString("surveyName"), questionlist, rs.getString("analysis")));
 				  
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}

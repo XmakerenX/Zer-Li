@@ -56,6 +56,7 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
 		{
     		client.setUI(surveyExplorer);
     		surveyExplorer.setClinet(client);
+    		surveyExplorer.initComboBox();
 			FormController.primaryStage.setScene(surveyExplorer.getScene());
 		}
     }
