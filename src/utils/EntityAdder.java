@@ -1,10 +1,13 @@
 package utils;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import Server.DBConnector;
+import order.Order;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
@@ -26,8 +29,12 @@ public class EntityAdder {
 					
 		case "CustomerSatisfactionSurveyResults":
 					return addSurveyResults((CustomerSatisfactionSurveyResults)entity, db);
-		
-		default:return false;
+
+		case "Order":
+					return addOrder((Order)entity, db);
+					
+		default:
+			return false;
 		
 		}
 	}
@@ -115,5 +122,53 @@ public class EntityAdder {
 			{
 				return false;
 			}
-	}
+		}
+		
+		private static Boolean addOrder(Order order, DBConnector db)
+		{
+			String orderStatus = "'"+order.getStatus()+"'";
+			float orderPrice = order.getPrice();
+			Date sqlDate = Date.valueOf(order.getOrderDate());
+			String orderTime = "'" + order.getOrderTime() + "'";
+			
+			String orderAddress = null;
+			String receiverName = null;
+			String receiverPhoneNumber = null;
+			if (order.getDelivaryInfo() != null)
+			{
+				orderAddress = "'" + order.getDelivaryInfo().getDelivaryAddress() + "'";
+				receiverName = "'" + order.getDelivaryInfo().getReceiverName() + "'";
+				receiverPhoneNumber = "'" + order.getDelivaryInfo().getReceiverPhoneNumber() + "'";
+			}
+			
+			String paymentMethod = "'"+order.getOrderPaymentMethod() + "'";
+			int originStore = order.getOrderOriginStore();
+			
+			try {
+				Calendar orderTimeAndDate = order.getOrderDateAndTime();
+				Calendar currentTime = Calendar.getInstance();
+				if (!orderTimeAndDate.after(currentTime))
+					throw new Exception("Bad Date and Time was Given");
+				
+				db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + "'" + sqlDate + "'" +
+						"," + orderTime + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
+						+ paymentMethod + "," + originStore);
+				
+				// get the orderID from database
+				ResultSet rs = db.selectLastInsertID();
+				rs.next();
+				int orderID = rs.getInt(1);
+				rs.close();
+				
+				for (Order.ItemInOrder item : order.getItemsInOrder())
+				{
+					db.insertData("ProductInOrder", item.getProductID() + "," + orderID + "," + "'" +item.getGreetingCard() + "'" );
+				}
+				
+				return true;
+				
+			} catch (Exception e) {
+				return false;
+			}
+		}
 }

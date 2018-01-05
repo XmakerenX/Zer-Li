@@ -106,6 +106,24 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  public ResultSet selectLastInsertID()
+	  {
+		  Statement stmt;
+		  ResultSet rs;
+		  try
+		  {
+			  stmt = conn.createStatement();
+			  rs = stmt.executeQuery("SELECT LAST_INSERT_ID();");
+			  return rs;
+		  }
+		  catch (SQLException ex) {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+			  return null;
+		  }
+	  }
+	  
 	  public void executeUpdate(String table, String fieldsToUpdate, String condition)
 	  {
 		  Statement stmt;
@@ -131,8 +149,8 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
-			  System.out.println("INSERT INTO "+table+" VALUES("+fieldToInsert+")");
-			  stmt.executeUpdate("INSERT INTO "+table+" VALUES("+fieldToInsert+")");
+			  System.out.println("INSERT INTO "+table+" VALUES("+fieldToInsert+")" + ";");
+			  stmt.executeUpdate("INSERT INTO "+table+" VALUES("+fieldToInsert+")" + ";");
 		  }
 		  catch (SQLException ex) 
 		  {

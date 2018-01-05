@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="695.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CreateOrderGUI">
+   <children>
+      <DialogPane layoutY="-7.0" prefHeight="85.0" prefWidth="531.0" />
+      <Label layoutX="211.0" layoutY="13.0" text="Create Order">
+         <font>
+            <Font size="37.0" />
+         </font>
+      </Label>
+      <TableView fx:id="orderTable" layoutX="26.0" layoutY="106.0" prefHeight="261.0" prefWidth="648.0">
+        <columns>
+          <TableColumn fx:id="imageCol" prefWidth="75.0" text="Image" />
+          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="colorCol" prefWidth="75.0" text="Color" />
+            <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="greetingCardCol" prefWidth="187.0" text="Greeting Card" />
+            <TableColumn fx:id="removeCol" prefWidth="85.0" />
+        </columns>
+      </TableView>
+      <Label layoutX="29.0" layoutY="377.0" text="Order Total price = " />
+      <Label fx:id="totalPrice" layoutX="175.0" layoutY="377.0" prefHeight="16.0" prefWidth="54.0" />
+      <DatePicker fx:id="date" layoutX="195.0" layoutY="528.0" AnchorPane.leftAnchor="195.0" />
+      <Label layoutX="23.0" layoutY="525.0" text="Pick up date" />
+      <RadioButton fx:id="selfPickupRadio" layoutX="26.0" layoutY="405.0" mnemonicParsing="false" onAction="#onSelfPickup" text="Self Pickup">
+         <toggleGroup>
+            <ToggleGroup fx:id="pickupMethod" />
+         </toggleGroup></RadioButton>
+      <RadioButton layoutX="202.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivary" text="Delivary" toggleGroup="$pickupMethod" />
+      <Label layoutX="23.0" layoutY="435.0" text="Delivary Adress" />
+      <TextField fx:id="addressTxt" layoutX="197.0" layoutY="430.0" />
+      <Label layoutX="235.0" layoutY="61.0" text="Items in Order">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="555.0" text="Pay Method" />
+      <RadioButton fx:id="cashRadio" layoutX="23.0" layoutY="587.0" mnemonicParsing="false" text="Cash">
+         <toggleGroup>
+            <ToggleGroup fx:id="payMethod" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="creditCardRadio" layoutX="112.0" layoutY="587.0" mnemonicParsing="false" text="CreditCard" toggleGroup="$payMethod" />
+      <RadioButton fx:id="subscriptonRadio" layoutX="228.0" layoutY="587.0" mnemonicParsing="false" text="Subscription" toggleGroup="$payMethod" />
+      <Label layoutX="404.0" layoutY="533.0" text="Pick up Time" />
+      <TextField fx:id="hourTxt" layoutX="503.0" layoutY="528.0" prefHeight="26.0" prefWidth="35.0" />
+      <TextField fx:id="minsTxt" layoutX="546.0" layoutY="529.0" prefHeight="26.0" prefWidth="35.0" />
+      <Label layoutX="538.0" layoutY="531.0" prefHeight="21.0" prefWidth="8.0" text=":">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="confirmOrderBtn" layoutX="195.0" layoutY="644.0" mnemonicParsing="false" onAction="#onConfirmOrder" text="Confirm Order" />
+      <Button fx:id="cancelBtn" layoutX="393.0" layoutY="644.0" mnemonicParsing="false" onAction="#OnCancel" text="Cancel" />
+      <Label layoutX="24.0" layoutY="469.0" text="Receiver Name" />
+      <Label layoutX="24.0" layoutY="499.0" text="Receiver Phone number" />
+      <TextField fx:id="receiverPhoneTxt" layoutX="197.0" layoutY="494.0" />
+      <TextField fx:id="receiverNameTxt" layoutX="197.0" layoutY="464.0" />
+   </children>
+</AnchorPane>
