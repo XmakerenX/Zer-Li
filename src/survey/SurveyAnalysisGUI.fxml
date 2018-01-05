@@ -11,9 +11,9 @@
       <Button fx:id="sendBtn" layoutX="204.0" layoutY="413.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="59.0" text="Send" />
       <TextArea fx:id="analysisTxtField" layoutX="26.0" layoutY="259.0" prefHeight="137.0" prefWidth="225.0" />
       <Label layoutX="27.0" layoutY="226.0" text="Analysis:" />
-      <ComboBox layoutX="26.0" layoutY="39.0" prefHeight="25.0" prefWidth="225.0" />
+      <ComboBox fx:id="chooseSurveyCbb" layoutX="26.0" layoutY="39.0" onAction="#onChooseSurveyCbb" prefHeight="25.0" prefWidth="225.0" />
       <Label layoutX="12.0" layoutY="22.0" text="Choose a survey" />
-      <Label layoutX="13.0" layoutY="82.0" text="Avarage results for each questin:" />
+      <Label layoutX="13.0" layoutY="82.0" text="Avarage results for each question" />
       <Label layoutX="20.0" layoutY="111.0" text="1:" />
       <Label layoutX="139.0" layoutY="111.0" text="2:" />
       <Label layoutX="20.0" layoutY="144.0" text="3:" />

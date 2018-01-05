@@ -21,6 +21,20 @@ public class CustomerSatisfactionSurvey implements Serializable{
 		setSurveyQuestions(questions);
 		setSurveyResults(null);
 	}
+	/**
+	 * another constructor that receives an analysis for entityFactory
+	 * @param name of the survey
+	 * @param questions the questions of the survey
+	 * @param analysis
+	 */
+	public CustomerSatisfactionSurvey(String name, String[] questions, String analysis)
+	{
+
+		setSurveyName(name);
+		setSurveyQuestions(questions);
+		setSurveyAnalysis(analysis);
+		setSurveyResults(null);
+	}
 
 	public String getSurveyName() {
 		return surveyName;

@@ -5,6 +5,8 @@ import client.Client;
 import client.ClientInterface;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.StoreWorkerGUI;
+import product.CatalogItem;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
@@ -29,7 +32,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     private TextField answerTxtFld1; // Value injected by FXMLLoader
 
     @FXML // fx:id="surveyComboBox"
-    private ComboBox<?> surveyComboBox; // Value injected by FXMLLoader
+    private ComboBox<String> surveyComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="answerTxtFld3"
     private TextField answerTxtFld3; // Value injected by FXMLLoader
@@ -137,7 +140,8 @@ public class ResultInputGUI extends FormController implements ClientInterface {
      */
     @FXML
     void onSendBtn(ActionEvent event) {
-    	int[] answers = new int[6];//===========================================CHANGE SURVEY NAME TO BE GOTTEN FROM THE COMBO BOX!!!!=======
+    	String surveyName = surveyComboBox.getValue();
+    	int[] answers = new int[6];
     	answers[0]=Integer.parseInt(answerTxtFld1.getText());
     	answers[1]=Integer.parseInt(answerTxtFld2.getText());
     	answers[2]=Integer.parseInt(answerTxtFld3.getText());
@@ -147,7 +151,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	if(answers[0]<=10 && answers[1]<=10 && answers[2]<=10 && answers[3]<=10 && answers[4]<=10 && answers[5]<=10 
     			&& answers[0]>0 && answers[1]>0 && answers[2]>0 && answers[3]>0 && answers[4]>0 && answers[5]>0)
     	{
-    		CustomerSatisfactionSurveyResultsController.addResults(/*(String)surveyComboBox.getSelectionModel().getSelectedItem()*/"new survey", answers, client);
+    		CustomerSatisfactionSurveyResultsController.addResults(surveyName, answers, client);
     		try
         	{
         		synchronized(this)
@@ -207,8 +211,6 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 		{
 			this.notify();
 		}
-		
-		//.............................................combo
 	}
 	//===============================================================================================================
 	@Override
@@ -221,11 +223,12 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	{
 		this.user = user;
 	}
+	//===============================================================================================================
+
 	public void initComboBox()
 	{
-		CustomerSatisfactionSurveyController.requestSurveys(client);
     	ArrayList<String> surveyNames = new ArrayList<String>();
-    	CustomerSatisfactionSurveyController.requestSurveys(client);
+    	CustomerSatisfactionSurveyController.requestSurveys(Client.client);
     	try
     	{
     		synchronized(this)
@@ -240,9 +243,14 @@ public class ResultInputGUI extends FormController implements ClientInterface {
         	// show success 
         	if (response.getType() == Response.Type.SUCCESS)
         	{
-        		
-        		response.getMessage().toString();
-        		
+        		ArrayList<CustomerSatisfactionSurvey> results = (ArrayList<CustomerSatisfactionSurvey>)response.getMessage();
+        		for(int i=0; i<results.size(); i++)
+        			surveyNames.add(results.get(i).getSurveyName());
+ 
+        		//ObservableList<String> surveyNamesObservable = FXCollections.observableArrayList(surveyNames);
+        		surveyComboBox.getItems().setAll(surveyNames);
+        		// clear response
+        		response = null;
         	}
         	else
         	{

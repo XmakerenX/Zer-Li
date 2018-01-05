@@ -51,7 +51,7 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
 
 		client.setUI(surveyAnalysisGUI);
 		surveyAnalysisGUI.setClinet(client);
-		//---------------------....................................................
+		surveyAnalysisGUI.initComboBox();
 		FormController.primaryStage.setScene(surveyAnalysisGUI.getScene());
     }
     
