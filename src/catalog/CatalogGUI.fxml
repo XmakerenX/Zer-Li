@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="491.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CatalogGUI">
+<AnchorPane prefHeight="491.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CatalogGUI">
    <children>
       <DialogPane layoutY="-8.0" prefHeight="142.0" prefWidth="340.0" />
       <TableView fx:id="catalogTable" layoutX="11.0" layoutY="56.0" prefHeight="372.0" prefWidth="544.0">
@@ -24,7 +24,7 @@
             <Font size="37.0" />
          </font>
       </Label>
-      <Button fx:id="backBtn" layoutX="14.0" layoutY="449.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <Button fx:id="createOrderBtn" layoutX="232.0" layoutY="449.0" mnemonicParsing="false" onAction="#onCreateOrder" text="Create Order" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="450.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <Button fx:id="createOrderBtn" layoutX="240.0" layoutY="449.0" mnemonicParsing="false" onAction="#onCreateOrder" text="Create Order" />
    </children>
 </AnchorPane>

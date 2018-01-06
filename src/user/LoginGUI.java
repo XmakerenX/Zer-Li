@@ -118,7 +118,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	//messegeD
     	//client.quit();
     	//System.exit(0);
-    	//blablbla
+
     }
 
     @FXML
