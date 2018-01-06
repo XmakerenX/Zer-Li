@@ -50,12 +50,14 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
 		}
     }
   //===============================================================================================================
+ 
     @FXML
     void onSurveyList(ActionEvent event) {
     	if ( surveyExplorer != null)
 		{
     		client.setUI(surveyExplorer);
     		surveyExplorer.setClinet(client);
+    		surveyExplorer.initComboBox();
 			FormController.primaryStage.setScene(surveyExplorer.getScene());
 		}
     }

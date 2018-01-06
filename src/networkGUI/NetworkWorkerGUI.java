@@ -34,13 +34,20 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     void AddnewProduct(ActionEvent event) 
     {
     	
+    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/ManageCatalogGUI.fxml"), this);
+    	client.setUI(manCatGui);
+    	manCatGui.setClinet(client);
+    	FormController.primaryStage.setScene(manCatGui.getScene());
+    	manCatGui.doInit();
+    	
+    	/*
     	NewProductCreationGUI createProductGUI = FormController.<NewProductCreationGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NewProductCreation.fxml"), this);
-		if ( createProductGUI != null)
+		if (createProductGUI != null)
 		{
 			client.setUI(createProductGUI);
 			createProductGUI.setClinet(client);
 			FormController.primaryStage.setScene(createProductGUI.getScene());
-		}
+		}*/
     }
     
     @FXML

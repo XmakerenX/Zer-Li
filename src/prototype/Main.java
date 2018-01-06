@@ -18,8 +18,6 @@ public class Main extends Application
 	
 	//vars:
 	final public static int DEFAULT_PORT = 5555;
-	private Client client = null;
-
 			
 //*************************************************************************************************
 	/**
@@ -58,7 +56,8 @@ public class Main extends Application
 		
 				try
 				{
-					client = new Client(host, port);
+					//client = new Client(host, port);
+					Client.client.startConnection(host, port);
 				}
 				catch(IOException e)
 				{
@@ -85,8 +84,8 @@ public class Main extends Application
 				//ShowProductController controller = FormController.<ShowProductController, BorderPane>loadFXML(getClass().getResource("ShowProduct.fxml"), null);
 				
 				
-				client.setUI(controller);
-				controller.setClinet(client);
+				Client.client.setUI(controller);
+				controller.setClinet(Client.client);
 				//controller.initData(client);
 
 				primaryStage.setScene(controller.getScene());
@@ -105,8 +104,7 @@ public class Main extends Application
 	@Override
 	public void stop()
 	{
-		if (client != null)
-			client.quit();
+		Client.client.quit();
 	}
 	
 //*************************************************************************************************

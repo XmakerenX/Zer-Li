@@ -13,19 +13,23 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
+import order.CreateOrderGUI;
 import product.CatalogItem;
 import prototype.FormController;
 import serverAPI.Response;
@@ -34,6 +38,8 @@ import utils.ImageData;
 
 public class CatalogGUI extends FormController implements ClientInterface {
 
+	private CreateOrderGUI createOrderGUI;
+	
     @FXML
     private TableView<CatalogItemView> catalogTable;
 
@@ -76,6 +82,8 @@ public class CatalogGUI extends FormController implements ClientInterface {
     public void initialize(){
         //Will be called by FXMLLoader
     	InitTableView();
+    	
+    	createOrderGUI = FormController.<CreateOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CreateOrderGUI.fxml"), this);
     }
     
 //*************************************************************************************************
@@ -158,9 +166,9 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	checkboxCol.setEditable(true);
     }
     
-    void onRefresh(ActionEvent event) {
+    public void onRefresh(ActionEvent event) {
     	System.out.println("request catalog items");
-    	CatalogController.requestCatalogItems(client);
+    	CatalogController.requestCatalogItems(Client.client);
     	// wait for response
 		synchronized(this)
 		{
@@ -189,7 +197,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     		if (missingImages.size() > 0)
     		{
     			System.out.println("Missing images "+ missingImages);
-    			CatalogController.requestCatalogImages(missingImages, client);
+    			CatalogController.requestCatalogImages(missingImages, Client.client);
 
     			// wait for response 
     			synchronized(this)
@@ -245,6 +253,23 @@ public class CatalogGUI extends FormController implements ClientInterface {
     		if (item.isSelected())
     			itemsSelected.add(item);
     	}
+    	
+    	if (itemsSelected.size() > 0)
+    	{        	
+        	if (createOrderGUI != null)
+        	{
+        		Client.client.setUI(createOrderGUI);
+        		createOrderGUI.loadItemsInOrder(itemsSelected);
+        		FormController.primaryStage.setScene(createOrderGUI.getScene());
+        	}
+    	}
+    	else
+    	{
+    		Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText("No item selected!");
+			alert.setContentText("please select an item from the catalog");
+			alert.showAndWait();
+    	}
     }
     
     //*************************************************************************************************
@@ -271,7 +296,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     @Override
 	public void setClinet(Client client)
 	{
-    	super.setClinet(client);
+    	//super.setClinet(client);
     	onRefresh(null);
 	}
     

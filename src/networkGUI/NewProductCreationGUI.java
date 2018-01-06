@@ -11,8 +11,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -32,7 +37,8 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 	}*/
 
 	Response response;
-	
+	ChangeListener idFieldChangeListener;
+
 	
 	
 	/**
@@ -59,7 +65,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 				colorComboBox.getSelectionModel().selectFirst();
 				
 				//make idField numberic only.
-				idField.textProperty().addListener(new ChangeListener<String>() {
+				 idFieldChangeListener =  new ChangeListener<String>() {
 				    @Override
 				    public void changed(ObservableValue<? extends String> observable, String oldValue, 
 				        String newValue) 
@@ -69,7 +75,14 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 				        	idField.setText(newValue.replaceAll("[^\\d]", ""));
 				        }
 				    }
-				});
+				};
+				
+				
+				
+				idField.textProperty().addListener(idFieldChangeListener);
+				
+				
+				
 				
 				//make amountField numberic only.
 				amountFIeld.textProperty().addListener(new ChangeListener<String>() {
@@ -83,6 +96,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 				        }
 				    }
 				});
+							
 				
 				//make priceField float numbers only.
 				priceField.textProperty().addListener(new ChangeListener<String>() 
@@ -123,7 +137,6 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 					    			  {
 					    				  break;
 					    			  }
-					    			   
 					    		  }
 					    	  }
 					    	}
@@ -137,54 +150,63 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 				    }
 		    	});				
 	 }
-	 
+	 /*
+	  * A dirty fixup solution  to remove
+	  */
+	 protected void removeListenerFromId()
+	 {
+		 idField.textProperty().removeListener(idFieldChangeListener);
+	 }
     @FXML
-    private Label descriptionLbl;
-
-    @FXML
-    private TextField idField;
-
-    @FXML
-    private TextField nameFIeld;
-
-    @FXML
-    private TextField priceField;
+    protected Label descriptionLbl;
 
     @FXML
-    private Label idLbl;
+    protected TextField idField;
 
     @FXML
-    private Label nameLbl;
+    protected TextField nameFIeld;
 
     @FXML
-    private Label typeLbl;
+    protected TextField priceField;
 
     @FXML
-    private Label priceLbl;
+    protected Label idLbl;
 
     @FXML
-    private Button createProductBtn;
+    protected Label nameLbl;
 
     @FXML
-    private Button backBtn;
+    protected Label typeLbl;
 
     @FXML
-    private ComboBox<String> typeComboBox;
+    protected Label priceLbl;
 
     @FXML
-    private Label colorLbl;
+    protected Button createProductBtn;
 
     @FXML
-    private Label amountLbl;
+    public Button backBtn;
 
     @FXML
-    private TextField amountFIeld;
+    protected ComboBox<String> typeComboBox;
 
     @FXML
-    private ComboBox<String> colorComboBox;
+    protected Label colorLbl;
+
+    @FXML
+    protected Label amountLbl;
+
+    @FXML
+    protected TextField amountFIeld;
+
+    @FXML
+    protected ComboBox<String> colorComboBox;
 
 
-    
+    void setNameText(String value)
+    {
+    	this.nameFIeld.setText(value);
+    }
     @FXML
     void onBack(ActionEvent event) 
     {
@@ -235,19 +257,34 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     		Optional<ButtonType> result = alert.showAndWait();
     		if (result.get() == ButtonType.OK)
     		{
-    			removeProductAndWait(newProd.getID());
-    			addProductAndWait(newProd);
+    			updateProductAndWait();
     		} else return;
     	}
     	else
     	{
     		addProductAndWait(newProd);
     	}
-    	 
       }
     }
-    
-    private void removeProductAndWait(long id)
+   protected void updateProductAndWait()
+   {
+	   synchronized(this)
+		{
+		   Product updatedProd = new Product(Long.parseLong(idField.getText()), nameFIeld.getText(), typeComboBox.getValue(),
+				   Float.parseFloat(priceField.getText()), Integer.parseInt(amountFIeld.getText()), colorComboBox.getValue());
+		   ProdcutController.updateProduct(Long.parseLong(idField.getText()), updatedProd, client);
+		   try
+			{
+			this.wait();
+			} 
+			catch (InterruptedException e) 
+			{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+		}
+   }
+    protected void removeProductAndWait(long id)
     {
     	synchronized(this)
 		{
@@ -265,7 +302,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 	   }
     }
     	
-    private void addProductAndWait(Product newProd )
+    protected void addProductAndWait(Product newProd )
     {
     	synchronized(this)
 		{
@@ -295,7 +332,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 	      	  alert.showAndWait();
 		}
     }
-    private boolean alreadyExists(String id)
+    protected boolean alreadyExists(String id)
     {
     	 synchronized(this)
    	  {

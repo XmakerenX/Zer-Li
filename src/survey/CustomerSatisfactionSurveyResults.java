@@ -74,5 +74,10 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	public void setOfSurvey(String ofSurvey) {
 		this.ofSurvey = ofSurvey;
 	}
+	
+	public String toString()
+	{
+		return "Results of survey: " + this.getOfSurvey()+" results: "+this.getAnswers()[0]+","+this.getAnswers()[1]+","+this.getAnswers()[2]+","+this.getAnswers()[3]+","+this.getAnswers()[4]+","+this.getAnswers()[5]+ "," +this.getDate();
+	}
 
 }

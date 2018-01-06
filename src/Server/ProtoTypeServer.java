@@ -3,6 +3,7 @@ package Server;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import ocsf.server.AbstractServer;
@@ -12,6 +13,7 @@ import serverAPI.CheckExistsRequest;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
+import serverAPI.GetRequestWhere;
 import serverAPI.ImageRequest;
 import serverAPI.LoginRequest;
 import serverAPI.LogoutRequest;
@@ -82,7 +84,12 @@ public class ProtoTypeServer extends AbstractServer {
 			  logoutUser(client);
 			  client.setInfo("username", user.getUserName());
 			  // update DB user has logged in
-			  db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
+			  try {
+				db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			  sendToClient(client, new Response(Response.Type.SUCCESS, user));
 		  }
 		  catch (LoginException le)
@@ -92,7 +99,12 @@ public class ProtoTypeServer extends AbstractServer {
 				  this.logoutUser(client);
 			  
 			  //update DB user failed to log in
-			  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()), "username=\""+user.getUserName()+"\"");
+			  try {
+				db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()), "username=\""+user.getUserName()+"\"");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			  sendToClient(client, new Response(Response.Type.ERROR, le.getMessage()));							  
 		  }
 	  }
@@ -111,7 +123,12 @@ public class ProtoTypeServer extends AbstractServer {
 			  // make sure there is no way we are unblocking a blocked user!
 			  // log the user out
 			  client.setInfo("username", null);
-			  db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
+			  try {
+				db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		  }
 	  }
 	  
@@ -163,6 +180,24 @@ public class ProtoTypeServer extends AbstractServer {
 						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
 					  else
 						  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+				  }
+				  else
+					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+				  
+			  }break;
+			  
+			  case "GetRequestWhere":
+			  {
+				  GetRequestWhere getRequestWhere = (GetRequestWhere)request;
+				  String condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
+				  ResultSet rs = db.selectTableData("*", getRequestWhere.getTable(), condition);
+				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestWhere.getTable(), rs);
+				  if (entityArray != null)
+				  {
+					  if (entityArray.size() > 0)
+						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+					  else
+						  sendToClient(client, new Response(Response.Type.ERROR, "No results under this condition"));
 				  }
 				  else
 					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
@@ -227,7 +262,17 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "UpdateRequest":
 			  {
 				  UpdateRequest updateRequest =  (UpdateRequest)request;
-				  EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
+				  Boolean result = EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
+				  if(result)
+				  {
+					  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+updateRequest.getEntityKey()+
+							  		" was updated in table:"+updateRequest.getTable()));
+				  }
+				  else
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "entry with key:"+updateRequest.getEntityKey() +
+						  		" in table:"+updateRequest.getTable()+" could not be updated"));
+				  }
 			  }break;
 			  
 			  //checks whether the entry exists in a specific table
@@ -297,7 +342,8 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "LogoutRequest":
 			  {
 				  LogoutRequest logoutRequest = (LogoutRequest)request;
-				  EntityUpdater.setEntity("prototype.User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
+				  this.logoutUser(client);
+				  //EntityUpdater.setEntity("User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
 			  }break;
 			  
 			  		  

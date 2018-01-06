@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="557.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CreateOrderGUI">
+<AnchorPane prefHeight="557.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.CreateOrderGUI">
    <children>
       <DialogPane layoutY="-7.0" prefHeight="644.0" prefWidth="531.0" />
       <Label layoutX="143.0" layoutY="14.0" text="Create Order">
@@ -47,7 +47,7 @@
          </toggleGroup></RadioButton>
       <RadioButton layoutX="114.0" layoutY="564.0" mnemonicParsing="false" text="CreditCard" toggleGroup="$payMethod" />
       <RadioButton layoutX="229.0" layoutY="564.0" mnemonicParsing="false" text="Subscription" toggleGroup="$payMethod" />
-      <Label layoutX="26.0" layoutY="504.0" text="Pick up Time" />
+      <Label layoutX="25.0" layoutY="504.0" text="Pick up Time" />
       <TextField fx:id="hourTxt" layoutX="163.0" layoutY="505.0" prefHeight="26.0" prefWidth="35.0" />
       <TextField fx:id="minsTxt" layoutX="206.0" layoutY="505.0" prefHeight="26.0" prefWidth="35.0" />
       <Label layoutX="198.0" layoutY="504.0" prefHeight="21.0" prefWidth="8.0" text=":">
