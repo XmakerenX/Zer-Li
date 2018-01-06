@@ -1,29 +1,20 @@
 package order;
 
-import java.util.ArrayList;
-
 import client.Client;
-import prototype.FormController;
+import javafx.collections.ObservableList;
+import serverAPI.AddRequest;
 
 
-public class OrderController extends FormController
+public class OrderController
 {
-	/*
-	public Order getOrder(int orderID)
+	public static void CreateNewOrder(Order order, ObservableList<OrderItemView> orderItems)
 	{
-		ArrayList<String> msg;
-		Order requestedOrder = null;
-		
-		
-	 //orderResult = sendMSG();
-		
-		
-		
+    		for (OrderItemView item : orderItems)
+    		{
+    			order.addItemToOrder(item.getID(), item.getGreetingCard().getText());
+    		}
+
+    		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
-	*/
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }
