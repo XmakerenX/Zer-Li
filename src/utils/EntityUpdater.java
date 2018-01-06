@@ -1,26 +1,36 @@
 package utils;
 
+import java.sql.SQLException;
+
 import Server.DBConnector;
 import product.Product;
 import user.User;
 
 public class EntityUpdater {
 
-	public static void setEntity(String table, String oldKey, Object entity, DBConnector db)
+	public static Boolean setEntity(String table, String oldKey, Object entity, DBConnector db)
 	{
-		switch (table)
+		try
 		{
-		case "Product":
-			setProdcut(oldKey, (Product)entity, db);
-			break;
-			
-		case "User":
-			setUser(oldKey, (User)entity, db);
-			break;
+			switch (table)
+			{
+			case "Product":
+				setProdcut(oldKey, (Product)entity, db);
+				break;
+				
+			case "User":
+				setUser(oldKey, (User)entity, db);
+				break;
+			}
+			return true;
+		}
+		catch(SQLException ex)
+		{
+		return false;
 		}
 	}
 	
-	private static void setProdcut(String oldKey, Product product, DBConnector db)
+	private static void setProdcut(String oldKey, Product product, DBConnector db) throws SQLException
 	{
 		  String productID = "ProductID="+product.getID();
 		  String productName = "ProductName=\""+product.getName()+"\"";
@@ -34,7 +44,7 @@ public class EntityUpdater {
 				  			productAmount + "," +productColor, condition);
 	}
 	
-	private static void setUser(String oldKey, User user, DBConnector db)
+	private static void setUser(String oldKey, User user, DBConnector db) throws SQLException
 	{		  
 		  String userName = "userName=\""+user.getUserName()+"\"";
 		  String userPassword = "userPassword=\""+user.getUserPassword()+"\"";

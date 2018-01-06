@@ -124,7 +124,7 @@ public class DBConnector {
 		  }
 	  }
 	  
-	  public void executeUpdate(String table, String fieldsToUpdate, String condition)
+	  public void executeUpdate(String table, String fieldsToUpdate, String condition) throws SQLException
 	  {
 		  Statement stmt;
 		  
@@ -139,6 +139,7 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
+			  throw ex;
 		  }
 	  }
 	  
