@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import Server.DBConnector;
 import product.Product;
+import survey.CustomerSatisfactionSurvey;
 import user.User;
 
 public class EntityUpdater {
@@ -21,7 +22,11 @@ public class EntityUpdater {
 			case "User":
 				setUser(oldKey, (User)entity, db);
 				break;
+			case "surveys":
+				setSurvey(oldKey, (CustomerSatisfactionSurvey)entity, db);
+				break;
 			}
+			
 			return true;
 		}
 		catch(SQLException ex)
@@ -56,5 +61,21 @@ public class EntityUpdater {
 		  
 		  db.executeUpdate("User", userName + "," + userPassword + "," + userPermission + "," 
 				  +personID+", " + userStatus + ", " + unsuccessfulTries , condition);
+	}
+	
+	private static void setSurvey(String oldKey, CustomerSatisfactionSurvey survey, DBConnector db) throws SQLException
+	{		  
+		  String surveyName = "surveyName=\""+survey.getSurveyName()+"\"";
+		  String question1 = "question1=\""+survey.getSurveyQuestions()[0]+"\"";
+		  String question2 = "question2=\""+survey.getSurveyQuestions()[1]+"\"";
+		  String question3 = "question3=\""+survey.getSurveyQuestions()[2]+"\"";
+		  String question4 = "question4=\""+survey.getSurveyQuestions()[3]+"\"";
+		  String question5 = "question5=\""+survey.getSurveyQuestions()[4]+"\"";
+		  String question6 = "question6=\""+survey.getSurveyQuestions()[5]+"\"";
+		  String analysis = "analysis=\""+survey.getSurveyAnalysis() + "\"";
+		  String condition = "surveyName=\""+oldKey+"\""; 
+		  
+		  db.executeUpdate("surveys", surveyName + "," + question1 + "," + question2 + "," 
+				  + question3 + "," + question4 + "," + question5 + "," + question6 + "," + analysis , condition);
 	}
 }

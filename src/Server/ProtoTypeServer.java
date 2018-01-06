@@ -13,6 +13,7 @@ import serverAPI.CheckExistsRequest;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
+import serverAPI.GetRequestWhere;
 import serverAPI.ImageRequest;
 import serverAPI.LoginRequest;
 import serverAPI.LogoutRequest;
@@ -179,6 +180,24 @@ public class ProtoTypeServer extends AbstractServer {
 						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
 					  else
 						  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+				  }
+				  else
+					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+				  
+			  }break;
+			  
+			  case "GetRequestWhere":
+			  {
+				  GetRequestWhere getRequestWhere = (GetRequestWhere)request;
+				  String condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
+				  ResultSet rs = db.selectTableData("*", getRequestWhere.getTable(), condition);
+				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestWhere.getTable(), rs);
+				  if (entityArray != null)
+				  {
+					  if (entityArray.size() > 0)
+						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+					  else
+						  sendToClient(client, new Response(Response.Type.ERROR, "No results under this condition"));
 				  }
 				  else
 					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
