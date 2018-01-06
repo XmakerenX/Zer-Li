@@ -135,7 +135,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     }
   //===============================================================================================================
     /**
-     * collecting the data and creating a new result for a spesific survey
+     * collecting the data and creating a new result for a specific survey
      * @param event
      */
     @FXML
@@ -166,6 +166,12 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	        	// show success 
 	        	if (response.getType() == Response.Type.SUCCESS)
 	        	{
+	        		answerTxtFld1.setText("");
+	            	answerTxtFld2.setText("");
+	            	answerTxtFld3.setText("");
+	            	answerTxtFld4.setText("");
+	            	answerTxtFld5.setText("");
+	            	answerTxtFld6.setText("");
     				Alert alert = new Alert(AlertType.CONFIRMATION, "Result input was successfull", ButtonType.OK);
 	        		alert.showAndWait();
 	        		// clear replay
@@ -194,6 +200,13 @@ public class ResultInputGUI extends FormController implements ClientInterface {
   //===============================================================================================================
     @FXML
     void onCancel(ActionEvent event) {
+    	surveyComboBox.getItems().clear();
+    	answerTxtFld1.setText("");
+    	answerTxtFld2.setText("");
+    	answerTxtFld3.setText("");
+    	answerTxtFld4.setText("");
+    	answerTxtFld5.setText("");
+    	answerTxtFld6.setText("");
     	StoreWorkerGUI storeWorkerGUI = (StoreWorkerGUI)parent;
     	client.setUI(storeWorkerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
@@ -247,14 +260,13 @@ public class ResultInputGUI extends FormController implements ClientInterface {
         		for(int i=0; i<results.size(); i++)
         			surveyNames.add(results.get(i).getSurveyName());
  
-        		//ObservableList<String> surveyNamesObservable = FXCollections.observableArrayList(surveyNames);
         		surveyComboBox.getItems().setAll(surveyNames);
         		// clear response
         		response = null;
         	}
         	else
         	{
-        		Alert alert = new Alert(AlertType.ERROR, "Could not load surveys", ButtonType.OK);
+        		Alert alert = new Alert(AlertType.ERROR, "Could not load surveys info.", ButtonType.OK);
         		alert.showAndWait();
         		// clear response
         		response = null;

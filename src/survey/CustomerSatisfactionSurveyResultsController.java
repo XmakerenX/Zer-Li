@@ -2,6 +2,7 @@ package survey;
 
 import client.Client;
 import serverAPI.AddRequest;
+import serverAPI.GetRequestWhere;
 
 public class CustomerSatisfactionSurveyResultsController 
 {
@@ -17,6 +18,16 @@ public class CustomerSatisfactionSurveyResultsController
 	{		
 		CustomerSatisfactionSurveyResults newSurveyResults = new CustomerSatisfactionSurveyResults(surveyName, answers);
 		client.handleMessageFromClientUI(new AddRequest("CustomerSatisfactionSurveyResults", newSurveyResults));
+	}
+	//===============================================================================================================
+	/**
+	 * get results of a specific survey
+	 * @param surveyName name of the survey we want the results of
+	 * @param client
+	 */
+	public static void getResultsOfSurvey(String surveyName, Client client)
+	{
+		client.handleMessageFromClientUI(new GetRequestWhere("customersatisfactionsurveyresults", "surveyName", surveyName));
 	}
 	//===============================================================================================================
 }

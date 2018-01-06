@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -29,8 +30,8 @@ public class EntityFactory {
 		  case "surveys":
 			  return loadCustomerSatisfactionSurveys(rs);
 			  
-		  case "CustomerSatisfctionSurveyResults":
-			  return loadCustomerSatisfactionSurveys(rs);
+		  case "customersatisfactionsurveyresults":
+			  return loadCustomerSatisfactionSurveyResults(rs);
 			  
 			  
 		  default:
@@ -153,10 +154,8 @@ public class EntityFactory {
 				  questionlist[5]=rs.getString("question6");
 
 				  surveys.add(new CustomerSatisfactionSurvey(rs.getString("surveyName"), questionlist, rs.getString("analysis")));
-				  
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
-		  
 		  
 		  return surveys;
 	  }
@@ -173,20 +172,19 @@ public class EntityFactory {
 		  ArrayList<CustomerSatisfactionSurveyResults> surveyResults = new ArrayList<CustomerSatisfactionSurveyResults>();
 		  try
 		  {
-			  int[] results = new int[6];
 			  while (rs.next())
 			  {
-				  while (rs.next())
-				  {
-					  results[0]=rs.getInt("answer1");
-					  results[1]=rs.getInt("answer2");
-					  results[2]=rs.getInt("answer3");
-					  results[3]=rs.getInt("answer4");
-					  results[4]=rs.getInt("answer5");
-					  results[5]=rs.getInt("answer6");
-					  LocalDate date = rs.getObject( 3 , LocalDate.class );
-					  surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date));
-				  }				  
+				  int[] results = new int[6];
+				  results[0]=rs.getInt("answer1");
+				  results[1]=rs.getInt("answer2");
+				  results[2]=rs.getInt("answer3");
+				  results[3]=rs.getInt("answer4");
+				  results[4]=rs.getInt("answer5");
+				  results[5]=rs.getInt("answer6");
+				  java.sql.Date sqlDate = rs.getDate("date");
+				  LocalDate date = sqlDate.toLocalDate();
+			  
+			      surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  

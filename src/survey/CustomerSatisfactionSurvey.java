@@ -70,4 +70,7 @@ public class CustomerSatisfactionSurvey implements Serializable{
 		this.surveyAnalysis = surveyAnalysis;
 	}
 
+	public String toString() {
+		return ""+this.getSurveyName();
+	}
 }
