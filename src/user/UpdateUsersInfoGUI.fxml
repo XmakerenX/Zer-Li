@@ -47,7 +47,7 @@
                         <TextField fx:id="newPersonIDTxtField" layoutX="280.0" layoutY="118.0" />
                         <TextField fx:id="newUsersStatusTxtField" layoutX="280.0" layoutY="148.0" />
                         <TextField fx:id="newUnsuccessfulTriesTxtField" layoutX="280.0" layoutY="178.0" prefWidth="75.0" />
-                        <ComboBox fx:id="newPermissionComboBox" layoutX="280.0" layoutY="88.0" prefWidth="149.0" />
+                        <ComboBox fx:id="newPermissionComboBox" layoutX="280.0" layoutY="88.0" prefWidth="149.0" promptText="[Select permission]" />
                      </children>
                   </AnchorPane>
             </content>
@@ -95,7 +95,7 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="updateBtn" layoutX="346.0" layoutY="361.0" mnemonicParsing="false" text="Update" />
+      <Button fx:id="updateBtn" layoutX="346.0" layoutY="361.0" mnemonicParsing="false" onAction="#onUpdate" text="Update" />
       <Label fx:id="windowLbl" layoutX="126.0" layoutY="14.0" text="Personal's Info Manager">
          <font>
             <Font name="System Bold" size="16.0" />
