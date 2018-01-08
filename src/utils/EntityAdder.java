@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.util.Calendar;
 
 import Server.DBConnector;
+import customer.Customer;
+import customer.Customer.PayType;
 import order.Order;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
@@ -30,6 +32,9 @@ public class EntityAdder {
 					
 		case "Order":
 			return addOrder((Order)entity, db);
+			
+		case "Customer":
+			return addCustomer((Customer)entity, db);
 		
 		default:return false;
 		
@@ -158,6 +163,27 @@ public class EntityAdder {
 				}
 				return true;
 			} catch (Exception e) {
+				return false;
+			}
+		}
+		
+		private static Boolean addCustomer(Customer customer, DBConnector db)
+		{
+			String personID = "'"+customer.getID()+"'";
+			String fullName = "'"+customer.getName()+"'";
+			String phoneNumber = "'"+customer.getPhoneNumber()+"'";
+			String payMethod = "'"+customer.getPayMethod()+"'";
+			String accountBalance = "'"+customer.getAccountBalance()+"'";
+			String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
+			
+			try
+			{
+			db.insertData("Customer", personID + "," + fullName + "," + phoneNumber + "," + payMethod + "," + accountBalance + ","
+					+ creditCardNumber);
+				return true;
+			}
+			catch(Exception e)
+			{
 				return false;
 			}
 		}

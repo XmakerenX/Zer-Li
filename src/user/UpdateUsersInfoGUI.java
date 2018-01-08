@@ -2,6 +2,10 @@ package user;
 
 import client.Client;
 import client.ClientInterface;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -16,6 +20,8 @@ import javafx.scene.control.Alert.AlertType;
 import networkGUI.SystemManagerGUI;
 import prototype.FormController;
 import serverAPI.Response;
+import user.User.UserException;
+
 import java.util.ArrayList;
 
 public class UpdateUsersInfoGUI extends FormController implements ClientInterface {
@@ -23,6 +29,14 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	
 	private Response replay = null;
 	
+	//Current User's entity with all attributes for further updating
+	User userToUpdate;
+	String formerUsername;
+	
+	//List of permissions for the combo box
+	ObservableList<String> permissionsList = FXCollections.observableArrayList("Customer", "Store worker", "Store manager", "Network worker",
+			"Network manager", "Customer service", "Customer service expert",
+			"Customer service worker", "System manager");
 
     @FXML // fx:id="newUsernameTxtField"
     private TextField newUsernameTxtField; // Value injected by FXMLLoader
@@ -40,7 +54,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     private TextField newPasswordTxtField; // Value injected by FXMLLoader
 
     @FXML // fx:id="usersStatusLbl"
-    private Label usersStatusLbl; // Value injected by FXMLLoader
+    private Label usersStatusLbl; // Value injected by FXMLLoader				
 
     @FXML // fx:id="newCustomersInfoLbl"
     private Label newCustomersInfoLbl; // Value injected by FXMLLoader
@@ -121,7 +135,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     private Tab usersTab; // Value injected by FXMLLoader
 
     @FXML // fx:id="newPermissionComboBox"
-    private ComboBox<?> newPermissionComboBox; // Value injected by FXMLLoader
+    private ComboBox<String> newPermissionComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="creditCardNumberLbl"
     private Label creditCardNumberLbl; // Value injected by FXMLLoader
@@ -189,6 +203,22 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     @FXML // fx:id="usersCurrentInfoLbl"
     private Label usersCurrentInfoLbl; // Value injected by FXMLLoader
 
+    
+    /**
+     * Initializes the combo box of permissions
+     */
+    @FXML
+    //Will be called by FXMLLoader
+    public void initialize(){
+
+    	newPermissionComboBox.setItems(permissionsList);
+    	
+    }
+    
+    /**
+     * Finds specific user in database and brings its entity
+     * @param event - "Find user" button is pressed
+     */
     @FXML
     void onFindUser(ActionEvent event) {
     	
@@ -210,25 +240,112 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	// show success 
     	if (replay.getType() == Response.Type.SUCCESS)
     	{
-    		User user = (User)((ArrayList<?>) replay.getMessage()).get(0);
-    		String returnedUserName = user.getUserName();
+    	    userToUpdate = (User)((ArrayList<?>) replay.getMessage()).get(0);
     		
-        	// show failure  
-    		Alert alert = new Alert(AlertType.CONFIRMATION, returnedUserName+" is found!", ButtonType.OK);
-    		alert.showAndWait();
-    		// clear replay
-    		replay = null;
+    		//Filling the GUI's User's tab with info
+    		formerUsername = ""+userToUpdate.getUserName();
+    		usernameTxtField.setText(""+userToUpdate.getUserName());
+    		passwordTxtField.setText(""+userToUpdate.getUserPassword());
+    		permissionTxtField.setText(""+userToUpdate.getUserPermission());
+    		personIDTxtField.setText(""+userToUpdate.getPersonID());
+    		usersStatusTxtField.setText(""+userToUpdate.getUserStatus());
+    		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
+    		
+    		//Filling the GUI's Customer's tab with info
+    		/*	HERE WILL BE CUSTOMER'S*/
+
     	}
     	else
     	{
         	// show failure  
     		Alert alert = new Alert(AlertType.ERROR, "User doesn't exists!", ButtonType.OK);
     		alert.showAndWait();
-    		// clear replay
-    		replay = null;
+
     	}
     	
     	}catch(InterruptedException e) {}
+     	
+     	// clear replay
+     	replay = null;
+    }
+    
+    /**
+     * Changes specific user's entry in database table
+     * @param event - "Update" button is pressed
+     */
+    @FXML
+    void onUpdate(ActionEvent event) {
+    	
+    	String [] splittedPermission;
+    	String temporaryPermission = "";
+    	
+    	if( !newUsernameTxtField.getText().equals("") ||  !newPasswordTxtField.getText().equals("") || newPermissionComboBox.getValue() != null
+    			|| !newPersonIDTxtField.getText().equals("") )
+    	{
+    		
+			try {
+		   		if(!newUsernameTxtField.getText().equals(""))
+		   			userToUpdate.setUserName(""+newUsernameTxtField.getText());
+		   		
+		   		if(!newPasswordTxtField.getText().equals(""))
+		   			userToUpdate.setUserPassword(""+newPasswordTxtField.getText());
+		   		
+		   		if(newPermissionComboBox.getValue() != null)
+		   		{
+		   			
+		   			splittedPermission = newPermissionComboBox.getValue().split(" ");
+		   			for(String permission : splittedPermission )
+		   			{
+		   				if( !temporaryPermission.equals(""))
+		   					temporaryPermission = temporaryPermission + "_";
+		   				temporaryPermission = temporaryPermission + permission.toUpperCase();
+		   			}
+		   			
+		   			userToUpdate.setUserPermission(User.Permissions.valueOf(temporaryPermission));
+		   		}
+		   		
+		   		if(!newPersonIDTxtField.getText().equals(""))
+		   			userToUpdate.setPersonID(Integer.parseInt(newPersonIDTxtField.getText()));
+		   			
+			} catch (UserException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    			
+	    	UserController.updateUserDetails(userToUpdate, formerUsername, client);
+	    	clearFieldsMethod();
+	    	
+	     	try
+	    	{
+	    		synchronized(this)
+	    		{
+	    			// wait for server response
+	    			this.wait();
+	    		}
+	    	
+	    		if (replay == null)
+	    			return;
+	    		
+	    	if (replay.getType() == Response.Type.SUCCESS)
+	    	{
+	        	// show success  
+	    		Alert alert = new Alert(AlertType.INFORMATION, "User's info is successfully updated!", ButtonType.OK);
+	    		alert.showAndWait();
+
+	    	}
+	    	else
+	    	{
+	        	// show failure  
+	    		Alert alert = new Alert(AlertType.ERROR, "The update is failed!", ButtonType.OK);
+	    		alert.showAndWait();
+
+	    	}
+	    	
+	    	}catch(InterruptedException e) {}
+	     	
+    		// clear replay
+    		replay = null;
+    	}
     }
     
     @FXML
@@ -258,6 +375,20 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	public void onSwitch(Client newClient) {
 		
 		
+	}
+	
+	public void clearFieldsMethod()
+	{
+		usernameTxtField.setText("");
+		passwordTxtField.setText("");
+		permissionTxtField.setText("");
+		personIDTxtField.setText("");
+		usersStatusTxtField.setText("");
+		unsuccessfulTriesTxtField.setText("");
+		newUsernameTxtField.setText("");
+		newPasswordTxtField.setText("");
+		newPermissionComboBox.setValue(null);
+	    newPersonIDTxtField.setText("");
 	}
 
 }

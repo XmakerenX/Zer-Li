@@ -72,7 +72,7 @@ public class UserController {
 	}
 	
 	/**
-	 * Creates new user and adds him to database
+	 * Creates new user and adds to database
 	 * @param userName - user name in program program
 	 * @param userPassword - password to access the program
 	 * @param userPermission - permission to distinguish between users and their rights
