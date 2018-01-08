@@ -3,6 +3,8 @@ package utils;
 import java.sql.SQLException;
 
 import Server.DBConnector;
+import customer.Customer;
+import customer.Customer.PayType;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
 import user.User;
@@ -22,8 +24,13 @@ public class EntityUpdater {
 			case "User":
 				setUser(oldKey, (User)entity, db);
 				break;
+				
 			case "surveys":
 				setSurvey(oldKey, (CustomerSatisfactionSurvey)entity, db);
+				break;
+				
+			case "Customer":
+				setCustomer(oldKey, (Customer)entity, db);
 				break;
 			}
 			
@@ -77,5 +84,18 @@ public class EntityUpdater {
 		  
 		  db.executeUpdate("surveys", surveyName + "," + question1 + "," + question2 + "," 
 				  + question3 + "," + question4 + "," + question5 + "," + question6 + "," + analysis , condition);
+	}
+	
+	private static void setCustomer(String oldKey, Customer customer, DBConnector db) throws SQLException
+	{
+//		long ID;
+//		String name;
+//		String phoneNumber;
+//		PayType payMethod;
+//		float accountBalance;
+//		String creditCardNumber;
+//		  
+//		db.executeUpdate("User", userName + "," + userPassword + "," + userPermission + "," 
+//				  +personID+", " + userStatus + ", " + unsuccessfulTries , condition);
 	}
 }
