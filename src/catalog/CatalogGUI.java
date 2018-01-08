@@ -1,6 +1,7 @@
 package catalog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import client.Client;
 import client.ClientInterface;
@@ -10,6 +11,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -220,8 +222,12 @@ public class CatalogGUI extends FormController implements ClientInterface {
     			
     			itemData.add(new CatalogItemView(catalogItems.get(i), "Cache//"));
     		}
-    	
+
+    		//SortedList<CatalogItemView> sortList = new SortedList<CatalogItemView>(itemData);
+    		//sortList.comparatorProperty().bind(catalogTable.comparatorProperty());
+    		//Collections.sort(itemData);
     		catalogTable.setItems(itemData);
+    		Collections.sort(catalogTable.getItems());
     	}
     	
     	replay = null;

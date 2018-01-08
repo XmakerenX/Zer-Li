@@ -2,7 +2,7 @@ package product;
 
 import java.io.Serializable;
 
-public class CatalogItem extends Product
+public class CatalogItem extends Product implements Comparable<CatalogItem>
 {
 	
 	class ImageInfo implements Serializable
@@ -54,6 +54,20 @@ public class CatalogItem extends Product
 		return this.imageInfo.imageCheckSum;
 	}
 	
+	public int compareTo(CatalogItem o)
+	{
+		System.out.println(this.getSalePrice() + " " + o.getSalePrice());
+		if (this.salePrice == -1 && o.salePrice != -1)
+			return 1;
+		
+		if ( (this.salePrice != -1 && o.salePrice != -1) || (this.salePrice == 0 && o.salePrice == 0))
+			return 0;
+		
+		if (this.salePrice != -1 && o.salePrice == -1)
+			return -1;
+		
+		return 0;
+	}
 	
 	
 }

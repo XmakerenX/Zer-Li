@@ -19,6 +19,9 @@ public class CatalogItemView extends CatalogItem {
 		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum);
 		selected = new SimpleBooleanProperty();
 		
+		if (getSalePrice() > 0)
+			this.setPrice(getSalePrice());
+		
 		if (imageName != null)
 		{
 			File file = new File(imageName);
@@ -35,6 +38,9 @@ public class CatalogItemView extends CatalogItem {
 		
 		selected = new SimpleBooleanProperty();
 
+		if (getSalePrice() > 0)
+			this.setPrice(getSalePrice());
+		
 		if (catalogItem.getImageName() != null)
 		{
 			File file = new File(imagesDir+catalogItem.getImageName());
