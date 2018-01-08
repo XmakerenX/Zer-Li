@@ -88,14 +88,15 @@ public class EntityUpdater {
 	
 	private static void setCustomer(String oldKey, Customer customer, DBConnector db) throws SQLException
 	{
-//		long ID;
-//		String name;
-//		String phoneNumber;
-//		PayType payMethod;
-//		float accountBalance;
-//		String creditCardNumber;
-//		  
-//		db.executeUpdate("User", userName + "," + userPassword + "," + userPermission + "," 
-//				  +personID+", " + userStatus + ", " + unsuccessfulTries , condition);
+		String personID = ""+customer.getID();
+		String fullName = "'"+customer.getName()+"'";
+		String phoneNumber = "'"+customer.getPhoneNumber()+"'";
+		String payMethod = "'"+customer.getPayMethod()+"'";
+		String accountBalance = ""+customer.getAccountBalance();
+		String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
+		String condition = "personID='"+oldKey+"'";
+		  
+		db.executeUpdate("User", personID + "," + fullName + "," + phoneNumber + "," 
+				  +payMethod+", " + accountBalance + ", " + creditCardNumber , condition);
 	}
 }

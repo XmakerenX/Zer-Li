@@ -4,6 +4,14 @@ import java.io.Serializable;
 
 public class Customer implements Serializable {
 	
+	public class  CustomerException extends Exception {
+
+		public CustomerException(String message)
+		{
+			super(message);
+		}
+	}
+	
 	public enum PayType {CASH, CREDIT_CARD, SUBSCRIPTION}
 	
 	long ID;
@@ -13,7 +21,7 @@ public class Customer implements Serializable {
 	float accountBalance;
 	String creditCardNumber;
 	
-	public Customer(long ID, String name, String phoneNumber, PayType payMethod, float accountBalance, String creditCardNumber)
+	public Customer(long ID, String name, String phoneNumber, PayType payMethod, float accountBalance, String creditCardNumber) throws CustomerException
 	{
 		setID(ID);
 		setName(name);

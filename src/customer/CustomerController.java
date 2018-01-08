@@ -1,12 +1,11 @@
 package customer;
 
 import client.Client;
+import customer.Customer.CustomerException;
 import customer.Customer.PayType;
 import serverAPI.AddRequest;
+import serverAPI.GetRequestByKey;
 import serverAPI.UpdateRequest;
-import user.User;
-import user.User.Permissions;
-import user.User.UserException;
 
 public class CustomerController {
 	
@@ -24,14 +23,35 @@ public class CustomerController {
 									String creditCardNumber, Client client)
 	{
 		
-		Customer newCustomer = new Customer(personID, fullName, phoneNumber, payMethod, accountBalance, creditCardNumber);
-		client.handleMessageFromClientUI(new AddRequest("Customer", newCustomer));
-			
+		Customer newCustomer;
+		try {
+			newCustomer = new Customer(personID, fullName, phoneNumber, payMethod, accountBalance, creditCardNumber);
+			client.handleMessageFromClientUI(new AddRequest("Customers", newCustomer));
+		} catch (CustomerException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
+	/**
+	 * Applies changes in customer's info
+	 * @param updatedCustomer - updated Customer entity
+	 * @param formerPersonID - old person ID (in case it has been changed)
+	 * @param client - currently running client
+	 */
 	public static void updateCustomerDetails(Customer updatedCustomer, String formerPersonID, Client client)
 	{		
-		client.handleMessageFromClientUI(new UpdateRequest("Customer", formerPersonID, updatedCustomer));
+		client.handleMessageFromClientUI(new UpdateRequest("Customers", formerPersonID, updatedCustomer));
+	}
+	
+	/**
+	 * Gets customer from data base
+	 * @param personID - customer's person ID (is the key)
+	 * @param client - currently running client
+	 */
+	public static void getCustomer(String personID, Client client)
+	{
+		client.handleMessageFromClientUI(new GetRequestByKey("Customers", personID));
 	}
 
 }

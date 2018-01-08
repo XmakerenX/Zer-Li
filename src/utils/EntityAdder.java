@@ -169,11 +169,11 @@ public class EntityAdder {
 		
 		private static Boolean addCustomer(Customer customer, DBConnector db)
 		{
-			String personID = "'"+customer.getID()+"'";
+			String personID = ""+customer.getID();
 			String fullName = "'"+customer.getName()+"'";
 			String phoneNumber = "'"+customer.getPhoneNumber()+"'";
 			String payMethod = "'"+customer.getPayMethod()+"'";
-			String accountBalance = "'"+customer.getAccountBalance()+"'";
+			String accountBalance = ""+customer.getAccountBalance();
 			String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
 			
 			try

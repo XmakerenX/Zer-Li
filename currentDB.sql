@@ -219,6 +219,37 @@ INSERT INTO `surveys` VALUES ('12','1','1','1','1','1','1','1'),('123','Question
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+
+--
+-- Table structure for table `Customers`
+--
+
+
+DROP TABLE IF EXISTS `Customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Customers` (
+  `personID` int(11) NOT NULL,
+  `fullName` varchar(45) DEFAULT NULL,
+  `phoneNumber` varchar(45) DEFAULT NULL,
+  `payMethod` varchar(45) DEFAULT NULL,
+  `accountBalance` float(11) DEFAULT NULL,
+  `creditCardNumber` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`personID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Customers`
+--
+
+LOCK TABLES `Customers` WRITE;
+/*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
+INSERT INTO `Customers` VALUES (12345,'Dzon Levi','101','CASH',0.0,'4356768');
+/*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

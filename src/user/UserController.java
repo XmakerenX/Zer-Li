@@ -94,8 +94,8 @@ public class UserController {
 		
 	/**
 	 * Applies changes in user's info
-	 * @param updatedUser - updated User object
-	 * @param userName - old user name (in case it changed)
+	 * @param updatedUser - updated User entity
+	 * @param userName - old user name (in case it has been changed)
 	 * @param client - current running client
 	 */
 	public static void updateUserDetails(User updatedUser, String formerUserName, Client client)

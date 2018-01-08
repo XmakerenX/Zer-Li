@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import customer.Customer;
 import user.User;
 import product.CatalogItem;
 import product.Product;
@@ -32,6 +34,9 @@ public class EntityFactory {
 			  
 		  case "customersatisfactionsurveyresults":
 			  return loadCustomerSatisfactionSurveyResults(rs);
+		  
+		  case "Customers":
+			  return loadCustomers(rs);
 			  
 			  
 		  default:
@@ -192,5 +197,28 @@ public class EntityFactory {
 		  return surveyResults;
 	  }
 	  
+	  /**
+	   * parse a ResultSet and returns an ArrayList of users from it
+	   * @param rs ResultSet of the query to get the users table
+	   * @return an arrayList of users made from the given ResultSet
+	   */
+	  public static ArrayList<Customer> loadCustomers(ResultSet rs)
+	  {
+		  ArrayList<Customer> customers = new ArrayList<Customer>();
+		  try
+		  {
+			  while (rs.next())
+			  {
+				  customers.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3),
+						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6)));
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  catch (Customer.CustomerException ce ) {
+			  System.out.println("Invalid customer data received from database");
+			  ce.printStackTrace();
+		  }
+		  
+		  return customers;
+	  }
 	  
 }

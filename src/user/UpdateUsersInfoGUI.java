@@ -2,6 +2,8 @@ package user;
 
 import client.Client;
 import client.ClientInterface;
+import customer.Customer;
+import customer.CustomerController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -33,175 +36,179 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	User userToUpdate;
 	String formerUsername;
 	
+	//Current Customer's entity with all attributes for further updating
+	Customer customerToUpdate;
+	String formerPersonID;
+	
 	//List of permissions for the combo box
 	ObservableList<String> permissionsList = FXCollections.observableArrayList("Customer", "Store worker", "Store manager", "Network worker",
 			"Network manager", "Customer service", "Customer service expert",
 			"Customer service worker", "System manager");
 
-    @FXML // fx:id="newUsernameTxtField"
-    private TextField newUsernameTxtField; // Value injected by FXMLLoader
+	@FXML
+    private Label findUserNameLbl;
 
-    @FXML // fx:id="personIDTxtField"
-    private TextField personIDTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField findUserNameTxtField;
 
-    @FXML // fx:id="newAccoundBalanceTxtField"
-    private TextField newAccoundBalanceTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Button findUserNameBtn;
 
-    @FXML // fx:id="updateBtn"
-    private Button updateBtn; // Value injected by FXMLLoader
+    @FXML
+    private Button backBtn;
 
-    @FXML // fx:id="newPasswordTxtField"
-    private TextField newPasswordTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Tab usersTab;
 
-    @FXML // fx:id="usersStatusLbl"
-    private Label usersStatusLbl; // Value injected by FXMLLoader				
+    @FXML
+    private Label usersCurrentInfoLbl;
 
-    @FXML // fx:id="newCustomersInfoLbl"
-    private Label newCustomersInfoLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label newUsersInfoLbl;
 
-    @FXML // fx:id="phoneNumberLbl"
-    private Label phoneNumberLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label usernameLbl;
 
-    @FXML // fx:id="newFullNameTxtField"
-    private TextField newFullNameTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Label passwordLbl;
 
-    @FXML // fx:id="paymentMethodLbl"
-    private Label paymentMethodLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label permissionLbl;
 
-    @FXML // fx:id="accoundBalanceTxtField"
-    private TextField accoundBalanceTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Label personIDLbl;
 
-    @FXML // fx:id="unsuccessfulTriesTxtField"
-    private TextField unsuccessfulTriesTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Label usersStatusLbl;
 
-    @FXML // fx:id="newAccountStatusComboBox"
-    private ComboBox<?> newAccountStatusComboBox; // Value injected by FXMLLoader
+    @FXML
+    private Label unsuccessfulTriesLbl;
 
-    @FXML // fx:id="newCreditCardNumberTxtField"
-    private TextField newCreditCardNumberTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField usernameTxtField;
 
-    @FXML // fx:id="newUnsuccessfulTriesTxtField"
-    private TextField newUnsuccessfulTriesTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField passwordTxtField;
 
-    @FXML // fx:id="newCustomersPersonIDTxtField"
-    private TextField newCustomersPersonIDTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField permissionTxtField;
 
-    @FXML // fx:id="findUserNameBtn"
-    private Button findUserNameBtn; // Value injected by FXMLLoader
+    @FXML
+    private TextField personIDTxtField;
 
-    @FXML // fx:id="passwordLbl"
-    private Label passwordLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField usersStatusTxtField;
 
-    @FXML // fx:id="personIDLbl"
-    private Label personIDLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField unsuccessfulTriesTxtField;
 
-    @FXML // fx:id="windowLbl"
-    private Label windowLbl; // Value injected by FXMLLoader
+    @FXML
+    private Separator usersVerticalSeparator;
 
-    @FXML // fx:id="customersTab"
-    private Tab customersTab; // Value injected by FXMLLoader
+    @FXML
+    private Separator usersHorizontalSeparator;
 
-    @FXML // fx:id="accountStatusTxtField"
-    private TextField accountStatusTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField newUsernameTxtField;
 
-    @FXML // fx:id="backBtn"
-    private Button backBtn; // Value injected by FXMLLoader
+    @FXML
+    private TextField newPasswordTxtField;
 
-    @FXML // fx:id="paymentMethodTxtField"
-    private TextField paymentMethodTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField newPersonIDTxtField;
 
-    @FXML // fx:id="creditCardNumberTxtField"
-    private TextField creditCardNumberTxtField; // Value injected by FXMLLoader
+    @FXML
+    private ComboBox<String> newPermissionComboBox;
 
-    @FXML // fx:id="findUserNameTxtField"
-    private TextField findUserNameTxtField; // Value injected by FXMLLoader
+    @FXML
+    private ComboBox<String> newUsersStatusComboBox;
 
-    @FXML // fx:id="permissionLbl"
-    private Label permissionLbl; // Value injected by FXMLLoader
+    @FXML
+    private CheckBox clearTriesCheckBox;
 
-    @FXML // fx:id="usernameTxtField"
-    private TextField usernameTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Tab customersTab;
 
-    @FXML // fx:id="customersHorizontalSeparator"
-    private Separator customersHorizontalSeparator; // Value injected by FXMLLoader
+    @FXML
+    private Label customersCurrentInfoLbl;
 
-    @FXML // fx:id="newPaymentMethodComboBox"
-    private ComboBox<?> newPaymentMethodComboBox; // Value injected by FXMLLoader
+    @FXML
+    private Label newCustomersInfoLbl;
 
-    @FXML // fx:id="findUserNameLbl"
-    private Label findUserNameLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label customersPersonIDLbl;
 
-    @FXML // fx:id="usersTab"
-    private Tab usersTab; // Value injected by FXMLLoader
+    @FXML
+    private Label fullNameLbl;
 
-    @FXML // fx:id="newPermissionComboBox"
-    private ComboBox<String> newPermissionComboBox; // Value injected by FXMLLoader
+    @FXML
+    private Label phoneNumberLbl;
 
-    @FXML // fx:id="creditCardNumberLbl"
-    private Label creditCardNumberLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label paymentMethodLbl;
 
-    @FXML // fx:id="accountStatusLbl"
-    private Label accountStatusLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label accoundBalanceLbl;
 
-    @FXML // fx:id="newPersonIDTxtField"
-    private TextField newPersonIDTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Label creditCardNumberLbl;
 
-    @FXML // fx:id="passwordTxtField"
-    private TextField passwordTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Label accountStatusLbl;
 
-    @FXML // fx:id="usersVerticalSeparator"
-    private Separator usersVerticalSeparator; // Value injected by FXMLLoader
+    @FXML
+    private TextField customersPersonIDTxtField;
 
-    @FXML // fx:id="fullNameTxtField"
-    private TextField fullNameTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField fullNameTxtField;
 
-    @FXML // fx:id="customersPersonIDLbl"
-    private Label customersPersonIDLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField phoneNumberTxtField;
 
-    @FXML // fx:id="customersPersonIDTxtField"
-    private TextField customersPersonIDTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField paymentMethodTxtField;
 
-    @FXML // fx:id="unsuccessfulTriesLbl"
-    private Label unsuccessfulTriesLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField accoundBalanceTxtField;
 
-    @FXML // fx:id="usersStatusTxtField"
-    private TextField usersStatusTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField creditCardNumberTxtField;
 
-    @FXML // fx:id="usersHorizontalSeparator"
-    private Separator usersHorizontalSeparator; // Value injected by FXMLLoader
+    @FXML
+    private TextField accountStatusTxtField;
 
-    @FXML // fx:id="newUsersStatusTxtField"
-    private TextField newUsersStatusTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Separator customersVerticalSeparator;
 
-    @FXML // fx:id="usernameLbl"
-    private Label usernameLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField newCustomersPersonIDTxtField;
 
-    @FXML // fx:id="permissionTxtField"
-    private TextField permissionTxtField; // Value injected by FXMLLoader
+    @FXML
+    private TextField newFullNameTxtField;
 
-    @FXML // fx:id="newUsersInfoLbl"
-    private Label newUsersInfoLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField newPhoneNumberTxtField;
 
-    @FXML // fx:id="accoundBalanceLbl"
-    private Label accoundBalanceLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField newAccoundBalanceTxtField;
 
-    @FXML // fx:id="customersCurrentInfoLbl"
-    private Label customersCurrentInfoLbl; // Value injected by FXMLLoader
+    @FXML
+    private TextField newCreditCardNumberTxtField;
 
-    @FXML // fx:id="customersVerticalSeparator"
-    private Separator customersVerticalSeparator; // Value injected by FXMLLoader
+    @FXML
+    private Separator customersHorizontalSeparator;
 
-    @FXML // fx:id="fullNameLbl"
-    private Label fullNameLbl; // Value injected by FXMLLoader
+    @FXML
+    private ComboBox<String> newPaymentMethodComboBox;
 
-    @FXML // fx:id="newPhoneNumberTxtField"
-    private TextField newPhoneNumberTxtField; // Value injected by FXMLLoader
+    @FXML
+    private ComboBox<String> newAccountStatusComboBox;
 
-    @FXML // fx:id="phoneNumberTxtField"
-    private TextField phoneNumberTxtField; // Value injected by FXMLLoader
+    @FXML
+    private Button updateBtn;
 
-    @FXML // fx:id="usersCurrentInfoLbl"
-    private Label usersCurrentInfoLbl; // Value injected by FXMLLoader
+    @FXML
+    private Label windowLbl;
 
     
     /**
@@ -250,9 +257,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		personIDTxtField.setText(""+userToUpdate.getPersonID());
     		usersStatusTxtField.setText(""+userToUpdate.getUserStatus());
     		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
-    		
-    		//Filling the GUI's Customer's tab with info
-    		/*	HERE WILL BE CUSTOMER'S*/
 
     	}
     	else
@@ -265,6 +269,50 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	
     	}catch(InterruptedException e) {}
      	
+     	// clear replay
+     	replay = null;
+     	
+    	String personID = ""+userToUpdate.getPersonID();
+    	
+    	CustomerController.getCustomer(personID, client);
+    	
+     	try
+    	{
+    		synchronized(this)
+    		{
+    			// wait for server response
+    			this.wait();
+    		}
+    	
+    		if (replay == null)
+    			return;
+    		
+    	// show success 
+    	if (replay.getType() == Response.Type.SUCCESS)
+    	{
+    	    customerToUpdate = (Customer)((ArrayList<?>) replay.getMessage()).get(0);
+
+    		//Filling the GUI's User's tab with info
+    		formerPersonID= ""+customerToUpdate.getID();
+    		customersPersonIDTxtField.setText(""+customerToUpdate.getID());
+    		fullNameTxtField.setText(""+customerToUpdate.getName());
+    		phoneNumberTxtField.setText(""+customerToUpdate.getPhoneNumber());
+    		paymentMethodTxtField.setText(""+customerToUpdate.getPayMethod());
+    		accoundBalanceTxtField.setText(""+customerToUpdate.getAccountBalance());
+    		creditCardNumberTxtField.setText(""+customerToUpdate.getCreditCardNumber());
+    	//	accountStatusTxtField.setText(value);
+
+    	}
+    	else
+    	{
+        	// show failure  
+    		Alert alert = new Alert(AlertType.ERROR, "This user is not a customer!", ButtonType.OK);
+    		alert.showAndWait();
+
+    	}
+    	
+    	}catch(InterruptedException e) {}
+    	
      	// clear replay
      	replay = null;
     }
@@ -280,7 +328,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	String temporaryPermission = "";
     	
     	if( !newUsernameTxtField.getText().equals("") ||  !newPasswordTxtField.getText().equals("") || newPermissionComboBox.getValue() != null
-    			|| !newPersonIDTxtField.getText().equals("") )
+    			|| !newPersonIDTxtField.getText().equals("") || newUsersStatusComboBox.getValue() != null)
     	{
     		
 			try {
@@ -306,10 +354,20 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		   		
 		   		if(!newPersonIDTxtField.getText().equals(""))
 		   			userToUpdate.setPersonID(Integer.parseInt(newPersonIDTxtField.getText()));
+		   		
+		   		if(newUsersStatusComboBox.getValue() != null)
+		   			userToUpdate.setUserStatus(User.Status.valueOf(newUsersStatusComboBox.getValue().toUpperCase()));
+		   		
+		   		if(clearTriesCheckBox.isSelected() == true)
+		   			userToUpdate.clearUnsuccessfulTries();
+		   			
 		   			
 			} catch (UserException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+	        	// show failure  
+	    		Alert alert = new Alert(AlertType.ERROR, "The update is failed!", ButtonType.OK);
+	    		alert.showAndWait();
+	    		return;
 			}
     			
 	    	UserController.updateUserDetails(userToUpdate, formerUsername, client);
