@@ -210,7 +210,7 @@ public class EntityFactory {
 			  while (rs.next())
 			  {
 				  customers.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3),
-						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6)));
+						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6), rs.getBoolean(7)));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  catch (Customer.CustomerException ce ) {

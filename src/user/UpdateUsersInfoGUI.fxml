@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -11,13 +15,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.UpdateUsersInfoGUI">
+<AnchorPane prefHeight="430.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.UpdateUsersInfoGUI">
    <children>
       <Label fx:id="findUserNameLbl" layoutX="15.0" layoutY="55.0" text="Enter user name:" />
       <TextField fx:id="findUserNameTxtField" layoutX="114.0" layoutY="53.0" />
       <Button fx:id="findUserNameBtn" layoutX="273.0" layoutY="53.0" mnemonicParsing="false" onAction="#onFindUser" text="Find user" />
-      <Button fx:id="backBtn" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <TabPane layoutY="89.0" prefHeight="264.0" prefWidth="435.0" tabClosingPolicy="UNAVAILABLE">
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="395.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <TabPane layoutY="89.0" prefHeight="297.0" prefWidth="435.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="usersTab" text="User's Info">
             <content>
@@ -33,20 +37,20 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="usernameLbl" layoutX="24.0" layoutY="30.0" text="User name:" />
-                        <Label fx:id="passwordLbl" layoutX="31.0" layoutY="60.0" text="Password:" />
-                        <Label fx:id="permissionLbl" layoutX="24.0" layoutY="90.0" text="Permission:" />
-                        <Label fx:id="personIDLbl" layoutX="30.0" layoutY="120.0" text="Person ID:" />
-                        <Label fx:id="usersStatusLbl" layoutX="15.0" layoutY="150.0" text="User's status:" />
-                        <Label fx:id="unsuccessfulTriesLbl" layoutX="15.0" layoutY="180.0" text="Unsuccessful tries to log in:" />
-                        <TextField fx:id="usernameTxtField" disable="true" editable="false" layoutX="95.0" layoutY="28.0" />
-                        <TextField fx:id="passwordTxtField" disable="true" editable="false" layoutX="95.0" layoutY="58.0" />
-                        <TextField fx:id="permissionTxtField" disable="true" editable="false" layoutX="95.0" layoutY="88.0" />
-                        <TextField fx:id="personIDTxtField" disable="true" editable="false" layoutX="95.0" layoutY="118.0" />
-                        <TextField fx:id="usersStatusTxtField" disable="true" editable="false" layoutX="95.0" layoutY="148.0" />
-                        <TextField fx:id="unsuccessfulTriesTxtField" disable="true" editable="false" layoutX="169.0" layoutY="178.0" prefHeight="25.0" prefWidth="75.0" />
-                        <Separator fx:id="usersVerticalSeparator" layoutX="270.0" orientation="VERTICAL" prefHeight="238.0" prefWidth="6.0" />
-                        <Separator fx:id="usersHorizontalSeparator" layoutY="233.0" prefHeight="5.0" prefWidth="435.0" />
+                        <Label fx:id="usernameLbl" layoutX="42.0" layoutY="30.0" text="User name:" />
+                        <Label fx:id="passwordLbl" layoutX="49.0" layoutY="60.0" text="Password:" />
+                        <Label fx:id="permissionLbl" layoutX="42.0" layoutY="90.0" text="Permission:" />
+                        <Label fx:id="personIDLbl" layoutX="48.0" layoutY="120.0" text="Person ID:" />
+                        <Label fx:id="usersStatusLbl" layoutX="33.0" layoutY="150.0" text="User's status:" />
+                        <Label fx:id="unsuccessfulTriesLbl" layoutX="33.0" layoutY="180.0" text="Unsuccessful tries to log in:" />
+                        <TextField fx:id="usernameTxtField" editable="false" layoutX="113.0" layoutY="28.0" />
+                        <TextField fx:id="passwordTxtField" editable="false" layoutX="113.0" layoutY="58.0" />
+                        <TextField fx:id="permissionTxtField" editable="false" layoutX="113.0" layoutY="88.0" />
+                        <TextField fx:id="personIDTxtField" editable="false" layoutX="113.0" layoutY="118.0" />
+                        <TextField fx:id="usersStatusTxtField" editable="false" layoutX="113.0" layoutY="148.0" />
+                        <TextField fx:id="unsuccessfulTriesTxtField" editable="false" layoutX="187.0" layoutY="178.0" prefHeight="25.0" prefWidth="75.0" />
+                        <Separator fx:id="usersVerticalSeparator" layoutX="270.0" orientation="VERTICAL" prefHeight="271.0" prefWidth="6.0" />
+                        <Separator fx:id="usersHorizontalSeparator" layoutY="266.0" prefHeight="5.0" prefWidth="435.0" />
                         <TextField fx:id="newUsernameTxtField" layoutX="280.0" layoutY="28.0" />
                         <TextField fx:id="newPasswordTxtField" layoutX="280.0" layoutY="58.0" />
                         <TextField fx:id="newPersonIDTxtField" layoutX="280.0" layoutY="118.0" />
@@ -71,36 +75,38 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="customersPersonIDLbl" layoutX="49.0" layoutY="30.0" text="Person's ID:" />
-                        <Label fx:id="fullNameLbl" layoutX="56.0" layoutY="60.0" text="Full name:" />
-                        <Label fx:id="phoneNumberLbl" layoutX="29.0" layoutY="90.0" text="Phone number:" />
-                        <Label fx:id="paymentMethodLbl" layoutX="17.0" layoutY="120.0" text="Payment method:" />
-                        <Label fx:id="accoundBalanceLbl" layoutX="20.0" layoutY="150.0" text="Account balance:" />
-                        <Label fx:id="creditCardNumberLbl" layoutX="5.0" layoutY="180.0" text="Credit card number:" />
-                        <Label fx:id="accountStatusLbl" layoutX="30.0" layoutY="210.0" text="Account status:" />
-                        <TextField fx:id="customersPersonIDTxtField" disable="true" editable="false" layoutX="123.0" layoutY="28.0" prefWidth="139.0" />
-                        <TextField fx:id="fullNameTxtField" disable="true" editable="false" layoutX="123.0" layoutY="58.0" prefWidth="139.0" />
-                        <TextField fx:id="phoneNumberTxtField" disable="true" editable="false" layoutX="123.0" layoutY="88.0" prefWidth="139.0" />
-                        <TextField fx:id="paymentMethodTxtField" disable="true" editable="false" layoutX="123.0" layoutY="118.0" prefWidth="139.0" />
-                        <TextField fx:id="accoundBalanceTxtField" disable="true" editable="false" layoutX="123.0" layoutY="148.0" prefWidth="139.0" />
-                        <TextField fx:id="creditCardNumberTxtField" disable="true" editable="false" layoutX="123.0" layoutY="178.0" prefWidth="139.0" />
-                        <TextField fx:id="accountStatusTxtField" disable="true" editable="false" layoutX="123.0" layoutY="208.0" prefWidth="139.0" />
-                        <Separator fx:id="customersVerticalSeparator" layoutX="270.0" orientation="VERTICAL" prefHeight="238.0" prefWidth="5.0" />
-                        <TextField fx:id="newCustomersPersonIDTxtField" layoutX="280.0" layoutY="28.0" />
-                        <TextField fx:id="newFullNameTxtField" layoutX="280.0" layoutY="58.0" />
-                        <TextField fx:id="newPhoneNumberTxtField" layoutX="280.0" layoutY="88.0" />
-                        <TextField fx:id="newAccoundBalanceTxtField" layoutX="280.0" layoutY="148.0" />
-                        <TextField fx:id="newCreditCardNumberTxtField" layoutX="280.0" layoutY="178.0" />
-                        <Separator fx:id="customersHorizontalSeparator" layoutY="233.0" prefHeight="5.0" prefWidth="435.0" />
-                        <ComboBox fx:id="newPaymentMethodComboBox" layoutX="280.0" layoutY="118.0" prefWidth="149.0" />
-                        <ComboBox fx:id="newAccountStatusComboBox" layoutX="280.0" layoutY="208.0" prefWidth="149.0" />
+                        <Label fx:id="customersPersonIDLbl" layoutX="49.0" layoutY="60.0" text="Person's ID:" />
+                        <Label fx:id="fullNameLbl" layoutX="56.0" layoutY="90.0" text="Full name:" />
+                        <Label fx:id="phoneNumberLbl" layoutX="29.0" layoutY="120.0" text="Phone number:" />
+                        <Label fx:id="paymentMethodLbl" layoutX="16.0" layoutY="150.0" text="Payment method:" />
+                        <Label fx:id="accoundBalanceLbl" layoutX="20.0" layoutY="180.0" text="Account balance:" />
+                        <Label fx:id="creditCardNumberLbl" layoutX="5.0" layoutY="210.0" text="Credit card number:" />
+                        <Label fx:id="accountStatusLbl" layoutX="29.0" layoutY="240.0" text="Account status:" />
+                        <TextField fx:id="customersPersonIDTxtField" editable="false" layoutX="123.0" layoutY="58.0" prefWidth="139.0" />
+                        <TextField fx:id="fullNameTxtField" editable="false" layoutX="123.0" layoutY="88.0" prefWidth="139.0" />
+                        <TextField fx:id="phoneNumberTxtField" editable="false" layoutX="123.0" layoutY="118.0" prefWidth="139.0" />
+                        <TextField fx:id="paymentMethodTxtField" editable="false" layoutX="123.0" layoutY="148.0" prefWidth="139.0" />
+                        <TextField fx:id="accoundBalanceTxtField" editable="false" layoutX="123.0" layoutY="178.0" prefWidth="139.0" />
+                        <TextField fx:id="creditCardNumberTxtField" editable="false" layoutX="123.0" layoutY="208.0" prefWidth="139.0" />
+                        <TextField fx:id="accountStatusTxtField" editable="false" layoutX="123.0" layoutY="238.0" prefWidth="139.0" />
+                        <Separator fx:id="customersVerticalSeparator" layoutX="270.0" orientation="VERTICAL" prefHeight="271.0" prefWidth="5.0" />
+                        <TextField fx:id="newCustomersPersonIDTxtField" layoutX="280.0" layoutY="58.0" />
+                        <TextField fx:id="newFullNameTxtField" layoutX="280.0" layoutY="88.0" />
+                        <TextField fx:id="newPhoneNumberTxtField" layoutX="280.0" layoutY="118.0" />
+                        <TextField fx:id="newAccoundBalanceTxtField" layoutX="280.0" layoutY="178.0" />
+                        <TextField fx:id="newCreditCardNumberTxtField" layoutX="280.0" layoutY="208.0" />
+                        <Separator fx:id="customersHorizontalSeparator" layoutY="266.0" prefHeight="5.0" prefWidth="435.0" />
+                        <ComboBox fx:id="newPaymentMethodComboBox" layoutX="280.0" layoutY="148.0" prefWidth="149.0" promptText="[Select method]" />
+                        <ComboBox fx:id="newAccountStatusComboBox" layoutX="280.0" layoutY="238.0" prefWidth="149.0" promptText="[Select status]" />
+                        <Label fx:id="storeNamelbl" layoutX="47.0" layoutY="30.0" text="Store name:" />
+                        <ComboBox fx:id="storeNameComboBox" layoutX="123.0" layoutY="28.0" prefWidth="139.0" promptText="[Select store]" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="updateBtn" layoutX="346.0" layoutY="361.0" mnemonicParsing="false" onAction="#onUpdate" text="Update" />
+      <Button fx:id="updateBtn" layoutX="366.0" layoutY="395.0" mnemonicParsing="false" onAction="#onUpdate" text="Update" />
       <Label fx:id="windowLbl" layoutX="126.0" layoutY="14.0" text="Personal's Info Manager">
          <font>
             <Font name="System Bold" size="16.0" />

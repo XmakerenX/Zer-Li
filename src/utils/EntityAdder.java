@@ -175,11 +175,12 @@ public class EntityAdder {
 			String payMethod = "'"+customer.getPayMethod()+"'";
 			String accountBalance = ""+customer.getAccountBalance();
 			String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
+			String accountStatus = ""+customer.getAccountStatus();
 			
 			try
 			{
-			db.insertData("Customer", personID + "," + fullName + "," + phoneNumber + "," + payMethod + "," + accountBalance + ","
-					+ creditCardNumber);
+			db.insertData("Customers", personID + "," + fullName + "," + phoneNumber + "," + payMethod + "," + accountBalance + ","
+					+ creditCardNumber + "," + accountStatus);
 				return true;
 			}
 			catch(Exception e)

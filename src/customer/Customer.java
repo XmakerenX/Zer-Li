@@ -12,16 +12,18 @@ public class Customer implements Serializable {
 		}
 	}
 	
-	public enum PayType {CASH, CREDIT_CARD, SUBSCRIPTION}
+	public enum PayType {CREDIT_CARD, SUBSCRIPTION}
 	
-	long ID;
-	String name;
-	String phoneNumber;
-	PayType payMethod;
-	float accountBalance;
-	String creditCardNumber;
+	private long ID;
+	private String name;
+	private String phoneNumber;
+	private PayType payMethod;
+	private float accountBalance;
+	private String creditCardNumber;
+	private boolean accountStatus;
 	
-	public Customer(long ID, String name, String phoneNumber, PayType payMethod, float accountBalance, String creditCardNumber) throws CustomerException
+	public Customer(long ID, String name, String phoneNumber, PayType payMethod, float accountBalance,
+							String creditCardNumber, boolean accountStatus) throws CustomerException
 	{
 		setID(ID);
 		setName(name);
@@ -29,6 +31,7 @@ public class Customer implements Serializable {
 		setPayMethod(payMethod);
 		setAccountBalance(accountBalance);
 		setCreditCardNumber(creditCardNumber);
+		setAccountStatus(accountStatus);
 	}
 
 	public long getID() {
@@ -77,6 +80,14 @@ public class Customer implements Serializable {
 
 	public void setCreditCardNumber(String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
+	}
+
+	public boolean getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(boolean accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 	
 	

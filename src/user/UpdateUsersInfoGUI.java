@@ -44,156 +44,104 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	ObservableList<String> permissionsList = FXCollections.observableArrayList("Customer", "Store worker", "Store manager", "Network worker",
 			"Network manager", "Customer service", "Customer service expert",
 			"Customer service worker", "System manager");
+	
+	//List of user's statuses for the combo box
+	ObservableList<String> usersStatusesList = FXCollections.observableArrayList("Regular", "Logged in", "Blocked");
+	
+	//List of payment methods for the combo box
+	ObservableList<String> paymentMethodList = FXCollections.observableArrayList("Credit card", "Subscription");
+	
+	//List of account statuses for the combo box
+	ObservableList<String> accountStatusesList = FXCollections.observableArrayList("Active", "Blocked");
+	
+	//List of stores' names for the combo box
+	ObservableList<String> storesNamesList = FXCollections.observableArrayList(); // HAS TO BE FILLED
 
-	@FXML
-    private Label findUserNameLbl;
 
-    @FXML
-    private TextField findUserNameTxtField;
-
-    @FXML
-    private Button findUserNameBtn;
-
-    @FXML
-    private Button backBtn;
-
-    @FXML
-    private Tab usersTab;
-
-    @FXML
-    private Label usersCurrentInfoLbl;
-
-    @FXML
-    private Label newUsersInfoLbl;
-
-    @FXML
-    private Label usernameLbl;
-
-    @FXML
-    private Label passwordLbl;
-
-    @FXML
-    private Label permissionLbl;
-
-    @FXML
-    private Label personIDLbl;
-
-    @FXML
-    private Label usersStatusLbl;
-
-    @FXML
-    private Label unsuccessfulTriesLbl;
-
-    @FXML
-    private TextField usernameTxtField;
-
-    @FXML
-    private TextField passwordTxtField;
-
-    @FXML
-    private TextField permissionTxtField;
-
-    @FXML
-    private TextField personIDTxtField;
-
-    @FXML
-    private TextField usersStatusTxtField;
-
-    @FXML
-    private TextField unsuccessfulTriesTxtField;
-
-    @FXML
-    private Separator usersVerticalSeparator;
-
-    @FXML
-    private Separator usersHorizontalSeparator;
 
     @FXML
     private TextField newUsernameTxtField;
 
     @FXML
-    private TextField newPasswordTxtField;
-
-    @FXML
-    private TextField newPersonIDTxtField;
-
-    @FXML
-    private ComboBox<String> newPermissionComboBox;
-
-    @FXML
-    private ComboBox<String> newUsersStatusComboBox;
-
-    @FXML
-    private CheckBox clearTriesCheckBox;
-
-    @FXML
-    private Tab customersTab;
-
-    @FXML
-    private Label customersCurrentInfoLbl;
-
-    @FXML
-    private Label newCustomersInfoLbl;
-
-    @FXML
-    private Label customersPersonIDLbl;
-
-    @FXML
-    private Label fullNameLbl;
-
-    @FXML
-    private Label phoneNumberLbl;
-
-    @FXML
-    private Label paymentMethodLbl;
-
-    @FXML
-    private Label accoundBalanceLbl;
-
-    @FXML
-    private Label creditCardNumberLbl;
-
-    @FXML
-    private Label accountStatusLbl;
-
-    @FXML
-    private TextField customersPersonIDTxtField;
-
-    @FXML
-    private TextField fullNameTxtField;
-
-    @FXML
-    private TextField phoneNumberTxtField;
-
-    @FXML
-    private TextField paymentMethodTxtField;
-
-    @FXML
-    private TextField accoundBalanceTxtField;
-
-    @FXML
-    private TextField creditCardNumberTxtField;
-
-    @FXML
-    private TextField accountStatusTxtField;
-
-    @FXML
-    private Separator customersVerticalSeparator;
-
-    @FXML
-    private TextField newCustomersPersonIDTxtField;
-
-    @FXML
-    private TextField newFullNameTxtField;
-
-    @FXML
-    private TextField newPhoneNumberTxtField;
+    private TextField personIDTxtField;
 
     @FXML
     private TextField newAccoundBalanceTxtField;
 
     @FXML
+    private Button updateBtn;
+
+    @FXML
+    private TextField newPasswordTxtField;
+
+    @FXML
+    private Label usersStatusLbl;
+
+    @FXML
+    private Label newCustomersInfoLbl;
+
+    @FXML
+    private Label phoneNumberLbl;
+
+    @FXML
+    private TextField newFullNameTxtField;
+
+    @FXML
+    private CheckBox clearTriesCheckBox;
+
+    @FXML
+    private Label paymentMethodLbl;
+
+    @FXML
+    private TextField accoundBalanceTxtField;
+
+    @FXML
+    private TextField unsuccessfulTriesTxtField;
+
+    @FXML
+    private ComboBox<String> newAccountStatusComboBox;
+
+    @FXML
     private TextField newCreditCardNumberTxtField;
+
+    @FXML
+    private TextField newCustomersPersonIDTxtField;
+
+    @FXML
+    private Button findUserNameBtn;
+
+    @FXML
+    private Label passwordLbl;
+
+    @FXML
+    private Label personIDLbl;
+
+    @FXML
+    private Label windowLbl;
+
+    @FXML
+    private Tab customersTab;
+
+    @FXML
+    private TextField accountStatusTxtField;
+
+    @FXML
+    private Button backBtn;
+
+    @FXML
+    private TextField paymentMethodTxtField;
+
+    @FXML
+    private TextField creditCardNumberTxtField;
+
+    @FXML
+    private TextField findUserNameTxtField;
+
+    @FXML
+    private Label permissionLbl;
+
+    @FXML
+    private TextField usernameTxtField;
 
     @FXML
     private Separator customersHorizontalSeparator;
@@ -202,14 +150,85 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     private ComboBox<String> newPaymentMethodComboBox;
 
     @FXML
-    private ComboBox<String> newAccountStatusComboBox;
+    private Label findUserNameLbl;
 
     @FXML
-    private Button updateBtn;
+    private Tab usersTab;
 
     @FXML
-    private Label windowLbl;
+    private ComboBox<String> newPermissionComboBox;
 
+    @FXML
+    private ComboBox<String> newUsersStatusComboBox;
+
+    @FXML
+    private Label creditCardNumberLbl;
+
+    @FXML
+    private Label accountStatusLbl;
+
+    @FXML
+    private TextField newPersonIDTxtField;
+
+    @FXML
+    private TextField passwordTxtField;
+
+    @FXML
+    private Separator usersVerticalSeparator;
+
+    @FXML
+    private TextField fullNameTxtField;
+
+    @FXML
+    private Label customersPersonIDLbl;
+
+    @FXML
+    private TextField customersPersonIDTxtField;
+
+    @FXML
+    private Label storeNamelbl;
+
+    @FXML
+    private Label unsuccessfulTriesLbl;
+
+    @FXML
+    private TextField usersStatusTxtField;
+
+    @FXML
+    private Separator usersHorizontalSeparator;
+
+    @FXML
+    private Label usernameLbl;
+
+    @FXML
+    private TextField permissionTxtField;
+
+    @FXML
+    private ComboBox<String> storeNameComboBox;
+
+    @FXML
+    private Label newUsersInfoLbl;
+
+    @FXML
+    private Label accoundBalanceLbl;
+
+    @FXML
+    private Label customersCurrentInfoLbl;
+
+    @FXML
+    private Separator customersVerticalSeparator;
+
+    @FXML
+    private Label fullNameLbl;
+
+    @FXML
+    private TextField newPhoneNumberTxtField;
+
+    @FXML
+    private TextField phoneNumberTxtField;
+
+    @FXML
+    private Label usersCurrentInfoLbl;
     
     /**
      * Initializes the combo box of permissions
@@ -219,6 +238,9 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     public void initialize(){
 
     	newPermissionComboBox.setItems(permissionsList);
+    	newUsersStatusComboBox.setItems(usersStatusesList);
+    	newPaymentMethodComboBox.setItems(paymentMethodList);
+    	newAccountStatusComboBox.setItems(accountStatusesList);
     	
     }
     
@@ -292,7 +314,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	{
     	    customerToUpdate = (Customer)((ArrayList<?>) replay.getMessage()).get(0);
 
-    		//Filling the GUI's User's tab with info
+    		//Filling the GUI's Customer's tab with info
     		formerPersonID= ""+customerToUpdate.getID();
     		customersPersonIDTxtField.setText(""+customerToUpdate.getID());
     		fullNameTxtField.setText(""+customerToUpdate.getName());
@@ -300,7 +322,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		paymentMethodTxtField.setText(""+customerToUpdate.getPayMethod());
     		accoundBalanceTxtField.setText(""+customerToUpdate.getAccountBalance());
     		creditCardNumberTxtField.setText(""+customerToUpdate.getCreditCardNumber());
-    	//	accountStatusTxtField.setText(value);
+    		accountStatusTxtField.setText(""+customerToUpdate.getAccountStatus());
 
     	}
     	else
@@ -400,14 +422,23 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    	}
 	    	
 	    	}catch(InterruptedException e) {}
-	     	
-    		// clear replay
-    		replay = null;
+	     	  		
     	}
+    	
+    	if( !newCustomersPersonIDTxtField.getText().equals("") || !newFullNameTxtField.getText().equals("") || !newPhoneNumberTxtField.getText().equals("")
+    			|| newPaymentMethodComboBox.getValue() != null || !newAccoundBalanceTxtField.getText().equals("") 
+    			|| !newCreditCardNumberTxtField.getText().equals("") || newAccountStatusComboBox.getValue() != null)
+    	{
+    		
+    	}
+    	
+		// clear replay
+		replay = null; 
     }
     
     @FXML
     void onBack(ActionEvent event) {
+    	clearFieldsMethod();
     	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
     	client.setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
