@@ -113,11 +113,11 @@ public class EntityAdder {
 			String answer5 = "'"+surveyResults.getAnswers()[4]+"'";
 			String answer6 = "'"+surveyResults.getAnswers()[5]+"'";
 			java.sql.Date sqlDate = java.sql.Date.valueOf( surveyResults.getDate() );
-
+			int storeID = surveyResults.getStoreID();
 			try
 			{
 			db.insertData("customersatisfactionsurveyresults", null + "," + surveyName + "," + "'" + sqlDate + "'" + "," + answer1 + "," + answer2 + "," + answer3 + "," + answer4 + "," + answer5 + 
-					"," + answer6);
+					"," + answer6 + "," + storeID);
 				return true;
 			}
 			catch(Exception e)

@@ -188,8 +188,9 @@ public class EntityFactory {
 				  results[5]=rs.getInt("answer6");
 				  java.sql.Date sqlDate = rs.getDate("date");
 				  LocalDate date = sqlDate.toLocalDate();
+				  int storeID = rs.getInt("storeID");
 			  
-			      surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date));
+			      surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date, storeID));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  

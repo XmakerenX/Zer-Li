@@ -58,13 +58,12 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
-    	
     	answerTxtFld1.textProperty().addListener(new ChangeListener<String>() {
 	    @Override
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
 	        String newValue) 
 	    {
-	    	if(newValue.matches("\\d*") && newValue.length() < 3)
+	    	if(newValue.equals("") || (newValue.matches("\\d*") && newValue.length() < 3 && Integer.parseInt(newValue)>=1 && Integer.parseInt(newValue)<=10))
 	    		answerTxtFld1.setText(newValue);
 	    	else
 	    		answerTxtFld1.setText(oldValue);
@@ -76,7 +75,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
 	        String newValue) 
 	    {
-	    	if(newValue.matches("\\d*") && newValue.length() < 3)
+	    	if(newValue.equals("") || (newValue.matches("\\d*") && newValue.length() < 3 && Integer.parseInt(newValue)>=1 && Integer.parseInt(newValue)<=10))
 	    		answerTxtFld2.setText(newValue);
 	    	else
 	    		answerTxtFld2.setText(oldValue);
@@ -87,7 +86,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
     	        String newValue) 
     	    {
-    	    	if(newValue.matches("\\d*") && newValue.length() < 3)
+    	    	if(newValue.equals("") || (newValue.matches("\\d*") && newValue.length() < 3 && Integer.parseInt(newValue)>=1 && Integer.parseInt(newValue)<=10))
     	    		answerTxtFld3.setText(newValue);
     	    	else
     	    		answerTxtFld3.setText(oldValue);
@@ -98,7 +97,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
     	        String newValue) 
     	    {
-    	    	if(newValue.matches("\\d*") && newValue.length() < 3)
+    	    	if(newValue.equals("") || (newValue.matches("\\d*") && newValue.length() < 3 && Integer.parseInt(newValue)>=1 && Integer.parseInt(newValue)<=10))
     	    		answerTxtFld4.setText(newValue);
     	    	else
     	    		answerTxtFld4.setText(oldValue);
@@ -109,7 +108,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
     	        String newValue) 
     	    {
-    	    	if(newValue.matches("\\d*") && newValue.length() < 3)
+    	    	if(newValue.equals("") || (newValue.matches("\\d*") && newValue.length() < 3 && Integer.parseInt(newValue)>=1 && Integer.parseInt(newValue)<=10))
     	    		answerTxtFld5.setText(newValue);
     	    	else
     	    		answerTxtFld5.setText(oldValue);
@@ -120,7 +119,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
     	        String newValue) 
     	    {
-    	    	if(newValue.matches("\\d*") && newValue.length() < 3)
+    	    	if(newValue.equals("") || (newValue.matches("\\d*") && newValue.length() < 3 && Integer.parseInt(newValue)>=1 && Integer.parseInt(newValue)<=10))
     	    		answerTxtFld6.setText(newValue);
     	    	else
     	    		answerTxtFld6.setText(oldValue);
@@ -142,16 +141,28 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     void onSendBtn(ActionEvent event) {
     	String surveyName = surveyComboBox.getValue();
     	int[] answers = new int[6];
-    	answers[0]=Integer.parseInt(answerTxtFld1.getText());
-    	answers[1]=Integer.parseInt(answerTxtFld2.getText());
-    	answers[2]=Integer.parseInt(answerTxtFld3.getText());
-    	answers[3]=Integer.parseInt(answerTxtFld4.getText());
-    	answers[4]=Integer.parseInt(answerTxtFld5.getText());
-    	answers[5]=Integer.parseInt(answerTxtFld6.getText());
-    	if(answers[0]<=10 && answers[1]<=10 && answers[2]<=10 && answers[3]<=10 && answers[4]<=10 && answers[5]<=10 
-    			&& answers[0]>0 && answers[1]>0 && answers[2]>0 && answers[3]>0 && answers[4]>0 && answers[5]>0)
+    	Boolean fieldsMissing = false;
+    	TextField[] txtFieldsAray = {answerTxtFld1,answerTxtFld2,answerTxtFld3,answerTxtFld4,answerTxtFld5,answerTxtFld6};
+    	
+    	for(TextField tf: txtFieldsAray)
     	{
-    		CustomerSatisfactionSurveyResultsController.addResults(surveyName, answers, client);
+    		if(tf.getText().equals(""))
+    		{
+    			fieldsMissing = true;
+    			break;
+    		}
+    	}
+    	
+    	if(!fieldsMissing)
+	    	{
+	    	answers[0]=Integer.parseInt(answerTxtFld1.getText());
+	    	answers[1]=Integer.parseInt(answerTxtFld2.getText());
+	    	answers[2]=Integer.parseInt(answerTxtFld3.getText());
+	    	answers[3]=Integer.parseInt(answerTxtFld4.getText());
+	    	answers[4]=Integer.parseInt(answerTxtFld5.getText());
+	    	answers[5]=Integer.parseInt(answerTxtFld6.getText());
+	    	int storeID=1;  //=========================================================================CALL A METHOD THAT RETURNS STORE WORKER'S STORE ID.
+    		CustomerSatisfactionSurveyResultsController.addResults(surveyName, answers, storeID, client);
     		try
         	{
         		synchronized(this)
@@ -166,12 +177,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	        	// show success 
 	        	if (response.getType() == Response.Type.SUCCESS)
 	        	{
-	        		answerTxtFld1.setText("");
-	            	answerTxtFld2.setText("");
-	            	answerTxtFld3.setText("");
-	            	answerTxtFld4.setText("");
-	            	answerTxtFld5.setText("");
-	            	answerTxtFld6.setText("");
+	        		clearForm();
     				Alert alert = new Alert(AlertType.CONFIRMATION, "Result input was successfull", ButtonType.OK);
 	        		alert.showAndWait();
 	        		// clear replay
@@ -187,12 +193,10 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	        	}
         	}
     		catch(InterruptedException e) {}
-    		
     	}
     	else
     	{
-    		// show failure  
-    		Alert alert = new Alert(AlertType.ERROR, "Inputs must be 1-10.", ButtonType.OK);
+    		Alert alert = new Alert(AlertType.ERROR, "All fields must be filled to add a result.", ButtonType.OK);
     		alert.showAndWait();
     	}
 
@@ -201,12 +205,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     @FXML
     void onCancel(ActionEvent event) {
     	surveyComboBox.getItems().clear();
-    	answerTxtFld1.setText("");
-    	answerTxtFld2.setText("");
-    	answerTxtFld3.setText("");
-    	answerTxtFld4.setText("");
-    	answerTxtFld5.setText("");
-    	answerTxtFld6.setText("");
+    	clearForm();
     	StoreWorkerGUI storeWorkerGUI = (StoreWorkerGUI)parent;
     	client.setUI(storeWorkerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
@@ -273,5 +272,15 @@ public class ResultInputGUI extends FormController implements ClientInterface {
         	}
     	}
         catch(InterruptedException e) {}
+	}
+	
+	public void clearForm()
+	{
+	  	answerTxtFld1.setText("");
+    	answerTxtFld2.setText("");
+    	answerTxtFld3.setText("");
+    	answerTxtFld4.setText("");
+    	answerTxtFld5.setText("");
+    	answerTxtFld6.setText("");
 	}
 }

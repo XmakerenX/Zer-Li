@@ -174,6 +174,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   `answer4` int(2) DEFAULT NULL,
   `answer5` int(2) DEFAULT NULL,
   `answer6` int(2) DEFAULT NULL,
+  `storeID` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
