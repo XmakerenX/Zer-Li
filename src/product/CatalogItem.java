@@ -56,17 +56,16 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 	
 	public int compareTo(CatalogItem o)
 	{
-		System.out.println(this.getSalePrice() + " " + o.getSalePrice());
-		if (this.salePrice == -1 && o.salePrice != -1)
-			return 1;
-		
-		if ( (this.salePrice != -1 && o.salePrice != -1) || (this.salePrice == 0 && o.salePrice == 0))
+		if (this.getID() == o.getID())
 			return 0;
 		
-		if (this.salePrice != -1 && o.salePrice == -1)
+		if (this.getID() > o.getID())
 			return -1;
 		
-		return 0;
+		if (this.getID() < o.getID())
+			return 1;
+		
+		return -1; 
 	}
 	
 	

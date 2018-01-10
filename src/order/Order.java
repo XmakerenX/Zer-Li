@@ -67,12 +67,14 @@ public class Order implements Serializable
 	String    orderTime;
 	DelivaryInfo delivaryInfo = null;
 	PayMethod orderPaymentMethod;
-	int orderOriginStore;
+	long orderOriginStore;
+	long customerID;
+	// 
 	ArrayList<ItemInOrder> itemsInOrder;
 
 	public Order(int id,Status status,float price,LocalDate date,String time,
 			String delivaryAddress, String receiverName, String receiverPhoneNumber 
-			,PayMethod payMethod,int originShop) throws OrderException
+			,PayMethod payMethod,long originShop, long customerID) throws OrderException
 	{
 		itemsInOrder = new ArrayList<ItemInOrder>();
 		setID(id);
@@ -84,6 +86,7 @@ public class Order implements Serializable
 			delivaryInfo = new DelivaryInfo(delivaryAddress, receiverName, receiverPhoneNumber);
 		setOrderPaymentMethod(payMethod);
 		setOrderOriginStore(originShop);
+		setCustomerID(customerID);
 	}
 
 
@@ -165,11 +168,11 @@ public class Order implements Serializable
 		this.orderPaymentMethod = orderPaymentMethod;
 	}
 
-	public int getOrderOriginStore() {
+	public long getOrderOriginStore() {
 		return orderOriginStore;
 	}
 
-	public void setOrderOriginStore(int orderOriginStore) {
+	public void setOrderOriginStore(long orderOriginStore) {
 		this.orderOriginStore = orderOriginStore;
 	}
 
@@ -183,5 +186,14 @@ public class Order implements Serializable
 		this.itemsInOrder.add(new ItemInOrder(productID, greetingCard));
 	}
 
+	public long getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(long customerID) {
+		this.customerID = customerID;
+	}
+
+	
 
 }

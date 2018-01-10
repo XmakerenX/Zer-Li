@@ -11,6 +11,7 @@ import customer.Customer;
 import user.User;
 import product.CatalogItem;
 import product.Product;
+import store.Store;
 import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
 
@@ -37,6 +38,9 @@ public class EntityFactory {
 		  
 		  case "Customers":
 			  return loadCustomers(rs);
+			  
+		  case "Store":
+			  return loadStores(rs);
 			  
 			  
 		  default:
@@ -198,9 +202,9 @@ public class EntityFactory {
 	  }
 	  
 	  /**
-	   * parse a ResultSet and returns an ArrayList of users from it
+	   * parse a ResultSet and returns an ArrayList of customers from it
 	   * @param rs ResultSet of the query to get the users table
-	   * @return an arrayList of users made from the given ResultSet
+	   * @return an arrayList of customers made from the given ResultSet
 	   */
 	  public static ArrayList<Customer> loadCustomers(ResultSet rs)
 	  {
@@ -219,6 +223,25 @@ public class EntityFactory {
 		  }
 		  
 		  return customers;
+	  }
+	  
+	  /**
+	   * parse a ResultSet and returns an ArrayList of Stores from it
+	   * @param rs ResultSet of the query to get the users table
+	   * @return an arrayList of Stores made from the given ResultSet
+	   */
+	  public static ArrayList<Store> loadStores(ResultSet rs)
+	  {
+		  ArrayList<Store> stores = new ArrayList<Store>();
+		  try
+		  {
+			  while (rs.next())
+			  {
+				  stores.add(new Store(rs.getInt("StoreID"), rs.getString("StoreAddress")));
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  
+		  return stores;
 	  }
 	  
 }

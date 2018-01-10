@@ -2,15 +2,19 @@ package catalog;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 import client.Client;
 import client.ClientInterface;
+import customer.Customer;
 import customer.CustomerGUI;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,6 +38,7 @@ import javafx.util.converter.NumberStringConverter;
 import order.CreateOrderGUI;
 import product.CatalogItem;
 import prototype.FormController;
+import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.Response;
 import user.LoginGUI;
 import utils.ImageData;
@@ -41,6 +46,8 @@ import utils.ImageData;
 public class CatalogGUI extends FormController implements ClientInterface {
 
 	private CreateOrderGUI createOrderGUI;
+	private long currentStoreID = 0;
+	private Customer currentCustomer = null;
 	
     @FXML
     private TableView<CatalogItemView> catalogTable;
@@ -168,9 +175,11 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	checkboxCol.setEditable(true);
     }
     
-    public void onRefresh(ActionEvent event) {
-    	System.out.println("request catalog items");
-    	CatalogController.requestCatalogItems(Client.client);
+    private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
+    {
+    	replay = null;
+    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", "StoreID", ""+storeID));
+    	
     	// wait for response
 		synchronized(this)
 		{
@@ -182,53 +191,80 @@ public class CatalogGUI extends FormController implements ClientInterface {
 				e.printStackTrace();
 			}
 		}
-	
-		if (replay == null)
-			return;
 		
-		System.out.println("process replay");
-		
-    	if (replay.getType() == Response.Type.SUCCESS)
+		if (replay != null)
+		{
+			if (replay.getType() == Response.Type.SUCCESS)
+			{
+				ArrayList<CatalogItem> catalogItems = (ArrayList<CatalogItem>)replay.getMessage();
+				for (CatalogItem item : catalogItems)
+				{
+					System.out.println("------------------------------------------");
+					System.out.println(item.getName());
+					boolean b = catalogItemsSet.add(item);
+					System.out.println(b);
+				}
+			}
+		}
+    }
+    
+    public void downloadMissingCatalogImages(TreeSet<CatalogItem> catalogItemsSet)
+    {
+    	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItemsSet);
+		if (missingImages.size() > 0)
+		{
+			System.out.println("Missing images "+ missingImages);
+			replay = null;
+			CatalogController.requestCatalogImages(missingImages, Client.client);
+
+			// wait for response 
+			synchronized(this)
+			{
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+    		if (replay != null)
+    			CatalogController.saveCatalogImages((ArrayList<ImageData>)replay.getMessage());
+		}
+    }
+    
+    public void onRefresh(ActionEvent event) {
+    	System.out.println("refresh");
+    	//TODO: add check if customer is blocked
+    	if (currentCustomer == null)
+    		createOrderBtn.setDisable(true);
+    	else
     	{
-    		final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
-    		
-    		ArrayList<CatalogItem> catalogItems = (ArrayList<CatalogItem>)replay.getMessage();
-    		
-    		ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItems);
-    		replay = null;
-    		if (missingImages.size() > 0)
-    		{
-    			System.out.println("Missing images "+ missingImages);
-    			CatalogController.requestCatalogImages(missingImages, Client.client);
-
-    			// wait for response 
-    			synchronized(this)
-    			{
-    				try {
-    					this.wait();
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    			}
-    			
-        		if (replay != null)
-        			CatalogController.saveCatalogImages((ArrayList<ImageData>)replay.getMessage());
-    		}
-    		
-    			
-    		for (int i = 0; i < catalogItems.size(); i++)
-    		{
-    			
-    			itemData.add(new CatalogItemView(catalogItems.get(i), "Cache//"));
-    		}
-
-    		//SortedList<CatalogItemView> sortList = new SortedList<CatalogItemView>(itemData);
-    		//sortList.comparatorProperty().bind(catalogTable.comparatorProperty());
-    		//Collections.sort(itemData);
-    		catalogTable.setItems(itemData);
-    		Collections.sort(catalogTable.getItems());
+    		createOrderBtn.setDisable(false);
     	}
+    		
+    	
+    	final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
+    	TreeSet<CatalogItem> catalogItemsSet = new TreeSet<CatalogItem>();
+    	
+    	// get currentStore catalog items
+    	if (currentStoreID != 0)
+    	{
+    		addStoreProductsToSet(currentStoreID, catalogItemsSet);
+    	}
+
+    	// get Base catalog items
+    	addStoreProductsToSet(0, catalogItemsSet);
+    	
+    	downloadMissingCatalogImages(catalogItemsSet);
+    	
+    	for (CatalogItem item : catalogItemsSet)
+    	{
+    		itemData.add(new CatalogItemView(item, ImageData.ClientImagesDirectory));
+    	}
+    	
+		catalogTable.setItems(itemData);
+		Collections.sort(catalogTable.getItems());
     	
     	replay = null;
     }
@@ -264,6 +300,8 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	{        	
         	if (createOrderGUI != null)
         	{
+        		createOrderGUI.setCurrentCustomer(currentCustomer);
+        		createOrderGUI.setCurrentStore(currentStoreID);
         		Client.client.setUI(createOrderGUI);
         		createOrderGUI.loadItemsInOrder(itemsSelected);
         		FormController.primaryStage.setScene(createOrderGUI.getScene());
@@ -303,9 +341,20 @@ public class CatalogGUI extends FormController implements ClientInterface {
 	public void setClinet(Client client)
 	{
     	//super.setClinet(client);
+    	System.out.println("set client");
     	onRefresh(null);
 	}
     
+	public void setCurrentCustomer(Customer currentCustomer) {
+		System.out.println("set customer");
+		this.currentCustomer = currentCustomer;
+	}
+	
+	public void setCurrentStoreID(long storeID)
+	{
+		this.currentStoreID = storeID;
+	}
+
 	@Override
 	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub

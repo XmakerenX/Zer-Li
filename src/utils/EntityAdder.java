@@ -136,6 +136,7 @@ public class EntityAdder {
 			String orderAddress = null;
 			String receiverName = null;
 			String receiverPhoneNumber = null;
+			
 			if (order.getDelivaryInfo() != null)
 			{
 				orderAddress = "'" + order.getDelivaryInfo().getDelivaryAddress() + "'";
@@ -143,22 +144,26 @@ public class EntityAdder {
 				receiverPhoneNumber = "'" + order.getDelivaryInfo().getReceiverPhoneNumber() + "'";
 			}
 			String paymentMethod = "'"+order.getOrderPaymentMethod() + "'";
-			int originStore = order.getOrderOriginStore();
+			long originStore = order.getOrderOriginStore();
+			long customerID = order.getCustomerID();
+			
 			try {
 				Calendar orderTimeAndDate = order.getOrderDateAndTime();
 				Calendar currentTime = Calendar.getInstance();
 				if (!orderTimeAndDate.after(currentTime))
 					throw new Exception("Bad Date and Time was Given");
+				
 				db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + "'" + sqlDate + "'" +
 						"," + orderTime + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
-						+ paymentMethod + "," + originStore);
+						+ paymentMethod + "," + originStore + "," + customerID);
+				
 				// get the orderID from database
 				ResultSet rs = db.selectLastInsertID();
 				rs.next();
 				int orderID = rs.getInt(1);
 				rs.close();
 				for (Order.ItemInOrder item : order.getItemsInOrder())
-				{
+				{ 
 					db.insertData("ProductInOrder", item.getProductID() + "," + orderID + "," + "'" +item.getGreetingCard() + "'" );
 				}
 				return true;

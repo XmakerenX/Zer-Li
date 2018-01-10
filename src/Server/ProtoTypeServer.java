@@ -11,6 +11,7 @@ import ocsf.server.ConnectionToClient;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
 import serverAPI.GetJoinedTablesRequest;
+import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.GetRequestWhere;
@@ -201,6 +202,41 @@ public class ProtoTypeServer extends AbstractServer {
 				  }
 				  else
 					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+				  
+			  }break;
+			  
+			  case "GetJoinedTablesWhereRequest":
+			  {
+				  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)request;
+				  String condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
+				  
+				  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
+				  String tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
+				  String joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
+				  // make the join on the primary key between the tables who should be the same for this to work
+				  // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
+				  condition = joinedTablesRequest.getTable()+"."+tableKeyName+"="
+						  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName +" AND " + condition;
+				  ResultSet rs = db.selectJoinTablesData("*", joinedTablesRequest.getTable(),
+						  joinedTablesRequest.getJoinedTable(), condition);
+				  
+				  ArrayList<?> entityArray = EntityFactory.loadEntity(joinedTablesRequest.getJoinedTable(), rs);
+				  
+				  if (entityArray != null)
+				  {
+					  if (entityArray.size() > 0)
+					  {
+						  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+					  }
+					  else
+					  {
+						  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
+					  }
+				  }
+				  else
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+				  }
 				  
 			  }break;
 			  

@@ -30,6 +30,8 @@ import javax.swing.event.HyperlinkEvent.EventType;
 
 import client.Client;
 import client.ClientInterface;
+import customer.Customer;
+import customer.CustomerController;
 import customer.CustomerGUI;
 import prototype.FormController;
 import prototype.ProductInfoFormController;
@@ -167,9 +169,41 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		case "CUSTOMER":
 	    		{
 	        		if (customerGUI != null)
-	        		{
-	        			customerGUI.setClinet(Client.client);
-	        			FormController.primaryStage.setScene(customerGUI.getScene());
+	        		{	        			
+	        			CustomerController.getCustomer(""+user.getPersonID(), client);
+	        			
+	        			synchronized(this)
+	            		{
+	            			// wait for server response
+	            			this.wait(ClientInterface.TIMEOUT);
+	            		}
+	        			
+	        			if (replay != null)
+	        			{
+	        				if (replay.getType() == Response.Type.SUCCESS)
+	        				{
+	        					ArrayList<Customer> customers = (ArrayList<Customer>)replay.getMessage();
+	        					customerGUI.setCurrentCustomer(customers.get(0));
+	        				}
+	        				else
+	        				{
+	        					customerGUI.setCurrentCustomer(null);
+	        				}
+	        				
+	        				Client.client.setUI(customerGUI);
+	        				customerGUI.setClinet(Client.client);
+	        				customerGUI.loadStores();
+    	        			FormController.primaryStage.setScene(customerGUI.getScene());
+	        			}
+	        			else
+	        			{
+	            			Alert alert = new Alert(AlertType.ERROR);
+	            		  	alert.setTitle("Server Respone timed out");
+	            	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
+	            	    	
+	            	    	alert.showAndWait();
+	            			return;
+	        			}
 	        		}
 	    		}break;
 	    			
@@ -183,6 +217,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
 	    		}break;
+	    		
 	    		case "NETWORK_WORKER":
 	    		{
 	    			if (networkWorkerGui != null)
@@ -192,6 +227,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		}
 	    			break;
 	    		}
+	    		
 	    		case "CUSTOMER_SERVICE":
 	    		{
 	    			
@@ -245,8 +281,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
 
     		usernameTxt.setText("");;
     	    passwordTxt.setText("");;
-//    		Alert alert = new Alert(AlertType.INFORMATION, "Logged in successfully :)", ButtonType.OK);
-//    		alert.showAndWait();
     	}
     	else
     	{

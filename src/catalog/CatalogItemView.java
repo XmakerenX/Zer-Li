@@ -71,6 +71,23 @@ public class CatalogItemView extends CatalogItem {
 		this.image = image;
 	}
 	
+	@Override
+	// compare based on if there is a sale price
+	//TODO: do a smarted compareTO to sort by something...
+	public int compareTo(CatalogItem o)
+	{
+		System.out.println(this.getSalePrice() + " " + o.getSalePrice());
+		if (this.getSalePrice() == -1 && o.getSalePrice() != -1)
+			return 1;
+		
+		if ( (this.getSalePrice() != -1 && o.getSalePrice() != -1) || (this.getSalePrice() == 0 && o.getSalePrice() == 0))
+			return 0;
+		
+		if (this.getSalePrice() != -1 && o.getSalePrice() == -1)
+			return -1;
+		
+		return 0;
+	}
 	
 	
 	

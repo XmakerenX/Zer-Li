@@ -6,6 +6,7 @@ import catalog.CatalogGUI;
 import catalog.CatalogItemView;
 import client.Client;
 import client.ClientInterface;
+import customer.Customer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +34,8 @@ import serverAPI.Response;
 
 public class CreateOrderGUI extends FormController implements ClientInterface, Observer {
 
+	private Customer currentCustomer = null;
+	private long currentStoreID = 0;
 	private float orderTotalPrice;
 	 // holds the last replay we got from server
  	private Response replay = null;
@@ -284,11 +287,22 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	
     	try 
     	{
+    		if (currentCustomer == null)
+    		{
+    			System.out.println("currentCustomer is null aborting!!!!");
+    			return;
+    		}
+    		
+    		if (currentStoreID == 0)
+    		{
+    			System.out.println("currentStoreID is not set aborting!!!!");
+    			return;
+    		}
         	// create our order
         	// we don't give the order ID , the database(on the server side) will do it for us :)
     		Order order = new Order(0, Order.Status.NEW, orderTotalPrice, this.date.getValue(), orderTime,
     				delivaryAddress, receiverName, receiverPhoneNumber,
-    				payMethod, 0);
+    				payMethod, currentStoreID, currentCustomer.getID());
 
     		OrderController.CreateNewOrder(order, orderTable.getItems());
     		
@@ -442,5 +456,15 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 				returnToParent();
 		}
 	}
+
+	public void setCurrentCustomer(Customer currentCustomer) {
+		this.currentCustomer = currentCustomer;
+	}
+
+	public void setCurrentStore(long currentStore) {
+		this.currentStoreID = currentStore;
+	}
+	
+	
 	
 }

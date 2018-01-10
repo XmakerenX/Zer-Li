@@ -2,6 +2,7 @@ package catalog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,7 +23,7 @@ public class CatalogController
 		client.handleMessageFromClientUI(new GetJoinedTablesRequest("Product", "CatalogProduct"));
 	}
 	
-	public static ArrayList<String> scanForMissingCachedImages(ArrayList<CatalogItem> catalogItems)
+	public static ArrayList<String> scanForMissingCachedImages(AbstractCollection<CatalogItem> catalogItems)
 	{
 		ArrayList<String> imagesToRequest = new ArrayList<String>();
 		//File imageDir = new File ("Cache//");
