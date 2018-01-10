@@ -14,9 +14,9 @@ public class CustomerSatisfactionSurveyResultsController
 	 * @param surveyName
 	 * @param client
 	 */
-	public static void addResults(String surveyName, int[] answers, Client client)
+	public static void addResults(String surveyName, int[] answers, int storeID, Client client)
 	{		
-		CustomerSatisfactionSurveyResults newSurveyResults = new CustomerSatisfactionSurveyResults(surveyName, answers);
+		CustomerSatisfactionSurveyResults newSurveyResults = new CustomerSatisfactionSurveyResults(surveyName, answers, storeID);
 		client.handleMessageFromClientUI(new AddRequest("CustomerSatisfactionSurveyResults", newSurveyResults));
 	}
 	//===============================================================================================================

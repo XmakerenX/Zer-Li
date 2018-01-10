@@ -13,16 +13,18 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	private String ofSurvey;
 	private LocalDate date;
 	private int answers[] = new int[6];
+	private int storeID;
 	
 	/**
 	 * a constructor without local date, used for creating new results BEFORE sending them to the data base
 	 * @param resultsOfSurvey name of the survey the results are for
 	 * @param answers array with answers to the survey
 	 */
-	public CustomerSatisfactionSurveyResults(String resultsOfSurvey, int[] answers) {
+	public CustomerSatisfactionSurveyResults(String resultsOfSurvey, int[] answers, int storeID) {
 		setOfSurvey(resultsOfSurvey);
 		setDate();
 		setAnswers(answers);
+		setStoreID(storeID);
 		
 	}
 	/**
@@ -31,10 +33,11 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	 * @param answers answers array with answers to the survey
 	 * @param date date of the survey
 	 */
-	public CustomerSatisfactionSurveyResults(String resultsOfSurvey, int[] answers, LocalDate date) {
+	public CustomerSatisfactionSurveyResults(String resultsOfSurvey, int[] answers, LocalDate date, int storeID) {
 		setOfSurvey(resultsOfSurvey);
 		setDateGivenDate(date);
 		setAnswers(answers);
+		setStoreID(storeID);
 		
 	}
 
@@ -73,6 +76,16 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 
 	public void setOfSurvey(String ofSurvey) {
 		this.ofSurvey = ofSurvey;
+	}
+	
+	public void setStoreID(int id)
+	{
+		this.storeID=id;
+	}
+	
+	public int getStoreID()
+	{
+		return this.storeID;
 	}
 	
 	public String toString()

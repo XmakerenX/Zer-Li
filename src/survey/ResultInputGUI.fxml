@@ -5,24 +5,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="309.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.ResultInputGUI">
+<AnchorPane prefHeight="318.0" prefWidth="311.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.ResultInputGUI">
    <children>
       <Label layoutX="31.0" layoutY="25.0" text="Choose a survey:" />
-      <Label layoutX="33.0" layoutY="101.0" text="Input results: 1-10" />
-      <ComboBox fx:id="surveyComboBox" layoutX="40.0" layoutY="52.0" onAction="#onShowSurveys" prefHeight="25.0" prefWidth="195.0" />
-      <TextField fx:id="answerTxtFld1" layoutX="61.0" layoutY="139.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld2" layoutX="173.0" layoutY="139.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld3" layoutX="61.0" layoutY="173.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld4" layoutX="173.0" layoutY="173.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld5" layoutX="61.0" layoutY="208.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld6" layoutX="173.0" layoutY="208.0" prefHeight="25.0" prefWidth="41.0" />
-      <Button fx:id="sendBtn" layoutX="173.0" layoutY="266.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="69.0" text="Send" />
-      <Button fx:id="cancelBtn" layoutX="32.0" layoutY="266.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="25.0" prefWidth="69.0" text="Cancel" />
-      <Label layoutX="32.0" layoutY="143.0" text="1" />
-      <Label layoutX="146.0" layoutY="143.0" text="2" />
-      <Label layoutX="32.0" layoutY="177.0" text="3" />
-      <Label layoutX="146.0" layoutY="177.0" text="4" />
-      <Label layoutX="146.0" layoutY="212.0" text="6" />
-      <Label layoutX="32.0" layoutY="212.0" text="5" />
+      <Label layoutX="23.0" layoutY="102.0" text="Input results for the the survey's questions: " />
+      <ComboBox fx:id="surveyComboBox" layoutX="23.0" layoutY="52.0" onAction="#onShowSurveys" prefHeight="25.0" prefWidth="260.0" />
+      <TextField fx:id="answerTxtFld1" layoutX="100.0" layoutY="148.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld2" layoutX="233.0" layoutY="148.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld3" layoutX="100.0" layoutY="186.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld4" layoutX="233.0" layoutY="186.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld5" layoutX="100.0" layoutY="221.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld6" layoutX="233.0" layoutY="221.0" prefHeight="25.0" prefWidth="41.0" />
+      <Button fx:id="sendBtn" layoutX="219.0" layoutY="279.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="69.0" text="Send" />
+      <Button fx:id="cancelBtn" layoutX="23.0" layoutY="279.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="25.0" prefWidth="69.0" text="Cancel" />
+      <Label layoutX="23.0" layoutY="152.0" text="Question 1" />
+      <Label layoutX="156.0" layoutY="152.0" text="Question 2" />
+      <Label layoutX="23.0" layoutY="190.0" text="Question 3" />
+      <Label layoutX="156.0" layoutY="190.0" text="Question 4" />
+      <Label layoutX="156.0" layoutY="225.0" text="Question 6" />
+      <Label layoutX="21.0" layoutY="225.0" text="Questions 5" />
+      <Label layoutX="23.0" layoutY="119.0" text="Results must be 1 to 10." />
    </children>
 </AnchorPane>

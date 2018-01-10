@@ -174,6 +174,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   `answer4` int(2) DEFAULT NULL,
   `answer5` int(2) DEFAULT NULL,
   `answer6` int(2) DEFAULT NULL,
+  `storeID` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,6 +236,7 @@ CREATE TABLE `Customers` (
   `payMethod` varchar(45) DEFAULT NULL,
   `accountBalance` float(11) DEFAULT NULL,
   `creditCardNumber` varchar(45) DEFAULT NULL,
+  `accountStatus` BOOLEAN DEFAULT NULL,
   PRIMARY KEY (`personID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -245,7 +247,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (12345,'Dzon Levi','101','CASH',0.0,'4356768');
+INSERT INTO `Customers` VALUES (12345,'Dzon Levi','101','CASH',0.0,'4356768', TRUE);
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -121,5 +121,5 @@ public class UserController {
 	public static void RemoveUser(String userName, Client client)
 	{
     	client.handleMessageFromClientUI(new RemoveRequest("User", userName));
-	}
+	}	
 }

@@ -192,8 +192,9 @@ public class EntityFactory {
 				  results[5]=rs.getInt("answer6");
 				  java.sql.Date sqlDate = rs.getDate("date");
 				  LocalDate date = sqlDate.toLocalDate();
+				  int storeID = rs.getInt("storeID");
 			  
-			      surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date));
+			      surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date, storeID));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  
@@ -213,8 +214,9 @@ public class EntityFactory {
 		  {
 			  while (rs.next())
 			  {
+				 System.out.println("AAAAAAA");
 				  customers.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3),
-						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6)));
+						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6), rs.getBoolean(7)));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  catch (Customer.CustomerException ce ) {

@@ -20,12 +20,12 @@ public class CustomerController {
 	 * @param client - currently running client
 	 */
 	public static void createNewCustomer(long personID, String fullName, String phoneNumber, PayType payMethod, float accountBalance,
-									String creditCardNumber, Client client)
+									String creditCardNumber,boolean accountStatus, Client client)
 	{
 		
 		Customer newCustomer;
 		try {
-			newCustomer = new Customer(personID, fullName, phoneNumber, payMethod, accountBalance, creditCardNumber);
+			newCustomer = new Customer(personID, fullName, phoneNumber, payMethod, accountBalance, creditCardNumber, accountStatus);
 			client.handleMessageFromClientUI(new AddRequest("Customers", newCustomer));
 		} catch (CustomerException e) {
 			e.printStackTrace();

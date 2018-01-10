@@ -69,6 +69,7 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
   //===============================================================================================================
     @FXML
     void closeWindow(ActionEvent event) {
+    	resetFields();
     	CustomerServiceGUI customerServiceGUI = (CustomerServiceGUI)parent;
     	client.setUI(customerServiceGUI);
     	FormController.primaryStage.setScene(parent.getScene());
@@ -91,85 +92,94 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
     	questions[3]=question4TxtFld.getText();
     	questions[4]=question5TxtFld.getText();
     	questions[5]=question6TxtFld.getText();
-    	
-    	//Check whether the name or the questions haven't been fully filled in the form
-    	if(surveyName.equals("")) nameFault = 1;
-    	for(int i=0; i<6; i++)
+    	if(questions[0] != "" && questions[1] != "" && questions[2] != "" && questions[3] != "" && questions[4] != "" && 
+    			questions[5] != "")
     	{
-    		if(questions[i].equals(""))
-    		{
-    			questionsFault = 1;
-    			break;
-    		}		
-    	}
-    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 6 questions have been filled:
-    	{
-    		CustomerSatisfactionSurveyController.doesSurveyExist(surveyName, client);
-    		try
-        	{
-        		synchronized(this)
-        		{
-        			// wait for server response
-        			this.wait();
-        		}
-        	
-        		if (response == null)
-        			return;
-	        		
-	        	// show success 
-	        	if (response.getType() == Response.Type.SUCCESS)
+	    	//Check whether the name or the questions haven't been fully filled in the form
+	    	if(surveyName.equals("")) nameFault = 1;
+	    	for(int i=0; i<6; i++)
+	    	{
+	    		if(questions[i].equals(""))
+	    		{
+	    			questionsFault = 1;
+	    			break;
+	    		}		
+	    	}
+	    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 6 questions have been filled:
+	    	{
+	    		CustomerSatisfactionSurveyController.doesSurveyExist(surveyName, client);
+	    		try
 	        	{
-	        		// show failure  
-	        		Alert alert = new Alert(AlertType.ERROR, "Survey with the same name already exists.", ButtonType.OK);
-	        		alert.showAndWait();
-	        		// clear response
-	        		response = null;
-	        	}
-	        	//if(response.getType() == Response.Type.ERROR)
-	        	else
-	        	{
-	        		CustomerSatisfactionSurveyController.surveyCreation(surveyName, questions, client);
-	        		try
+	        		synchronized(this)
 	        		{
-	        			synchronized(this)
-	        			{
-	        				//wait for server response
-	        				this.wait();
-	        			}
-	        			if(response == null)
-	        				return;
-	        			
-	        			//success
-	        			if(response.getType() == Response.Type.SUCCESS)
-	        			{
-	        				Alert alert = new Alert(AlertType.CONFIRMATION, "Survey created successfully", ButtonType.OK);
-	    	        		alert.showAndWait();
-	    	        		// clear replay
-	    	        		response = null;
-	        			}
-	        			else
-	        			{
-	        				// show failure  
-	        	    		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
-	        	    		alert.showAndWait();
-	        	    		// clear replay
-	        	    		response = null;
-	        			}
+	        			// wait for server response
+	        			this.wait();
 	        		}
-	        		catch(InterruptedException e) {}
-
-	        	}
 	        	
-	        	}catch(InterruptedException e) {}
+	        		if (response == null)
+	        			return;
+		        		
+		        	// show success 
+		        	if (response.getType() == Response.Type.SUCCESS)
+		        	{
+		        		// show failure  
+		        		Alert alert = new Alert(AlertType.ERROR, "Survey with the same name already exists.", ButtonType.OK);
+		        		alert.showAndWait();
+		        		// clear response
+		        		response = null;
+		        	}
+		        	//if(response.getType() == Response.Type.ERROR)
+		        	else
+		        	{
+		        		CustomerSatisfactionSurveyController.surveyCreation(surveyName, questions, client);
+		        		try
+		        		{
+		        			synchronized(this)
+		        			{
+		        				//wait for server response
+		        				this.wait();
+		        			}
+		        			if(response == null)
+		        				return;
+		        			
+		        			//success
+		        			if(response.getType() == Response.Type.SUCCESS)
+		        			{
+		        				Alert alert = new Alert(AlertType.CONFIRMATION, "Survey created successfully", ButtonType.OK);
+		    	        		alert.showAndWait();
+		    	        		// clear replay
+		    	        		response = null;
+		    	        		resetFields();
+		        			}
+		        			else
+		        			{
+		        				// show failure  
+		        	    		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
+		        	    		alert.showAndWait();
+		        	    		// clear replay
+		        	    		response = null;
+		        			}
+		        		}
+		        		catch(InterruptedException e) {}
+	
+		        	}
+		        	
+		        	}catch(InterruptedException e) {}
+	    	}
+	    	else
+	    	{
+	    		if(nameFault == 1 || questionsFault == 1) 
+	    		{
+	    			// show failure  
+		    		Alert alert = new Alert(AlertType.ERROR, "A name and 6 questions are needed to create a survey.", ButtonType.OK);
+		    		alert.showAndWait();
+	    		}
+	    	}
     	}
     	else
     	{
-    		if(nameFault == 1 || questionsFault == 1) 
-    		{
-    			// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "A name and 6 questions are needed to create a survey.", ButtonType.OK);
-	    		alert.showAndWait();
-    		}
+    		Alert alert = new Alert(AlertType.ERROR, "Can not send an empty form.", ButtonType.OK);
+    		alert.showAndWait();
     	}
     }
   //===============================================================================================================
@@ -196,6 +206,16 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
 	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	void resetFields() {
+    	surveyNameTxtFld.setText("");
+    	question1TxtFld.setText("");
+    	question2TxtFld.setText("");
+    	question3TxtFld.setText("");
+    	question4TxtFld.setText("");
+    	question5TxtFld.setText("");
+    	question6TxtFld.setText("");
 	}
 
 }
