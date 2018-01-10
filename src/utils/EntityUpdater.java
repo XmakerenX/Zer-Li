@@ -29,7 +29,7 @@ public class EntityUpdater {
 				setSurvey(oldKey, (CustomerSatisfactionSurvey)entity, db);
 				break;
 				
-			case "Customer":
+			case "Customers":
 				setCustomer(oldKey, (Customer)entity, db);
 				break;
 			}

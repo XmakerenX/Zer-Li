@@ -32,6 +32,12 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	
 	private Response replay = null;
 	
+	//List of text fields to clear them later
+	ArrayList<TextField> textFields = new ArrayList<TextField>();
+	
+	//List of combo boxes to clear them later
+	ArrayList<ComboBox<String>> comboBoxes = new ArrayList<ComboBox<String>>();
+	
 	//Current User's entity with all attributes for further updating
 	User userToUpdate;
 	String formerUsername;
@@ -242,6 +248,9 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	newPaymentMethodComboBox.setItems(paymentMethodList);
     	newAccountStatusComboBox.setItems(accountStatusesList);
     	
+   // 	comboBoxes.add();
+    //	textField.add();
+    	
     }
     
     /**
@@ -251,6 +260,8 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     @FXML
     void onFindUser(ActionEvent event) {
     	
+    	String [] splittedString;
+
     	String userName = findUserNameTxtField.getText();
     	
     	UserController.getUser(userName, client);
@@ -275,9 +286,17 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		formerUsername = ""+userToUpdate.getUserName();
     		usernameTxtField.setText(""+userToUpdate.getUserName());
     		passwordTxtField.setText(""+userToUpdate.getUserPassword());
-    		permissionTxtField.setText(""+userToUpdate.getUserPermission());
+    		
+    		splittedString = (""+userToUpdate.getUserPermission()).split("_");
+    		String permission = handleSplittedString(splittedString);
+    		
+    		permissionTxtField.setText(permission);
     		personIDTxtField.setText(""+userToUpdate.getPersonID());
-    		usersStatusTxtField.setText(""+userToUpdate.getUserStatus());
+    		
+    		splittedString = (""+userToUpdate.getUserStatus()).split("_");
+    		String usersStatus = handleSplittedString(splittedString);
+    		
+    		usersStatusTxtField.setText(usersStatus);
     		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
 
     	}
@@ -319,7 +338,11 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		customersPersonIDTxtField.setText(""+customerToUpdate.getID());
     		fullNameTxtField.setText(""+customerToUpdate.getName());
     		phoneNumberTxtField.setText(""+customerToUpdate.getPhoneNumber());
-    		paymentMethodTxtField.setText(""+customerToUpdate.getPayMethod());
+    		
+    		splittedString = (""+customerToUpdate.getPayMethod()).split("_");
+    		String payMethod = handleSplittedString(splittedString);
+    		
+    		paymentMethodTxtField.setText(payMethod);
     		accoundBalanceTxtField.setText(""+customerToUpdate.getAccountBalance());
     		creditCardNumberTxtField.setText(""+customerToUpdate.getCreditCardNumber());
     		accountStatusTxtField.setText(""+customerToUpdate.getAccountStatus());
@@ -468,6 +491,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	
 	public void clearFieldsMethod()
 	{
+		//Clears user's fields
 		usernameTxtField.setText("");
 		passwordTxtField.setText("");
 		permissionTxtField.setText("");
@@ -478,6 +502,44 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		newPasswordTxtField.setText("");
 		newPermissionComboBox.setValue(null);
 	    newPersonIDTxtField.setText("");
+	    newUsersStatusComboBox.setValue(null);
+	    clearTriesCheckBox.setSelected(false);
+	    
+	    //Clears customer's fields
+	    storeNameComboBox.setValue(null);
+	    customersPersonIDTxtField.setText("");
+	    fullNameTxtField.setText("");
+	    phoneNumberTxtField.setText("");
+	    paymentMethodTxtField.setText("");
+	    accoundBalanceTxtField.setText("");
+	    creditCardNumberTxtField.setText("");
+	    accountStatusTxtField.setText("");
+	    newCustomersPersonIDTxtField.setText("");
+	    newFullNameTxtField.setText("");
+	    newPhoneNumberTxtField.setText("");
+	    newPaymentMethodComboBox.setValue(null);
+	    newAccoundBalanceTxtField.setText("");
+	    newCreditCardNumberTxtField.setText("");
+	    newAccountStatusComboBox.setValue(null);
+	}
+	
+	public String handleSplittedString(String [] splittedString)
+	{
+		String tempString = "";
+		
+		for(String splitted : splittedString)
+		{
+			splitted = splitted.toLowerCase();
+			
+			if(!tempString.equals(""))
+				tempString = tempString + " ";
+			else
+				splitted = Character.toUpperCase(splitted.charAt(0)) + splitted.substring(1);
+			
+			tempString = tempString + splitted;
+		}
+		
+		return tempString;
 	}
 
 }

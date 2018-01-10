@@ -33,7 +33,7 @@ public class EntityAdder {
 		case "Order":
 			return addOrder((Order)entity, db);
 			
-		case "Customer":
+		case "Customers":
 			return addCustomer((Customer)entity, db);
 		
 		default:return false;
