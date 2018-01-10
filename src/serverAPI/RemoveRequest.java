@@ -1,5 +1,7 @@
 package serverAPI;
 
+import java.util.ArrayList;
+
 public class RemoveRequest extends Request
 {
 	/**
@@ -7,6 +9,8 @@ public class RemoveRequest extends Request
 	 */
 	private static final long serialVersionUID = 1L;
 	String table;
+	ArrayList<String> keys;
+	
 	public String getTable() {
 		return table;
 	}
@@ -15,20 +19,18 @@ public class RemoveRequest extends Request
 		this.table = table;
 	}
 
-	public String getKey() {
-		return key;
+	public ArrayList<String> getKey() {
+		return keys;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setKey(ArrayList<String> keys) {
+		this.keys = keys;
 	}
-
-	String key;
 	
-	public RemoveRequest(String table,String key)
+	public RemoveRequest(String table, ArrayList<String> keys)
 	{
 	   super("RemoveRequest");
 	   this.table = table;
-	   this.key = key;
+	   this.keys = keys;
 	}
 }

@@ -170,40 +170,42 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	        		if (customerGUI != null)
 	        		{	        			
-	        			CustomerController.getCustomer(""+user.getPersonID(), client);
+        				Client.client.setUI(customerGUI);
+        				customerGUI.setClinet(Client.client);
+        				customerGUI.setCurrentUser(user);
+        				customerGUI.loadStores();
+	        			FormController.primaryStage.setScene(customerGUI.getScene());
 	        			
-	        			synchronized(this)
-	            		{
-	            			// wait for server response
-	            			this.wait(ClientInterface.TIMEOUT);
-	            		}
+	        			//CustomerController.getCustomer(""+user.getPersonID(), client);
 	        			
-	        			if (replay != null)
-	        			{
-	        				if (replay.getType() == Response.Type.SUCCESS)
-	        				{
-	        					ArrayList<Customer> customers = (ArrayList<Customer>)replay.getMessage();
-	        					customerGUI.setCurrentCustomer(customers.get(0));
-	        				}
-	        				else
-	        				{
-	        					customerGUI.setCurrentCustomer(null);
-	        				}
-	        				
-	        				Client.client.setUI(customerGUI);
-	        				customerGUI.setClinet(Client.client);
-	        				customerGUI.loadStores();
-    	        			FormController.primaryStage.setScene(customerGUI.getScene());
-	        			}
-	        			else
-	        			{
-	            			Alert alert = new Alert(AlertType.ERROR);
-	            		  	alert.setTitle("Server Respone timed out");
-	            	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
-	            	    	
-	            	    	alert.showAndWait();
-	            			return;
-	        			}
+//	        			synchronized(this)
+//	            		{
+//	            			// wait for server response
+//	            			this.wait(ClientInterface.TIMEOUT);
+//	            		}
+//	        			
+//	        			if (replay != null)
+//	        			{
+//	        				if (replay.getType() == Response.Type.SUCCESS)
+//	        				{
+//	        					ArrayList<Customer> customers = (ArrayList<Customer>)replay.getMessage();
+//	        					customerGUI.setCurrentCustomer(customers.get(0));
+//	        				}
+//	        				else
+//	        				{
+//	        					customerGUI.setCurrentCustomer(null);
+//	        				}
+//	        				
+//	        			}
+//	        			else
+//	        			{
+//	            			Alert alert = new Alert(AlertType.ERROR);
+//	            		  	alert.setTitle("Server Respone timed out");
+//	            	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
+//	            	    	
+//	            	    	alert.showAndWait();
+//	            			return;
+//	        			}
 	        		}
 	    		}break;
 	    			

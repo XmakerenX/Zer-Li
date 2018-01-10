@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 
 public class DBConnector {
@@ -162,14 +162,19 @@ public class DBConnector {
 		  }
 	  }
 //---------------------------------------------------------------------
-	  public Boolean removeEntry(String table,String key)
+	  public Boolean removeEntry(String table,ArrayList<String> keys)
 	  {
-		   String primaryKey = this.getTableKeyName(table);		   
+		   ArrayList<String> primaryKeys = this.getTableKeyName(table);
+		   String primaryCondition = null;
+		   primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition);
+		   //String primaryKey = this.getTableKeyName(table);		   
 		   Statement stmnt;
 		try 
 		{
 			stmnt = conn.createStatement();
-			stmnt.executeUpdate("delete from "+table+" where "+primaryKey+"="+"\""+key+"\"" +"limit 1");
+			//stmnt.executeUpdate("delete from "+table+" where "+primaryKeys.get(0)+"="+"\""+key+"\"" +"limit 1");
+			System.out.println("delete from "+table+" where "+ primaryCondition + " limit 1");
+			stmnt.executeUpdate("delete from "+table+" where "+ primaryCondition  +" limit 1");
 			return true;
 		} 
 		
@@ -195,16 +200,23 @@ public class DBConnector {
 		  }
 	  }
 	  	  
-	  public String getTableKeyName(String table)
+	  public ArrayList<String> getTableKeyName(String table)
 	  {
 		  Statement stmt;
+		  ArrayList<String> primaryKeysNames = new ArrayList<String>();
+		  
 		  try
 		  {
 			  stmt = conn.createStatement();
 			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
-			  rs.next();
-			  return rs.getString("Column_name");
+			  while (rs.next())
+			  {
+				  primaryKeysNames.add(rs.getString("Column_name"));
+			  }
+			  rs.close();
+			  
+			  return primaryKeysNames;
 		  }
 		  catch (SQLException ex) 
 		  {
@@ -248,15 +260,20 @@ public class DBConnector {
 		  }
 	  }
 //----------------------------------------------------------------------
-	public Boolean doesExists(String table, String key) 
+	public Boolean doesExists(String table, ArrayList<String> keys) 
 	{
-		   String primaryKey = this.getTableKeyName(table);		   
+		   ArrayList<String> primaryKeys = this.getTableKeyName(table);
+		   //String primaryKey = this.getTableKeyName(table);
+		   String primaryCondition = null;
+		   primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition);
 		   Statement stmnt;
 		   ResultSet rs;
 		try 
 		{
 			stmnt = conn.createStatement();
-			rs = stmnt.executeQuery("Select * from "+table+" where "+primaryKey+"="+"\""+key+"\"");
+			//rs = stmnt.executeQuery("Select * from "+table+" where "+primaryKeys.get(0)+"="+"\""+key+"\"");
+			System.out.println("Select * from "+table+" where "+primaryCondition);
+			rs = stmnt.executeQuery("Select * from "+table+" where "+primaryCondition);
 			rs.next();
 			try
 			{
@@ -277,4 +294,67 @@ public class DBConnector {
 			return false;
 		}
 	}
+	
+	/**
+	   * This method given a table and a primary key value generate a condition for it 
+	   * for the table product and key value 5 will generate in condition "ProductID=4"
+	   * @param table the table that the primary key belongs to
+	   * @param key the value of the primary key
+	   * @param condition the generated MySQL condition or error message
+	   * @return true if the condition was generated successfully , false if error was incurred
+	   * 
+	   */
+	  public String generateConditionForPrimayKey(String table, ArrayList<String> keys, String condition)
+	  {		
+		  System.out.println("keys");
+		  System.out.println(keys);
+		  condition = "";
+		  ArrayList<String> primaryKeyName = getTableKeyName(table);
+
+		  if (keys.size() == 0)
+		  {
+			  System.out.println("no key was given");
+			  return ""; 
+		  }
+		  
+		  if (keys.size() > primaryKeyName.size())
+		  {
+			  System.out.println("too many keys given");
+			  return "";
+		  }
+
+		  
+		  if (primaryKeyName.size() > 0)
+		  {
+			  for (int i = 0; i < keys.size(); i++)
+			  {
+				  String colType = getColumnType(table, primaryKeyName.get(i));
+				  System.out.println(""+colType);
+				  if (colType != null)
+				  {
+					  if (colType.equals("int"))
+						  if (i != 0)
+							  condition = condition + " AND " + primaryKeyName.get(i)+"="+keys.get(i);
+						  else
+							  condition = primaryKeyName.get(i)+"="+keys.get(i);
+					  else
+						  if (i != 0)
+							  condition = condition + " AND " + primaryKeyName.get(i)+"="+"\""+keys.get(i)+"\"";
+						  else
+							  condition = primaryKeyName.get(i)+"="+"\""+keys.get(i)+"\"";
+				  }
+				  else
+				  {
+					  condition = "Failed to get primary key type";
+					  return "";	//Temporary lolz right...
+				  }
+			  }
+			  return condition;
+		  }
+		  else 
+		  {
+			  condition = "Failed to get primary key name";
+			  return "";	//Temporary
+		  }
+	  }
 }

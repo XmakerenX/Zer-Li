@@ -15,6 +15,7 @@ public class Customer implements Serializable {
 	public enum PayType {CREDIT_CARD, SUBSCRIPTION}
 	
 	private long ID;
+	private long storeID;
 	private String name;
 	private String phoneNumber;
 	private PayType payMethod;
@@ -22,10 +23,11 @@ public class Customer implements Serializable {
 	private String creditCardNumber;
 	private boolean accountStatus;
 	
-	public Customer(long ID, String name, String phoneNumber, PayType payMethod, float accountBalance,
+	public Customer(long ID, long storeID,String name, String phoneNumber, PayType payMethod, float accountBalance,
 							String creditCardNumber, boolean accountStatus) throws CustomerException
 	{
 		setID(ID);
+		setStoreID(storeID);
 		setName(name);
 		setPhoneNumber(phoneNumber);
 		setPayMethod(payMethod);
@@ -89,6 +91,18 @@ public class Customer implements Serializable {
 	public void setAccountStatus(boolean accountStatus) {
 		this.accountStatus = accountStatus;
 	}
+
+	public long getStoreID() {
+		return storeID;
+	}
+
+	public void setStoreID(long storeID) throws CustomerException {
+		if (storeID > 0)
+			this.storeID = storeID;
+		else
+			throw new CustomerException(storeID+" is an invalid StoreID");
+	}
+	
 	
 	
 }

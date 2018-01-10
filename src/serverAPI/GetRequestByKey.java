@@ -1,18 +1,20 @@
 package serverAPI;
 
+import java.util.ArrayList;
+
 public class GetRequestByKey extends GetRequest {
 
-	String Key;
+	ArrayList<String> Keys;
 	
-	public GetRequestByKey(String table, String key)
+	public GetRequestByKey(String table, ArrayList<String> keys)
 	{
 		super(table);
-		this.Key = key;
+		this.Keys = keys;
 		this.type = "GetRequestByKey";
 	}
 
-	public String getKey() {
-		return Key;
+	public ArrayList<String> getKey() {
+		return Keys;
 	}
 	
 }

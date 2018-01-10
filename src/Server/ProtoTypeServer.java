@@ -211,12 +211,12 @@ public class ProtoTypeServer extends AbstractServer {
 				  String condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
 				  
 				  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
-				  String tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
-				  String joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
+				  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
+				  ArrayList<String> joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
 				  // make the join on the primary key between the tables who should be the same for this to work
 				  // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
-				  condition = joinedTablesRequest.getTable()+"."+tableKeyName+"="
-						  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName +" AND " + condition;
+				  condition = joinedTablesRequest.getTable()+"."+tableKeyName.get(0)+"="
+						  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName.get(0) +" AND " + condition;
 				  ResultSet rs = db.selectJoinTablesData("*", joinedTablesRequest.getTable(),
 						  joinedTablesRequest.getJoinedTable(), condition);
 				  
@@ -247,7 +247,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  ResultSet rs;
 				  
 				  String condition = null;
-				  condition = generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
+				  condition = db.generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
 				  rs = db.selectTableData("*", getRequestByKey.getTable(), condition);
 				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestByKey.getTable(), rs);
 				  if (entityArray != null)
@@ -265,12 +265,12 @@ public class ProtoTypeServer extends AbstractServer {
 		  {
 			  System.out.println("GetJoinedTablesRequest");
 			  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
-			  String tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
-			  String joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
+			  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
+			  ArrayList<String> joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
 			  // make the join on the primary key between the tables who should be the same for this to work
 			  // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
-			  String condition = joinedTablesRequest.getTable()+"."+tableKeyName+"="
-					  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName;
+			  String condition = joinedTablesRequest.getTable()+"."+tableKeyName.get(0)+"="
+					  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName.get(0);
 			  ResultSet rs = db.selectJoinTablesData("*", joinedTablesRequest.getTable(),
 					  joinedTablesRequest.getJoinedTable(), condition);
 			  
@@ -433,43 +433,6 @@ public class ProtoTypeServer extends AbstractServer {
 	    db.closeConnection();
 	  }
 	  
-	  /**
-	   * This method given a table and a primary key value generate a condition for it 
-	   * for the table product and key value 5 will generate in condition "ProductID=4"
-	   * @param table the table that the primary key belongs to
-	   * @param key the value of the primary key
-	   * @param condition the generated MySQL condition or error message
-	   * @return true if the condition was generated successfully , false if error was incurred
-	   * 
-	   */
-	  private String generateConditionForPrimayKey(String table, String key, String condition)
-	  {
-		  String primaryKeyName = db.getTableKeyName(table);
-		  
-		  if (primaryKeyName != null)
-		  {
-			  String colType = db.getColumnType(table, primaryKeyName);
-			  System.out.println(""+colType);
-			  if (colType != null)
-			  {
-				  if (colType.equals("int"))
-					  condition = primaryKeyName+"="+key;
-				  else
-					  condition = primaryKeyName+"="+"\""+key+"\"";
-				  return condition;
-			  }
-			  else
-			  {
-				  condition = "Failed to get primary key type";
-				  return "";	//Temporary
-			  }
-		  }
-		  else 
-		  {
-			  condition = "Failed to get primary key name";
-			  return "";	//Temporary
-		  }
-	  }
 //-------------------------------------------------------------------------------
 	  /** update config file. params are transferred from the serverGUI.
 	   * @param port

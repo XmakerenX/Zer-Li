@@ -95,9 +95,10 @@ public class EntityUpdater {
 		String accountBalance = ""+customer.getAccountBalance();
 		String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
 		String accountStatus = ""+customer.getAccountStatus();
+		String storeID = ""+customer.getStoreID();
 		String condition = "personID='"+oldKey+"'";
 		  
 		db.executeUpdate("Customers", personID + "," + fullName + "," + phoneNumber + "," 
-				  +payMethod+", " + accountBalance + ", " + creditCardNumber + "," + accountStatus, condition);
+				  +payMethod+", " + accountBalance + ", " + creditCardNumber + "," + accountStatus + "," + storeID, condition);
 	}
 }

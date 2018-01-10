@@ -1,5 +1,7 @@
 package survey;
 
+import java.util.ArrayList;
+
 import client.Client;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -21,7 +23,9 @@ public class CustomerSatisfactionSurveyController {
 	//===============================================================================================================
 	public static void getSurvey(String surveyName, Client client)
 	{
-		client.handleMessageFromClientUI(new GetRequestByKey("surveys", surveyName));
+		ArrayList<String> keys = new ArrayList<String>();
+		keys.add(surveyName);
+		client.handleMessageFromClientUI(new GetRequestByKey("surveys", keys));
 		
 	}
 	//===============================================================================================================
@@ -39,7 +43,9 @@ public class CustomerSatisfactionSurveyController {
 	//===============================================================================================================
 	public static void doesSurveyExist(String surveyName, Client client)
 	{
-		client.handleMessageFromClientUI(new CheckExistsRequest("surveys", surveyName));
+		ArrayList<String> surveyKey = new ArrayList<String>();
+		surveyKey.add(surveyName);
+		client.handleMessageFromClientUI(new CheckExistsRequest("surveys", surveyKey));
 	}
 	//===============================================================================================================
 	/**

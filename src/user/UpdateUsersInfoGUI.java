@@ -315,7 +315,8 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
      	
     	String personID = ""+userToUpdate.getPersonID();
     	
-    	CustomerController.getCustomer(personID, client);
+    	//TODO: fix breakage
+    	//CustomerController.getCustomer(personID, client);
     	
      	try
     	{

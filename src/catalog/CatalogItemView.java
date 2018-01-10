@@ -76,7 +76,6 @@ public class CatalogItemView extends CatalogItem {
 	//TODO: do a smarted compareTO to sort by something...
 	public int compareTo(CatalogItem o)
 	{
-		System.out.println(this.getSalePrice() + " " + o.getSalePrice());
 		if (this.getSalePrice() == -1 && o.getSalePrice() != -1)
 			return 1;
 		

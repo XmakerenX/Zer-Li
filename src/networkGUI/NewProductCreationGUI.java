@@ -334,27 +334,30 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     }
     protected boolean alreadyExists(String id)
     {
-    	 synchronized(this)
-   	  {
-   	    client.handleMessageFromClientUI(new CheckExistsRequest("Product",id));
-   	    try 
-   	    {
-				this.wait();
-			}
-   	    catch (InterruptedException e) 
-   	    {
-				e.printStackTrace();
-			}
-   	    
-   	   if(response.getType().name().equals("ERROR"))
-       {
-     	  return false;
-       }
-       else
-       {
-     	  return true;
-       }
-   	  }
+    	synchronized(this)
+    	{
+    		ArrayList<String> primaryKey = new ArrayList<String>();
+    		primaryKey.add(id);
+    		client.handleMessageFromClientUI(new CheckExistsRequest("Product",primaryKey));
+    		
+    		try 
+    		{
+    			this.wait();
+    		}
+    		catch (InterruptedException e) 
+    		{
+    			e.printStackTrace();
+    		}
+
+    		if(response.getType().name().equals("ERROR"))
+    		{
+    			return false;
+    		}
+    		else
+    		{
+    			return true;
+    		}
+    	}
     	 
    
     }

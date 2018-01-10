@@ -199,10 +199,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
 				ArrayList<CatalogItem> catalogItems = (ArrayList<CatalogItem>)replay.getMessage();
 				for (CatalogItem item : catalogItems)
 				{
-					System.out.println("------------------------------------------");
-					System.out.println(item.getName());
-					boolean b = catalogItemsSet.add(item);
-					System.out.println(b);
+					catalogItemsSet.add(item);
 				}
 			}
 		}
@@ -234,13 +231,15 @@ public class CatalogGUI extends FormController implements ClientInterface {
     }
     
     public void onRefresh(ActionEvent event) {
-    	System.out.println("refresh");
     	//TODO: add check if customer is blocked
     	if (currentCustomer == null)
     		createOrderBtn.setDisable(true);
     	else
     	{
-    		createOrderBtn.setDisable(false);
+    		if (currentCustomer.getStoreID() == currentStoreID)
+    			createOrderBtn.setDisable(false);
+    		else
+    			createOrderBtn.setDisable(true);
     	}
     		
     	
@@ -271,6 +270,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     
     @FXML
     void onBack(ActionEvent event) {
+    	Client.client.setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     }
     
@@ -340,13 +340,10 @@ public class CatalogGUI extends FormController implements ClientInterface {
     @Override
 	public void setClinet(Client client)
 	{
-    	//super.setClinet(client);
-    	System.out.println("set client");
     	onRefresh(null);
 	}
     
 	public void setCurrentCustomer(Customer currentCustomer) {
-		System.out.println("set customer");
 		this.currentCustomer = currentCustomer;
 	}
 	

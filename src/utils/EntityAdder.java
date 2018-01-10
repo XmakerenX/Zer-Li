@@ -181,11 +181,12 @@ public class EntityAdder {
 			String accountBalance = ""+customer.getAccountBalance();
 			String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
 			String accountStatus = ""+customer.getAccountStatus();
+			String storeID = "" + customer.getStoreID();
 			
 			try
 			{
 			db.insertData("Customers", personID + "," + fullName + "," + phoneNumber + "," + payMethod + "," + accountBalance + ","
-					+ creditCardNumber + "," + accountStatus);
+					+ creditCardNumber + "," + accountStatus + "," + storeID);
 				return true;
 			}
 			catch(Exception e)

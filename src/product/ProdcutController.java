@@ -53,6 +53,8 @@ public class ProdcutController
 	 */
 	public static void removeProductFromDataBase(String prodKey,Client client)
 	{
-		client.handleMessageFromClientUI(new RemoveRequest("Product",prodKey));
+		ArrayList<String> prodKeys = new ArrayList<String>();
+		prodKeys.add(prodKey);
+		client.handleMessageFromClientUI(new RemoveRequest("Product",prodKeys));
 	}
 }

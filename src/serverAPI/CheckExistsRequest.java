@@ -1,15 +1,17 @@
 package serverAPI;
 
+import java.util.ArrayList;
+
 public class CheckExistsRequest extends Request
 {
 	private static final long serialVersionUID = 6135571085283599438L;
 	String table;
-	String primaryKey;
-	public CheckExistsRequest(String tbl, String key) 
+	ArrayList<String> primaryKeys;
+	public CheckExistsRequest(String tbl, ArrayList<String> keys) 
 	{
 		super("CheckExistsRequest");
 		this.table = tbl;
-		this.primaryKey = key;
+		this.primaryKeys = keys;
 	}
 	public String getTable() {
 		return table;
@@ -17,11 +19,11 @@ public class CheckExistsRequest extends Request
 	public void setTable(String table) {
 		this.table = table;
 	}
-	public String getPrimaryKey() {
-		return primaryKey;
+	public ArrayList<String> getPrimaryKey() {
+		return primaryKeys;
 	}
-	public void setPrimaryKey(String primaryKey) {
-		this.primaryKey = primaryKey;
+	public void setPrimaryKey(ArrayList<String> primaryKey) {
+		this.primaryKeys = primaryKey;
 	}
   
 }

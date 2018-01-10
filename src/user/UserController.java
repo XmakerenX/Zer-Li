@@ -110,7 +110,9 @@ public class UserController {
 	 */
 	public static void getUser(String userName, Client client)
 	{
-		client.handleMessageFromClientUI(new GetRequestByKey("User", userName));
+		ArrayList<String> keys = new ArrayList<String>();
+		keys.add(userName);
+		client.handleMessageFromClientUI(new GetRequestByKey("User", keys));
 	}
 	
 	/**
@@ -120,6 +122,8 @@ public class UserController {
 	 */
 	public static void RemoveUser(String userName, Client client)
 	{
-    	client.handleMessageFromClientUI(new RemoveRequest("User", userName));
+		ArrayList<String> userPrimaryKey = new ArrayList<String>();
+		userPrimaryKey.add(userName);
+    	client.handleMessageFromClientUI(new RemoveRequest("User", userPrimaryKey));
 	}	
 }
