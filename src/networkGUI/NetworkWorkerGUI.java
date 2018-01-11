@@ -1,6 +1,7 @@
 package networkGUI;
 
 import catalog.AddToCatalogGUI;
+import catalog.ManageCatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     @FXML
     void manageCatalog(ActionEvent event)
     {
-    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/ManageCatalogGUI.fxml"), this);
+    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     	client.setUI(manCatGui);
     	manCatGui.setClinet(client);
     	FormController.primaryStage.setScene(manCatGui.getScene());

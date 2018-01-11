@@ -1,10 +1,8 @@
-package networkGUI;
+package catalog;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-import catalog.AddToCatalogGUI;
-import catalog.CatalogController;
 import client.Client;
 import client.ClientInterface;
 import javafx.collections.FXCollections;
@@ -95,7 +93,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    @FXML
 	    void newProdBtn(ActionEvent event) 
 	    {
-	    	NewProductCreationGUI createProductGUI = FormController.<NewProductCreationGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NewProductCreation.fxml"), this);
+	    	NewProductCreationGUI createProductGUI = FormController.<NewProductCreationGUI, AnchorPane>loadFXML(getClass().getResource("/product/NewProductCreation.fxml"), this);
 			if (createProductGUI != null)
 			{
 				Stage newWindow = new Stage();
@@ -289,7 +287,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    			,prod_addToCatalogCol,prod_editCol,prod_removeCol);
 	    	
 	    	initProductsTableContent();
-	    	editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/EditProductGUI.fxml"), this);
+	    	editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/product/EditProductGUI.fxml"), this);
 	    	addToCatGUI = FormController.<AddToCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/AddToCatalog.fxml"), this);
 	    	
 	    	//addToCatGUI.doInit();rem

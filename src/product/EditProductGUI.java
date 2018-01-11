@@ -1,4 +1,4 @@
-package networkGUI;
+package product;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,8 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import product.ProdcutController;
-import product.Product;
 import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 import serverAPI.Response;
