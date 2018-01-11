@@ -38,7 +38,7 @@ public class OrderItemView extends CatalogItem {
 	public OrderItemView(long productID, String productName, String productType, float productPrice, int productAmount,
 			String productColor,float salesPrice, String imageName , byte[] imageCheckSum)
 	{
-		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum);
+		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum,0);
 		
 		greetingCard = new TextArea();
 		greetingCard.setWrapText(true);
@@ -56,7 +56,7 @@ public class OrderItemView extends CatalogItem {
 	public OrderItemView(CatalogItemView catalogItemView)
 	{
 		super(catalogItemView.getID(), catalogItemView.getName(), catalogItemView.getType(), catalogItemView.getPrice(),
-				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), catalogItemView.getImageName(), catalogItemView.getImageChecksum());
+				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), catalogItemView.getImageName(), catalogItemView.getImageChecksum(),0);
 		
 		greetingCard = new TextArea();
 		greetingCard.setWrapText(true);
