@@ -21,7 +21,13 @@ import product.CatalogItem;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
-
+import user.UserController;
+/**
+ * this class lets us add new customer satisfaction survey results to the data base
+ * you can only add a result if all fields have been filled.
+ * @author dk198
+ *
+ */
 public class ResultInputGUI extends FormController implements ClientInterface {
 	private Response response = null;
 
@@ -153,7 +159,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     		}
     	}
     	
-    	if(!fieldsMissing)
+    	if(!fieldsMissing && surveyComboBox.getValue()!=null)
 	    	{
 	    	answers[0]=Integer.parseInt(answerTxtFld1.getText());
 	    	answers[1]=Integer.parseInt(answerTxtFld2.getText());
@@ -161,27 +167,60 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	    	answers[3]=Integer.parseInt(answerTxtFld4.getText());
 	    	answers[4]=Integer.parseInt(answerTxtFld5.getText());
 	    	answers[5]=Integer.parseInt(answerTxtFld6.getText());
-	    	int storeID=1;  //=========================================================================CALL A METHOD THAT RETURNS STORE WORKER'S STORE ID.
-    		CustomerSatisfactionSurveyResultsController.addResults(surveyName, answers, storeID, client);
-    		try
+	    	UserController.getStoreOfEmployee(user.getUserName(), client);
+	    	//=======================================================================
+	    	try
         	{
+    			System.out.println("got creation store");
         		synchronized(this)
         		{
         			// wait for server response
         			this.wait();
         		}
-        	
         		if (response == null)
         			return;
 	        		
 	        	// show success 
 	        	if (response.getType() == Response.Type.SUCCESS)
 	        	{
-	        		clearForm();
-    				Alert alert = new Alert(AlertType.CONFIRMATION, "Result input was successfull", ButtonType.OK);
-	        		alert.showAndWait();
-	        		// clear replay
-	        		response = null;
+	    	    	System.out.println("got employee store");
+	    	    	int storeID = 9;
+
+	    	    		storeID = (int)(response.getMessage());
+	    	    		//clear response
+	    	    		response=null;
+	    	    		System.out.println(storeID);
+	        		CustomerSatisfactionSurveyResultsController.addResults(surveyName, answers, storeID, client);
+	        		try
+	            	{
+	            		synchronized(this)
+	            		{
+	            			// wait for server response
+	            			this.wait();
+	            		}
+	            	
+	            		if (response == null)
+	            			return;
+	    	        		
+	    	        	// show success 
+	    	        	if (response.getType() == Response.Type.SUCCESS)
+	    	        	{
+	    	        		clearForm();
+	        				Alert alert = new Alert(AlertType.CONFIRMATION, "Result input was successfull", ButtonType.OK);
+	    	        		alert.showAndWait();
+	    	        		// clear replay
+	    	        		response = null;
+	    	        	}
+	    	        	else
+	    	        	{
+	        				// show failure  
+	        	    		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
+	        	    		alert.showAndWait();
+	        	    		// clear replay
+	        	    		response = null;
+	    	        	}
+	            	}
+	        		catch(InterruptedException e) {}
 	        	}
 	        	else
 	        	{

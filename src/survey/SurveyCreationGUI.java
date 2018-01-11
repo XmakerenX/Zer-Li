@@ -25,7 +25,12 @@ import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
-
+/**
+ * this class allows customer service to add a new survey to the system.
+ * all 6 questions and a name must be filled to create a new survey.
+ * @author dk198
+ *
+ */
 public class SurveyCreationGUI extends FormController implements ClientInterface{
 	
 	// holds the last replay we got from server

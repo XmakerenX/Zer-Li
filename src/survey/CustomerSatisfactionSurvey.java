@@ -2,7 +2,11 @@ package survey;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * a class that we use for customer satisfaction surveys.
+ * @author dk198
+ *
+ */
 public class CustomerSatisfactionSurvey implements Serializable{
 
 
