@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="296.0" prefWidth="265.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="networkGUI.CustomerServiceWorkerGUI">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Welcome, customer service worker" />
+      <Button fx:id="addNewComplaintButton" layoutX="43.0" layoutY="64.0" mnemonicParsing="false" onAction="#OnAddNewComplaintButton" prefHeight="50.0" prefWidth="184.0" text="Add New Complaint" />
+      <Button fx:id="manageComplaintsButton" layoutX="43.0" layoutY="139.0" mnemonicParsing="false" onAction="#onManageComplaintsButton" prefHeight="50.0" prefWidth="184.0" text="Manage Complaints" />
+      <Button fx:id="logOutButton" layoutX="14.0" layoutY="257.0" mnemonicParsing="false" onAction="#onLogOutButton" text="Log out" />
+   </children>
+</AnchorPane>
