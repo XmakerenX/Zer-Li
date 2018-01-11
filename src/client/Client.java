@@ -100,7 +100,11 @@ public class Client  extends AbstractClient{
 	{
 		UI = newUI;
 	}
-
+//*************************************************************************************************
+	public ClientInterface getUI()
+	{
+		return this.UI;
+	}
 //*************************************************************************************************	
 	/**
 	 * This method terminates the client.
