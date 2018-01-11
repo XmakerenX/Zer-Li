@@ -123,14 +123,14 @@ public class EntityFactory {
 					  //System.out.println(imageName+" was found");
 					  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
 							  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"),
-							  rs.getFloat("salesPrice"), image.getFileName(), image.getSha256()));
+							  rs.getFloat("salesPrice"), image.getFileName(), image.getSha256(),rs.getInt("storeID")));
 				  }
 				  else
 				  {
 					  // image path of "" means there is no image for this item
 					  catalogItems.add(new CatalogItem(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
 							  rs.getFloat("ProductPrice"), rs.getInt("ProductAmount"), rs.getString("ProductColor"),
-							  rs.getFloat("salesPrice"), "",null));
+							  rs.getFloat("salesPrice"), "",null,rs.getInt("storeID")));
 				  }
 
 			  }
