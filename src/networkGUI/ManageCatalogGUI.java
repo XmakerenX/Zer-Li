@@ -3,6 +3,8 @@ package networkGUI;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import catalog.AddToCatalogGUI;
+import catalog.CatalogController;
 import client.Client;
 import client.ClientInterface;
 import javafx.collections.FXCollections;
@@ -34,64 +36,98 @@ import serverAPI.Response;
 
 public class ManageCatalogGUI extends FormController implements ClientInterface
 {
+	
+	    ClientInterface ManageCatInterface = this;
 		Response response;
 		Client myClient;
+		
+		//Gui:
 		EditProductGUI editProdGUI;
+		AddToCatalogGUI addToCatGUI;
 		
 		
 		
-	//editable catalog view:
-	   @FXML
-	    private TableView editCatalogView;
-	   
-			    TableColumn cat_imageCol = new TableColumn("Image");
-			    TableColumn cat_nameCol = new TableColumn("Name");
-			    TableColumn cat_priceCol = new TableColumn("Price");
-			    TableColumn cat_salesPriceCol = new TableColumn("sale price");
-			    TableColumn cat_editCol = new TableColumn("");
-			    TableColumn cat_removeCol = new TableColumn("");
+		 @FXML
+		  private Button newProdBtn;
+		
+		 
+		 
+		//---------------Tables:--------------------------
+									
+									
+								//editable catalog view:
+								   @FXML
+								    private TableView editCatalogView;
+								   
+										    TableColumn cat_imageCol = new TableColumn("Image");
+										    TableColumn cat_nameCol = new TableColumn("Name");
+										    TableColumn cat_priceCol = new TableColumn("Price");
+										    TableColumn cat_salesPriceCol = new TableColumn("sale price");
+										    TableColumn cat_editCol = new TableColumn("");
+										    TableColumn cat_removeCol = new TableColumn("");
+								
+								//editable product view
+								    @FXML
+								    private TableView editProductTable;//define table
+								
+								    
+										    TableColumn prod_idCol = new TableColumn("id");
+										    TableColumn prod_nameCol = new TableColumn("Name");
+										    TableColumn prod_typeCol = new TableColumn("Type");
+										    TableColumn prod_priceCol = new TableColumn("Price");
+										    TableColumn prod_amountCol = new TableColumn("Amount");
+										    TableColumn prod_addToCatalogCol = new TableColumn("");
+										    TableColumn prod_editCol = new TableColumn("");
+										    TableColumn prod_removeCol = new TableColumn("");
+								    
+								   ObservableList<EditableProductVIew> eProducts; //table's data
 
-    //editable product view
-	    @FXML
-	    private TableView editProductTable;//define table
-
-	    
-			    TableColumn prod_idCol = new TableColumn("id");
-			    TableColumn prod_nameCol = new TableColumn("Name");
-			    TableColumn prod_typeCol = new TableColumn("Type");
-			    TableColumn prod_priceCol = new TableColumn("Price");
-			    TableColumn prod_amountCol = new TableColumn("Amount");
-			    TableColumn prod_addToCatalogCol = new TableColumn("");
-			    TableColumn prod_editCol = new TableColumn("");
-			    TableColumn prod_removeCol = new TableColumn("");
-	    
-			    ObservableList<EditableProductVIew> eProducts; //table's data
 		
+					
 			    
 			 		//action events for product buttons:
 			    
-			    @FXML
-			    private Button newProdBtn;
-
-			    @FXML
-			    void newProdBtn(ActionEvent event) 
-			    {
-			    	NewProductCreationGUI createProductGUI = FormController.<NewProductCreationGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NewProductCreation.fxml"), this);
-					if (createProductGUI != null)
-					{
-						Stage newWindow = new Stage();
-						client.setUI(createProductGUI);
-						createProductGUI.setClinet(client);
-						newWindow.initOwner(FormController.primaryStage);
-				    	newWindow.initModality(Modality.WINDOW_MODAL);  
-						newWindow.setScene(createProductGUI.getScene());
-						newWindow.showAndWait();
-					}
-	    			//initProductsTableContent();
-					
-			    }	  
-			    
-	    //remove button:
+			   
+		/**
+		 * Opens a new product creation window								    
+		 * @param event
+		 */
+	    @FXML
+	    void newProdBtn(ActionEvent event) 
+	    {
+	    	NewProductCreationGUI createProductGUI = FormController.<NewProductCreationGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NewProductCreation.fxml"), this);
+			if (createProductGUI != null)
+			{
+				Stage newWindow = new Stage();
+				getClient().setUI(createProductGUI);
+				createProductGUI.setClinet(client);
+				newWindow.initOwner(FormController.primaryStage);
+		    	newWindow.initModality(Modality.WINDOW_MODAL);  
+				newWindow.setScene(createProductGUI.getScene());
+				newWindow.showAndWait();
+				getClient().setUI(ManageCatInterface);
+			}
+			Product newProd = new Product(0, null, null, 0, 0, null);
+			
+			newProd.setID(Long.parseLong(createProductGUI.idField.getText()));
+			newProd.setName(createProductGUI.nameFIeld.getText());
+			newProd.setType(createProductGUI.typeComboBox.getValue());
+			newProd.setPrice(Float.parseFloat(createProductGUI.priceField.getText()));
+			newProd.setAmount(Integer.parseInt(createProductGUI.amountFIeld.getText()));
+			newProd.setColor(createProductGUI.colorComboBox.getValue());
+			EditableProductVIew epv = new EditableProductVIew(newProd);
+			epv.getRemoveBtn().setOnAction(prodRemoveAction);
+			epv.getEditBtn().setOnAction(prodEditAction);
+			epv.getAddToCatalogBtn().setOnAction(prodAddToCatalog);
+            
+			
+			ArrayList<EditableProductVIew> currProdTbl = getArrayListOfCurrentProdTable();
+			currProdTbl.add(epv);
+		   editProductTable.getItems().clear();
+		   editProductTable.getItems().addAll(currProdTbl);	
+	    }	  
+	    
+	    //Add to catalog button:
 		EventHandler<ActionEvent> prodRemoveAction  = new EventHandler<ActionEvent>() 
 		{
 		    @Override public void handle(ActionEvent e) 
@@ -106,6 +142,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    			EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
 	    			String id =Long.toString(src.getOrigin().getID());
     				ProdcutController.removeProductFromDataBase(id,myClient);
+    				
     				waitForResponse();
 	    			
     				//show result:
@@ -138,7 +175,13 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    }
 		};
 		
-		
+		/*
+		 * function to allow access of client even in evene handlers
+		 */
+		private Client getClient()
+		{
+			return this.client;
+		}
 		//edit button:
 		EventHandler<ActionEvent> prodEditAction  = new EventHandler<ActionEvent>() 
 		{
@@ -146,17 +189,20 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			{
 				EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
 				Product prod = src.getOrigin();
-		    	Stage newWindow = new Stage();
-		    	myClient.setUI(editProdGUI);
+				Stage newWindow = new Stage();
+		    	
+		    	getClient().setUI(editProdGUI);
+		    	
 		    	editProdGUI.setClinet( myClient);
-		    	
-		    	
 		    	newWindow.initOwner(FormController.primaryStage);
 		    	newWindow.initModality(Modality.WINDOW_MODAL);  
 		    	newWindow.setScene(editProdGUI.getScene());
 		    	editProdGUI.initWindow(prod);
 		    	newWindow.requestFocus();     
 		    	newWindow.showAndWait();
+		    	
+		    	getClient().setUI(ManageCatInterface);
+		    	
 		    	//if result from edition was success(Meaning we manged to edit it in the database):
 		    	//update table
 		    	if(editProdGUI.response.getType().name().equals("SUCCESS"))
@@ -188,7 +234,31 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	
 		    }
 		};
-	    
+		
+		 //add to catalog button:
+		EventHandler<ActionEvent> prodAddToCatalog  = new EventHandler<ActionEvent>() 
+		{
+		    @Override public void handle(ActionEvent e) 
+		    {
+		    	
+		    	EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
+    			Product prod = src.getOrigin();
+    			
+				if (addToCatGUI != null)
+				{
+					Stage newWindow = new Stage();
+					getClient().setUI(addToCatGUI);
+					addToCatGUI.setClinet(client);
+					addToCatGUI.setProd(prod);
+					newWindow.initOwner(FormController.primaryStage);
+			    	newWindow.initModality(Modality.WINDOW_MODAL);  
+					newWindow.setScene(addToCatGUI.getScene());
+					newWindow.showAndWait();
+					getClient().setUI(ManageCatInterface);
+				}
+		    }
+		};
+		
 		
 		private ArrayList<EditableProductVIew> getArrayListOfCurrentProdTable()
 		{
@@ -220,9 +290,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	
 	    	initProductsTableContent();
 	    	editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/EditProductGUI.fxml"), this);
-            
+	    	addToCatGUI = FormController.<AddToCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/AddToCatalog.fxml"), this);
 	    	
+	    	//addToCatGUI.doInit();rem
 	    	//todo: init catalog table:
+	    	
+	    	
 	    }
 //---------------------------------------------------------------------------------------
 	    /**
@@ -264,6 +337,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    		
 	    		eProd.getRemoveBtn().setOnAction(prodRemoveAction);
 	    		eProd.getEditBtn().setOnAction(prodEditAction);
+	    		eProd.getAddToCatalogBtn().setOnAction(prodAddToCatalog);
 	    		res.add(eProd);
 	    	}
 	    	return FXCollections.observableArrayList(res);
@@ -287,7 +361,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    		}
 	    	} 
 	 }
-//---------------------------------------------------------------------------------------		
+//---------------------------------------------------------------------------------------
+
 	    @Override
 	public void display(Object message) 
 	{
