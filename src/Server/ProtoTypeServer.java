@@ -219,14 +219,13 @@ public class ProtoTypeServer extends AbstractServer {
 				  {
 					  //if such user doesnt exists, an exception will occur
 					  rs.next();			 
-						   sendToClient(client, new Response(Response.Type.SUCCESS, rs.getString("storeID")));
+						   sendToClient(client, new Response(Response.Type.SUCCESS, Integer.parseInt(rs.getString("storeID"))));
 				  } 
 				  catch (SQLException e) 
 				  {
 					  sendToClient(client, new Response(Response.Type.ERROR, "Could not fatch data from database about this user. Are you sure the user is registerd as a store employee?"));
 					  e.printStackTrace();
 			   	  }
-				  
 			  }
 			  case "GetJoinedTablesWhereRequest":
 			  {
