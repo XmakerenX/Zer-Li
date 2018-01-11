@@ -17,7 +17,11 @@ import serverAPI.UpdateRequest;
 import user.LoginException;
 import user.User;
 import user.User.UserException;
-
+/**
+ * A class that holds the functionality that's related to customer satisfaction surveys
+ * @author dk198
+ *
+ */
 public class CustomerSatisfactionSurveyController {
 	
 	//===============================================================================================================

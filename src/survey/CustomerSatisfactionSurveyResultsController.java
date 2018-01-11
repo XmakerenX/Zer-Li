@@ -3,7 +3,11 @@ package survey;
 import client.Client;
 import serverAPI.AddRequest;
 import serverAPI.GetRequestWhere;
-
+/**
+ * A class that holds the functionality that's related to customer satisfaction survey results
+ * @author dk198
+ *
+ */
 public class CustomerSatisfactionSurveyResultsController 
 {
 	

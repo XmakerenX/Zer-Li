@@ -227,6 +227,7 @@ public class ProtoTypeServer extends AbstractServer {
 					  e.printStackTrace();
 			   	  }
 			  }
+			  break;
 			  case "GetJoinedTablesWhereRequest":
 			  {
 				  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)request;

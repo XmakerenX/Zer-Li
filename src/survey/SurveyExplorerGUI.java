@@ -21,7 +21,11 @@ import javafx.scene.control.Alert.AlertType;
 import networkGUI.CustomerServiceGUI;
 import prototype.FormController;
 import serverAPI.Response;
-
+/**
+ * this class allows us to browse between existing surveys.
+ * @author dk198
+ *
+ */
 public class SurveyExplorerGUI extends FormController implements ClientInterface{
 	// holds the last replay we got from server
 	private Response response = null;
