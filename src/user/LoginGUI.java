@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import networkGUI.CustomerServiceExpertGUI;
 import networkGUI.CustomerServiceGUI;
+import networkGUI.CustomerServiceWorkerGUI;
 import networkGUI.NetworkWorkerGUI;
 import networkGUI.StoreManagerGUI;
 import networkGUI.StoreWorkerGUI;
@@ -55,6 +56,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	StoreWorkerGUI storeWorkerGUI;
 	CustomerServiceExpertGUI customerServiceExpertGUI;
 	StoreManagerGUI storeManagerGUI;
+	CustomerServiceWorkerGUI customerServiceWorkerGUI;
 	
 	/* For fast login only, edit user.properties:
 	 * 
@@ -90,6 +92,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
     	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
     	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
+    	customerServiceWorkerGUI =  FormController.<CustomerServiceWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceWorkerGUI.fxml"), this);
     	
     	if(rememberSelect)
     	{
@@ -210,6 +213,19 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		}
 	    		}break;
 	    			
+	    		
+	    		case "CUSTOMER_SERVICE_WORKER":
+	    		{
+	        		if (customerServiceWorkerGUI != null)
+	        		{
+	        			customerServiceWorkerGUI.setUser(user);
+	        			customerServiceWorkerGUI.setClinet(Client.client);
+	        			client.setUI(customerServiceWorkerGUI);
+	        			FormController.primaryStage.setScene(customerServiceWorkerGUI.getScene());
+	        		}
+	    		}break;
+	    		
+	    		
 	    		case "SYSTEM_MANAGER":
 	    		{
 	        		if (sysManagerGUI != null)
@@ -226,6 +242,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (networkWorkerGui != null)
 	        		{
 	    				networkWorkerGui.setClinet(Client.client);
+						networkWorkerGui.setUser(user);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
 	    			break;
