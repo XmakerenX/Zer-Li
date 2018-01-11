@@ -16,7 +16,7 @@ public class CatalogItemView extends CatalogItem {
 	public CatalogItemView(long productID, String productName, String productType, float productPrice, int productAmount,
 			String productColor,float salesPrice, String imageName , byte[] imageCheckSum)
 	{
-		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum);
+		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum,0);
 		selected = new SimpleBooleanProperty();
 		
 		if (getSalePrice() > 0)
@@ -34,7 +34,7 @@ public class CatalogItemView extends CatalogItem {
 	public CatalogItemView(CatalogItem catalogItem, String imagesDir)
 	{
 		super(catalogItem.getID(), catalogItem.getName(), catalogItem.getType(), catalogItem.getPrice(),
-				catalogItem.getAmount(), catalogItem.getColor(), catalogItem.getSalePrice(), catalogItem.getImageName(), catalogItem.getImageChecksum());
+				catalogItem.getAmount(), catalogItem.getColor(), catalogItem.getSalePrice(), catalogItem.getImageName(), catalogItem.getImageChecksum(),0);
 		
 		selected = new SimpleBooleanProperty();
 
