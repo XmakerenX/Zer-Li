@@ -242,6 +242,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (networkWorkerGui != null)
 	        		{
 	    				networkWorkerGui.setClinet(Client.client);
+						networkWorkerGui.setUser(user);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
 	    			break;
