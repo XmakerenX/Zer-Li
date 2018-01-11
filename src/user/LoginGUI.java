@@ -122,12 +122,13 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	//System.exit(0);
 
     }
-
+    
     @FXML
     void onLogin(ActionEvent event) 
     {
     	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), Client.client);
-    
+    	
+    	//UserController.getStoreOfEmployee(this.usernameTxt.getText(), client);
     	try
     	{
     		synchronized(this)
@@ -145,7 +146,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	    	alert.showAndWait();
     			return;
     		}
-    		
+    	
     	// show success 
     	if (replay.getType() == Response.Type.SUCCESS)
     	{
@@ -294,7 +295,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	}
     	
     	}catch(InterruptedException e) {}
-    }
+}
 	    
 	@Override
 	public void onSwitch(Client newClient) {
