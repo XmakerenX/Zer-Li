@@ -36,14 +36,17 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     	client.setUI(manCatGui);
     	manCatGui.setClinet(client);
+    	manCatGui.doInit(user);  
     	FormController.primaryStage.setScene(manCatGui.getScene());
-    	manCatGui.doInit();  
+    	
     }
        
     public void setUser(User user)
 	{
 		this.user = user;
 	}
+    
+    
 
     
     @FXML

@@ -23,6 +23,7 @@ public class CatalogController
 		client.handleMessageFromClientUI(new GetJoinedTablesRequest("Product", "CatalogProduct"));
 	}
 	
+	
 	public static ArrayList<String> scanForMissingCachedImages(AbstractCollection<CatalogItem> catalogItems)
 	{
 		ArrayList<String> imagesToRequest = new ArrayList<String>();

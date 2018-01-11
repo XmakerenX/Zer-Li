@@ -22,16 +22,42 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 	private ImageInfo imageInfo;
 	private int storeID;
 	
+	public int getStoreID() {
+		return storeID;
+	}
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
+
+
+	private Product baseProduct;
+	
+	
+	public CatalogItem(Product prod,float salesPrice, String imageName, byte[] imageCheckSum,int storeID)
+	{
+		super(prod.getID(), prod.getName(), prod.getType(), prod.getPrice(), prod.getAmount(), prod.getColor());
+		baseProduct = prod;
+		this.salePrice = salesPrice;
+		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
+		this.storeID = storeID;
+	}
 	public CatalogItem(long productID, String productName, String productType, float productPrice, int productAmount,
 			String productColor,float salesPrice, String imageName, byte[] imageCheckSum,int storeID) 
 	{
 		super(productID, productName, productType, productPrice, productAmount, productColor);
+		baseProduct = new Product(productID, productName, productType, productPrice, productAmount, productColor);
 		this.salePrice = salesPrice;
 		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
 		this.storeID = storeID;
 	}
 
-	public float getSalePrice() {
+	public Product getBaseProduct()
+	{
+		return this.baseProduct;
+	}
+	
+	public float getSalePrice() 
+	{
 		return salePrice;
 	}
 

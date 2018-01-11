@@ -24,12 +24,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import networkGUI.NetworkWorkerGUI;
 import product.EditableProductVIew.EditableProductVIewButton;
 import product.*;
 import prototype.FormController;
 import serverAPI.GetRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Response;
+import user.LoginGUI;
+import user.User;
+import user.UserController;
+import user.User.Permissions;
 
 
 public class ManageCatalogGUI extends FormController implements ClientInterface
@@ -38,6 +43,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    ClientInterface ManageCatInterface = this;
 		Response response;
 		Client myClient;
+		User myUser;
+		int storeID;
 		
 		//Gui:
 		EditProductGUI editProdGUI;
@@ -48,7 +55,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		 @FXML
 		  private Button newProdBtn;
 		
-		 
+		    @FXML
+		    private Button backBTN;
+
+		   
+
+		   
 		 
 		//---------------Tables:--------------------------
 									
@@ -63,12 +75,16 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 										    TableColumn cat_salesPriceCol = new TableColumn("sale price");
 										    TableColumn cat_editCol = new TableColumn("");
 										    TableColumn cat_removeCol = new TableColumn("");
-								
+										    TableColumn cat_addSaleCol = new TableColumn("");
+										    TableColumn cat_removeSaleCol = new TableColumn("");
+										    
+										    
+											ObservableList<EditableCatalogItem> eCatalogProducts; //table's data
+
 								//editable product view
 								    @FXML
 								    private TableView editProductTable;//define table
 								
-								    
 										    TableColumn prod_idCol = new TableColumn("id");
 										    TableColumn prod_nameCol = new TableColumn("Name");
 										    TableColumn prod_typeCol = new TableColumn("Type");
@@ -85,7 +101,16 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			    
 			 		//action events for product buttons:
 			    
-			   
+			
+	   /*
+	    * return to the previous window			   
+	    */
+	   @FXML
+	    void onBackBTN(ActionEvent event) 
+	    {
+		    this.client.setUI((NetworkWorkerGUI)this.parent);
+	    	FormController.primaryStage.setScene(this.parent.getScene());
+	    }
 		/**
 		 * Opens a new product creation window								    
 		 * @param event
@@ -255,9 +280,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 					getClient().setUI(ManageCatInterface);
 				}
 		    }
-		};
-		
-		
+		};		
+//---------------------------------------------------------------------------------------
 		private ArrayList<EditableProductVIew> getArrayListOfCurrentProdTable()
 		{
 			 ArrayList<EditableProductVIew> output =new ArrayList<EditableProductVIew>();
@@ -268,12 +292,36 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			   }
 			   return output;
 		}
-		
 //---------------------------------------------------------------------------------------
-	    public void doInit()
+		public void setUser(User user)
+		{
+			this.myUser = user;
+		}
+		
+ private int getStoreIdOfWorker(User thisUser)
+ {
+		//get storeID;
+		UserController.getStoreOfEmployee(thisUser.getUserName(), this.client);
+		waitForResponse();
+		
+		if(response.getType().name().equals("SUCCESS"))
+		{
+			return(int)response.getMessage();
+		}
+		else
+			return 0;
+ }
+//---------------------------------------------------------------------------------------
+		public void doInit(User user)
 	    {
-	    	//init product table:
-	    	
+		
+			this.setUser(user);
+			
+			
+			//basically, we init all compoments and we disabled some based on the type 
+			//of user that uses the "manage catalog option"
+			
+        	//init product table coloumns:	
 	    	prod_idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 	    	prod_nameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
 	    	prod_typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
@@ -282,14 +330,72 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	prod_addToCatalogCol.setCellValueFactory(new PropertyValueFactory<>("AddToCatalogBtn"));
 	    	prod_editCol.setCellValueFactory(new PropertyValueFactory<>("EditBtn"));
 	    	prod_removeCol.setCellValueFactory(new PropertyValueFactory<>("RemoveBtn"));
-	  
-	    	editProductTable.getColumns().addAll(prod_idCol,prod_nameCol,prod_typeCol,prod_priceCol,prod_amountCol
-	    			,prod_addToCatalogCol,prod_editCol,prod_removeCol);
 	    	
-	    	initProductsTableContent();
 	    	editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/product/EditProductGUI.fxml"), this);
 	    	addToCatGUI = FormController.<AddToCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/AddToCatalog.fxml"), this);
 	    	
+	    	//init catalog table:
+	    	cat_imageCol.setCellValueFactory(new PropertyValueFactory<>("ImageView"));
+		    cat_nameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
+		    cat_priceCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
+		    cat_salesPriceCol.setCellValueFactory(new PropertyValueFactory<>("SalePrice"));
+		    cat_editCol.setCellValueFactory(new PropertyValueFactory<>("EditButton"));
+		    cat_removeCol.setCellValueFactory(new PropertyValueFactory<>("RemoveButton"));
+		    cat_addSaleCol.setCellValueFactory(new PropertyValueFactory<>("AddSale"));
+		    cat_removeSaleCol.setCellValueFactory(new PropertyValueFactory<>("RemoveFromSale"));
+	    	
+		    
+			editCatalogView.getColumns().addAll(cat_imageCol,cat_nameCol,cat_priceCol,cat_salesPriceCol,
+					cat_editCol,cat_removeCol,cat_addSaleCol,cat_removeSaleCol);
+
+			switch(myUser.getUserPermission())
+			{
+		    case STORE_MANAGER:
+				this.newProdBtn.setVisible(false);//only pure network worker can add a new product
+				editProductTable.getColumns().addAll(prod_idCol,prod_nameCol,prod_typeCol,prod_priceCol,prod_amountCol
+		    			,prod_addToCatalogCol);
+				break;
+				
+		    	
+		    case STORE_WORKER:
+				this.newProdBtn.setVisible(false);//only pure network worker can add a new product
+				editProductTable.getColumns().addAll(prod_idCol,prod_nameCol,prod_typeCol,prod_priceCol,prod_amountCol
+		    			,prod_addToCatalogCol);
+				
+		    	
+		    	break;
+		    	
+		    default:
+		    	editProductTable.getColumns().addAll(prod_idCol,prod_nameCol,prod_typeCol,prod_priceCol,prod_amountCol
+		    			,prod_addToCatalogCol,prod_editCol,prod_removeCol);
+		    	break;
+				
+			}
+	    	
+			storeID = 0; 
+			try 
+			{
+				Thread.sleep(100);
+			} 
+			catch (InterruptedException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			initProductsTableContent();
+			try 
+			{
+				Thread.sleep(100);
+			} 
+			catch (InterruptedException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			initCatalogProductsTableContent();
+			
+			
 	    	//addToCatGUI.doInit();rem
 	    	//todo: init catalog table:
 	    	
@@ -308,6 +414,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	
 	    }
 //---------------------------------------------------------------------------------------
+	    public void initCatalogProductsTableContent()
+	    {
+	    	eCatalogProducts = getEditableCatalogProducts();
+	    	editCatalogView.getItems().clear();
+	    	editCatalogView.getItems().addAll(eCatalogProducts);
+	    }
 	    /**
 	     * this sends a request to get Products and then wait for server's response
 	     */
@@ -323,6 +435,31 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	     * get all products in database and transform them into "editable products"
 	     * @return list of editable products(same as normal, but includes buttons for tableview)
 	     */
+	    private ObservableList<EditableCatalogItem> getEditableCatalogProducts()
+	    {
+	    	CatalogController.requestCatalogItems(this.client);
+	    	waitForResponse();
+	    	
+	    	ArrayList<EditableCatalogItem> res = new ArrayList<EditableCatalogItem>();
+	    	ArrayList<CatalogItem> catalogProducts = (ArrayList<CatalogItem>)response.getMessage();
+	    	for(CatalogItem catItem : catalogProducts)
+	    	{
+	    		int catalogProductStoreID = catItem.getStoreID();
+	    		if(( catalogProductStoreID == 0 ) || (catalogProductStoreID==this.storeID))
+	    		{
+	    			EditableCatalogItem eCatProd =new EditableCatalogItem(catItem);
+		    		
+	    			//add functions for buttons:
+	    			eCatProd.getRemoveButton().setOnAction(null);
+	    			eCatProd.getEditButton().setOnAction(null);
+	    			eCatProd.getAddSale().setOnAction(null);
+		    		res.add(eCatProd);
+	    		}
+	    		
+	    	}
+	    	return FXCollections.observableArrayList(res);
+	    	
+	    }
 	    private ObservableList<EditableProductVIew> getEditableProducts()
 	    {
 	    	requestProductsAndWait();
@@ -367,7 +504,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		this.response = (Response)message;
 		synchronized(this)
 		{
-			this.notifyAll();
+			this.notify();
 		}
 		
 
