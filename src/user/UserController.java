@@ -4,15 +4,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import client.Client;
+import client.ClientInterface;
 import serverAPI.AddRequest;
+import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.GetRequestByKey;
+import serverAPI.GetRequestWhere;
 import serverAPI.LoginRequest;
 import serverAPI.LogoutRequest;
 import serverAPI.RemoveRequest;
+import serverAPI.Response;
 import serverAPI.UpdateRequest;
 import user.User.*;
 
-public class UserController {
+public class UserController implements ClientInterface
+{
 	
 	/**
 	 * Sends a login request to server
@@ -20,6 +25,11 @@ public class UserController {
 	 * @param userPassword the user password for the login 
 	 * @param client - current running client
 	 */
+	
+	
+	Response res;
+	static UserController thisUserController = new UserController();
+	
 	public static void requestLogin(String username, String password, Client client)
 	{		
 		client.handleMessageFromClientUI(new LoginRequest(username, password));
@@ -71,6 +81,35 @@ public class UserController {
 		
 	}
 	
+	/*
+	 * this apply's only 
+	 */
+	public static void getStoreOfEmployee(String userName, Client client)
+	{
+		
+		client.handleMessageFromClientUI(new GetEmployeeStoreRequest(userName));
+	}
+	
+	
+	
+	
+	
+	/*
+	 * The userController may need to get an answer from the server
+	 * this method helps to ensure that the communication is synchronized
+	 */
+	private void waitForResponseFromServer() 
+	{
+		synchronized(thisUserController)
+		{
+			try {
+				thisUserController.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	/**
 	 * Creates new user and adds to database
 	 * @param userName - user name in program program
@@ -125,5 +164,17 @@ public class UserController {
 		ArrayList<String> userPrimaryKey = new ArrayList<String>();
 		userPrimaryKey.add(userName);
     	client.handleMessageFromClientUI(new RemoveRequest("User", userPrimaryKey));
+	}
+
+	@Override
+	public void display(Object message) 
+	{
+		this.res = (Response) message;
+		synchronized(this)
+		{
+			this.notify();
+		}
+		// TODO Auto-generated method stub
+		
 	}	
 }
