@@ -1,6 +1,12 @@
 package serverAPI;
 
-public class GetRequestWhere extends Request {
+public class GetRequestWhere extends Request 
+{
+	//example: get all products entry in which their color is purple
+				//table = "Product"
+				//checkColomn = "Color"
+				//condition = "purple"
+		
 	String table;
 	String checkColomn;
 	String condition;
