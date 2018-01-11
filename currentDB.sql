@@ -274,7 +274,7 @@ CREATE TABLE `storeEmployees` (
 
 LOCK TABLES `storeEmployees` WRITE;
 /*!40000 ALTER TABLE `storeEmployees` DISABLE KEYS */;
-INSERT INTO `storeEmployees` VALUES ('Ariel',1,'NETWORK_WORKER');
+INSERT INTO `storeEmployees` VALUES ('matan',1,'STORE_WORKER');
 /*!40000 ALTER TABLE `storeEmployees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -317,4 +317,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-11 12:09:23
+-- Dump completed on 2018-01-11 12:14:55
