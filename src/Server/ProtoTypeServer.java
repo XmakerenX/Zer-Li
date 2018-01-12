@@ -10,6 +10,7 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
+import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.GetRequest;
@@ -159,10 +160,10 @@ public class ProtoTypeServer extends AbstractServer {
 	  }
 	  			    	  
 	  /**
-	   * This method handles any messages received from the client.
+	   * This method handles any requests received from the client.
 	   *
-	   * @param msg The message received from the client.
-	   * @param client The connection from which the message originated.
+	   * @param msg : The request received from the client.
+	   * @param client:  The connection from which the message originated.
 	   */
 	  public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	  {
@@ -183,7 +184,7 @@ public class ProtoTypeServer extends AbstractServer {
 						  sendToClient(client, new Response(Response.Type.ERROR, "No entry found"));
 				  }
 				  else
-					  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+					  sendToClient(client, new Response(Response.Type.SUCCESS, rs));
 				  
 			  }break;
 			  
@@ -205,6 +206,28 @@ public class ProtoTypeServer extends AbstractServer {
 				  
 			  }break;
 			  
+			  case "GetEmployeeStoreRequest":
+			  {
+				  GetEmployeeStoreRequest getEmpStore = (GetEmployeeStoreRequest)request;
+				  
+				  String condition = "" + "username" + " = " + "'" + getEmpStore.getUsername() + "'";
+
+				  //Get said users from user table:
+				  ResultSet rs = db.selectTableData("*", "storeEmployees",condition);
+				  
+				  try 
+				  {
+					  //if such user doesnt exists, an exception will occur
+					  rs.next();			 
+						   sendToClient(client, new Response(Response.Type.SUCCESS, Integer.parseInt(rs.getString("storeID"))));
+				  } 
+				  catch (SQLException e) 
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "Could not fatch data from database about this user. Are you sure the user is registerd as a store employee?"));
+					  e.printStackTrace();
+			   	  }
+			  }
+			  break;
 			  case "GetJoinedTablesWhereRequest":
 			  {
 				  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)request;

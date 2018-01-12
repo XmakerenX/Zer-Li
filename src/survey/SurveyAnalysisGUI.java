@@ -19,7 +19,11 @@ import javafx.scene.control.TextArea;
 import networkGUI.CustomerServiceExpertGUI;
 import prototype.FormController;
 import serverAPI.Response;
-
+/**
+ * a class that allows the customer service expert view the results of a given survey and add an analysis to them
+ * @author dk198
+ *
+ */
 public class SurveyAnalysisGUI extends FormController implements ClientInterface{
 
 	// holds the last replay we got from server

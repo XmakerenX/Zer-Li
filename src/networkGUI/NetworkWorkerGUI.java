@@ -1,5 +1,7 @@
 package networkGUI;
 
+import catalog.AddToCatalogGUI;
+import catalog.ManageCatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import javafx.event.ActionEvent;
@@ -7,16 +9,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import prototype.FormController;
+import user.LoginGUI;
 import user.NewUserCreationGUI;
+import user.User;
+import user.UserController;
 
 public class NetworkWorkerGUI extends  FormController  implements ClientInterface
 {
     @FXML
     private Button backBtn;
-    
-    @FXML
-    private Button addNewProduct;
 
     @FXML
     private Button manageCatalogBTN;
@@ -24,36 +28,36 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     @FXML
     private Label welcomeLbl;
 
+    User user;
+    
     @FXML
     void manageCatalog(ActionEvent event)
     {
-       
-    }
-    
-    @FXML
-    void AddnewProduct(ActionEvent event) 
-    {
-    	
-    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/ManageCatalogGUI.fxml"), this);
+    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     	client.setUI(manCatGui);
     	manCatGui.setClinet(client);
+    	manCatGui.doInit(user);  
     	FormController.primaryStage.setScene(manCatGui.getScene());
-    	manCatGui.doInit();
     	
-    	/*
-    	NewProductCreationGUI createProductGUI = FormController.<NewProductCreationGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NewProductCreation.fxml"), this);
-		if (createProductGUI != null)
-		{
-			client.setUI(createProductGUI);
-			createProductGUI.setClinet(client);
-			FormController.primaryStage.setScene(createProductGUI.getScene());
-		}*/
     }
+       
+    public void setUser(User user)
+	{
+		this.user = user;
+	}
+    
+    
+
     
     @FXML
     void onBack(ActionEvent event) 
     {
-
+    	user.setUserStatus(User.Status.valueOf("REGULAR"));
+    	UserController.requestLogout(user, client);
+    	
+    	LoginGUI loginGUi = (LoginGUI)parent;
+    	client.setUI(loginGUi);
+    	FormController.primaryStage.setScene(parent.getScene());
     }
     
 	@Override

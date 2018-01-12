@@ -1,4 +1,4 @@
-package networkGUI;
+package product;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import networkGUI.NetworkWorkerGUI;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -36,7 +37,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 		
 	}*/
 
-	Response response;
+	public Response response;
 	ChangeListener idFieldChangeListener;
 
 	
@@ -161,13 +162,13 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     protected Label descriptionLbl;
 
     @FXML
-    protected TextField idField;
+	public TextField idField;
 
     @FXML
-    protected TextField nameFIeld;
+	public TextField nameFIeld;
 
     @FXML
-    protected TextField priceField;
+	public TextField priceField;
 
     @FXML
     protected Label idLbl;
@@ -188,7 +189,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     public Button backBtn;
 
     @FXML
-    protected ComboBox<String> typeComboBox;
+	public ComboBox<String> typeComboBox;
 
     @FXML
     protected Label colorLbl;
@@ -197,10 +198,10 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     protected Label amountLbl;
 
     @FXML
-    protected TextField amountFIeld;
+	public TextField amountFIeld;
 
     @FXML
-    protected ComboBox<String> colorComboBox;
+	public ComboBox<String> colorComboBox;
 
 
     void setNameText(String value)

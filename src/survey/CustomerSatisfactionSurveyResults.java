@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
-
+/**
+ * a class that we use for customer satisfaction survey results
+ * @author dk198
+ *
+ */
 public class CustomerSatisfactionSurveyResults implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 11L;
 	private String ofSurvey;
 	private LocalDate date;

@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import networkGUI.EditProductGUI;
+import product.EditProductGUI;
 import product.CatalogItem;
 import product.Product;
 import product.CatalogItem.ImageInfo;
@@ -55,7 +55,7 @@ public class OrderItemView extends CatalogItem {
 	    	
 	    	Product prod = (Product)b.getUserData();
 	    	Stage newWindow = new Stage();
-	    	EditProductGUI editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/EditProductGUI.fxml"), null);
+	    	EditProductGUI editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/product/EditProductGUI.fxml"), null);
 	    	Client.client.setUI(editProdGUI);
 	    	    	
 	    	newWindow.initOwner(FormController.getPrimaryStage());
@@ -70,7 +70,7 @@ public class OrderItemView extends CatalogItem {
 	public OrderItemView(long productID, String productName, String productType, float productPrice, int productAmount,
 			String productColor,float salesPrice, String imageName , byte[] imageCheckSum)
 	{
-		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum);
+		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum,0);
 		
 		nameArea = new TextArea();
 		nameArea.setText(productName);
@@ -100,16 +100,6 @@ public class OrderItemView extends CatalogItem {
 				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), null, null);
 		
 		this.setImageInfo(new ImageInfo(catalogItemView.getImageName(), catalogItemView.getImageChecksum()));
-//		super(catalogItemView.getID(), catalogItemView.getName(), catalogItemView.getType(), catalogItemView.getPrice(),
-//				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), catalogItemView.getImageName(), catalogItemView.getImageChecksum());
-		
-//		greetingCard = new TextArea();
-//		greetingCard.setWrapText(true);
-//		greetingCard.setPrefHeight(64);
-//		removeBtn = new OrderItemViewButton(this, "remove");
-//		viewBtn = new Button("view");
-//		viewBtn.setUserData(this);
-//		viewBtn.setOnAction(viewProductAction);
 		
 		if (catalogItemView.getImage() != null)
 		{

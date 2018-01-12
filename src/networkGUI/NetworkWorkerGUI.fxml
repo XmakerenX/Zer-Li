@@ -9,6 +9,5 @@
       <Button fx:id="backBtn" layoutX="18.0" layoutY="234.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
       <Button fx:id="manageCatalogBTN" layoutX="90.0" layoutY="88.0" mnemonicParsing="false" onAction="#manageCatalog" prefHeight="45.0" prefWidth="150.0" text="Manage catalog" />
       <Label fx:id="welcomeLbl" layoutX="85.0" layoutY="23.0" text="Welcome, network worker" />
-      <Button fx:id="addNewProduct" layoutX="91.0" layoutY="159.0" mnemonicParsing="false" onAction="#AddnewProduct" prefHeight="45.0" prefWidth="150.0" text="Add new product" />
    </children>
 </AnchorPane>

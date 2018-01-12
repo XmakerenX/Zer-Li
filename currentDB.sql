@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
--- Host: localhost    Database: prototype
+-- Host: 127.0.0.1    Database: prototype
 -- ------------------------------------------------------
 -- Server version	5.7.20
 
@@ -135,7 +135,7 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES (1,'roses','Red',30,15,'Red'),(2,'Chrysanthemums','bouquet',20,20,'White'),(3,'Avalanche','bouquet',15,10,'Purple'),(4,'Panter','bouquet',151,5,'Purple'),(5,'Buttercup','bouquet',94,10,'Red'),(6,'Anemone','bouquet',123,15,'Red');
+INSERT INTO `Product` VALUES (2,'Chrysanthemums','bouquet',20,20,'White'),(3,'Avalanche','bouquet',15,10,'Purple'),(4,'Panter','bouquet',151,5,'Purple'),(5,'Buttercup','bouquet',94,10,'Red'),(6,'Anemone','bouquet',123,15,'Red');
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +215,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('daniel','123456','CUSTOMER_SERVICE',123,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'LOGGED_IN',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('Ariel','123456','NETWORK_WORKER',12,'REGULAR',0),('daniel','123456','CUSTOMER_SERVICE',123,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'LOGGED_IN',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,6 +251,31 @@ LOCK TABLES `customersatisfactionsurveyresults` WRITE;
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` DISABLE KEYS */;
 INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'12','2018-01-03',2,2,2,2,2,2,NULL),(2,'123','2018-01-03',5,5,5,5,5,55,NULL),(3,'new survey','2018-01-03',5,5,5,5,5,5,NULL);
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `storeEmployees`
+--
+
+DROP TABLE IF EXISTS `storeEmployees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `storeEmployees` (
+  `username` varchar(45) NOT NULL,
+  `storeID` int(11) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `storeEmployees`
+--
+
+LOCK TABLES `storeEmployees` WRITE;
+/*!40000 ALTER TABLE `storeEmployees` DISABLE KEYS */;
+INSERT INTO `storeEmployees` VALUES ('matan',1,'STORE_WORKER');
+/*!40000 ALTER TABLE `storeEmployees` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -292,4 +317,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-10 15:41:50
+-- Dump completed on 2018-01-11 12:14:55

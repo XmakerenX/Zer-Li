@@ -7,6 +7,7 @@ import customer.Customer.CustomerException;
 import customer.Customer.PayType;
 import serverAPI.AddRequest;
 import serverAPI.GetRequestByKey;
+import serverAPI.GetRequestWhere;
 import serverAPI.UpdateRequest;
 
 public class CustomerController {
@@ -59,6 +60,17 @@ public class CustomerController {
 		keys.add(personID);
 		keys.add(storeID);
 		client.handleMessageFromClientUI(new GetRequestByKey("Customers", keys));
+	}
+	//===========================================================================================================
+	/**
+	 * returns the customers who meet said condition
+	 * @param column	the column we are checking
+	 * @param condition	the condition we are looking for
+	 * @param client	client to send the answer back to
+	 */
+	public static void getSertainCustomers(String column, String condition, Client client)
+	{
+		client.handleMessageFromClientUI(new GetRequestWhere("Customers", column, condition));
 	}
 
 }
