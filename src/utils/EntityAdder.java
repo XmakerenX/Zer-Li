@@ -166,8 +166,30 @@ public class EntityAdder {
 				{ 
 					db.insertData("ProductInOrder", item.getProductID() + "," + orderID + "," + "'" +item.getGreetingCard() + "'" );
 				}
+				
+				for (Order.CustomItemInOrder item : order.getCustomItemInOrder())
+				{
+					String itemType = "'" + item.getType() + "'";
+					String itemColor = "'" + item.getColor() + "'";
+					String greetingCrad = "'" + item.getGreetingCard() + "'"; 
+					db.insertData("CustomItem", "null" + "," + itemType + "," + item.getPrice() + "," + itemColor +
+							"," + greetingCrad);
+
+					ResultSet rss = db.selectLastInsertID();
+					rss.next();
+					int CustomItemID = rss.getInt(1);
+					rss.close();
+					
+					for (Product component : item.getComponents())
+					{
+						db.insertData("CustomItemProduct", CustomItemID + "," + component.getID() + "," + 
+								component.getAmount() + "," + component.getPrice());
+					}										
+				}
+				
 				return true;
 			} catch (Exception e) {
+				System.out.println("Exception: " + e.getMessage());
 				return false;
 			}
 		}

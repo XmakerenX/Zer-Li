@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import networkGUI.SystemManagerGUI;
+import order.CustomItemGUI;
 import product.Product;
 import prototype.FormController;
 import serverAPI.GetRequest;
@@ -27,8 +28,10 @@ import user.User;
 public class CustomerGUI extends FormController implements ClientInterface {
 
 	private User currentUser = null;
-	private CatalogGUI catalogGui;
+	private Customer currentCustomer = null;
 	private Response replay = null;
+	private CatalogGUI catalogGui;
+	private CustomItemGUI  customItemGUI;
 	
     @FXML
     private Label welcomeLbl;
@@ -41,11 +44,16 @@ public class CustomerGUI extends FormController implements ClientInterface {
     
     @FXML
     private ComboBox<String> storeCombo;
+    
+    @FXML
+    private Button orderCustomItemBtn;
+
 
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
     	catalogGui = FormController.<CatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/CatalogGUI.fxml"), this);
+    	customItemGUI = FormController.<CustomItemGUI, AnchorPane>loadFXML(getClass().getResource("/order/CustomItemGUI.fxml"), this);
     }
     
     @FXML
@@ -56,52 +64,80 @@ public class CustomerGUI extends FormController implements ClientInterface {
     }
 	
     @FXML
+    void onOrderCustomItem(ActionEvent event) 
+    {
+    	if (customItemGUI != null)
+    	{
+	    	customItemGUI.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
+	    	customItemGUI.setCurrentCustomer(currentCustomer);
+			client.setUI(customItemGUI);
+			customItemGUI.setClinet(client);
+			customItemGUI.loadDominateColors();
+			FormController.primaryStage.setScene(customItemGUI.getScene());
+    	}
+    }
+    
+    @FXML
     void onViewCatalog(ActionEvent event) {
     	Customer currentCustomer = null;
     	if (catalogGui != null)
     	{
-    		replay = null;
-    		CustomerController.getCustomer(""+currentUser.getPersonID(), ""+(storeCombo.getSelectionModel().getSelectedIndex() + 1), Client.client);
-    		
-    		synchronized(this)
+    		currentCustomer = loadCustomer();
+    		if (catalogGui!= null)
+    		//if (currentCustomer != null && catalogGui!= null)
     		{
-    			// wait for server response
-    			try {
-					this.wait(ClientInterface.TIMEOUT);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+	    		catalogGui.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
+	    		catalogGui.setCurrentCustomer(currentCustomer);
+	    		client.setUI(catalogGui);
+	    		catalogGui.setClinet(client);
+	    		FormController.primaryStage.setScene(catalogGui.getScene());
     		}
-    		
-    		if (replay != null)
-    		{
-    			if (replay.getType() == Response.Type.SUCCESS)
-    			{
-    				ArrayList<Customer> customer = (ArrayList<Customer>)replay.getMessage();
-    				currentCustomer = customer.get(0);
-    			}
-    			else
-    			{
-    				currentCustomer = null;
-    			}
-    		}
-    		else
-    		{
-    			Alert alert = new Alert(AlertType.ERROR);
-    		  	alert.setTitle("Server Respone timed out");
-    	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
-    	    	alert.showAndWait();
-    	    	return;
-    		}
-    		
-    		catalogGui.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
-    		catalogGui.setCurrentCustomer(currentCustomer);
-    		client.setUI(catalogGui);
-    		catalogGui.setClinet(client);
-    		FormController.primaryStage.setScene(catalogGui.getScene());
-    		replay = null;
     	}
+    }
+    
+    @FXML
+    void onStoreChanged(ActionEvent event) {
+    	currentCustomer = loadCustomer();
+    }
+    
+    public Customer loadCustomer()
+    {
+		replay = null;
+		CustomerController.getCustomer(""+currentUser.getPersonID(), ""+(storeCombo.getSelectionModel().getSelectedIndex() + 1), Client.client);
+		
+		synchronized(this)
+		{
+			// wait for server response
+			try {
+				this.wait(ClientInterface.TIMEOUT);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (replay != null)
+		{
+			if (replay.getType() == Response.Type.SUCCESS)
+			{
+				ArrayList<Customer> customer = (ArrayList<Customer>)replay.getMessage();
+				orderCustomItemBtn.setDisable(false);
+				return customer.get(0);
+			}
+			else
+			{
+				orderCustomItemBtn.setDisable(true);
+				return null;
+			}
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+		  	alert.setTitle("Server Respone timed out");
+	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
+	    	alert.showAndWait();
+	    	return null;
+		}
     }
     
     public void loadStores()
@@ -128,7 +164,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
    	        	
    	    		for (Store store : stores)
    	    		{
-   	    			// igonre store 0(base store) as it isn't a real store
+   	    			// ignore store 0(base store) as it isn't a real store
    	    			if (store.getStoreID() != 0)
    	    			{
    	    				comboboxStoreStrings.add(store.getStoreAddress());
@@ -137,6 +173,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
    	        	
    	        	storeCombo.setItems(FXCollections.observableArrayList(comboboxStoreStrings));
    	        	storeCombo.getSelectionModel().select(0);
+   	        	currentCustomer = loadCustomer();
    	    	}
    	    	replay = null;
    		}

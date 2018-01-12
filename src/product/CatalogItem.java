@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class CatalogItem extends Product implements Comparable<CatalogItem>
 {
 	
-	class ImageInfo implements Serializable
+	public class ImageInfo implements Serializable
 	{
 		public String imageName;
 		public byte[] imageCheckSum;
 		
-		ImageInfo(String imageName, byte[] imageCheckSum)
+		public ImageInfo(String imageName, byte[] imageCheckSum)
 		{
 			this.imageName = imageName;
 			this.imageCheckSum = imageCheckSum;

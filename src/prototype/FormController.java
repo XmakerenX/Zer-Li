@@ -24,6 +24,11 @@ public abstract class FormController {
 		primaryStage = newPrimaryStage;
 	}
 	
+	public static Stage getPrimaryStage()
+	{
+		return primaryStage;
+	}
+	
 	public void setScene(Scene scene)
 	{
 		thisScene = scene;

@@ -7,6 +7,7 @@ import catalog.CatalogItemView;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
+import customer.CustomerGUI;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -29,6 +30,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
+import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
 
@@ -37,6 +39,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 	private Customer currentCustomer = null;
 	private long currentStoreID = 0;
 	private float orderTotalPrice;
+	private boolean customOrder = false;
 	 // holds the last replay we got from server
  	private Response replay = null;
 	
@@ -47,7 +50,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private TableColumn<OrderItemView, ImageView> imageCol;
 
     @FXML
-    private TableColumn<OrderItemView, String> nameCol;
+    private TableColumn<OrderItemView, TextArea> nameCol;
 
     @FXML
     private TableColumn<OrderItemView, String> typeCol;
@@ -64,6 +67,9 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     @FXML
     private TableColumn<OrderItemView, OrderItemView.OrderItemViewButton> removeCol;
 
+    @FXML
+    private TableColumn<OrderItemView, Button> viewCol;
+    
     @FXML
     private Label totalPrice;
 
@@ -190,13 +196,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private void InitTableView()
     {
     	imageCol.setCellValueFactory(new PropertyValueFactory<OrderItemView, ImageView>("image"));
-    	nameCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,String>("Name"));    	
+    	nameCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,TextArea>("nameArea"));    	
     	typeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,String>("Type"));
     	colorCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,String>("Color"));
     	
     	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,Number>("Price"));
     	greetingCardCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
-    	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemView.OrderItemViewButton>("removeBtn"));        
+    	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemView.OrderItemViewButton>("removeBtn"));
+    	viewCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,Button>("viewBtn"));
     	
     	this.orderTable.setEditable(false);
     }
@@ -234,12 +241,24 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		this.receiverPhoneTxt.clear();
 		this.date.getEditor().clear();
 		
-		CatalogGUI catalogGUI = (CatalogGUI)parent;
-    	Client.client.setUI(catalogGUI);
-    	catalogGUI.onRefresh(null);
-    	FormController.primaryStage.setScene(parent.getScene());
-    	FormController.primaryStage.hide();
-    	FormController.primaryStage.show();
+		if (!this.customOrder)
+		{
+			CatalogGUI catalogGUI = (CatalogGUI)parent;
+	    	Client.client.setUI(catalogGUI);
+	    	catalogGUI.onRefresh(null);
+	    	FormController.primaryStage.setScene(parent.getScene());
+	    	FormController.primaryStage.hide();
+	    	FormController.primaryStage.show();
+		}
+		else
+		{
+			CustomerGUI customerGUI = (CustomerGUI)parent;
+			Client.client.setUI(customerGUI);
+			customerGUI.loadStores();
+	    	FormController.primaryStage.setScene(parent.getScene());
+	    	FormController.primaryStage.hide();
+	    	FormController.primaryStage.show();
+		}
 	}
 
 //*************************************************************************************************
@@ -304,7 +323,10 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     				delivaryAddress, receiverName, receiverPhoneNumber,
     				payMethod, currentStoreID, currentCustomer.getID());
 
-    		OrderController.CreateNewOrder(order, orderTable.getItems());
+    		if (!customOrder)
+    			OrderController.CreateNewOrder(order, orderTable.getItems());
+    		else
+    			OrderController.CreateNewCustomOrder(order, orderTable.getItems());
     		
     		synchronized(this)
     		{
@@ -401,6 +423,27 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	this.receiverNameTxt.setDisable(true);
     	this.receiverPhoneTxt.setDisable(true);
     	creditCardRadio.setSelected(true);
+    	customOrder = false;
+    }
+    
+    public void loadCustomItemInOrder(CustomItemView customItem)
+    {
+    	orderTotalPrice = 0;
+    	
+    	ObservableList<OrderItemView> orderItems = FXCollections.observableArrayList();
+    	orderItems.add(customItem);
+    	
+    	customItem.getObservableRemoveButton().addObserver(this);
+    	customItem.getRemoveBtn().setOnAction(orderItemRemoveAction);
+    	
+    	this.orderTable.setItems(orderItems);
+    	totalPrice.setText(""+customItem.getPrice());
+    	selfPickupRadio.setSelected(true);
+    	this.addressTxt.setDisable(true);
+    	this.receiverNameTxt.setDisable(true);
+    	this.receiverPhoneTxt.setDisable(true);
+    	creditCardRadio.setSelected(true);
+    	customOrder = true;
     }
     
 	@Override

@@ -4,17 +4,29 @@ import java.io.File;
 import java.util.Observable;
 
 import catalog.CatalogItemView;
+import client.Client;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import networkGUI.EditProductGUI;
 import product.CatalogItem;
+import product.Product;
+import product.CatalogItem.ImageInfo;
+import prototype.FormController;
 
 public class OrderItemView extends CatalogItem {
 
 	//private final String 
 	private ImageView image;
-	private OrderItemViewButton removeBtn;
+	private TextArea nameArea;
+	protected OrderItemViewButton removeBtn;
+	protected Button viewBtn;
 	private TextArea greetingCard;
 	
 	public class OrderItemViewButton extends Observable
@@ -22,7 +34,7 @@ public class OrderItemView extends CatalogItem {
 		public Button button;
 		public OrderItemView orderItem;
 		
-		OrderItemViewButton(OrderItemView orderItem, String buttonText)
+		public OrderItemViewButton(OrderItemView orderItem, String buttonText)
 		{
 			this.button = new Button(buttonText);
 			this.button.setUserData(this);
@@ -35,14 +47,43 @@ public class OrderItemView extends CatalogItem {
 		}
 	}
 	
+	EventHandler<ActionEvent> viewProductAction  = new EventHandler<ActionEvent>() 
+	{
+	    @Override public void handle(ActionEvent e) 
+	    {
+	    	Button b = (Button)e.getSource();
+	    	
+	    	Product prod = (Product)b.getUserData();
+	    	Stage newWindow = new Stage();
+	    	EditProductGUI editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/EditProductGUI.fxml"), null);
+	    	Client.client.setUI(editProdGUI);
+	    	    	
+	    	newWindow.initOwner(FormController.getPrimaryStage());
+	    	newWindow.initModality(Modality.WINDOW_MODAL);  
+	    	newWindow.setScene(editProdGUI.getScene());
+	    	editProdGUI.initWindow(prod);
+	    	newWindow.requestFocus();     
+	    	newWindow.showAndWait();
+	    }
+	};
+	
 	public OrderItemView(long productID, String productName, String productType, float productPrice, int productAmount,
 			String productColor,float salesPrice, String imageName , byte[] imageCheckSum)
 	{
 		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum);
 		
+		nameArea = new TextArea();
+		nameArea.setText(productName);
+		nameArea.setWrapText(true);
+		nameArea.setPrefHeight(64);
+		nameArea.setEditable(false);
 		greetingCard = new TextArea();
 		greetingCard.setWrapText(true);
+		greetingCard.setPrefHeight(64);
 		removeBtn = new OrderItemViewButton(this, "remove");
+		viewBtn = new Button("view");
+		viewBtn.setUserData(this);
+		viewBtn.setOnAction(viewProductAction);
 		
 		if (imageName != null)
 		{
@@ -55,16 +96,31 @@ public class OrderItemView extends CatalogItem {
 	
 	public OrderItemView(CatalogItemView catalogItemView)
 	{
-		super(catalogItemView.getID(), catalogItemView.getName(), catalogItemView.getType(), catalogItemView.getPrice(),
-				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), catalogItemView.getImageName(), catalogItemView.getImageChecksum());
+		this(catalogItemView.getID(), catalogItemView.getName(), catalogItemView.getType(), catalogItemView.getPrice(),
+				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), null, null);
 		
-		greetingCard = new TextArea();
-		greetingCard.setWrapText(true);
-		greetingCard.setPrefHeight(64);
-		removeBtn = new OrderItemViewButton(this, "remove");
+		this.setImageInfo(new ImageInfo(catalogItemView.getImageName(), catalogItemView.getImageChecksum()));
+//		super(catalogItemView.getID(), catalogItemView.getName(), catalogItemView.getType(), catalogItemView.getPrice(),
+//				catalogItemView.getAmount(), catalogItemView.getColor(), catalogItemView.getSalePrice(), catalogItemView.getImageName(), catalogItemView.getImageChecksum());
+		
+//		greetingCard = new TextArea();
+//		greetingCard.setWrapText(true);
+//		greetingCard.setPrefHeight(64);
+//		removeBtn = new OrderItemViewButton(this, "remove");
+//		viewBtn = new Button("view");
+//		viewBtn.setUserData(this);
+//		viewBtn.setOnAction(viewProductAction);
 		
 		if (catalogItemView.getImage() != null)
+		{
 			image = catalogItemView.getImage();
+		}
+	}
+	
+	public OrderItemView(Product customItem, String imageName , byte[] imageCheckSum)
+	{
+		this(customItem.getID(), customItem.getName(), customItem.getType(), customItem.getPrice(),
+				customItem.getAmount(), customItem.getColor(), customItem.getPrice(), imageName, imageCheckSum);
 	}
 	
 	public ImageView getImage() {
@@ -93,6 +149,22 @@ public class OrderItemView extends CatalogItem {
 
 	public void setGreetingCard(TextArea greetingCard) {
 		this.greetingCard = greetingCard;
+	}
+
+	public Button getViewBtn() {
+		return viewBtn;
+	}
+
+	public void setViewBtn(Button viewBtn) {
+		this.viewBtn = viewBtn;
+	}
+
+	public TextArea getNameArea() {
+		return nameArea;
+	}
+
+	public void setNameArea(TextArea nameArea) {
+		this.nameArea = nameArea;
 	}
 	
 	

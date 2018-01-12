@@ -8,23 +8,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="695.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CreateOrderGUI">
+<AnchorPane prefHeight="695.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CreateOrderGUI">
    <children>
       <DialogPane layoutY="-7.0" prefHeight="85.0" prefWidth="531.0" />
-      <Label layoutX="211.0" layoutY="13.0" text="Create Order">
+      <Label layoutX="284.0" layoutY="13.0" text="Create Order">
          <font>
             <Font size="37.0" />
          </font>
       </Label>
-      <TableView fx:id="orderTable" layoutX="26.0" layoutY="106.0" prefHeight="261.0" prefWidth="648.0">
+      <TableView fx:id="orderTable" layoutX="26.0" layoutY="106.0" prefHeight="261.0" prefWidth="750.0">
         <columns>
           <TableColumn fx:id="imageCol" prefWidth="75.0" text="Image" />
-          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="colorCol" prefWidth="75.0" text="Color" />
-            <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
-            <TableColumn fx:id="greetingCardCol" prefWidth="187.0" text="Greeting Card" />
-            <TableColumn fx:id="removeCol" prefWidth="85.0" />
+          <TableColumn fx:id="nameCol" prefWidth="121.0" text="Name" />
+            <TableColumn fx:id="typeCol" prefWidth="88.0" text="Type" />
+            <TableColumn fx:id="colorCol" prefWidth="91.0" text="Color" />
+            <TableColumn fx:id="priceCol" prefWidth="88.0" text="Price" />
+            <TableColumn fx:id="greetingCardCol" prefWidth="144.0" text="Greeting Card" />
+            <TableColumn fx:id="removeCol" prefWidth="81.0" />
+            <TableColumn fx:id="viewCol" prefWidth="61.0" />
         </columns>
       </TableView>
       <Label layoutX="29.0" layoutY="377.0" text="Order Total price = " />
@@ -38,7 +39,7 @@
       <RadioButton layoutX="202.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivary" text="Delivary" toggleGroup="$pickupMethod" />
       <Label layoutX="23.0" layoutY="435.0" text="Delivary Adress" />
       <TextField fx:id="addressTxt" layoutX="197.0" layoutY="430.0" />
-      <Label layoutX="235.0" layoutY="61.0" text="Items in Order">
+      <Label layoutX="307.0" layoutY="61.0" text="Items in Order">
          <font>
             <Font size="27.0" />
          </font>

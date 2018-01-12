@@ -5,12 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="292.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerGUI">
    <children>
-      <Button fx:id="backBtn" layoutX="15.0" layoutY="200.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="252.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
       <Label fx:id="welcomeLbl" layoutX="73.0" layoutY="28.0" text="Welcome, customer!" />
-      <Button fx:id="viewCatalogBtn" layoutX="88.0" layoutY="128.0" mnemonicParsing="false" onAction="#onViewCatalog" text="View Catalog" />
-      <ComboBox fx:id="storeCombo" layoutX="103.0" layoutY="78.0" prefWidth="150.0" />
+      <Button fx:id="viewCatalogBtn" layoutX="68.0" layoutY="128.0" mnemonicParsing="false" onAction="#onViewCatalog" prefHeight="26.0" prefWidth="143.0" text="View Catalog" />
+      <ComboBox fx:id="storeCombo" layoutX="103.0" layoutY="78.0" onAction="#onStoreChanged" prefWidth="150.0" />
       <Label layoutX="15.0" layoutY="83.0" text="Pick Store" />
+      <Button fx:id="orderCustomItemBtn" layoutX="69.0" layoutY="167.0" mnemonicParsing="false" onAction="#onOrderCustomItem" text="Order Custom Item" />
    </children>
 </AnchorPane>
