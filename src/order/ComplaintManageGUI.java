@@ -5,6 +5,7 @@ import client.ClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import networkGUI.CustomerServiceWorkerGUI;
 import prototype.FormController;
 import serverAPI.Response;
@@ -16,6 +17,9 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
     @FXML
     private Button backButton;
 
+    @FXML
+    private TableView<?> complaintTable;
+    
     @FXML
     void onBackButton(ActionEvent event) {
     	CustomerServiceWorkerGUI customerServiceWorkerGUI = (CustomerServiceWorkerGUI)parent;

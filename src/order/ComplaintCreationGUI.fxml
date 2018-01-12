@@ -5,9 +5,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="286.0" prefWidth="233.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="order.ComplaintCreationGUI">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.ComplaintCreationGUI">
    <children>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="247.0" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
+      <Label layoutX="21.0" layoutY="22.0" text="Select a customer:" />
+      <Label layoutX="21.0" layoutY="55.0" text="ID:" />
+      <Label layoutX="189.0" layoutY="55.0" text="Phone number:" />
+      <TextField fx:id="idTextField" layoutX="43.0" layoutY="51.0" prefHeight="25.0" prefWidth="117.0" />
+      <TextField fx:id="phoneNumberTextField" layoutX="283.0" layoutY="51.0" prefHeight="25.0" prefWidth="117.0" />
+      <Button fx:id="searchButton" layoutX="427.0" layoutY="51.0" mnemonicParsing="false" onAction="#onSearchButton" text="Search" />
+      <TableView fx:id="userTable" layoutX="13.0" layoutY="94.0" prefHeight="259.0" prefWidth="466.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="97.0" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="106.0" text="Name" />
+            <TableColumn fx:id="phoneNumberColumn" prefWidth="102.0" text="Phone number" />
+          <TableColumn fx:id="storeColomn" prefWidth="74.0" text="Store" />
+            <TableColumn fx:id="selectColumn" prefWidth="85.0" text="Select" />
+        </columns>
+      </TableView>
+      <Button fx:id="backButton" layoutX="17.0" layoutY="361.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="52.0" text="Back" />
    </children>
 </AnchorPane>

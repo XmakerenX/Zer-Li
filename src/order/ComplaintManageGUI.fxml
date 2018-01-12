@@ -5,9 +5,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="284.0" prefWidth="214.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="order.ComplaintManageGUI">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.ComplaintManageGUI">
    <children>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="245.0" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
+      <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
+      <TableView fx:id="complaintTable" layoutX="14.0" layoutY="14.0" prefHeight="336.0" prefWidth="472.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

@@ -44,7 +44,9 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
   //===============================================================================================================
     @FXML
     void OnAddNewComplaintButton(ActionEvent event) {
+    	complaintCreationGUI.setUser(user);
 		client.setUI(complaintCreationGUI);
+		complaintCreationGUI.doInit();
 		complaintCreationGUI.setClinet(client);
 		FormController.primaryStage.setScene(complaintCreationGUI.getScene());
     }
