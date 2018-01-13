@@ -8,6 +8,7 @@ import Server.DBConnector;
 import customer.Customer;
 import customer.Customer.PayType;
 import order.Order;
+import product.CatalogItem;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
@@ -20,7 +21,8 @@ public class EntityAdder {
 		{
 		case "Product":
 					return addProdcut((Product)entity, db);
-		
+		case "CatalogProduct":
+					return addCatalogProduct((CatalogItem)entity, db);
 		case "User":
 			        return addUser((User)entity, db);  
 			        
@@ -61,7 +63,25 @@ public class EntityAdder {
 			  return false;
 		  }
 	}
-	
+	private static Boolean addCatalogProduct(CatalogItem catalogItem, DBConnector db)
+	{
+		 String productID = Long.toString(catalogItem.getID());
+		  String salesPrice = Float.toString(catalogItem.getSalePrice());
+		  String imageName = "'"+catalogItem.getImageName()+"'";
+		  String storeID = Integer.toString( catalogItem.getStoreID());
+		 
+		  
+		  try
+		  {
+			  db.insertData("CatalogProduct", productID + "," + salesPrice + "," + imageName+ ","+storeID);
+			  return true;
+		  }
+		  catch(Exception e)
+		  {
+			  e.printStackTrace();
+			  return false;
+		  }
+	}
 	private static Boolean addUser(User user, DBConnector db)
 	{		  
 		String userName = "'"+user.getUserName()+"'";
