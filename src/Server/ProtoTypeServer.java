@@ -23,6 +23,7 @@ import serverAPI.RemoveRequest;
 import serverAPI.Request;
 import serverAPI.Response;
 import serverAPI.UpdateRequest;
+import serverAPI.UploadImageRequest;
 import user.LoginException;
 import user.User;
 import user.UserController;
@@ -405,11 +406,6 @@ public class ProtoTypeServer extends AbstractServer {
 				  //EntityUpdater.setEntity("User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
 			  }break;
 			  
-			  		  
-			  default:
-				  System.out.println("Error Invalid message received");
-				  break;
-				  
 			  case "ImageRequest":
 			  {
 				  ImageRequest imageRequest = (ImageRequest)request;
@@ -432,7 +428,28 @@ public class ProtoTypeServer extends AbstractServer {
 				  // TODO: maybe add new type which indicated we got part of the data we wanted
 				  sendToClient(client, new Response(Response.Type.SUCCESS, images));
 			  }break;
-			     
+			  
+			  case "UploadImageRequest":
+			  {
+				  UploadImageRequest uploadImageRequest = (UploadImageRequest)request;
+				  ImageData reqImage= uploadImageRequest.getImage();				  
+				  try
+				  {
+					  uploadImageRequest.getImage().saveToDisk("Images//");
+					  sendToClient(client, new Response(Response.Type.SUCCESS, "Image was uploaded to server"));
+
+				  }
+				  catch(Exception e)
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "Image was not uploaded to server"));
+				  }
+				  break;
+			  }
+			  
+			  default:
+				  System.out.println("Error Invalid message received");
+				  break;
+
 		  }	//end of switch  
 	  }
 	  

@@ -1,8 +1,11 @@
 package catalog;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TreeSet;
 
+import catalog.EditableCatalogItem.editableCatalogItemButton;
 import client.Client;
 import client.ClientInterface;
 import javafx.collections.FXCollections;
@@ -35,6 +38,7 @@ import user.LoginGUI;
 import user.User;
 import user.UserController;
 import user.User.Permissions;
+import utils.ImageData;
 
 
 public class ManageCatalogGUI extends FormController implements ClientInterface
@@ -49,7 +53,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		//Gui:
 		EditProductGUI editProdGUI;
 		AddToCatalogGUI addToCatGUI;
-		
+		EditCatalogItemGUI editCatItemGui;
+
 		
 		
 		 @FXML
@@ -75,8 +80,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 										    TableColumn cat_salesPriceCol = new TableColumn("sale price");
 										    TableColumn cat_editCol = new TableColumn("");
 										    TableColumn cat_removeCol = new TableColumn("");
-										    TableColumn cat_addSaleCol = new TableColumn("");
-										    TableColumn cat_removeSaleCol = new TableColumn("");
 										    
 										    
 											ObservableList<EditableCatalogItem> eCatalogProducts; //table's data
@@ -130,74 +133,10 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				newWindow.showAndWait();
 				getClient().setUI(ManageCatInterface);
 			}
-			Product newProd = new Product(0, null, null, 0, 0, null);
-			
-			newProd.setID(Long.parseLong(createProductGUI.idField.getText()));
-			newProd.setName(createProductGUI.nameFIeld.getText());
-			newProd.setType(createProductGUI.typeComboBox.getValue());
-			newProd.setPrice(Float.parseFloat(createProductGUI.priceField.getText()));
-			newProd.setAmount(Integer.parseInt(createProductGUI.amountFIeld.getText()));
-			newProd.setColor(createProductGUI.colorComboBox.getValue());
-			EditableProductVIew epv = new EditableProductVIew(newProd);
-			epv.getRemoveBtn().setOnAction(prodRemoveAction);
-			epv.getEditBtn().setOnAction(prodEditAction);
-			epv.getAddToCatalogBtn().setOnAction(prodAddToCatalog);
-            
-			
-			ArrayList<EditableProductVIew> currProdTbl = getArrayListOfCurrentProdTable();
-			currProdTbl.add(epv);
-		   editProductTable.getItems().clear();
-		   editProductTable.getItems().addAll(currProdTbl);	
+			   initProductsTableContent();
 	    }	  
 	    
-	    //Add to catalog button:
-		EventHandler<ActionEvent> prodRemoveAction  = new EventHandler<ActionEvent>() 
-		{
-		    @Override public void handle(ActionEvent e) 
-		    {
-		    	Alert alert = new Alert(AlertType.CONFIRMATION);
-	    		alert.setHeaderText("About to remove product");
-	    		alert.setContentText("Are you sure ?");
-
-	    		Optional<ButtonType> result = alert.showAndWait();
-	    		if (result.get() == ButtonType.OK)
-	    		{
-	    			EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
-	    			String id =Long.toString(src.getOrigin().getID());
-    				ProdcutController.removeProductFromDataBase(id,myClient);
-    				
-    				waitForResponse();
-	    			
-    				//show result:
-	    			String outputMsg;
-	    			if(response.getType().name().equals("SUCCESS")) {outputMsg = "product was removed";}
-	    			else											{outputMsg = "Could not remove product";}
-	    			
-    			   Alert resultAlert = new Alert(AlertType.INFORMATION);
-    			   resultAlert.setTitle("Action result");
-    			   resultAlert.setHeaderText(outputMsg);
-    			   resultAlert.showAndWait();
-    			   
-    			   //update table if indeed succeded:
-    			   if(response.getType().name().equals("SUCCESS"))
-    			   {
-	    			   ArrayList<EditableProductVIew> currProdTbl = getArrayListOfCurrentProdTable();
-	    			   for(EditableProductVIew epv :currProdTbl)
-	    			   {
-	    				   if(epv.getID() == src.getOrigin().getID())
-	    				   {
-	    					   currProdTbl.remove(epv);
-	    					   break;
-	    				   }
-	    			   }
-	    			   editProductTable.getItems().clear();
-	    			   editProductTable.getItems().addAll(currProdTbl);	    			   
-    			   }
-	    			  
-	    		} else return;
-		    }
-		};
-		
+	 
 		/*
 		 * function to allow access of client even in evene handlers
 		 */
@@ -205,6 +144,16 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		{
 			return this.client;
 		}
+		/*
+		 * function to allow setting of user
+		 */
+		public void setUser(User user)
+		{
+			this.myUser = user;
+		}
+		
+		//proodTable button handlers:
+		
 		//edit button:
 		EventHandler<ActionEvent> prodEditAction  = new EventHandler<ActionEvent>() 
 		{
@@ -231,23 +180,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	if(editProdGUI.response.getType().name().equals("SUCCESS"))
 		    	{
 		    		ArrayList<EditableProductVIew> currProdTbl = getArrayListOfCurrentProdTable();
-	    			   for(EditableProductVIew epv :currProdTbl)
-	    			   {
-	    				   if(epv.getID() == src.getOrigin().getID())
-	    				   {
-	    					   
-	    					   currProdTbl.remove(epv);
-	    					   epv.setName(editProdGUI.nameFIeld.getText());
-	    					   epv.setType(editProdGUI.typeComboBox.getValue());
-	    					   epv.setPrice(Float.parseFloat(editProdGUI.priceField.getText()));
-	    					   epv.setAmount(Integer.parseInt(editProdGUI.amountFIeld.getText()));
-	    					   epv.setColor(editProdGUI.colorComboBox.getValue());
-	    					   currProdTbl.add(epv);
-	    					   break;
-	    				   }
-	    			   }
-	    			   editProductTable.getItems().clear();
-	    			   editProductTable.getItems().addAll(currProdTbl);	
+		    		initProductsTableContent();
+	    			 
 		    	}
 			       
 			}
@@ -257,31 +191,172 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	
 		    }
 		};
-		
-		 //add to catalog button:
+		//add to catalog button:
 		EventHandler<ActionEvent> prodAddToCatalog  = new EventHandler<ActionEvent>() 
 		{
 		    @Override public void handle(ActionEvent e) 
 		    {
-		    	
+		    	Boolean itemDoesAlreadyExists = false;
 		    	EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
     			Product prod = src.getOrigin();
     			
-				if (addToCatGUI != null)
-				{
-					Stage newWindow = new Stage();
-					getClient().setUI(addToCatGUI);
-					addToCatGUI.setClinet(client);
-					addToCatGUI.setProd(prod);
-					newWindow.initOwner(FormController.primaryStage);
-			    	newWindow.initModality(Modality.WINDOW_MODAL);  
-					newWindow.setScene(addToCatGUI.getScene());
-					newWindow.showAndWait();
-					getClient().setUI(ManageCatInterface);
-				}
+    			// search for the item in catalog:
+    			for(EditableCatalogItem element : eCatalogProducts)
+    			{
+    				if(element.getID() == prod.getID())
+    				{
+    					itemDoesAlreadyExists = true;
+    				}
+    			}
+    			if(itemDoesAlreadyExists)
+    			{
+    				Alert alert = new Alert(Alert.AlertType.ERROR);
+    				alert.setContentText("The selected already appears in the catalog.");
+    				alert.showAndWait();
+    			}
+    			else
+    			{
+					if (addToCatGUI != null)
+					{
+						Stage newWindow = new Stage();
+						getClient().setUI(addToCatGUI);
+						addToCatGUI.setClinet(client);
+						addToCatGUI.setProd(prod);
+						addToCatGUI.setStoreID(storeID);
+						addToCatGUI.doInit();
+						newWindow.initOwner(FormController.primaryStage);
+				    	newWindow.initModality(Modality.WINDOW_MODAL);  
+						newWindow.setScene(addToCatGUI.getScene());
+						newWindow.showAndWait();
+						getClient().setUI(ManageCatInterface);
+						CatalogItem newCatalogItem = addToCatGUI.getCatItem();
+						
+						
+
+					}
+					initCatalogProductsTableContent();
+					
+    			}
 		    }
 		};		
-//---------------------------------------------------------------------------------------
+		//remove prod button:
+		EventHandler<ActionEvent> prodRemoveAction  = new EventHandler<ActionEvent>() 
+				{
+				    @Override public void handle(ActionEvent e) 
+				    {
+				    	Alert alert = new Alert(AlertType.CONFIRMATION);
+			    		alert.setHeaderText("About to remove product");
+			    		alert.setContentText("Are you sure ?");
+
+			    		Optional<ButtonType> result = alert.showAndWait();
+			    		if (result.get() == ButtonType.OK)
+			    		{
+			    			EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
+			    			String id =Long.toString(src.getOrigin().getID());
+		    				ProdcutController.removeProductFromDataBase(id,myClient);
+		    				
+		    				waitForResponse();
+		    				
+		    				//show result:
+			    			String outputMsg;
+			    			if(response.getType().name().equals("SUCCESS")) {outputMsg = "product was removed";}
+			    			else											{outputMsg = "Could not remove product";}
+			    			
+		    			   Alert resultAlert = new Alert(AlertType.INFORMATION);
+		    			   resultAlert.setTitle("Action result");
+		    			   resultAlert.setHeaderText(outputMsg);
+		    			   resultAlert.showAndWait();
+		    			   
+		    			   //update table if indeed succeded:
+		    			   if(response.getType().name().equals("SUCCESS"))
+		    			   {
+			    			   eCatalogProducts = getEditableCatalogProducts();
+			    			   
+			    			   for(EditableCatalogItem eci: eCatalogProducts)
+			    			   {
+			    				   if(Long.toString(eci.getID()).equals(id))
+			    				   {
+			    				    CatalogController.removeCatalogProductFromDataBase(eci.getID(), eci.getStoreID(),myClient);
+			    				   }	    				   
+			    			   }
+			    			   initProductsTableContent();
+			    			   initCatalogProductsTableContent();
+		    			   }
+			    			  
+			    		} else return;
+				    }
+				};
+				
+		
+		//Catalog buttons handler:
+		
+				EventHandler<ActionEvent> catRemoveFromCatalog  = new EventHandler<ActionEvent>() 
+				{
+				    @Override public void handle(ActionEvent e) 
+				    {
+				    	
+				    	//get selected Item as object:
+				    	editableCatalogItemButton buttonPressed =(editableCatalogItemButton) e.getSource();
+				    	EditableCatalogItem selectedItem = buttonPressed.origin;
+				    	
+				    	Alert alert = new Alert (Alert.AlertType.CONFIRMATION);
+				    	alert.setContentText("About to remove the selected from the catalog\n Are you sure?");
+			    		Optional<ButtonType> result = alert.showAndWait();
+			    		
+			    		if (result.get() == ButtonType.OK)
+						{
+			    			long prodID = selectedItem.getID();
+			    			int storeID = selectedItem.getStoreID();
+							CatalogController.removeCatalogProductFromDataBase(prodID, storeID, myClient);
+							
+							//wait for server Response:
+							waitForResponse();
+							
+							//Display server result to user
+							String outputMsg;
+			    			if(response.getType().name().equals("SUCCESS")) {outputMsg = "catalog product was removed";}
+			    			else											{outputMsg = "Could not remove catalog product";}
+			    			
+		    			   Alert resultAlert = new Alert(AlertType.INFORMATION);
+		    			   resultAlert.setTitle("Action result");
+		    			   resultAlert.setHeaderText(outputMsg);
+		    			   resultAlert.showAndWait();
+		    			   
+
+		    			   //update table:
+		    			   initCatalogProductsTableContent();
+						}
+			    		
+				    }
+				};
+				
+				EventHandler<ActionEvent> editCatalogItem  = new EventHandler<ActionEvent>() 
+				{
+				    @Override public void handle(ActionEvent e) 
+				    {
+				        	editableCatalogItemButton button = (editableCatalogItemButton)e.getSource();
+				    		EditableCatalogItem baseCatalogProduct = button.origin;
+							if (editCatItemGui != null)
+							{
+								Stage newWindow = new Stage();
+								getClient().setUI(editCatItemGui);
+								editCatItemGui.setClinet(client);
+								editCatItemGui.setProd(baseCatalogProduct.getBaseProduct());
+								editCatItemGui.setStoreID(storeID);
+								editCatItemGui.doInit();
+								editCatItemGui.initWindow(baseCatalogProduct);
+								newWindow.initOwner(FormController.primaryStage);
+						    	newWindow.initModality(Modality.WINDOW_MODAL);  
+								newWindow.setScene(editCatItemGui.getScene());
+								newWindow.showAndWait();
+								getClient().setUI(ManageCatInterface);
+							}
+							initCatalogProductsTableContent();
+									
+		    			}
+				    
+				};		
+		//---------------------------------------------------------------------------------------
 		private ArrayList<EditableProductVIew> getArrayListOfCurrentProdTable()
 		{
 			 ArrayList<EditableProductVIew> output =new ArrayList<EditableProductVIew>();
@@ -293,10 +368,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			   return output;
 		}
 //---------------------------------------------------------------------------------------
-		public void setUser(User user)
-		{
-			this.myUser = user;
-		}
+		
 		
  private int getStoreIdOfWorker(User thisUser)
  {
@@ -333,20 +405,19 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	
 	    	editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/product/EditProductGUI.fxml"), this);
 	    	addToCatGUI = FormController.<AddToCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/AddToCatalog.fxml"), this);
-	    	
+	    	editCatItemGui= FormController.<EditCatalogItemGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/EditCatalogItem.fxml"), this);
+
 	    	//init catalog table:
 	    	cat_imageCol.setCellValueFactory(new PropertyValueFactory<>("ImageView"));
 		    cat_nameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
 		    cat_priceCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
-		    cat_salesPriceCol.setCellValueFactory(new PropertyValueFactory<>("SalePrice"));
+		    cat_salesPriceCol.setCellValueFactory(new PropertyValueFactory<>("StringSalePrice"));
 		    cat_editCol.setCellValueFactory(new PropertyValueFactory<>("EditButton"));
 		    cat_removeCol.setCellValueFactory(new PropertyValueFactory<>("RemoveButton"));
-		    cat_addSaleCol.setCellValueFactory(new PropertyValueFactory<>("AddSale"));
-		    cat_removeSaleCol.setCellValueFactory(new PropertyValueFactory<>("RemoveFromSale"));
-	    	
+		 
 		    
 			editCatalogView.getColumns().addAll(cat_imageCol,cat_nameCol,cat_priceCol,cat_salesPriceCol,
-					cat_editCol,cat_removeCol,cat_addSaleCol,cat_removeSaleCol);
+					cat_editCol,cat_removeCol);
 
 			switch(myUser.getUserPermission())
 			{
@@ -354,6 +425,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				this.newProdBtn.setVisible(false);//only pure network worker can add a new product
 				editProductTable.getColumns().addAll(prod_idCol,prod_nameCol,prod_typeCol,prod_priceCol,prod_amountCol
 		    			,prod_addToCatalogCol);
+				
 				break;
 				
 		    	
@@ -383,22 +455,10 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				e.printStackTrace();
 			}
 			initProductsTableContent();
-			try 
-			{
-				Thread.sleep(100);
-			} 
-			catch (InterruptedException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			initCatalogProductsTableContent();
 			
-			
-	    	//addToCatGUI.doInit();rem
-	    	//todo: init catalog table:
-	    	
+				    	
 	    	
 	    }
 //---------------------------------------------------------------------------------------
@@ -417,9 +477,18 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    public void initCatalogProductsTableContent()
 	    {
 	    	eCatalogProducts = getEditableCatalogProducts();
+	    	
+	    	ArrayList<CatalogItem> catalogItems = new ArrayList<CatalogItem>();
+	    	catalogItems.addAll(eCatalogProducts);
+	    	downloadMissingCatalogImages(catalogItems);
+	    	
+	    	eCatalogProducts = getEditableCatalogProducts();
+
+	    	
 	    	editCatalogView.getItems().clear();
 	    	editCatalogView.getItems().addAll(eCatalogProducts);
 	    }
+//---------------------------------------------------------------------------------------
 	    /**
 	     * this sends a request to get Products and then wait for server's response
 	     */
@@ -432,7 +501,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    }
 //---------------------------------------------------------------------------------------
 	    /**
-	     * get all products in database and transform them into "editable products"
+	     * get all catalogProducts in database and transform them into "editable catalogProducts"
 	     * @return list of editable products(same as normal, but includes buttons for tableview)
 	     */
 	    private ObservableList<EditableCatalogItem> getEditableCatalogProducts()
@@ -450,16 +519,18 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    			EditableCatalogItem eCatProd =new EditableCatalogItem(catItem);
 		    		
 	    			//add functions for buttons:
-	    			eCatProd.getRemoveButton().setOnAction(null);
-	    			eCatProd.getEditButton().setOnAction(null);
-	    			eCatProd.getAddSale().setOnAction(null);
+	    			eCatProd.getRemoveButton().setOnAction(catRemoveFromCatalog);
+	    			eCatProd.getEditButton().setOnAction(editCatalogItem);
 		    		res.add(eCatProd);
-	    		}
-	    		
+	    		}	
 	    	}
 	    	return FXCollections.observableArrayList(res);
 	    	
 	    }
+	    /**
+	     * get all products in database and transform them into "editable products"
+	     * @return list of editable products(same as normal, but includes buttons for tableview)
+	     */
 	    private ObservableList<EditableProductVIew> getEditableProducts()
 	    {
 	    	requestProductsAndWait();
@@ -497,7 +568,22 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	} 
 	 }
 //---------------------------------------------------------------------------------------
+	    private void downloadMissingCatalogImages(ArrayList<CatalogItem> catalogItemsSet)
+	    {
+	    	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItemsSet);
+			if (missingImages.size() > 0)
+			{
+				System.out.println("Missing images "+ missingImages);
+				response = null;
+				CatalogController.requestCatalogImages(missingImages, Client.client);
 
+				waitForResponse();
+				
+	    		if (response != null)
+	    			CatalogController.saveCatalogImages((ArrayList<ImageData>)response.getMessage());
+			}
+	    }
+//----------------------------------------------------------------------
 	    @Override
 	public void display(Object message) 
 	{

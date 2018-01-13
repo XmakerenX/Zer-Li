@@ -7,7 +7,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
 import product.CatalogItem;
 
-public class CatalogItemView extends CatalogItem {
+public class CatalogItemView extends CatalogItem 
+{
 
 	//private final String 
 	private BooleanProperty selected;

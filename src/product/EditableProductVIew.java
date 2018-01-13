@@ -1,11 +1,22 @@
 package product;
 
+import java.io.Serializable;
+
 import javafx.scene.control.Button;
 
-public class EditableProductVIew extends Product 
+public class EditableProductVIew extends Product implements Serializable
 {
-	public class EditableProductVIewButton extends Button
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2707058139703429464L;
+
+	public class EditableProductVIewButton extends Button implements Serializable
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6822724423754733997L;
 		EditableProductVIew origin;
 		public EditableProductVIewButton(EditableProductVIew origin,String name)
 		{

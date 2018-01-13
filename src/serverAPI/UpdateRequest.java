@@ -1,6 +1,7 @@
 package serverAPI;
 
-public class UpdateRequest extends Request {
+public class UpdateRequest extends Request 
+{
 
 	String table;
 	String entityKey;

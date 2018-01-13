@@ -14,8 +14,25 @@ public class EditableCatalogItem extends CatalogItem
      {
 		return imageView;
 	}
-
-
+    String stringSalePrice;
+    
+    public String getStringSalePrice()
+    {
+    	float salePrice = super.getSalePrice();
+    	if(super.getSalePrice() == -1)
+    	{
+    		return "none";
+    	}
+    	else
+    	{
+    		return Float.toString(super.getSalePrice());
+    	}
+    }
+    
+    public void setStringSalePrice(String stringSalePrice)
+    {
+    	this.stringSalePrice = stringSalePrice;
+    }
 	public void setImageView(ImageView imageView) 
 	{
 		this.imageView = imageView;
@@ -26,7 +43,7 @@ public class EditableCatalogItem extends CatalogItem
      
 	public EditableCatalogItem(CatalogItem catItem)
 	{
-		super((Product)catItem, catItem.getSalePrice(), catItem.getImageName(),
+		super(catItem.getBaseProduct(),catItem.getSalePrice(), catItem.getImageName(),
 				catItem.getImageChecksum(),catItem.getStoreID());
 		
 		  System.out.println(catItem.getImageName());
@@ -44,7 +61,7 @@ public class EditableCatalogItem extends CatalogItem
 		public editableCatalogItemButton(String buttonName,EditableCatalogItem Origin)
 		{
 			super(buttonName);
-			this.origin = origin;
+			this.origin = Origin;
 		}
 	}
 	ImageView image;
@@ -78,30 +95,8 @@ public class EditableCatalogItem extends CatalogItem
 	}
 
 
-	public editableCatalogItemButton getAddSale() {
-		return addSale;
-	}
-
-
-	public void setAddSale(editableCatalogItemButton addSale) {
-		this.addSale = addSale;
-	}
-
-
-	public editableCatalogItemButton getRemoveFromSale() {
-		return removeFromSale;
-	}
-
-
-	public void setRemoveFromSale(editableCatalogItemButton removeFromSale) {
-		this.removeFromSale = removeFromSale;
-	}
-
-
 	editableCatalogItemButton removeButton = new editableCatalogItemButton("Remove",this);
 	editableCatalogItemButton editButton = new editableCatalogItemButton("Edit",this);
-	editableCatalogItemButton addSale = new editableCatalogItemButton("Add sale",this);
-	editableCatalogItemButton removeFromSale = new editableCatalogItemButton("Remove from sale",this);
 
 
 	

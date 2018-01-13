@@ -40,6 +40,7 @@ import product.CatalogItem;
 import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
+import serverAPI.UploadImageRequest;
 import user.LoginGUI;
 import utils.ImageData;
 import java.io.File;
@@ -52,6 +53,16 @@ import javafx.scene.control.TextField;
 
 public class AddToCatalogGUI extends FormController implements ClientInterface 
 {
+	int storeID;
+	public int getStoreID() {
+		return storeID;
+	}
+
+	public void setStoreID(int storeID) 
+	{
+		this.storeID = storeID;
+	}
+
 	Response response;
 	public Response getResponse() {
 		return response;
@@ -102,10 +113,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     private Label headLabel;
 
     @FXML
-    private TextField imageField;
+	protected TextField imageField;
 
     @FXML
-    private TextField salesPriceField;
+	protected TextField salesPriceField;
 
     @FXML
     private Button cancelBTN;
@@ -113,6 +124,24 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     @FXML
     private Button okBTN;
 
+    
+    @FXML
+	protected CheckBox onSale;
+	
+	
+    @FXML
+    void onSale(ActionEvent event) 
+    {
+    	if(onSale.isSelected())
+    	{
+    		salesPriceField.setDisable(false);
+    	}
+    	else
+    	{
+    		salesPriceField.setDisable(true);
+    	}
+    }
+	  
     @FXML
     void BrowseBTN(ActionEvent event) 
     {
@@ -152,6 +181,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     void okBTN(ActionEvent event) 
     {
     	
+
     	if(isInputValid()==false)
     	{
     		printErrorMessege();
@@ -160,22 +190,37 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     	//if(input is good):
     	else
     	{
-    		float salesPrice = Float.parseFloat(salesPriceField.getText());
+    		float salesPrice;
+    		if(onSale.isSelected())
+        	{
+    			salesPrice = Float.parseFloat(salesPriceField.getText());
+        	}
+    		else
+    		{
+    			salesPrice = -1; //default value meaning there is not sale on the catalog item
+    		}
     		
+    		System.out.println(salesPrice);
     		String imagePath = imageField.getText();//this is the absoloute path
     		byte[] checkSum = image.getSha256();
 			
     		String ImageName = image.getFileName();
 			
-			
-    		/*
-    		catItem = new CatalogItem();
-    				
-    				
-    				prod,salesPrice,ImageName,checkSum);
-    		CatalogController.createNewCatalogProduct(catItem, image, client);*/
-    	}
+    		catItem = new CatalogItem(prod, salesPrice, ImageName, checkSum, storeID);
+    		imagePath = imagePath.replaceAll("/", "//");
+    		Client myClient = getClinet();
+    		CatalogController.addCatalogProductToDataBase(catItem,myClient);
+    		
+			try 
+			{
+	    		ImageData imageToUpload;
+				imageToUpload = new ImageData(imagePath);
+				
+				client.handleMessageFromClientUI(new UploadImageRequest(imageToUpload));
+			} 
+			catch (IOException e)    {e.printStackTrace();} }
     }
+    
     
     private void waitForResponse()
     {
@@ -197,9 +242,12 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     {
     	String missingField ="";
     	 
-    	if(salesPriceField.getText().equals(""))
+    	if(onSale.isSelected())
     	{
-    		missingField+="Sales Price";
+	    	if(salesPriceField.getText().equals(""))
+	    	{
+	    		missingField+="Sales Price";
+	    	}
     	}
     	if(imageField.getText().equals(""))
     	{
@@ -222,6 +270,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     {
     	if(salesPriceField.getText().equals(""))
     	{
+    		if(onSale.isSelected())
     		return false;
     	}
     	if(imageField.getText().equals(""))
@@ -241,11 +290,46 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     }
     
    
-    
+  //make salesField numberic only.
+	 ChangeListener salesPriceFieldChangeListener =  new ChangeListener<String>() 
+	 {
+	    @Override
+	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+	        String newValue) 
+	    {
+	    	if(newValue.equals(""))
+	    	{
+		    	   salesPriceField.setText(newValue);
+		    	   return;
+	    	}
+	       try
+	       {
+	    	   float value = Float.parseFloat(newValue);
+	    	   if((value<=0) || value>=(getProd().getPrice()))
+	    	   {
+	    		   throw new Exception();
+	    	   }
+	    	   salesPriceField.setText(newValue);
+	       }
+	       catch(Exception e)
+	       {
+	    	   salesPriceField.setText(oldValue);
+	       }
+	    }
+	};
+	
+	
+	
+	
     public void doInit()
     {
+    	imageField.setText("");
+    	salesPriceField.setText("");
+    	onSale.setSelected(false);
     	imageField.setEditable(false);
-    	setSalesPrice(Float.toString(prod.getPrice()));
+    	salesPriceField.setDisable(true);
+    	
+    	salesPriceField.textProperty().addListener(salesPriceFieldChangeListener);
     	//inti text fields : make imageField uneditable and  price field to be of the form %.2f
 		
        
@@ -329,6 +413,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	{
     	super.setClinet(client);
     	
+	}
+    public Client getClinet()
+	{
+    	return super.client;
 	}
     
 	@Override
