@@ -29,7 +29,7 @@ public class CustomerController {
 		
 		Customer newCustomer;
 		try {
-			newCustomer = new Customer(personID, storeID,fullName, phoneNumber, payMethod, accountBalance, creditCardNumber, accountStatus);
+			newCustomer = new Customer(personID, storeID, fullName, phoneNumber, payMethod, accountBalance, creditCardNumber, accountStatus);
 			client.handleMessageFromClientUI(new AddRequest("Customers", newCustomer));
 		} catch (CustomerException e) {
 			System.out.println(e.getMessage());
@@ -54,21 +54,24 @@ public class CustomerController {
 	 * @param personID - customer's person ID (is the key)
 	 * @param client - currently running client
 	 */
-	public static void getCustomer(String personID, String storeID,Client client)
+	public static void getCustomer(String personID, String storeID ,Client client)
 	{
 		ArrayList<String> keys = new ArrayList<String>();
 		keys.add(personID);
-		keys.add(storeID);
+		
+		if(storeID != null)
+			keys.add(storeID);
+		
 		client.handleMessageFromClientUI(new GetRequestByKey("Customers", keys));
 	}
 	//===========================================================================================================
 	/**
-	 * returns the customers who meet said condition
-	 * @param column	the column we are checking
-	 * @param condition	the condition we are looking for
+	 * Returns the customers who meet mentioned condition
+	 * @param column	the column that will be checked
+	 * @param condition	the condition that will be met
 	 * @param client	client to send the answer back to
 	 */
-	public static void getSertainCustomers(String column, String condition, Client client)
+	public static void getCertainCustomers(String column, String condition, Client client)
 	{
 		client.handleMessageFromClientUI(new GetRequestWhere("Customers", column, condition));
 	}

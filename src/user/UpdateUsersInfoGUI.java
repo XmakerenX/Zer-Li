@@ -3,6 +3,7 @@ package user;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
+import customer.Customer.CustomerException;
 import customer.CustomerController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,23 +27,27 @@ import serverAPI.Response;
 import user.User.UserException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UpdateUsersInfoGUI extends FormController implements ClientInterface {
 
 	
 	private Response replay = null;
+	private boolean toClearFlag = false;
 	
 	//List of text fields to clear them later
-	ArrayList<TextField> textFields = new ArrayList<TextField>();
+	ArrayList<TextField> allTextFields = new ArrayList<TextField>();
+	ArrayList<TextField> onlyNewTextFields = new ArrayList<TextField>();
 	
 	//List of combo boxes to clear them later
-	ArrayList<ComboBox<String>> comboBoxes = new ArrayList<ComboBox<String>>();
+	ArrayList<ComboBox<String>> allComboBoxes = new ArrayList<ComboBox<String>>();
+	ArrayList<ComboBox<String>> onlyNewComboBoxes = new ArrayList<ComboBox<String>>();
 	
-	//Current User's entity with all attributes for further updating
+	//Current User's entity with all attributes for later updating
 	User userToUpdate;
 	String formerUsername;
 	
-	//Current Customer's entity with all attributes for further updating
+	//Current Customer's entity with all attributes for later updating
 	Customer customerToUpdate;
 	String formerPersonID;
 	
@@ -55,13 +60,13 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	ObservableList<String> usersStatusesList = FXCollections.observableArrayList("Regular", "Logged in", "Blocked");
 	
 	//List of payment methods for the combo box
-	ObservableList<String> paymentMethodList = FXCollections.observableArrayList("Credit card", "Subscription");
+	ObservableList<String> paymentMethodList = FXCollections.observableArrayList("Credit card", "Subscription monthly, Subscription yearly");
 	
 	//List of account statuses for the combo box
 	ObservableList<String> accountStatusesList = FXCollections.observableArrayList("Active", "Blocked");
 	
-	//List of stores' names for the combo box
-	ObservableList<String> storesNamesList = FXCollections.observableArrayList(); // HAS TO BE FILLED
+	//List of stores' names for the combo box; Note: will be filled only when customers are found. 
+	ObservableList<String> storesNamesList = FXCollections.observableArrayList();
 
 
 
@@ -237,7 +242,8 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     private Label usersCurrentInfoLbl;
     
     /**
-     * Initializes the combo box of permissions
+     * Initializes the combo box of permissions.
+     * Initializes ArrayLists of text fields and combo boxes to clear them later
      */
     @FXML
     //Will be called by FXMLLoader
@@ -248,9 +254,21 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	newPaymentMethodComboBox.setItems(paymentMethodList);
     	newAccountStatusComboBox.setItems(accountStatusesList);
     	
-   // 	comboBoxes.add();
-    //	textField.add();
+    	allComboBoxes.addAll(Arrays.asList(newAccountStatusComboBox, newPaymentMethodComboBox, newPermissionComboBox,
+    			newUsersStatusComboBox, storeNameComboBox));
     	
+    	onlyNewComboBoxes.addAll(Arrays.asList(newAccountStatusComboBox, newPaymentMethodComboBox, newPermissionComboBox,
+    			newUsersStatusComboBox));
+    	
+    	allTextFields.addAll(Arrays.asList(newUsernameTxtField, personIDTxtField, newAccoundBalanceTxtField, newPasswordTxtField,
+    			newFullNameTxtField, accoundBalanceTxtField, unsuccessfulTriesTxtField, newCreditCardNumberTxtField, 
+    			newCustomersPersonIDTxtField, accountStatusTxtField, paymentMethodTxtField, creditCardNumberTxtField,
+    			findUserNameTxtField, usernameTxtField, newPersonIDTxtField, passwordTxtField, fullNameTxtField,
+    			customersPersonIDTxtField, usersStatusTxtField, permissionTxtField, newPhoneNumberTxtField, phoneNumberTxtField));
+    	
+    	onlyNewTextFields.addAll(Arrays.asList(newUsernameTxtField, newAccoundBalanceTxtField, newPasswordTxtField,
+    			newFullNameTxtField, newCreditCardNumberTxtField, newCustomersPersonIDTxtField, newPersonIDTxtField, newPhoneNumberTxtField));
+
     }
     
     /**
@@ -261,6 +279,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     void onFindUser(ActionEvent event) {
     	
     	String [] splittedString;
+		String temporaryString = "";
 
     	String userName = findUserNameTxtField.getText();
     	
@@ -288,15 +307,15 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		passwordTxtField.setText(""+userToUpdate.getUserPassword());
     		
     		splittedString = (""+userToUpdate.getUserPermission()).split("_");
-    		String permission = handleSplittedString(splittedString);
+    		temporaryString = handleSplittedStringFromDataBase(splittedString);
     		
-    		permissionTxtField.setText(permission);
+    		permissionTxtField.setText(temporaryString);
     		personIDTxtField.setText(""+userToUpdate.getPersonID());
     		
     		splittedString = (""+userToUpdate.getUserStatus()).split("_");
-    		String usersStatus = handleSplittedString(splittedString);
+    		temporaryString = handleSplittedStringFromDataBase(splittedString);
     		
-    		usersStatusTxtField.setText(usersStatus);
+    		usersStatusTxtField.setText(temporaryString);
     		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
 
     	}
@@ -316,7 +335,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	String personID = ""+userToUpdate.getPersonID();
     	
     	//TODO: fix breakage
-    	//CustomerController.getCustomer(personID, client);
+    	CustomerController.getCustomer(personID, null, client);
     	
      	try
     	{
@@ -341,9 +360,9 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		phoneNumberTxtField.setText(""+customerToUpdate.getPhoneNumber());
     		
     		splittedString = (""+customerToUpdate.getPayMethod()).split("_");
-    		String payMethod = handleSplittedString(splittedString);
+    		temporaryString = handleSplittedStringFromDataBase(splittedString);
     		
-    		paymentMethodTxtField.setText(payMethod);
+    		paymentMethodTxtField.setText(temporaryString);
     		accoundBalanceTxtField.setText(""+customerToUpdate.getAccountBalance());
     		creditCardNumberTxtField.setText(""+customerToUpdate.getCreditCardNumber());
     		accountStatusTxtField.setText(""+customerToUpdate.getAccountStatus());
@@ -352,7 +371,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	else
     	{
         	// show failure  
-    		Alert alert = new Alert(AlertType.ERROR, "This user is not a customer!", ButtonType.OK);
+    		Alert alert = new Alert(AlertType.WARNING, "This user is not a customer!", ButtonType.OK);
     		alert.showAndWait();
 
     	}
@@ -370,8 +389,8 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     @FXML
     void onUpdate(ActionEvent event) {
     	
-    	String [] splittedPermission;
-    	String temporaryPermission = "";
+    	String [] splittedString;
+    	String temporaryString = "";
     	
     	if( !newUsernameTxtField.getText().equals("") ||  !newPasswordTxtField.getText().equals("") || newPermissionComboBox.getValue() != null
     			|| !newPersonIDTxtField.getText().equals("") || newUsersStatusComboBox.getValue() != null)
@@ -387,15 +406,10 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		   		if(newPermissionComboBox.getValue() != null)
 		   		{
 		   			
-		   			splittedPermission = newPermissionComboBox.getValue().split(" ");
-		   			for(String permission : splittedPermission )
-		   			{
-		   				if( !temporaryPermission.equals(""))
-		   					temporaryPermission = temporaryPermission + "_";
-		   				temporaryPermission = temporaryPermission + permission.toUpperCase();
-		   			}
+		   			splittedString = newPermissionComboBox.getValue().split(" ");
+		   			temporaryString = handleSplittedStringFromGUI(splittedString);
 		   			
-		   			userToUpdate.setUserPermission(User.Permissions.valueOf(temporaryPermission));
+		   			userToUpdate.setUserPermission(User.Permissions.valueOf(temporaryString));
 		   		}
 		   		
 		   		if(!newPersonIDTxtField.getText().equals(""))
@@ -408,8 +422,8 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		   			userToUpdate.clearUnsuccessfulTries();
 		   			
 		   			
-			} catch (UserException e) {
-				e.printStackTrace();
+			} catch (UserException ue) {
+				ue.printStackTrace();
 	        	// show failure  
 	    		Alert alert = new Alert(AlertType.ERROR, "The update is failed!", ButtonType.OK);
 	    		alert.showAndWait();
@@ -417,7 +431,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 			}
     			
 	    	UserController.updateUserDetails(userToUpdate, formerUsername, client);
-	    	clearFieldsMethod();
 	    	
 	     	try
 	    	{
@@ -435,6 +448,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	        	// show success  
 	    		Alert alert = new Alert(AlertType.INFORMATION, "User's info is successfully updated!", ButtonType.OK);
 	    		alert.showAndWait();
+	    		toClearFlag = true;
 
 	    	}
 	    	else
@@ -453,16 +467,51 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     			|| newPaymentMethodComboBox.getValue() != null || !newAccoundBalanceTxtField.getText().equals("") 
     			|| !newCreditCardNumberTxtField.getText().equals("") || newAccountStatusComboBox.getValue() != null)
     	{
+			try{
+				if(!newCustomersPersonIDTxtField.getText().equals(""))
+					customerToUpdate.setID(Long.parseLong(newCustomersPersonIDTxtField.getText()));
+				
+				if(!newFullNameTxtField.getText().equals(""))
+					customerToUpdate.setName(newFullNameTxtField.getText());
+				
+				if(!newPhoneNumberTxtField.getText().equals(""))
+					customerToUpdate.setPhoneNumber(newPhoneNumberTxtField.getText());
+				
+				if(newPaymentMethodComboBox.getValue() != null)
+					customerToUpdate.setPayMethod(Customer.PayType.valueOf(newPaymentMethodComboBox.getValue()));
+				
+				if(!newAccoundBalanceTxtField.getText().equals(""))
+					customerToUpdate.setAccountBalance(Float.parseFloat(newAccoundBalanceTxtField.getText()));
+				
+				if(!newCreditCardNumberTxtField.getText().equals(""))
+					customerToUpdate.setCreditCardNumber(newCreditCardNumberTxtField.getText());
+				
+				if(newAccountStatusComboBox.getValue() != null)
+					customerToUpdate.setAccountStatus(Boolean.parseBoolean(newAccountStatusComboBox.getValue()));
+				
+			} catch (CustomerException ce) {
+				ce.printStackTrace();
+	        	// show failure  
+	    		Alert alert = new Alert(AlertType.ERROR, "The update is failed!", ButtonType.OK);
+	    		alert.showAndWait();
+	    		return;
+			}
     		
     	}
     	
 		// clear replay
 		replay = null; 
+		if(toClearFlag)
+		{
+			clearFieldsMethod(onlyNewTextFields, onlyNewComboBoxes);
+			toClearFlag = false;
+		}
+		
     }
     
     @FXML
     void onBack(ActionEvent event) {
-    	clearFieldsMethod();
+    	clearFieldsMethod(allTextFields, allComboBoxes);
     	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
     	client.setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
@@ -490,41 +539,18 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		
 	}
 	
-	public void clearFieldsMethod()
+	public void clearFieldsMethod(ArrayList<TextField> textFieldsToClear, ArrayList<ComboBox<String>> comboBoxesToClear)
 	{
-		//Clears user's fields
-		usernameTxtField.setText("");
-		passwordTxtField.setText("");
-		permissionTxtField.setText("");
-		personIDTxtField.setText("");
-		usersStatusTxtField.setText("");
-		unsuccessfulTriesTxtField.setText("");
-		newUsernameTxtField.setText("");
-		newPasswordTxtField.setText("");
-		newPermissionComboBox.setValue(null);
-	    newPersonIDTxtField.setText("");
-	    newUsersStatusComboBox.setValue(null);
-	    clearTriesCheckBox.setSelected(false);
-	    
-	    //Clears customer's fields
-	    storeNameComboBox.setValue(null);
-	    customersPersonIDTxtField.setText("");
-	    fullNameTxtField.setText("");
-	    phoneNumberTxtField.setText("");
-	    paymentMethodTxtField.setText("");
-	    accoundBalanceTxtField.setText("");
-	    creditCardNumberTxtField.setText("");
-	    accountStatusTxtField.setText("");
-	    newCustomersPersonIDTxtField.setText("");
-	    newFullNameTxtField.setText("");
-	    newPhoneNumberTxtField.setText("");
-	    newPaymentMethodComboBox.setValue(null);
-	    newAccoundBalanceTxtField.setText("");
-	    newCreditCardNumberTxtField.setText("");
-	    newAccountStatusComboBox.setValue(null);
+		
+		for(TextField txtfield : textFieldsToClear)
+			txtfield.setText("");
+		
+		for(ComboBox<String> combobox : comboBoxesToClear)
+			combobox.setValue(null);
+		
 	}
 	
-	public String handleSplittedString(String [] splittedString)
+	public String handleSplittedStringFromDataBase(String [] splittedString)
 	{
 		String tempString = "";
 		
@@ -539,6 +565,20 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 			
 			tempString = tempString + splitted;
 		}
+		
+		return tempString;
+	}
+	
+	public String handleSplittedStringFromGUI(String [] splittedString)
+	{
+		String tempString = "";
+		
+		for(String splitted : splittedString )
+			{
+		   		if( !tempString.equals(""))
+		   			tempString = tempString + "_";
+		   		tempString = tempString + splitted.toUpperCase();
+		   	}
 		
 		return tempString;
 	}

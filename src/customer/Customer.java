@@ -12,7 +12,7 @@ public class Customer implements Serializable {
 		}
 	}
 	
-	public enum PayType {CREDIT_CARD, SUBSCRIPTION}
+	public enum PayType {CREDIT_CARD, SUBSCRIPTION_MONTHLY, SUBSCRIPTION_YEARLY}
 	
 	private long ID;
 	private long storeID;
@@ -40,7 +40,7 @@ public class Customer implements Serializable {
 		return ID;
 	}
 
-	public void setID(long iD) {
+	public void setID(long iD) throws CustomerException  {
 		ID = iD;
 	}
 
