@@ -3,7 +3,7 @@ package order;
 
 import java.util.ArrayList;
 
-import com.sun.jdi.NativeMethodException;
+//import com.sun.jdi.NativeMethodException;
 
 import catalog.AddToCatalogGUI;
 import catalog.EditableCatalogItem;

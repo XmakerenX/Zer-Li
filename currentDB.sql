@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: prototype
+-- Host: localhost    Database: prototype
 -- ------------------------------------------------------
 -- Server version	5.7.20
 
@@ -42,6 +42,60 @@ LOCK TABLES `CatalogProduct` WRITE;
 /*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
 INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,50,NULL,0),(6,10,NULL,3);
 /*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CustomItem`
+--
+
+DROP TABLE IF EXISTS `CustomItem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CustomItem` (
+  `CustomItemID` int(11) NOT NULL AUTO_INCREMENT,
+  `CustomItemType` varchar(45) DEFAULT NULL,
+  `CustomItemPrice` float DEFAULT NULL,
+  `CustomItemColor` varchar(45) DEFAULT NULL,
+  `CustomItemGreetingCard` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`CustomItemID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CustomItem`
+--
+
+LOCK TABLES `CustomItem` WRITE;
+/*!40000 ALTER TABLE `CustomItem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CustomItem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CustomItemProduct`
+--
+
+DROP TABLE IF EXISTS `CustomItemProduct`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CustomItemProduct` (
+  `CustomItemID` int(11) NOT NULL,
+  `ProductID` int(11) NOT NULL,
+  `Amount` int(11) NOT NULL,
+  `Price` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`CustomItemID`,`ProductID`),
+  KEY `fk_CustomItemProduct_2_idx` (`ProductID`),
+  CONSTRAINT `fk_CustomItemProduct_1` FOREIGN KEY (`CustomItemID`) REFERENCES `CustomItem` (`CustomItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_CustomItemProduct_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CustomItemProduct`
+--
+
+LOCK TABLES `CustomItemProduct` WRITE;
+/*!40000 ALTER TABLE `CustomItemProduct` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CustomItemProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -98,7 +152,7 @@ CREATE TABLE `Order` (
   PRIMARY KEY (`OrderID`),
   KEY `fk_Order_1_idx` (`OrderCustomerID`),
   CONSTRAINT `fk_Order_1` FOREIGN KEY (`OrderCustomerID`) REFERENCES `Customers` (`personID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +161,6 @@ CREATE TABLE `Order` (
 
 LOCK TABLES `Order` WRITE;
 /*!40000 ALTER TABLE `Order` DISABLE KEYS */;
-INSERT INTO `Order` VALUES (32,'NEW',194,'2018-01-12','12:12',NULL,NULL,NULL,'CREDITCARD',1,305022949),(33,'NEW',124,'2018-01-25','12:12','23','32','45','CREDITCARD',2,1234);
 /*!40000 ALTER TABLE `Order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +188,7 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES (2,'Chrysanthemums','bouquet',20,20,'White'),(3,'Avalanche','bouquet',15,10,'Purple'),(4,'Panter','bouquet',151,5,'Purple'),(5,'Buttercup','bouquet',94,10,'Red'),(6,'Anemone','bouquet',123,15,'Red');
+INSERT INTO `Product` VALUES (1,'roses bouquet','Red',90,15,'Red'),(2,'Chrysanthemums bouquet','bouquet',20,20,'White'),(3,'Avalanche bouquet','bouquet',15,10,'Purple'),(4,'Panter bouquet','bouquet',151,5,'Pink'),(5,'Buttercup bouquet','bouquet',94,10,'Red'),(6,'Anemone bouquet','bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red');
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +216,6 @@ CREATE TABLE `ProductInOrder` (
 
 LOCK TABLES `ProductInOrder` WRITE;
 /*!40000 ALTER TABLE `ProductInOrder` DISABLE KEYS */;
-INSERT INTO `ProductInOrder` VALUES (2,33,'234'),(4,32,'2342'),(5,32,'423'),(5,33,'234');
 /*!40000 ALTER TABLE `ProductInOrder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +267,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('Ariel','123456','NETWORK_WORKER',12,'REGULAR',0),('daniel','123456','CUSTOMER_SERVICE',123,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'LOGGED_IN',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('daniel','123456','CUSTOMER_SERVICE',123,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -317,4 +369,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-11 12:14:55
+-- Dump completed on 2018-01-12 19:47:31

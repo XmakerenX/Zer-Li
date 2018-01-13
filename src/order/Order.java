@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import product.Product;
 
 
 public class Order implements Serializable 
@@ -36,8 +37,8 @@ public class Order implements Serializable
 
 	public class ItemInOrder implements Serializable
 	{
-		long productID;
-		String greetingCard;
+		private long productID;
+		private String greetingCard;
 
 		public ItemInOrder(long productID, String greetingCard)
 		{
@@ -53,6 +54,45 @@ public class Order implements Serializable
 			return greetingCard;
 		}
 		
+	}
+	
+	public class CustomItemInOrder implements Serializable
+	{
+		private Product.Type type;
+		private float price;
+		private String color;
+		private String greetingCard;
+		private ArrayList<Product> components;
+		
+		public CustomItemInOrder(String type, float price, String color, String greetingCard
+				, ArrayList<Product> components)
+		{
+			this.type = Product.Type.valueOf(type);
+			this.price = price;
+			this.color = color;
+			this.greetingCard = greetingCard;
+			this.components = components;
+		}
+		
+		public String getGreetingCard() {
+			return greetingCard;
+		}
+
+		public ArrayList<Product> getComponents() {
+			return components;
+		}
+
+		public Product.Type getType() {
+			return type;
+		}
+
+		public float getPrice() {
+			return price;
+		}
+
+		public String getColor() {
+			return color;
+		}
 	}
 
 	public final static float delivaryCost = 10;
@@ -71,12 +111,15 @@ public class Order implements Serializable
 	long customerID;
 	// 
 	ArrayList<ItemInOrder> itemsInOrder;
+	ArrayList<CustomItemInOrder> customItemInOrder;
 
 	public Order(int id,Status status,float price,LocalDate date,String time,
 			String delivaryAddress, String receiverName, String receiverPhoneNumber 
 			,PayMethod payMethod,long originShop, long customerID) throws OrderException
 	{
 		itemsInOrder = new ArrayList<ItemInOrder>();
+		customItemInOrder = new ArrayList<CustomItemInOrder>();
+		
 		setID(id);
 		setStatus(status);
 		setPrice(price);
@@ -184,6 +227,23 @@ public class Order implements Serializable
 	public void addItemToOrder(long productID, String greetingCard)
 	{
 		this.itemsInOrder.add(new ItemInOrder(productID, greetingCard));
+	}
+	
+	
+	public ArrayList<CustomItemInOrder> getCustomItemInOrder() {
+		return customItemInOrder;
+	}
+
+
+	public void addCustomItemToOrder(CustomItemView customItem, String greetingCard)
+	{
+		ArrayList<Product> itemComp = new ArrayList<Product>(); 
+		
+		for (Product p : customItem.getCustomProducts())
+			itemComp.add(p);
+		
+		this.customItemInOrder.add(new CustomItemInOrder(customItem.getType(), customItem.getPrice(), 
+				customItem.getColor(), greetingCard, itemComp));
 	}
 
 	public long getCustomerID() {

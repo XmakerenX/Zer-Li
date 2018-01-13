@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class Product implements Serializable 
 {
 
+	public enum Type {BOUQUET, BRIDE_BOUQUET, FLOWERPOT, FLOWER,PLANT };
+	
 	public static final long serialVersionUID = 55L;
 	
     private long     productID;
@@ -34,6 +36,15 @@ public class Product implements Serializable
 		this.productColor = productColor;
 	}
 
+	public Product(Product p, float productPrice,int productAmount)
+	{
+		this.productID = p.getID();
+		this.productName = p.getName();
+		this.productType = p.getType();
+		this.productPrice = productPrice;
+		this.productAmount = productAmount;
+		this.productColor = p.getColor();
+	}
 
 	public long getID() {
 		return productID;

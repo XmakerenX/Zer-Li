@@ -26,7 +26,7 @@ public class EditableCatalogItem extends CatalogItem
      
 	public EditableCatalogItem(CatalogItem catItem)
 	{
-		super(catItem.getBaseProduct(),catItem.getSalePrice(), catItem.getImageName(),
+		super((Product)catItem, catItem.getSalePrice(), catItem.getImageName(),
 				catItem.getImageChecksum(),catItem.getStoreID());
 		
 		  System.out.println(catItem.getImageName());

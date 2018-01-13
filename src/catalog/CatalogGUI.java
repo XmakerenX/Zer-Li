@@ -273,17 +273,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	Client.client.setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     }
-    
-    @FXML
-    void onPrint(ActionEvent event) {
-    	final ObservableList<CatalogItemView> itemData = catalogTable.getItems();
-    	
-    	for (CatalogItemView item : itemData)
-    	{
-    		System.out.println(item.getName()+ " "+ item.isSelected());
-    	}
-    }
-    
+        
     @FXML
     void onCreateOrder(ActionEvent event) 
     {

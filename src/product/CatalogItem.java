@@ -5,13 +5,12 @@ import java.io.Serializable;
 public class CatalogItem extends Product implements Comparable<CatalogItem>
 {
 	
-	class ImageInfo implements Serializable
+	public class ImageInfo implements Serializable
 	{
 		public String imageName;
 		public byte[] imageCheckSum;
 		
-		
-		ImageInfo(String imageName, byte[] imageCheckSum)
+		public ImageInfo(String imageName, byte[] imageCheckSum)
 		{
 			this.imageName = imageName;
 			this.imageCheckSum = imageCheckSum;
@@ -28,15 +27,10 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 	public void setStoreID(int storeID) {
 		this.storeID = storeID;
 	}
-
-
-	private Product baseProduct;
 	
-	
-	public CatalogItem(Product prod,float salesPrice, String imageName, byte[] imageCheckSum,int storeID)
+	public CatalogItem(Product product, float salesPrice, String imageName, byte[] imageCheckSum,int storeID)
 	{
-		super(prod.getID(), prod.getName(), prod.getType(), prod.getPrice(), prod.getAmount(), prod.getColor());
-		baseProduct = prod;
+		super(product.getID(), product.getName(), product.getType(), product.getPrice(), product.getAmount(), product.getColor());
 		this.salePrice = salesPrice;
 		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
 		this.storeID = storeID;
@@ -45,15 +39,9 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 			String productColor,float salesPrice, String imageName, byte[] imageCheckSum,int storeID) 
 	{
 		super(productID, productName, productType, productPrice, productAmount, productColor);
-		baseProduct = new Product(productID, productName, productType, productPrice, productAmount, productColor);
 		this.salePrice = salesPrice;
 		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
 		this.storeID = storeID;
-	}
-
-	public Product getBaseProduct()
-	{
-		return this.baseProduct;
 	}
 	
 	public float getSalePrice() 
