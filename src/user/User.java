@@ -53,7 +53,7 @@ public class User implements Serializable{
 		if (userName.length() >= 4)
 			this.userName = userName;
 		else
-			throw new UserException("username is too shrot");
+			throw new UserException("Username is too short!");
 	}
 
 	public String getUserPassword() {
@@ -64,7 +64,7 @@ public class User implements Serializable{
 		if (userPassword.length() >= 6)
 			this.userPassword = userPassword;
 		else
-			throw new UserException("user password is too shrot");
+			throw new UserException("User password is too short!");
 	}
 
 	public Permissions getUserPermission() {

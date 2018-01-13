@@ -2,6 +2,8 @@ package customer;
 
 import java.io.Serializable;
 
+import user.User.UserException;
+
 public class Customer implements Serializable {
 	
 	public class  CustomerException extends Exception {
@@ -12,7 +14,7 @@ public class Customer implements Serializable {
 		}
 	}
 	
-	public enum PayType {CREDIT_CARD, SUBSCRIPTION_MONTHLY, SUBSCRIPTION_YEARLY}
+	public enum PayType {CREDIT_CARD, MONTHLY_SUBSCRIPTION, YEARLY_SUBSCRIPTION}
 	
 	private long ID;
 	private long storeID;
@@ -41,7 +43,12 @@ public class Customer implements Serializable {
 	}
 
 	public void setID(long iD) throws CustomerException  {
-		ID = iD;
+		if(iD > 0)
+		{	
+			ID = iD;
+		}
+		else
+			throw new CustomerException("Person ID is invalid!");
 	}
 
 	public String getName() {

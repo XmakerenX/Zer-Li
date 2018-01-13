@@ -88,15 +88,15 @@ public class EntityUpdater {
 	
 	private static void setCustomer(String oldKey, Customer customer, DBConnector db) throws SQLException
 	{
-		String personID = ""+customer.getID();
-		String fullName = "'"+customer.getName()+"'";
-		String phoneNumber = "'"+customer.getPhoneNumber()+"'";
-		String payMethod = "'"+customer.getPayMethod()+"'";
-		String accountBalance = ""+customer.getAccountBalance();
-		String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
-		String accountStatus = ""+customer.getAccountStatus();
-		String storeID = ""+customer.getStoreID();
-		String condition = "personID='"+oldKey+"'";
+		String personID = "personID="+customer.getID();
+		String fullName = "fullName='"+customer.getName()+"'";
+		String phoneNumber = "phoneNumber='"+customer.getPhoneNumber()+"'";
+		String payMethod = "payMethod='"+customer.getPayMethod()+"'";
+		String accountBalance = "accountBalance="+customer.getAccountBalance();
+		String creditCardNumber = "creditCardNumber='"+customer.getCreditCardNumber()+"'";
+		String accountStatus = "AccountStatus="+customer.getAccountStatus();
+		String storeID = "StoreID="+customer.getStoreID();
+		String condition = "personID="+oldKey+""+" AND "+"StoreID="+customer.getStoreID();
 		  
 		db.executeUpdate("Customers", personID + "," + fullName + "," + phoneNumber + "," 
 				  +payMethod+", " + accountBalance + ", " + creditCardNumber + "," + accountStatus + "," + storeID, condition);

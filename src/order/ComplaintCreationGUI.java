@@ -233,7 +233,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
      */
     private ObservableList<CustomerView> getCustomerList(String column, String condition)
     {
-    	CustomerController.getSertainCustomers(column, condition, client);
+    	CustomerController.getCertainCustomers(column, condition, client);
     	waitForServerResponse();
     	if(response.getType() == Response.Type.SUCCESS)
     	{

@@ -1,6 +1,8 @@
 package networkGUI;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import catalog.CatalogGUI;
 import client.Client;
@@ -16,8 +18,10 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
 import serverAPI.CheckExistsRequest;
+import serverAPI.GetRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Response;
+import store.Store;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
 import user.UpdateUsersInfoGUI;
@@ -36,6 +40,9 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
 	
 	//NewUserCreationGUI userCreationGUI;
 	UpdateUsersInfoGUI updateUserGUI;
+	
+	//Temporary ArrayList of stores that will be set to UpdateUsersInfoGUI on switch
+	private ArrayList<Store> storesList;
 	
 	@FXML // fx:id="welcomeLbl"
 	private Label welcomeLbl;
@@ -74,23 +81,50 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }
-
-//    @FXML
-//    void onCreateNewUser(ActionEvent event) {    	
-//    	
-//		if ( userCreationGUI != null)
-//		{
-//			userCreationGUI.setClinet(client);
-//			client.setUI(userCreationGUI);
-//			FormController.primaryStage.setScene(userCreationGUI.getScene());
-//		}
-//    }
     
-    @FXML
+    @SuppressWarnings("unchecked")
+	@FXML
     void onUpdateUser(ActionEvent event) {
     	
 		if ( updateUserGUI != null)
 		{
+			client.handleMessageFromClientUI(new GetRequest("Store"));
+			
+	     	try
+	    	{
+	    		synchronized(this)
+	    		{
+	    			// wait for server response
+	    			this.wait();
+	    		}
+	    	
+	    		if (replay == null)
+	    			return;
+	    		
+	    	// show success 
+	    	if (replay.getType() == Response.Type.SUCCESS)
+	    	{
+	    		HashMap<Long, String> tempHashMap = new HashMap<Long, String>();
+	    		storesList = (ArrayList<Store>) replay.getMessage();
+	    		
+	    		for(Store store : storesList)
+	    			tempHashMap.put(store.getStoreID(), store.getStoreAddress());
+	    		
+	    		updateUserGUI.setStores(tempHashMap);
+	    	}
+	    	else
+	    	{
+	        	// show failure  
+	    		Alert alert = new Alert(AlertType.ERROR, "\"Store\" table is empty!", ButtonType.OK);
+	    		alert.showAndWait();
+	    		// clear replay
+	    	}
+	    	
+			replay = null;
+			
+	    	}catch(InterruptedException e) {}
+	     	
+			
 			updateUserGUI.setClinet(client);
 			client.setUI(updateUserGUI);
 			FormController.primaryStage.setScene(updateUserGUI.getScene());
