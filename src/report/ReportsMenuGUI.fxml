@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="280.0" prefWidth="240.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="report.ReportsMenuGUI">
+   <children>
+      <Label fx:id="mainReportsMenuLbl" layoutX="20.0" layoutY="30.0" text="Please, select one of the next reports:" />
+      <Button fx:id="incomeReportBtn" layoutX="74.0" layoutY="80.0" mnemonicParsing="false" onAction="#onIncomeReport" text="Income report" />
+      <Button fx:id="orderReportBtn" layoutX="79.0" layoutY="115.0" mnemonicParsing="false" onAction="#onOrderReport" text="Order report" />
+      <Button fx:id="complaintReportBtn" layoutX="67.0" layoutY="150.0" mnemonicParsing="false" onAction="#onComplaintReport" text="Complaint report" />
+      <Button fx:id="surveyReportBtn" layoutX="77.0" layoutY="185.0" mnemonicParsing="false" onAction="#onSurveyReport" text="Survey report" />
+   </children>
+</AnchorPane>

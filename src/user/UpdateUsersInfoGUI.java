@@ -270,7 +270,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	@FXML
     void onFindUser(ActionEvent event) {
     	
-		String temporaryString = "";
 		ArrayList<String> storeNames = new ArrayList<String>();
 
     	String userName = findUserNameTxtField.getText();
@@ -294,19 +293,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	    userToUpdate = (User)((ArrayList<?>) replay.getMessage()).get(0);
     		
     		//Filling the GUI's User's tab with info
-    		formerUsername = ""+userToUpdate.getUserName();
-    		usernameTxtField.setText(""+userToUpdate.getUserName());
-    		passwordTxtField.setText(""+userToUpdate.getUserPassword());
-    		
-    		temporaryString = handleSplittedStringFromDataBase(""+userToUpdate.getUserPermission());
-    		
-    		permissionTxtField.setText(temporaryString);
-    		personIDTxtField.setText(""+userToUpdate.getPersonID());
-    		
-    		temporaryString = handleSplittedStringFromDataBase(""+userToUpdate.getUserStatus());
-    		
-    		usersStatusTxtField.setText(temporaryString);
-    		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
+    	    fillUsersCurrentInfoFields();
 
     	}
     	else
@@ -437,6 +424,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    		Alert alert = new Alert(AlertType.INFORMATION, "User's info is successfully updated!", ButtonType.OK);
 	    		alert.showAndWait();
 	    		toClearFlag = true;
+	    		fillUsersCurrentInfoFields();
 
 	    	}
 	    	else
@@ -514,7 +502,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    		Alert alert = new Alert(AlertType.INFORMATION, "Customer's info is successfully updated!", ButtonType.OK);
 	    		alert.showAndWait();
 	    		toClearFlag = true;
-	
+	    		fillCustomersCurrentInfoFields();
 	    	}
 	    	else
 	    	{
@@ -548,8 +536,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     void onStoreNameSelection(ActionEvent event) {
 
     		String currentStoreName = storeNameComboBox.getValue();
-    		String temporaryString = "";
-    		
+
     		//Finds specific customer that will be updated later
     		for(Customer customer : customersFromDB)
     		{
@@ -558,17 +545,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     		}
     		
     		//Filling the GUI's Customer's tab with info
-    		formerPersonID= ""+customerToUpdate.getID();
-    		customersPersonIDTxtField.setText(""+customerToUpdate.getID());
-    		fullNameTxtField.setText(""+customerToUpdate.getName());
-    		phoneNumberTxtField.setText(""+customerToUpdate.getPhoneNumber());
-
-    		temporaryString = handleSplittedStringFromDataBase(""+customerToUpdate.getPayMethod());
-    		
-    		paymentMethodTxtField.setText(temporaryString);
-    		accoundBalanceTxtField.setText(""+customerToUpdate.getAccountBalance());
-    		creditCardNumberTxtField.setText(""+customerToUpdate.getCreditCardNumber());
-    		accountStatusTxtField.setText(""+customerToUpdate.getAccountStatus());
+    		fillCustomersCurrentInfoFields();
     }
     
     
@@ -842,6 +819,40 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	newPaymentMethodComboBox.setItems(paymentMethodList);
     	
     	newAccountStatusComboBox.setItems(accountStatusesList);
+	}
+	
+	private void fillUsersCurrentInfoFields()
+	{
+		String temporaryString = "";
+		formerUsername = ""+userToUpdate.getUserName();
+		usernameTxtField.setText(""+userToUpdate.getUserName());
+		passwordTxtField.setText(""+userToUpdate.getUserPassword());
+		
+		temporaryString = handleSplittedStringFromDataBase(""+userToUpdate.getUserPermission());
+		
+		permissionTxtField.setText(temporaryString);
+		personIDTxtField.setText(""+userToUpdate.getPersonID());
+		
+		temporaryString = handleSplittedStringFromDataBase(""+userToUpdate.getUserStatus());
+		
+		usersStatusTxtField.setText(temporaryString);
+		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
+	}
+	
+	private void fillCustomersCurrentInfoFields()
+	{
+		String temporaryString = "";
+		formerPersonID= ""+customerToUpdate.getID();
+		customersPersonIDTxtField.setText(""+customerToUpdate.getID());
+		fullNameTxtField.setText(""+customerToUpdate.getName());
+		phoneNumberTxtField.setText(""+customerToUpdate.getPhoneNumber());
+
+		temporaryString = handleSplittedStringFromDataBase(""+customerToUpdate.getPayMethod());
+		
+		paymentMethodTxtField.setText(temporaryString);
+		accoundBalanceTxtField.setText(""+customerToUpdate.getAccountBalance());
+		creditCardNumberTxtField.setText(""+customerToUpdate.getCreditCardNumber());
+		accountStatusTxtField.setText(""+customerToUpdate.getAccountStatus());
 	}
 
 }
