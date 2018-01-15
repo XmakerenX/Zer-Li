@@ -321,10 +321,13 @@ public class ProtoTypeServer extends AbstractServer {
 			  
 			  case "UpdateRequest":
 			  {
+				  System.out.println("inside update request in PrototypeServer");
 				  UpdateRequest updateRequest =  (UpdateRequest)request;
+				  System.out.println("table: "+updateRequest.getTable()+" entity: "+updateRequest.getEntity());
 				  Boolean result = EntityUpdater.setEntity(updateRequest.getTable(), updateRequest.getEntityKey(), updateRequest.getEntity(), db);
 				  if(result)
 				  {
+					  System.out.println("inside inside update request in PrototypeServer = success");
 					  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+updateRequest.getEntityKey()+
 							  		" was updated in table:"+updateRequest.getTable()));
 				  }

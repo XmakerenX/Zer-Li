@@ -3,6 +3,7 @@ package networkGUI;
 import client.Client;
 import client.ClientInterface;
 import prototype.FormController;
+import survey.AddSurveyAnalysisToExistingSurveyGUI;
 import survey.ResultInputGUI;
 import user.LoginGUI;
 import user.NewUserCreationGUI;
@@ -19,8 +20,11 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	private User user;
 	
 	private ResultInputGUI resultInputGUI;
+	private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
-	
+    @FXML
+    private Button inputSurveyAnalysis;
+    
     @FXML // fx:id="inputSurveyBtn"
     private Button inputSurveyBtn; // Value injected by FXMLLoader
 
@@ -42,6 +46,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
+    	addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
     	resultInputGUI = FormController.<ResultInputGUI, AnchorPane>loadFXML(getClass().getResource("/survey/ResultInputGUI.fxml"), this);
     }
   //===============================================================================================================
@@ -57,6 +62,18 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 		}
 
     }
+    //===============================================================================================================
+    @FXML
+    void onInputSurveyAnalysis(ActionEvent event) {
+    	if ( resultInputGUI != null)
+		{
+	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
+			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
+			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
+			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
+		}
+    }
+    
   //===============================================================================================================
     /**
      * Logs the user out of the system

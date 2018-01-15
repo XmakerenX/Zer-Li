@@ -68,49 +68,49 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
     @FXML
     void onSurveyComboBox(ActionEvent event) 
     {
-    	if(surveyComboBox == null) return;
-    	if(surveyComboBox.getValue() == null) return;
-    	
-    	
-    	String surveyName = surveyComboBox.getValue();
-    	CustomerSatisfactionSurveyController.getSurvey(surveyName, client);
-    	
-    	
-    	try
-    	{
-    		synchronized(this)
-    		{
-    			// wait for server response
-    			this.wait();
-    		}
-    	
-    		if (response == null)
-    			return;
-        		
-        	// show success 
-        	if (response.getType() == Response.Type.SUCCESS)
-        	{
-        		CustomerSatisfactionSurvey result = (CustomerSatisfactionSurvey)((ArrayList<CustomerSatisfactionSurvey>)response.getMessage()).get(0);
-        		questionTxtFld1.setText(result.getSurveyQuestions()[0]);
-        		questionTxtFld2.setText(result.getSurveyQuestions()[1]);
-        		questionTxtFld3.setText(result.getSurveyQuestions()[2]);
-        		questionTxtFld4.setText(result.getSurveyQuestions()[3]);
-        		questionTxtFld5.setText(result.getSurveyQuestions()[4]);
-        		questionTxtFld6.setText(result.getSurveyQuestions()[5]);
-        		analysisTextArea.setText(result.getSurveyAnalysis());
-        		// clear response
-        		response = null;
-        		return;
-        	}
-        	else
-        	{
-        		Alert alert = new Alert(AlertType.ERROR, "Could not load surveys info.", ButtonType.OK);
-        		alert.showAndWait();
-        		// clear response
-        		response = null;
-        	}
-    	}
-        catch(InterruptedException e) {}
+//    	if(surveyComboBox == null) return;
+//    	if(surveyComboBox.getValue() == null) return;
+//    	
+//    	
+//    	String surveyName = surveyComboBox.getValue();
+//    	CustomerSatisfactionSurveyController.getSurvey(surveyName, client);
+//    	
+//    	
+//    	try
+//    	{
+//    		synchronized(this)
+//    		{
+//    			// wait for server response
+//    			this.wait();
+//    		}
+//    	
+//    		if (response == null)
+//    			return;
+//        		
+//        	// show success 
+//        	if (response.getType() == Response.Type.SUCCESS)
+//        	{
+//        		CustomerSatisfactionSurvey result = (CustomerSatisfactionSurvey)((ArrayList<CustomerSatisfactionSurvey>)response.getMessage()).get(0);
+//        		questionTxtFld1.setText(result.getSurveyQuestions()[0]);
+//        		questionTxtFld2.setText(result.getSurveyQuestions()[1]);
+//        		questionTxtFld3.setText(result.getSurveyQuestions()[2]);
+//        		questionTxtFld4.setText(result.getSurveyQuestions()[3]);
+//        		questionTxtFld5.setText(result.getSurveyQuestions()[4]);
+//        		questionTxtFld6.setText(result.getSurveyQuestions()[5]);
+//        		analysisTextArea.setText(result.getSurveyAnalysis());
+//        		// clear response
+//        		response = null;
+//        		return;
+//        	}
+//        	else
+//        	{
+//        		Alert alert = new Alert(AlertType.ERROR, "Could not load surveys info.", ButtonType.OK);
+//        		alert.showAndWait();
+//        		// clear response
+//        		response = null;
+//        	}
+//    	}
+//        catch(InterruptedException e) {}
 	}
     
   //===============================================================================================================
@@ -163,41 +163,41 @@ public class SurveyExplorerGUI extends FormController implements ClientInterface
   //===============================================================================================================
 	public void initComboBox()
 	{
-    	ArrayList<String> surveyNames = new ArrayList<String>();
-    	CustomerSatisfactionSurveyController.requestSurveys(Client.client);
-    	try
-    	{
-    		synchronized(this)
-    		{
-    			// wait for server response
-    			this.wait();
-    		}
-    	
-    		if (response == null)
-    			return;
-        		
-        	// show success 
-        	if (response.getType() == Response.Type.SUCCESS)
-        	{
-        		ArrayList<CustomerSatisfactionSurvey> results = (ArrayList<CustomerSatisfactionSurvey>)response.getMessage();
-        		
-        		for(int i=0; i<results.size(); i++)
-        			surveyNames.add(results.get(i).getSurveyName());
- 
-        		surveyComboBox.getItems().clear();
-        		surveyComboBox.getItems().addAll(surveyNames);
-        		// clear response
-        		response = null;
-        	}
-        	else if (response.getType() == Response.Type.ERROR)
-        	{
-        		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
-        		alert.showAndWait();
-        		// clear response
-        		response = null;
-        	}
-    	}
-        catch(InterruptedException e) {}
+//    	ArrayList<String> surveyNames = new ArrayList<String>();
+//    	CustomerSatisfactionSurveyController.requestSurveys(Client.client);
+//    	try
+//    	{
+//    		synchronized(this)
+//    		{
+//    			// wait for server response
+//    			this.wait();
+//    		}
+//    	
+//    		if (response == null)
+//    			return;
+//        		
+//        	// show success 
+//        	if (response.getType() == Response.Type.SUCCESS)
+//        	{
+//        		ArrayList<CustomerSatisfactionSurvey> results = (ArrayList<CustomerSatisfactionSurvey>)response.getMessage();
+//        		
+//        		for(int i=0; i<results.size(); i++)
+//        			surveyNames.add(results.get(i).getSurveyName());
+// 
+//        		surveyComboBox.getItems().clear();
+//        		surveyComboBox.getItems().addAll(surveyNames);
+//        		// clear response
+//        		response = null;
+//        	}
+//        	else if (response.getType() == Response.Type.ERROR)
+//        	{
+//        		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
+//        		alert.showAndWait();
+//        		// clear response
+//        		response = null;
+//        	}
+//    	}
+//        catch(InterruptedException e) {}
 	}
 
 }

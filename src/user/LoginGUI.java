@@ -52,7 +52,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	CustomerGUI customerGUI;
 	SystemManagerGUI sysManagerGUI;
 	NetworkWorkerGUI networkWorkerGui;
-	CustomerServiceGUI customerServiceGUI;
 	StoreWorkerGUI storeWorkerGUI;
 	CustomerServiceExpertGUI customerServiceExpertGUI;
 	StoreManagerGUI storeManagerGUI;
@@ -88,7 +87,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
     	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/SystemManagerGUI.fxml"), this);
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
-    	customerServiceGUI = FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
     	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
     	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
     	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
@@ -248,17 +246,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			break;
 	    		}
 	    		
-	    		case "CUSTOMER_SERVICE":
-	    		{
-	    			
-	    			if (customerServiceGUI != null)
-	        		{
-	    				customerServiceGUI.setUser(user);
-	    				customerServiceGUI.setClinet(Client.client);
-	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
-	        		}
-	    			break;
-	    		}
 	    		case "STORE_WORKER":
 	    		{
 	    			

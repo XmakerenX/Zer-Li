@@ -86,106 +86,106 @@ public class SurveyCreationGUI extends FormController implements ClientInterface
      */
     @FXML
     void createSurvey(ActionEvent event) {
-    	String[] questions = new String[6];
-    	String surveyName = surveyNameTxtFld.getText();
-    	int questionsFault = 0;							//FLAG - 1 = all 6 questions haven't been filled in
-    	int nameFault = 0;								//FLAG - 1 = the name of the survey hasn't been filled in
-    	//get all the questions from the GUI
-    	questions[0]=question1TxtFld.getText();
-    	questions[1]=question2TxtFld.getText();
-    	questions[2]=question3TxtFld.getText();
-    	questions[3]=question4TxtFld.getText();
-    	questions[4]=question5TxtFld.getText();
-    	questions[5]=question6TxtFld.getText();
-    	if(questions[0] != "" && questions[1] != "" && questions[2] != "" && questions[3] != "" && questions[4] != "" && 
-    			questions[5] != "")
-    	{
-	    	//Check whether the name or the questions haven't been fully filled in the form
-	    	if(surveyName.equals("")) nameFault = 1;
-	    	for(int i=0; i<6; i++)
-	    	{
-	    		if(questions[i].equals(""))
-	    		{
-	    			questionsFault = 1;
-	    			break;
-	    		}		
-	    	}
-	    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 6 questions have been filled:
-	    	{
-	    		CustomerSatisfactionSurveyController.doesSurveyExist(surveyName, client);
-	    		try
-	        	{
-	        		synchronized(this)
-	        		{
-	        			// wait for server response
-	        			this.wait();
-	        		}
-	        	
-	        		if (response == null)
-	        			return;
-		        		
-		        	// show success 
-		        	if (response.getType() == Response.Type.SUCCESS)
-		        	{
-		        		// show failure  
-		        		Alert alert = new Alert(AlertType.ERROR, "Survey with the same name already exists.", ButtonType.OK);
-		        		alert.showAndWait();
-		        		// clear response
-		        		response = null;
-		        	}
-		        	//if(response.getType() == Response.Type.ERROR)
-		        	else
-		        	{
-		        		CustomerSatisfactionSurveyController.surveyCreation(surveyName, questions, client);
-		        		try
-		        		{
-		        			synchronized(this)
-		        			{
-		        				//wait for server response
-		        				this.wait();
-		        			}
-		        			if(response == null)
-		        				return;
-		        			
-		        			//success
-		        			if(response.getType() == Response.Type.SUCCESS)
-		        			{
-		        				Alert alert = new Alert(AlertType.CONFIRMATION, "Survey created successfully", ButtonType.OK);
-		    	        		alert.showAndWait();
-		    	        		// clear replay
-		    	        		response = null;
-		    	        		resetFields();
-		        			}
-		        			else
-		        			{
-		        				// show failure  
-		        	    		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
-		        	    		alert.showAndWait();
-		        	    		// clear replay
-		        	    		response = null;
-		        			}
-		        		}
-		        		catch(InterruptedException e) {}
-	
-		        	}
-		        	
-		        	}catch(InterruptedException e) {}
-	    	}
-	    	else
-	    	{
-	    		if(nameFault == 1 || questionsFault == 1) 
-	    		{
-	    			// show failure  
-		    		Alert alert = new Alert(AlertType.ERROR, "A name and 6 questions are needed to create a survey.", ButtonType.OK);
-		    		alert.showAndWait();
-	    		}
-	    	}
-    	}
-    	else
-    	{
-    		Alert alert = new Alert(AlertType.ERROR, "Can not send an empty form.", ButtonType.OK);
-    		alert.showAndWait();
-    	}
+//    	String[] questions = new String[6];
+//    	String surveyName = surveyNameTxtFld.getText();
+//    	int questionsFault = 0;							//FLAG - 1 = all 6 questions haven't been filled in
+//    	int nameFault = 0;								//FLAG - 1 = the name of the survey hasn't been filled in
+//    	//get all the questions from the GUI
+//    	questions[0]=question1TxtFld.getText();
+//    	questions[1]=question2TxtFld.getText();
+//    	questions[2]=question3TxtFld.getText();
+//    	questions[3]=question4TxtFld.getText();
+//    	questions[4]=question5TxtFld.getText();
+//    	questions[5]=question6TxtFld.getText();
+//    	if(questions[0] != "" && questions[1] != "" && questions[2] != "" && questions[3] != "" && questions[4] != "" && 
+//    			questions[5] != "")
+//    	{
+//	    	//Check whether the name or the questions haven't been fully filled in the form
+//	    	if(surveyName.equals("")) nameFault = 1;
+//	    	for(int i=0; i<6; i++)
+//	    	{
+//	    		if(questions[i].equals(""))
+//	    		{
+//	    			questionsFault = 1;
+//	    			break;
+//	    		}		
+//	    	}
+//	    	if(nameFault == 0 && questionsFault == 0)	//both survey name and 6 questions have been filled:
+//	    	{
+//	    		CustomerSatisfactionSurveyController.doesSurveyExist(client);
+//	    		try
+//	        	{
+//	        		synchronized(this)
+//	        		{
+//	        			// wait for server response
+//	        			this.wait();
+//	        		}
+//	        	
+//	        		if (response == null)
+//	        			return;
+//		        		
+//		        	// show success 
+//		        	if (response.getType() == Response.Type.SUCCESS)
+//		        	{
+//		        		// show failure  
+//		        		Alert alert = new Alert(AlertType.ERROR, "Survey with the same name already exists.", ButtonType.OK);
+//		        		alert.showAndWait();
+//		        		// clear response
+//		        		response = null;
+//		        	}
+//		        	//if(response.getType() == Response.Type.ERROR)
+//		        	else
+//		        	{
+//		        		CustomerSatisfactionSurveyController.surveyCreation(surveyName, questions, client);
+//		        		try
+//		        		{
+//		        			synchronized(this)
+//		        			{
+//		        				//wait for server response
+//		        				this.wait();
+//		        			}
+//		        			if(response == null)
+//		        				return;
+//		        			
+//		        			//success
+//		        			if(response.getType() == Response.Type.SUCCESS)
+//		        			{
+//		        				Alert alert = new Alert(AlertType.CONFIRMATION, "Survey created successfully", ButtonType.OK);
+//		    	        		alert.showAndWait();
+//		    	        		// clear replay
+//		    	        		response = null;
+//		    	        		resetFields();
+//		        			}
+//		        			else
+//		        			{
+//		        				// show failure  
+//		        	    		Alert alert = new Alert(AlertType.ERROR, (String)response.getMessage(), ButtonType.OK);
+//		        	    		alert.showAndWait();
+//		        	    		// clear replay
+//		        	    		response = null;
+//		        			}
+//		        		}
+//		        		catch(InterruptedException e) {}
+//	
+//		        	}
+//		        	
+//		        	}catch(InterruptedException e) {}
+//	    	}
+//	    	else
+//	    	{
+//	    		if(nameFault == 1 || questionsFault == 1) 
+//	    		{
+//	    			// show failure  
+//		    		Alert alert = new Alert(AlertType.ERROR, "A name and 6 questions are needed to create a survey.", ButtonType.OK);
+//		    		alert.showAndWait();
+//	    		}
+//	    	}
+//    	}
+//    	else
+//    	{
+//    		Alert alert = new Alert(AlertType.ERROR, "Can not send an empty form.", ButtonType.OK);
+//    		alert.showAndWait();
+//    	}
     }
   //===============================================================================================================
     /**

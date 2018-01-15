@@ -12,18 +12,18 @@ import java.util.Calendar;
 public class CustomerSatisfactionSurveyResults implements Serializable {
 
 	private static final long serialVersionUID = 11L;
-	private String ofSurvey;
+	private int ID;
 	private LocalDate date;
 	private int answers[] = new int[6];
 	private int storeID;
+	private String analysis = null;
 	
 	/**
 	 * a constructor without local date, used for creating new results BEFORE sending them to the data base
-	 * @param resultsOfSurvey name of the survey the results are for
-	 * @param answers array with answers to the survey
+	 * @param answer	array with answers to the survey
+	 * @param storeID	the id of the store the answers are for 
 	 */
-	public CustomerSatisfactionSurveyResults(String resultsOfSurvey, int[] answers, int storeID) {
-		setOfSurvey(resultsOfSurvey);
+	public CustomerSatisfactionSurveyResults(int[] answers, int storeID) {
 		setDate();
 		setAnswers(answers);
 		setStoreID(storeID);
@@ -31,16 +31,16 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	}
 	/**
 	 * a constructor with local date, used for getting the data from the data base
-	 * @param resultsOfSurvey name of the survey the results are for
-	 * @param answers answers array with answers to the survey
-	 * @param date date of the survey
+	 * @param answers 	answers array with answers to the survey
+	 * @param date		date of the survey
+	 * @param storeID	the id of the store the answers are for 
 	 */
-	public CustomerSatisfactionSurveyResults(String resultsOfSurvey, int[] answers, LocalDate date, int storeID) {
-		setOfSurvey(resultsOfSurvey);
+	public CustomerSatisfactionSurveyResults(int id, int[] answers, LocalDate date, int storeID, String analysis) {
+		setID(id);
 		setDateGivenDate(date);
 		setAnswers(answers);
 		setStoreID(storeID);
-		
+		setAnalysis(analysis);
 	}
 
 
@@ -70,16 +70,26 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 		this.answers = answers;
 	}
 
-
-	public String getOfSurvey() {
-		return ofSurvey;
-	}
-
-
-	public void setOfSurvey(String ofSurvey) {
-		this.ofSurvey = ofSurvey;
+	public String getAnalysis()
+	{
+		return this.analysis;
 	}
 	
+	public void setAnalysis(String analysis)
+	{
+		this.analysis = analysis;
+	}
+	
+	public int getID()
+	{
+		return this.ID;
+	}
+	
+	public void setID(int id)
+	{
+		this.ID = id;
+	}
+
 	public void setStoreID(int id)
 	{
 		this.storeID=id;
@@ -92,7 +102,7 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	
 	public String toString()
 	{
-		return "Results of survey: " + this.getOfSurvey()+" results: "+this.getAnswers()[0]+","+this.getAnswers()[1]+","+this.getAnswers()[2]+","+this.getAnswers()[3]+","+this.getAnswers()[4]+","+this.getAnswers()[5]+ "," +this.getDate();
+		return "Result num: " + this.getID() + ", " +this.getAnswers()[0]+","+this.getAnswers()[1]+","+this.getAnswers()[2]+","+this.getAnswers()[3]+","+this.getAnswers()[4]+","+this.getAnswers()[5]+ "," +this.getDate();
 	}
 
 }

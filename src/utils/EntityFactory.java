@@ -30,9 +30,6 @@ public class EntityFactory {
 		  case "CatalogProduct":
 			  return loadCatalogItems(rs);
 			  
-		  case "surveys":
-			  return loadCustomerSatisfactionSurveys(rs);
-			  
 		  case "customersatisfactionsurveyresults":
 			  return loadCustomerSatisfactionSurveyResults(rs);
 		  
@@ -140,35 +137,6 @@ public class EntityFactory {
 		  return catalogItems;
 	  }
 	  
-	  //==========================================================================================================================
-	  /**
-	   * parse a ResultSet and returns an ArrayList of CustomerSatisfactionSurvey from it
-	   * @param rs ResultSet of the query to get the CustomerSatisfactionSurvey table
-	   * @return an arrayList of CustomerSatisfactionSurvey made from the given ResultSet
-	   */
-	  
-	  public static ArrayList<CustomerSatisfactionSurvey> loadCustomerSatisfactionSurveys(ResultSet rs)
-	  {
-		  ArrayList<CustomerSatisfactionSurvey> surveys = new ArrayList<CustomerSatisfactionSurvey>();
-		  try
-		  {
-			  String[] questionlist = new String[6];
-			  while (rs.next())
-			  {
-				  questionlist[0]=rs.getString("question1");
-				  questionlist[1]=rs.getString("question2");
-				  questionlist[2]=rs.getString("question3");
-				  questionlist[3]=rs.getString("question4");
-				  questionlist[4]=rs.getString("question5");
-				  questionlist[5]=rs.getString("question6");
-
-				  surveys.add(new CustomerSatisfactionSurvey(rs.getString("surveyName"), questionlist, rs.getString("analysis")));
-			  }
-		  }catch (SQLException e) {e.printStackTrace();}
-		  
-		  return surveys;
-	  }
-	  
 	//==========================================================================================================================
 	  /**
 	   * parse a ResultSet and returns an ArrayList of CustomerSatisfactionSurveyResults from it
@@ -183,6 +151,7 @@ public class EntityFactory {
 		  {
 			  while (rs.next())
 			  {
+				  int resultID = rs.getInt("id");
 				  int[] results = new int[6];
 				  results[0]=rs.getInt("answer1");
 				  results[1]=rs.getInt("answer2");
@@ -193,14 +162,16 @@ public class EntityFactory {
 				  java.sql.Date sqlDate = rs.getDate("date");
 				  LocalDate date = sqlDate.toLocalDate();
 				  int storeID = rs.getInt("storeID");
+				  String analysis = rs.getString("analysis");
 			  
-			      surveyResults.add(new CustomerSatisfactionSurveyResults(rs.getString("surveyName"), results, date, storeID));
+			      surveyResults.add(new CustomerSatisfactionSurveyResults(resultID, results, date, storeID, analysis));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  
 		  
 		  return surveyResults;
 	  }
+	//==========================================================================================================================
 	  
 	  /**
 	   * parse a ResultSet and returns an ArrayList of customers from it

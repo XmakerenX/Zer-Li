@@ -1,80 +1,17 @@
 package survey;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 /**
- * a class that we use for customer satisfaction surveys.
+ * this is our customer satisfaction surveys.
  * @author dk198
  *
  */
-public class CustomerSatisfactionSurvey implements Serializable{
+public abstract class CustomerSatisfactionSurvey {
 
+	static String question1 = "Customer service at the store";
+	static String question2 = "Seletion of items available";
+	static String question3 = "Pricing";
+	static String question4 = "The order system";
+	static String question5 = "Deliery";
+	static String question6 = "Overal satisfied with the company service";
 
-	private static final long serialVersionUID = 12L;
-	
-	
-	private String surveyName;
-	private String[] surveyQuestions;
-	private ArrayList<CustomerSatisfactionSurveyResults> surveyResults;
-	private String surveyAnalysis;
-	
-	public CustomerSatisfactionSurvey(String name, String[] questions)
-	{
-
-		setSurveyName(name);
-		setSurveyQuestions(questions);
-		setSurveyResults(null);
-	}
-	/**
-	 * another constructor that receives an analysis for entityFactory
-	 * @param name of the survey
-	 * @param questions the questions of the survey
-	 * @param analysis
-	 */
-	public CustomerSatisfactionSurvey(String name, String[] questions, String analysis)
-	{
-
-		setSurveyName(name);
-		setSurveyQuestions(questions);
-		setSurveyAnalysis(analysis);
-		setSurveyResults(null);
-	}
-
-	public String getSurveyName() {
-		return surveyName;
-	}
-
-	public void setSurveyName(String surveyName) {
-
-			this.surveyName = surveyName;
-
-	}
-
-	public String[] getSurveyQuestions() {
-		return surveyQuestions;
-	}
-
-	public void setSurveyQuestions(String[] surveyQuestions)   {
-		this.surveyQuestions = surveyQuestions;
-	}
-
-	public ArrayList<CustomerSatisfactionSurveyResults> getResults() {
-		return surveyResults;
-	}
-
-	public void setSurveyResults(ArrayList<CustomerSatisfactionSurveyResults> results) {
-		this.surveyResults = results;
-	}
-
-	public String getSurveyAnalysis() {
-		return surveyAnalysis;
-	}
-
-	public void setSurveyAnalysis(String surveyAnalysis) {
-		this.surveyAnalysis = surveyAnalysis;
-	}
-
-	public String toString() {
-		return ""+this.getSurveyName();
-	}
 }

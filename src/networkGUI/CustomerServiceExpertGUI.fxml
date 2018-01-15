@@ -5,11 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="258.0" prefWidth="243.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="networkGUI.CustomerServiceExpertGUI">
+<AnchorPane prefHeight="258.0" prefWidth="243.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.CustomerServiceExpertGUI">
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="Welcome, customer service expert" />
       <Button fx:id="LogOutBtn" layoutX="14.0" layoutY="218.0" mnemonicParsing="false" onAction="#onLogOut" prefHeight="26.0" prefWidth="76.0" text="Log out" />
-      <Button fx:id="analyzeBtn" layoutX="56.0" layoutY="68.0" mnemonicParsing="false" onAction="#onAnalyze" prefHeight="44.0" prefWidth="132.0" text="Aalyze Survey" />
+      <Button fx:id="analyzeBtn" layoutX="56.0" layoutY="68.0" mnemonicParsing="false" onAction="#onAnalyze" prefHeight="44.0" prefWidth="132.0" text="Review survey results" />
    </children>
 </AnchorPane>

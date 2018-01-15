@@ -23,17 +23,16 @@ public class EntityAdder {
 		switch (table)
 		{
 		case "Product":
-					return addProdcut((Product)entity, db);
+			return addProdcut((Product)entity, db);
+					
 		case "CatalogProduct":
-					return addCatalogProduct((CatalogItem)entity, db);
+			return addCatalogProduct((CatalogItem)entity, db);
+					
 		case "User":
-			        return addUser((User)entity, db);  
-			        
-		case "surveys":
-					return addSurvey((CustomerSatisfactionSurvey)entity, db);
+			return addUser((User)entity, db);  
 					
 		case "CustomerSatisfactionSurveyResults":
-					return addSurveyResults((CustomerSatisfactionSurveyResults)entity, db);
+			return addSurveyResults((CustomerSatisfactionSurveyResults)entity, db);
 					
 		case "Order":
 			return addOrder((Order)entity, db);
@@ -103,51 +102,28 @@ public class EntityAdder {
 			return false;
 		}
 	}
-		
-		private static Boolean addSurvey(CustomerSatisfactionSurvey survey, DBConnector db)
-		{		  
-			String surveyName = "'"+survey.getSurveyName()+"'";
-			String question1 = "'"+survey.getSurveyQuestions()[0]+"'";
-			String question2 = "'"+survey.getSurveyQuestions()[1]+"'";
-			String question3 = "'"+survey.getSurveyQuestions()[2]+"'";
-			String question4 = "'"+survey.getSurveyQuestions()[3]+"'";
-			String question5 = "'"+survey.getSurveyQuestions()[4]+"'";
-			String question6 = "'"+survey.getSurveyQuestions()[5]+"'";
-			try
-			{
-			db.insertData("surveys", surveyName + "," + question1 + "," + question2 + "," + question3 + "," + question4 + "," + question5 + 
-					"," + question6 + "," + "Analysis");
-				return true;
-			}
-			catch(Exception e)
-			{
-				return false;
-			}
-	}
-		
-		
-		private static Boolean addSurveyResults(CustomerSatisfactionSurveyResults surveyResults, DBConnector db)
-		{		  
-			String surveyName = "'"+surveyResults.getOfSurvey()+"'";
-			String answer1 = "'"+surveyResults.getAnswers()[0]+"'";
-			String answer2 = "'"+surveyResults.getAnswers()[1]+"'";
-			String answer3 = "'"+surveyResults.getAnswers()[2]+"'";
-			String answer4 = "'"+surveyResults.getAnswers()[3]+"'";
-			String answer5 = "'"+surveyResults.getAnswers()[4]+"'";
-			String answer6 = "'"+surveyResults.getAnswers()[5]+"'";
-			java.sql.Date sqlDate = java.sql.Date.valueOf( surveyResults.getDate() );
-			int storeID = surveyResults.getStoreID();
-			try
-			{
-			db.insertData("customersatisfactionsurveyresults", null + "," + surveyName + "," + "'" + sqlDate + "'" + "," + answer1 + "," + answer2 + "," + answer3 + "," + answer4 + "," + answer5 + 
-					"," + answer6 + "," + storeID);
-				return true;
-			}
-			catch(Exception e)
-			{
-				return false;
-			}
-	}
+
+	private static Boolean addSurveyResults(CustomerSatisfactionSurveyResults surveyResults, DBConnector db)
+	{		  
+		String answer1 = "'"+surveyResults.getAnswers()[0]+"'";
+		String answer2 = "'"+surveyResults.getAnswers()[1]+"'";
+		String answer3 = "'"+surveyResults.getAnswers()[2]+"'";
+		String answer4 = "'"+surveyResults.getAnswers()[3]+"'";
+		String answer5 = "'"+surveyResults.getAnswers()[4]+"'";
+		String answer6 = "'"+surveyResults.getAnswers()[5]+"'";
+		java.sql.Date sqlDate = java.sql.Date.valueOf( surveyResults.getDate() );
+		int storeID = surveyResults.getStoreID();
+		try
+		{
+		db.insertData("customersatisfactionsurveyresults", null + "," + "'" + sqlDate + "'" + "," + answer1 + "," + answer2 + "," + answer3 + "," + answer4 + "," + answer5 + 
+				"," + answer6 + "," + storeID + "," + "''");
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+}
 		
 		private static Boolean addOrder(Order order, DBConnector db)
 		{
