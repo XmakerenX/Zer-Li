@@ -267,7 +267,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('daniel','123456','CUSTOMER_SERVICE',123,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +280,6 @@ DROP TABLE IF EXISTS `customersatisfactionsurveyresults`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customersatisfactionsurveyresults` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `surveyName` varchar(45) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `answer1` int(2) DEFAULT NULL,
   `answer2` int(2) DEFAULT NULL,
@@ -289,10 +288,11 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   `answer5` int(2) DEFAULT NULL,
   `answer6` int(2) DEFAULT NULL,
   `storeID` int(11) DEFAULT NULL,
+  `analysis` varchar(300) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `fk_customersatisfactionsurveyresults_1_idx` (`storeID`),
-  CONSTRAINT `fk_customersatisfactionsurveyresults_1` FOREIGN KEY (`storeID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_customersatisfactionsurveyresults_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,7 +301,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
 
 LOCK TABLES `customersatisfactionsurveyresults` WRITE;
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` DISABLE KEYS */;
-INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'12','2018-01-03',2,2,2,2,2,2,NULL),(2,'123','2018-01-03',5,5,5,5,5,55,NULL),(3,'new survey','2018-01-03',5,5,5,5,5,5,NULL);
+INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'2018-01-03',2,2,2,2,2,2,1,'Sample Survey Analysis'),(2,'2018-01-03',5,5,5,5,5,5,1,''),(3,'2018-01-03',5,5,5,5,5,5,1,''),(4,'2018-01-14',5,6,9,8,7,4,1,''),(6,'2018-01-15',9,9,9,9,9,9,1,'');
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` ENABLE KEYS */;
 UNLOCK TABLES;
 
