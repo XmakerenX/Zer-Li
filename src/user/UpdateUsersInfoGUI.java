@@ -338,18 +338,23 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	
 	    	    storesNamesList.addAll(storeNames);
 	    	    storeNameComboBox.setItems(storesNamesList);
-	    	    
 	    	}
 	    	else
 	    	{
 	        	// show failure  
-	    		Alert alert = new Alert(AlertType.WARNING, "This user has no customers!", ButtonType.OK);
+	    		Alert alert = new Alert(AlertType.ERROR, "Failed to get response from data base!", ButtonType.OK);
 	    		alert.showAndWait();
 	
 	    	}
 	    	
 	    	}catch(InterruptedException e) {}
     	}
+     	else
+     	{
+        	// show warning  
+    		Alert alert = new Alert(AlertType.WARNING, "This user has no customers!", ButtonType.OK);
+    		alert.showAndWait();
+     	}
     	
      	// clear replay
      	replay = null;

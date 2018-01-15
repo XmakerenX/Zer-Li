@@ -32,6 +32,8 @@ public abstract class FormController {
 	public void setScene(Scene scene)
 	{
 		thisScene = scene;
+		//Disables resizing option to primary stage
+		primaryStage.setResizable(false);
 	}
 	
 	public Scene getScene()

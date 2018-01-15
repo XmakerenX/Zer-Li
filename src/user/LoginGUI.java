@@ -241,6 +241,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				networkWorkerGui.setClinet(Client.client);
 						networkWorkerGui.setUser(user);
+						client.setUI(networkWorkerGui);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
 	    			break;
@@ -253,6 +254,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				storeWorkerGUI.setUser(user);
 	    				storeWorkerGUI.setClinet(Client.client);
+	    				client.setUI(storeWorkerGUI);
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
 	    			break;
@@ -265,6 +267,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				customerServiceExpertGUI.setUser(user);
 	    				customerServiceExpertGUI.setClinet(Client.client);
+	    				client.setUI(customerServiceExpertGUI);
 	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
 	        		}
 	    			break;
@@ -276,6 +279,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				storeManagerGUI.setUser(user);
 	    				storeManagerGUI.setClinet(Client.client);
+	    				client.setUI(storeManagerGUI);
 	        			FormController.primaryStage.setScene(storeManagerGUI.getScene());
 	        		}
 	    			break;
