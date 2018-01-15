@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import product.Product;
 
 
@@ -187,9 +189,10 @@ public class Order implements Serializable
 
 	public Calendar getOrderDateAndTime() 
 	{
-		Calendar orderDateAndTime = Calendar.getInstance();
+		//Calendar orderDateAndTime = Calendar.getInstance();
+		Calendar orderDateAndTime = new GregorianCalendar();
 		String[] time = orderTime.trim().split(":");
-		orderDateAndTime.set(orderDate.getYear(), orderDate.getMonth().getValue(), orderDate.getDayOfMonth(),
+		orderDateAndTime.set(orderDate.getYear(), orderDate.getMonth().getValue() - 1, orderDate.getDayOfMonth(),
 				Integer.parseInt(time[0]), Integer.parseInt(time[1]));
 		
 		return orderDateAndTime;

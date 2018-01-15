@@ -2,7 +2,10 @@ package utils;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import Server.DBConnector;
 import customer.Customer;
@@ -170,13 +173,33 @@ public class EntityAdder {
 			try {
 				Calendar orderTimeAndDate = order.getOrderDateAndTime();
 				Calendar currentTime = Calendar.getInstance();
-				if (!orderTimeAndDate.after(currentTime))
+				
+				Calendar orderMinTime = new GregorianCalendar(currentTime.get(Calendar.YEAR), currentTime.get(Calendar.MONTH),
+						currentTime.get(Calendar.DAY_OF_MONTH), currentTime.get(Calendar.HOUR), currentTime.get(Calendar.MINUTE));
+				orderMinTime.add(Calendar.HOUR, 3);
+				
+				if (orderTimeAndDate.before(currentTime))
 					throw new Exception("Bad Date and Time was Given");
 				
-				db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + "'" + sqlDate + "'" +
+				if (orderTimeAndDate.before(orderMinTime))
+				{
+					orderTimeAndDate = orderMinTime;
+					
+					LocalDate finalOrderDate = orderTimeAndDate.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					sqlDate = Date.valueOf(finalOrderDate);
+					orderTime = "'" + orderTimeAndDate.get(Calendar.HOUR_OF_DAY) + ":" + orderTimeAndDate.get(Calendar.MINUTE) + "'";
+				}
+				else
+					orderTime = "'" + order.getOrderTime() + "'";
+								
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String currentTimeString = sdf.format(currentTime.getTime());
+				
+				db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + 
+						"'" + currentTimeString + "'" + "," + "'" + sqlDate + "'" +
 						"," + orderTime + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
 						+ paymentMethod + "," + originStore + "," + customerID);
-				
+								
 				// get the orderID from database
 				ResultSet rs = db.selectLastInsertID();
 				rs.next();
