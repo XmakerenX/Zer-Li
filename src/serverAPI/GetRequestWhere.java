@@ -10,7 +10,6 @@ public class GetRequestWhere extends Request
 	String table;
 	String checkColomn;
 	String condition;
-	String type;
 	/**
 	 * 
 	 * @param table name of the table we are looking at
@@ -25,15 +24,6 @@ public class GetRequestWhere extends Request
 		this.condition = condition;
 	}
 	
-	public GetRequestWhere(String table, String checkColomn, String condition, String type)
-	{
-		super("GetRequestWhere");
-		this.table = table;
-		this.checkColomn = checkColomn;
-		this.condition = condition;
-		this.type = type;
-	}
-	
 	public String getTable() {
 		return table;
 	}
@@ -46,7 +36,5 @@ public class GetRequestWhere extends Request
 		return condition;
 	}
 
-	public String getType() {
-		return type;
-	}
+
 }

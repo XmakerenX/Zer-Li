@@ -192,7 +192,13 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "GetRequestWhere":
 			  {
 				  GetRequestWhere getRequestWhere = (GetRequestWhere)request;
-				  String condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
+				  String condition;
+				  if(getRequestWhere.getCheckColomn().equals("OrderCustomerID"))
+				  {
+					  condition = "" + getRequestWhere.getCheckColomn() + " = " + getRequestWhere.getCondition();
+				  }
+				  else
+					  condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
 				  ResultSet rs = db.selectTableData("*", getRequestWhere.getTable(), condition);
 				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestWhere.getTable(), rs);
 				  if (entityArray != null)

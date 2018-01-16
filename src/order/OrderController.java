@@ -31,6 +31,6 @@ public class OrderController
 	//==============================================================================================================
 	public static void getOrdersOfaUser(String customerID)
 	{
-		Client.client.handleMessageFromClientUI((new GetRequestWhere("order", "OrderCustomerID", customerID)));
+		Client.client.handleMessageFromClientUI((new GetRequestWhere("prototype.Order", "OrderCustomerID", customerID)));
 	}
 }

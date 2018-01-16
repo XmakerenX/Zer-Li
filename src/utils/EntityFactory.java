@@ -40,7 +40,7 @@ public class EntityFactory {
 		  case "Store":
 			  return loadStores(rs);
 			  
-		  case "order":
+		  case "prototype.Order":
 			  return loadOrders(rs);
 			  
 		  default:
@@ -235,14 +235,14 @@ public class EntityFactory {
 				  java.sql.Date sqlDate = rs.getDate(4);
 				  LocalDate date = sqlDate.toLocalDate();
 				  String time = rs.getString(5);
-				  String shipmentAddress = rs.getString(8);
-				  String receiverName = rs.getString(9);
-				  String receiverPhoneNumber = rs.getString(10);
+				  String shipmentAddress = rs.getString(6);
+				  String receiverName = rs.getString(7);
+				  String receiverPhoneNumber = rs.getString(8);
 				  long originStore = rs.getLong("OrderOriginStore");
 				  long customerID = rs.getLong("OrderCustomerID");
 				  orders.add(new Order(orderID, Order.Status.valueOf(rs.getString("orderStatus")), price, date, time, 
 						  shipmentAddress, receiverName, receiverPhoneNumber, 
-						  Order.PayMethod.valueOf(rs.getString(11)), originStore, customerID));
+						  Order.PayMethod.valueOf(rs.getString(9)), originStore, customerID));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  catch (Exception ce ) {

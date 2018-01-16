@@ -60,9 +60,9 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
     	deliveryDateColumn.setCellValueFactory(new PropertyValueFactory("orderDate"));
     	deliveryTimeColumn.setCellValueFactory(new PropertyValueFactory("orderTime"));
-    	shipmentAddressColumn.setCellValueFactory(new PropertyValueFactory("delivaryAddress"));
-    	priceColumn.setCellValueFactory(new PropertyValueFactory("orderStatus"));
-    	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
+    	shipmentAddressColumn.setCellValueFactory(new PropertyValueFactory(""));
+  /////  	priceColumn.setCellValueFactory(new PropertyValueFactory("orderStatus"));
+  /////  	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
     	
 //    	nameColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
 //    	idColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
