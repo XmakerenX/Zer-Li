@@ -4,11 +4,11 @@ import javafx.scene.control.Button;
 import product.EditableProductView;
 
 public class CustomerView extends Customer{
-//===========================================================================================================
+	//===========================================================================================================
 	public class CustomerViewButton extends Button
 	{
 		CustomerView origin;
-		public CustomerViewButton(CustomerView origin,String name)
+		public CustomerViewButton(CustomerView origin, String name)
 		{
 			super(name);
 			this.origin = origin;
@@ -30,7 +30,6 @@ public class CustomerView extends Customer{
 		this.selectButton = new CustomerViewButton(this, "Select");
 	}
 	//===========================================================================================================
-
 	public Button getSelectButton()
 	{
 		return this.selectButton;

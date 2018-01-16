@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import customer.Customer;
+import order.Order;
 import user.User;
 import product.CatalogItem;
 import product.Product;
@@ -39,6 +40,8 @@ public class EntityFactory {
 		  case "Store":
 			  return loadStores(rs);
 			  
+		  case "order":
+			  return loadOrders(rs);
 			  
 		  default:
 			  return null;
@@ -218,6 +221,36 @@ public class EntityFactory {
 		  }catch (SQLException e) {e.printStackTrace();}
 		  
 		  return stores;
+	  }
+	//==========================================================================================================================
+	  public static ArrayList<Order> loadOrders(ResultSet rs)
+	  {
+		  ArrayList<Order> orders = new ArrayList<Order>();
+		  try
+		  {
+			  while (rs.next())
+			  {
+				  int orderID = rs.getInt("OrderID");
+				  float price = rs.getFloat("OrderPrice");
+				  java.sql.Date sqlDate = rs.getDate(4);
+				  LocalDate date = sqlDate.toLocalDate();
+				  String time = rs.getString(5);
+				  String shipmentAddress = rs.getString(8);
+				  String receiverName = rs.getString(9);
+				  String receiverPhoneNumber = rs.getString(10);
+				  long originStore = rs.getLong("OrderOriginStore");
+				  long customerID = rs.getLong("OrderCustomerID");
+				  orders.add(new Order(orderID, Order.Status.valueOf(rs.getString("orderStatus")), price, date, time, 
+						  shipmentAddress, receiverName, receiverPhoneNumber, 
+						  Order.PayMethod.valueOf(rs.getString(11)), originStore, customerID));
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  catch (Exception ce ) {
+			  System.out.println("Invalid order data received from database");
+			  ce.printStackTrace();
+		  }
+		  
+		  return orders;
 	  }
 	  
 }

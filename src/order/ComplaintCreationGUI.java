@@ -185,6 +185,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 				getClient().setUI(selectOrderForComplaintGUI);
 				//getClient().setUI(SelectOrderInterface);
 				selectOrderForComplaintGUI.setClinet(client);
+				selectOrderForComplaintGUI.doInit();
 				FormController.primaryStage.setScene(selectOrderForComplaintGUI.getScene());
 			}
 	    }
