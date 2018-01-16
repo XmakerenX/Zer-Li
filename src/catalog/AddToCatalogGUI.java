@@ -207,9 +207,8 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		String ImageName = image.getFileName();
 			
     		catItem = new CatalogItem(prod, salesPrice, ImageName, checkSum, storeID);
-    		imagePath = imagePath.replaceAll("/", "//");
-    		Client myClient = getClinet();
-    		CatalogController.addCatalogProductToDataBase(catItem,myClient);
+    		//imagePath = imagePath.replaceAll("/", "//");
+    		CatalogController.addCatalogProductToDataBase(catItem,Client.client);
     		
 			try 
 			{

@@ -31,6 +31,7 @@ import networkGUI.NetworkWorkerGUI;
 import product.EditableProductView.EditableProductViewButton;
 import product.*;
 import prototype.FormController;
+import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.GetRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Response;
@@ -446,7 +447,10 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				
 			}
 	    	
-			storeID = 0; 
+			Client.client.handleMessageFromClientUI(new GetEmployeeStoreRequest(myUser.getUserName())); 
+			waitForResponse();
+			storeID = Integer.parseInt((String)response.getMessage());
+			
 			try 
 			{
 				Thread.sleep(100);

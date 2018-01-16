@@ -44,7 +44,6 @@ public class CatalogController
 	 */
 	public static void addCatalogProductToDataBase(CatalogItem catItem,Client client)
 	{
-		
 		client.handleMessageFromClientUI(new AddRequest("CatalogProduct", catItem));
 		System.out.println(catItem.getSalePrice());
 	}

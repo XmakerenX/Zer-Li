@@ -32,14 +32,10 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 		this.storeID = storeID;
 	}
 
-
-	private Product baseProduct;
-	
 	
 	public CatalogItem(Product prod,float salesPrice, String imageName, byte[] imageCheckSum,int storeID)
 	{
 		super(prod.getID(), prod.getName(), prod.getType(), prod.getPrice(), prod.getAmount(), prod.getColor());
-		baseProduct = prod;
 		this.salePrice = salesPrice;
 		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
 		this.storeID = storeID;
@@ -48,7 +44,6 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 			String productColor,float salesPrice, String imageName, byte[] imageCheckSum,int storeID) 
 	{
 		super(productID, productName, productType, productPrice, productAmount, productColor);
-		baseProduct = new Product(productID, productName, productType, productPrice, productAmount, productColor);
 		this.salePrice = salesPrice;
 		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
 		this.storeID = storeID;

@@ -143,8 +143,8 @@ public class ProtoTypeServer extends AbstractServer {
 	   */
 	  synchronized protected void clientException(ConnectionToClient client, Throwable exception) {
 		  System.out.println("Client exception!");
-		  System.out.println("exception "+exception.getMessage());
-		  System.out.println(exception.getClass());
+		  System.out.println("Client exception "+exception.getMessage());
+		  System.out.println(exception.getClass() +" Client");
 		  
 		  logoutUser(client);
 	  }
