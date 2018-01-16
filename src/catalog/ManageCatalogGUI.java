@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.TreeSet;
 
-import catalog.EditableCatalogItem.editableCatalogItemButton;
+import catalog.EditableCatalogItemView.editableCatalogItemViewButton;
 import client.Client;
 import client.ClientInterface;
 import javafx.collections.FXCollections;
@@ -28,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import networkGUI.NetworkWorkerGUI;
-import product.EditableProductVIew.EditableProductVIewButton;
+import product.EditableProductView.EditableProductViewButton;
 import product.*;
 import prototype.FormController;
 import serverAPI.GetRequest;
@@ -82,7 +82,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 										    TableColumn cat_removeCol = new TableColumn("");
 										    
 										    
-											ObservableList<EditableCatalogItem> eCatalogProducts; //table's data
+											ObservableList<EditableCatalogItemView> eCatalogProducts; //table's data
 
 								//editable product view
 								    @FXML
@@ -97,7 +97,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 										    TableColumn prod_editCol = new TableColumn("");
 										    TableColumn prod_removeCol = new TableColumn("");
 								    
-								   ObservableList<EditableProductVIew> eProducts; //table's data
+								   ObservableList<EditableProductView> eProducts; //table's data
 
 		
 					
@@ -159,7 +159,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		{
 			void createAndInitNewEditWIndow(ActionEvent e)
 			{
-				EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
+				EditableProductViewButton src = (EditableProductViewButton)e.getSource();
 				Product prod = src.getOrigin();
 				Stage newWindow = new Stage();
 		    	
@@ -179,7 +179,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	//update table
 		    	if(editProdGUI.response.getType().name().equals("SUCCESS"))
 		    	{
-		    		ArrayList<EditableProductVIew> currProdTbl = getArrayListOfCurrentProdTable();
+		    		ArrayList<EditableProductView> currProdTbl = getArrayListOfCurrentProdTable();
 		    		initProductsTableContent();
 	    			 
 		    	}
@@ -197,11 +197,11 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    @Override public void handle(ActionEvent e) 
 		    {
 		    	Boolean itemDoesAlreadyExists = false;
-		    	EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
+		    	EditableProductViewButton src = (EditableProductViewButton)e.getSource();
     			Product prod = src.getOrigin();
     			
     			// search for the item in catalog:
-    			for(EditableCatalogItem element : eCatalogProducts)
+    			for(EditableCatalogItemView element : eCatalogProducts)
     			{
     				if(element.getID() == prod.getID())
     				{
@@ -251,7 +251,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			    		Optional<ButtonType> result = alert.showAndWait();
 			    		if (result.get() == ButtonType.OK)
 			    		{
-			    			EditableProductVIewButton src = (EditableProductVIewButton)e.getSource();
+			    			EditableProductViewButton src = (EditableProductViewButton)e.getSource();
 			    			String id =Long.toString(src.getOrigin().getID());
 		    				ProdcutController.removeProductFromDataBase(id,myClient);
 		    				
@@ -272,7 +272,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    			   {
 			    			   eCatalogProducts = getEditableCatalogProducts();
 			    			   
-			    			   for(EditableCatalogItem eci: eCatalogProducts)
+			    			   for(EditableCatalogItemView eci: eCatalogProducts)
 			    			   {
 			    				   if(Long.toString(eci.getID()).equals(id))
 			    				   {
@@ -296,8 +296,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				    {
 				    	
 				    	//get selected Item as object:
-				    	editableCatalogItemButton buttonPressed =(editableCatalogItemButton) e.getSource();
-				    	EditableCatalogItem selectedItem = buttonPressed.origin;
+				    	editableCatalogItemViewButton buttonPressed =(editableCatalogItemViewButton) e.getSource();
+				    	CatalogItem selectedItem = buttonPressed.origin;
 				    	
 				    	Alert alert = new Alert (Alert.AlertType.CONFIRMATION);
 				    	alert.setContentText("About to remove the selected from the catalog\n Are you sure?");
@@ -334,8 +334,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				{
 				    @Override public void handle(ActionEvent e) 
 				    {
-				        	editableCatalogItemButton button = (editableCatalogItemButton)e.getSource();
-				    		EditableCatalogItem baseCatalogProduct = button.origin;
+				        	editableCatalogItemViewButton button = (editableCatalogItemViewButton)e.getSource();
+				        	CatalogItem baseCatalogProduct = button.origin;
 							if (editCatItemGui != null)
 							{
 								Stage newWindow = new Stage();
@@ -357,19 +357,21 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				    
 				};		
 		//---------------------------------------------------------------------------------------
-		private ArrayList<EditableProductVIew> getArrayListOfCurrentProdTable()
+		private ArrayList<EditableProductView> getArrayListOfCurrentProdTable()
 		{
-			 ArrayList<EditableProductVIew> output =new ArrayList<EditableProductVIew>();
+			 ArrayList<EditableProductView> output =new ArrayList<EditableProductView>();
 			   for(Object ev: editProductTable.getItems().toArray())
 			   {
-				   EditableProductVIew eProd = (EditableProductVIew) ev;
+				   EditableProductView eProd = (EditableProductView) ev;
 				   output.add(eProd);
 			   }
 			   return output;
 		}
 //---------------------------------------------------------------------------------------
 		
-		
+	/*
+	 * 
+	 */
  private int getStoreIdOfWorker(User thisUser)
  {
 		//get storeID;
@@ -504,19 +506,19 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	     * get all catalogProducts in database and transform them into "editable catalogProducts"
 	     * @return list of editable products(same as normal, but includes buttons for tableview)
 	     */
-	    private ObservableList<EditableCatalogItem> getEditableCatalogProducts()
+	    private ObservableList<EditableCatalogItemView> getEditableCatalogProducts()
 	    {
 	    	CatalogController.requestCatalogItems(this.client);
 	    	waitForResponse();
 	    	
-	    	ArrayList<EditableCatalogItem> res = new ArrayList<EditableCatalogItem>();
+	    	ArrayList<EditableCatalogItemView> res = new ArrayList<EditableCatalogItemView>();
 	    	ArrayList<CatalogItem> catalogProducts = (ArrayList<CatalogItem>)response.getMessage();
 	    	for(CatalogItem catItem : catalogProducts)
 	    	{
 	    		int catalogProductStoreID = catItem.getStoreID();
 	    		if(( catalogProductStoreID == 0 ) || (catalogProductStoreID==this.storeID))
 	    		{
-	    			EditableCatalogItem eCatProd =new EditableCatalogItem(catItem);
+	    			EditableCatalogItemView eCatProd =new EditableCatalogItemView(catItem);
 		    		
 	    			//add functions for buttons:
 	    			eCatProd.getRemoveButton().setOnAction(catRemoveFromCatalog);
@@ -531,15 +533,15 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	     * get all products in database and transform them into "editable products"
 	     * @return list of editable products(same as normal, but includes buttons for tableview)
 	     */
-	    private ObservableList<EditableProductVIew> getEditableProducts()
+	    private ObservableList<EditableProductView> getEditableProducts()
 	    {
 	    	requestProductsAndWait();
 
-	    	ArrayList<EditableProductVIew> res = new ArrayList<EditableProductVIew>();
+	    	ArrayList<EditableProductView> res = new ArrayList<EditableProductView>();
 	    	ArrayList<Product> products = (ArrayList<Product>)response.getMessage();
 	    	for(Product prod : products)
 	    	{
-	    		EditableProductVIew eProd =new EditableProductVIew(prod);
+	    		EditableProductView eProd =new EditableProductView(prod);
 	    		
 	    		eProd.getRemoveBtn().setOnAction(prodRemoveAction);
 	    		eProd.getEditBtn().setOnAction(prodEditAction);

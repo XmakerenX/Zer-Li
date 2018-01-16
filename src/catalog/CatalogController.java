@@ -46,6 +46,7 @@ public class CatalogController
 	{
 		
 		client.handleMessageFromClientUI(new AddRequest("CatalogProduct", catItem));
+		System.out.println(catItem.getSalePrice());
 	}
 	
 	/*

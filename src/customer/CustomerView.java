@@ -1,7 +1,7 @@
 package customer;
 
 import javafx.scene.control.Button;
-import product.EditableProductVIew;
+import product.EditableProductView;
 
 public class CustomerView extends Customer{
 //===========================================================================================================

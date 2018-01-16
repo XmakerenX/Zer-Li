@@ -51,15 +51,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class EditCatalogItemGUI extends AddToCatalogGUI
+public class EditCatalogItemGUI extends AddToCatalogGUI 
 {
-	EditableCatalogItem eCatProd;
+	CatalogItem eCatProd;
 	
-	public void initWindow(EditableCatalogItem eCatalogProd)
+	public void initWindow(CatalogItem eCatalogProd)
 	{
 		eCatProd = eCatalogProd;
-		Boolean isSelected = !(eCatalogProd.getSalePrice() ==-1);
-		if(isSelected)
+		Boolean isOnSale = !(eCatalogProd.getSalePrice() ==-1);
+		if(isOnSale)
 		{
 			this.onSale.setSelected(true);
 			this.salesPriceField.setDisable(false);
@@ -74,12 +74,9 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 
 	}
 	
-	
 	  @FXML
 	    void okBTN(ActionEvent event) 
-	    {
-	    	
-
+	    {	
 	    	if(isInputValid()==false)
 	    	{
 	    		printErrorMessege();
@@ -97,24 +94,59 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 	    		{
 	    			salesPrice = -1; //default value meaning there is not sale on the catalog item
 	    		}
-	    		String imagePath;
-	    		byte[] checkSum;
-	    		String ImageName;
 	    		
-	    		if(imageField.getText().equals("click browse to upload new image"))
-				{
-					
-		    		checkSum = eCatProd.getImageChecksum();
-		    		ImageName = eCatProd.getImageName();
+	    			String imagePath;
+		    		byte[] checkSum;
+		    		String ImageName;
 		    		
-				}
-				else
-				{
-		    		ImageName = image.getFileName();
+		    		if(imageField.getText().equals("click browse to upload new image"))
+					{
+						
+			    		checkSum = eCatProd.getImageChecksum();
+			    		ImageName = eCatProd.getImageName();
+			    		
+					}
+					else
+					{
+						
+						try 
+						{
+							//upload new Image locally:
+							image = new ImageData(imageField.getText());
+							ImageName = image.getFileName();
+				    		checkSum = image.getSha256();
+				    		
+				    		//upload Image to server
+							client.handleMessageFromClientUI(new UploadImageRequest(image));
 
-		    		checkSum = image.getSha256();
-				}
-	    						
+							//create new updated catItem:
+				    		catItem = new CatalogItem(prod, salesPrice, ImageName, checkSum, storeID);
+
+				    		
+				    		CatalogController.removeCatalogProductFromDataBase(eCatProd.getID(), eCatProd.getStoreID(), client);
+							
+							CatalogController.addCatalogProductToDataBase(catItem, client);
+						
+						} catch (IOException e) 
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+			    		
+					}
+		    		
+		    		
+		    	
+	
+	    			
+	    			
+	    		}
+	    			
+	    }		
+	    		
+	    		
+	    		/*
 	    		catItem = new CatalogItem(prod, salesPrice, ImageName, checkSum, storeID);
 				imagePath = imageField.getText();//this is the absoloute path
 	    		imagePath = imagePath.replaceAll("/", "//");
@@ -127,8 +159,8 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 					imageToUpload = new ImageData(imagePath);	
 					client.handleMessageFromClientUI(new UploadImageRequest(imageToUpload));
 				} 
-				catch (IOException e)    {e.printStackTrace();} }
-	    }
+				catch (IOException e)    {e.printStackTrace();} }*/
+	    
 	    
 	    
 	

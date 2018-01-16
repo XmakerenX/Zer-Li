@@ -6,7 +6,7 @@ import java.util.ArrayList;
 //import com.sun.jdi.NativeMethodException;
 
 import catalog.AddToCatalogGUI;
-import catalog.EditableCatalogItem;
+import catalog.EditableCatalogItemView;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
@@ -34,7 +34,7 @@ import networkGUI.CustomerServiceWorkerGUI;
 import networkGUI.StoreWorkerGUI;
 import product.CatalogItem;
 import product.Product;
-import product.EditableProductVIew.EditableProductVIewButton;
+import product.EditableProductView.EditableProductViewButton;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
