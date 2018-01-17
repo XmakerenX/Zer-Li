@@ -232,6 +232,10 @@ public class Order implements Serializable
 		this.itemsInOrder.add(new ItemInOrder(productID, greetingCard));
 	}
 	
+	public String getDeliveryAddress()
+	{
+		return this.getDelivaryInfo().getDelivaryAddress();
+	}
 	
 	public ArrayList<CustomItemInOrder> getCustomItemInOrder() {
 		return customItemInOrder;

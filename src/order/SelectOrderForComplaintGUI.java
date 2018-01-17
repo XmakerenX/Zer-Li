@@ -49,20 +49,20 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     @FXML
     private Button backButton;
     @FXML
-    private TableColumn<?, ?> storeColumn;
+    private TableColumn<?, String> storeColumn;
     @FXML
     private TableColumn<?, ?> deliveryTimeColumn;
     @FXML
-    private TableColumn<?, ?> shipmentAddressColumn;
+    private TableColumn<?, String> shipmentAddressColumn;
     //==============================================================================================================
     public void doInit()
     {
     	storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
     	deliveryDateColumn.setCellValueFactory(new PropertyValueFactory("orderDate"));
     	deliveryTimeColumn.setCellValueFactory(new PropertyValueFactory("orderTime"));
-    	shipmentAddressColumn.setCellValueFactory(new PropertyValueFactory(""));
-  /////  	priceColumn.setCellValueFactory(new PropertyValueFactory("orderStatus"));
-  /////  	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
+    	shipmentAddressColumn.setCellValueFactory(new PropertyValueFactory("DeliveryAddress"));
+    	priceColumn.setCellValueFactory(new PropertyValueFactory("Price"));
+    	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
     	
 //    	nameColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
 //    	idColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -72,6 +72,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	
     	newComplaintCreationGUI = FormController.<NewComplaintCreationGUI, AnchorPane>loadFXML(getClass().getResource("/order/NewComplaintCreationGUI.fxml"), this);
     	initOrderTableContent(Long.toString(customer.getID()));
+    	System.out.println("IN DO INIT "+orderList);
     }
   //==============================================================================================================
     @FXML
@@ -152,8 +153,8 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	}
     	else if(response.getType() == Response.Type.ERROR)
     	{
-    		Alert alert = new Alert(AlertType.ERROR, "No orders found for this customer!", ButtonType.OK);
-    		alert.showAndWait();
+    		//Alert alert = new Alert(AlertType.ERROR, "No orders found for this customer!", ButtonType.OK);
+    		//alert.showAndWait();
     		//clearing response
     		response = null;
     		return null;
@@ -169,7 +170,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   	    	
   	    	OrderViewButton src = (OrderViewButton)e.getSource();
   			Order order = src.getOrigin();
-  			
   			if (newComplaintCreationGUI != null)
   			{
 //  				Stage newWindow = new Stage();
