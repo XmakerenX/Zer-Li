@@ -37,6 +37,7 @@ import serverAPI.Response;
 public class CreateOrderGUI extends FormController implements ClientInterface, Observer {
 
 	private Customer currentCustomer = null;
+	private Customer currentCustomer2 = null;
 	private long currentStoreID = 0;
 	private float orderTotalPrice;
 	private boolean customOrder = false;
