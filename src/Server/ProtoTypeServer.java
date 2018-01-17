@@ -298,7 +298,12 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "GetJoinedTablesWhereRequest":
 			  {
 				  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)request;
-				  String condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
+				  
+				  String condition;
+				  if (!getJoinedTablesWhereRequest.getCheckColomn().equals("OrderID"))
+					  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
+				  else
+					  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + getJoinedTablesWhereRequest.getCondition();
 				  
 				  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
 				  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());

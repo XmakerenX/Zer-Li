@@ -14,7 +14,7 @@ import prototype.FormController;
 public class OrderView extends Order {
 
 	private Button viewInfoButton;
-	private Button viewProductsButton;
+	private OrderItemViewButton viewProductsButton;
 	private OrderItemViewButton cancelButton;
 	
 	EventHandler<ActionEvent> cancelAction  = new EventHandler<ActionEvent>() 
@@ -60,7 +60,8 @@ public class OrderView extends Order {
 		else
 			viewInfoButton.setUserData(this);
 		
-		viewProductsButton = new Button("View Products");
+		viewProductsButton = new OrderItemViewButton(this, "View Products");
+		viewProductsButton.getButton().setOnAction(cancelAction);
 		
 		cancelButton = new OrderItemViewButton(this, "Cancel");
 		cancelButton.getButton().setOnAction(cancelAction);
@@ -75,13 +76,18 @@ public class OrderView extends Order {
 	}
 
 	public Button getViewProductsButton() {
-		return viewProductsButton;
+		return viewProductsButton.getButton();
 	}
 
 	public void setViewProductsButton(Button viewProductsButton) {
-		this.viewProductsButton = viewProductsButton;
+		this.viewProductsButton.setButton(viewProductsButton);
 	}
 
+	public OrderItemViewButton getObservableViewProductsButton()
+	{
+		return this.viewProductsButton;
+	}
+	
 	public Button getCancelButton() {
 		return cancelButton.getButton();
 	}

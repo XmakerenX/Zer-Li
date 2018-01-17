@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
 import customer.Customer;
 import order.Order;
 import order.OrderException;
+import order.ProductInOrder;
 import user.User;
 import product.CatalogItem;
 import product.Product;
@@ -47,6 +48,9 @@ public class EntityFactory {
 			  
 		  case "Order":
 			  return loadOrders(rs);
+			  
+		  case "ProductInOrder":
+			  return loadProductInOrder(rs);
 			  
 			  
 		  default:
@@ -255,5 +259,21 @@ public class EntityFactory {
 		  catch (OrderException e) {e.printStackTrace();}
 		  
 		  return orders;
+	  }
+	  
+	  public static ArrayList<ProductInOrder> loadProductInOrder(ResultSet rs)
+	  {
+		  ArrayList<ProductInOrder> productsInOrder= new ArrayList<ProductInOrder>();
+		  
+		  try
+		  {
+			  while (rs.next())
+			  {
+				  productsInOrder.add(new ProductInOrder(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
+						  rs.getFloat("productPrice"), 0, rs.getString("ProductColor"), rs.getString("ProductGrettingCard")));
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  
+		  return productsInOrder;
 	  }
 }

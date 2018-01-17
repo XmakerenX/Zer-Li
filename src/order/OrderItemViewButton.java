@@ -36,5 +36,10 @@ public class OrderItemViewButton extends Observable {
 		this.orderItem = orderItem;
 	}
 	
+	public String getButtonText()
+	{
+		return this.button.getText();
+	}
+	
 	
 }

@@ -28,25 +28,7 @@ public class OrderItemView extends CatalogItem {
 	protected OrderItemViewButton removeBtn;
 	protected Button viewBtn;
 	private TextArea greetingCard;
-	
-//	public class OrderItemViewButton extends Observable
-//	{
-//		public Button button;
-//		public OrderItemView orderItem;
-//		
-//		public OrderItemViewButton(OrderItemView orderItem, String buttonText)
-//		{
-//			this.button = new Button(buttonText);
-//			this.button.setUserData(this);
-//			this.orderItem = orderItem;
-//		}
-//		
-//		public void change()
-//		{
-//			this.setChanged();
-//		}
-//	}
-	
+		
 	EventHandler<ActionEvent> viewProductAction  = new EventHandler<ActionEvent>() 
 	{
 	    @Override public void handle(ActionEvent e) 
@@ -137,6 +119,11 @@ public class OrderItemView extends CatalogItem {
 		return greetingCard;
 	}
 
+	public void setGreetingCardText(String text)
+	{
+		this.greetingCard.setText(text);
+	}
+	
 	public void setGreetingCard(TextArea greetingCard) {
 		this.greetingCard = greetingCard;
 	}
