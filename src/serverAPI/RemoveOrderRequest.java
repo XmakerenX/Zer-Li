@@ -16,7 +16,5 @@ public class RemoveOrderRequest extends Request {
 
 	public void setOrderID(long orderID) {
 		this.orderID = orderID;
-	}
-	
-	
+	}	
 }

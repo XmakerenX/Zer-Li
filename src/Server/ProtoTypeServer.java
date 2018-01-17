@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -165,7 +164,6 @@ public class ProtoTypeServer extends AbstractServer {
 		  System.out.println("Clinet disconnected");
 		  logoutUser(client);
 	  }
-	  			    	  
 	  
 	  private ArrayList<?> handleGetRequest(Request getRequest)
 	  {
@@ -252,13 +250,13 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "GetRequestWhere":
 			  {
 				  GetRequestWhere getRequestWhere = (GetRequestWhere)request;
-				  
 				  String condition;
-				  if (!getRequestWhere.getCheckColomn().equals("OrderCustomerID"))
-					  condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
-				  else
+				  if(getRequestWhere.getCheckColomn().equals("OrderCustomerID"))
+				  {
 					  condition = "" + getRequestWhere.getCheckColomn() + " = " + getRequestWhere.getCondition();
-				  
+				  }
+				  else
+					  condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
 				  ResultSet rs = db.selectTableData("*", getRequestWhere.getTable(), condition);
 				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestWhere.getTable(), rs);
 				  if (entityArray != null)

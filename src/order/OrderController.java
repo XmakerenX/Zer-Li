@@ -19,7 +19,7 @@ public class OrderController
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
-	
+	//==============================================================================================================
 	public static void CreateNewCustomOrder(Order order, ObservableList<OrderItemView> orderItems)
 	{
     		for (OrderItemView item : orderItems)
@@ -30,10 +30,10 @@ public class OrderController
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
-	
-	public static void requestCustomerOrders(long customerID)
+	//==============================================================================================================
+	public static void getOrdersOfaUser(String customerID)
 	{
-		Client.client.handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
+		Client.client.handleMessageFromClientUI((new GetRequestWhere("Order", "OrderCustomerID", customerID)));
 	}
 	
 	public static void cancelOrder(long orderID)
@@ -41,9 +41,13 @@ public class OrderController
 		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(orderID));
 	}
 	
+	public static void requestCustomerOrders(long customerID)
+	{
+		Client.client.handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
+	}
+	
 	public static void getOrderProducts(long orderID)
 	{
 		Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "ProductInOrder", "OrderID", ""+orderID));
 	}
-
 }

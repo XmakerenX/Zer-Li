@@ -107,8 +107,6 @@ public class Order implements Serializable
 
 	Calendar orderCreationDateTime;
 	Calendar orderRequiredDateTime;
-	//LocalDate orderDate;
-	//String    orderTime;
 	DelivaryInfo delivaryInfo = null;
 	PayMethod orderPaymentMethod;
 	long orderOriginStore;
@@ -163,6 +161,7 @@ public class Order implements Serializable
 		
 		this.setDelivaryInfo(info);
 	}
+
 
 	public void setID(int orderID)
 	{
@@ -250,6 +249,10 @@ public class Order implements Serializable
 		this.itemsInOrder.add(new ItemInOrder(productID, greetingCard));
 	}
 	
+	public String getDeliveryAddress()
+	{
+		return this.getDelivaryInfo().getDelivaryAddress();
+	}
 	
 	public ArrayList<CustomItemInOrder> getCustomItemInOrder() {
 		return customItemInOrder;
@@ -276,9 +279,6 @@ public class Order implements Serializable
 	}
 
 	public Calendar getOrderCreationDateTime() {
-//		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		return sdf.format(orderCreationDateTime.getTime());
-		
 		return orderCreationDateTime;
 	}
 
@@ -311,8 +311,5 @@ public class Order implements Serializable
 	{
 		this.orderRequiredDateTime = orderRequiredDateTime;
 	}
-
-	
-	
 
 }

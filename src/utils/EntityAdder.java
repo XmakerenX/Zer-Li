@@ -126,104 +126,104 @@ public class EntityAdder {
 		}
 }
 		
-		@SuppressWarnings("deprecation")
-		private static Boolean addOrder(Order order, DBConnector db)
+	@SuppressWarnings("deprecation")
+	private static Boolean addOrder(Order order, DBConnector db)
+	{
+		String orderStatus = "'"+order.getStatus()+"'";
+		float orderPrice = order.getPrice();
+
+		String orderAddress = null;
+		String receiverName = null;
+		String receiverPhoneNumber = null;
+		
+		if (order.getDelivaryInfo() != null)
 		{
-			String orderStatus = "'"+order.getStatus()+"'";
-			float orderPrice = order.getPrice();
-
-			String orderAddress = null;
-			String receiverName = null;
-			String receiverPhoneNumber = null;
-			
-			if (order.getDelivaryInfo() != null)
-			{
-				orderAddress = "'" + order.getDelivaryInfo().getDelivaryAddress() + "'";
-				receiverName = "'" + order.getDelivaryInfo().getReceiverName() + "'";
-				receiverPhoneNumber = "'" + order.getDelivaryInfo().getReceiverPhoneNumber() + "'";
-			}
-			
-			
-			String paymentMethod = "'"+order.getOrderPaymentMethod() + "'";
-			long originStore = order.getOrderOriginStore();
-			long customerID = order.getCustomerID();
-			
-			try {
-				Calendar orderTimeAndDate = order.getOrderRequiredDateTime();
-				Calendar currentTime = Calendar.getInstance();
-						
-				
-				Timestamp orderMinTimestamp = new Timestamp(currentTime.get(Calendar.YEAR) - 1900, currentTime.get(Calendar.MONTH),
-						currentTime.get(Calendar.DAY_OF_MONTH), currentTime.get(Calendar.HOUR),
-						currentTime.get(Calendar.MINUTE), currentTime.get(Calendar.SECOND), 0);
-				;
-				if (currentTime.get(Calendar.HOUR_OF_DAY) < 12)
-					orderMinTimestamp.setTime(orderMinTimestamp.getTime() + 10800000);
-				else
-					orderMinTimestamp.setTime(orderMinTimestamp.getTime() + 54000000);
-
-				
-				if (orderTimeAndDate.before(currentTime))
-					throw new Exception("Bad Date and Time was Given");
-
-				String orderRequiredDate;
-				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				//if (orderTimeAndDate.before(orderMinTimestamp))
-				if (orderMinTimestamp.after(orderTimeAndDate.getTime()))
-				{
-					Calendar orderMinTime = new GregorianCalendar();
-					orderMinTime.setTimeInMillis(orderMinTimestamp.getTime());
-
-					orderRequiredDate = sdf.format(orderMinTime.getTime());
-				}
-				else
-				{
-					orderRequiredDate = sdf.format(orderTimeAndDate.getTime());
-				}
-
-				String currentTimeString = sdf.format(currentTime.getTime());
-				
-				db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + 
-						"'" + currentTimeString + "'" + "," + "'" + orderRequiredDate + "'" +
-						"," + "''" + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
-						+ paymentMethod + "," + originStore + "," + customerID);
-								
-				// get the orderID from database
-				ResultSet rs = db.selectLastInsertID();
-				rs.next();
-				int orderID = rs.getInt(1);
-				rs.close();
-				for (Order.ItemInOrder item : order.getItemsInOrder())
-				{ 
-					db.insertData("ProductInOrder", item.getProductID() + "," + orderID + "," + "'" +item.getGreetingCard() + "'" );
-				}
-				
-				for (Order.CustomItemInOrder item : order.getCustomItemInOrder())
-				{
-					String itemType = "'" + item.getType() + "'";
-					String itemColor = "'" + item.getColor() + "'";
-					String greetingCrad = "'" + item.getGreetingCard() + "'"; 
-					db.insertData("CustomItem", "null" + "," + itemType + "," + item.getPrice() + "," + itemColor +
-							"," + greetingCrad + "," + orderID);
-
-					ResultSet rss = db.selectLastInsertID();
-					rss.next();
-					int CustomItemID = rss.getInt(1);
-					rss.close();
-					
-					for (Product component : item.getComponents())
-					{
-						db.insertData("CustomItemProduct", CustomItemID + "," + component.getID() + "," + 
-								component.getAmount() + "," + component.getPrice());
-					}										
-				}
-				
-				return true;
-			} catch (Exception e) {
-				System.out.println("Exception: " + e.getMessage());
-				return false;
-			}
+			orderAddress = "'" + order.getDelivaryInfo().getDelivaryAddress() + "'";
+			receiverName = "'" + order.getDelivaryInfo().getReceiverName() + "'";
+			receiverPhoneNumber = "'" + order.getDelivaryInfo().getReceiverPhoneNumber() + "'";
 		}
+		
+		
+		String paymentMethod = "'"+order.getOrderPaymentMethod() + "'";
+		long originStore = order.getOrderOriginStore();
+		long customerID = order.getCustomerID();
+		
+		try {
+			Calendar orderTimeAndDate = order.getOrderRequiredDateTime();
+			Calendar currentTime = Calendar.getInstance();
+					
+			
+			Timestamp orderMinTimestamp = new Timestamp(currentTime.get(Calendar.YEAR) - 1900, currentTime.get(Calendar.MONTH),
+					currentTime.get(Calendar.DAY_OF_MONTH), currentTime.get(Calendar.HOUR),
+					currentTime.get(Calendar.MINUTE), currentTime.get(Calendar.SECOND), 0);
+			;
+			if (currentTime.get(Calendar.HOUR_OF_DAY) < 12)
+				orderMinTimestamp.setTime(orderMinTimestamp.getTime() + 10800000);
+			else
+				orderMinTimestamp.setTime(orderMinTimestamp.getTime() + 54000000);
+
+			
+			if (orderTimeAndDate.before(currentTime))
+				throw new Exception("Bad Date and Time was Given");
+
+			String orderRequiredDate;
+			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			//if (orderTimeAndDate.before(orderMinTimestamp))
+			if (orderMinTimestamp.after(orderTimeAndDate.getTime()))
+			{
+				Calendar orderMinTime = new GregorianCalendar();
+				orderMinTime.setTimeInMillis(orderMinTimestamp.getTime());
+
+				orderRequiredDate = sdf.format(orderMinTime.getTime());
+			}
+			else
+			{
+				orderRequiredDate = sdf.format(orderTimeAndDate.getTime());
+			}
+
+			String currentTimeString = sdf.format(currentTime.getTime());
+			
+			db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + 
+					"'" + currentTimeString + "'" + "," + "'" + orderRequiredDate + "'" +
+					"," + "''" + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
+					+ paymentMethod + "," + originStore + "," + customerID);
+							
+			// get the orderID from database
+			ResultSet rs = db.selectLastInsertID();
+			rs.next();
+			int orderID = rs.getInt(1);
+			rs.close();
+			for (Order.ItemInOrder item : order.getItemsInOrder())
+			{ 
+				db.insertData("ProductInOrder", item.getProductID() + "," + orderID + "," + "'" +item.getGreetingCard() + "'" );
+			}
+			
+			for (Order.CustomItemInOrder item : order.getCustomItemInOrder())
+			{
+				String itemType = "'" + item.getType() + "'";
+				String itemColor = "'" + item.getColor() + "'";
+				String greetingCrad = "'" + item.getGreetingCard() + "'"; 
+				db.insertData("CustomItem", "null" + "," + itemType + "," + item.getPrice() + "," + itemColor +
+						"," + greetingCrad + "," + orderID);
+
+				ResultSet rss = db.selectLastInsertID();
+				rss.next();
+				int CustomItemID = rss.getInt(1);
+				rss.close();
+				
+				for (Product component : item.getComponents())
+				{
+					db.insertData("CustomItemProduct", CustomItemID + "," + component.getID() + "," + 
+							component.getAmount() + "," + component.getPrice());
+				}										
+			}
+			
+			return true;
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+			return false;
+		}
+	}
 		
 		private static Boolean addCustomer(Customer customer, DBConnector db)
 		{

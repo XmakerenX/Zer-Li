@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -51,7 +50,6 @@ public class EntityFactory {
 			  
 		  case "ProductInOrder":
 			  return loadProductInOrder(rs);
-			  
 			  
 		  default:
 			  return null;
@@ -256,7 +254,10 @@ public class EntityFactory {
 				  
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
-		  catch (OrderException e) {e.printStackTrace();}
+		  catch (OrderException e) {
+			  System.out.println("Invalid order data recived from database");
+			  e.printStackTrace();
+			  }
 		  
 		  return orders;
 	  }
@@ -276,4 +277,5 @@ public class EntityFactory {
 		  
 		  return productsInOrder;
 	  }
+	  
 }

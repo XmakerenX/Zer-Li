@@ -80,8 +80,8 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     //===============================================================================================================
     public void doInit()
     {
-    	nameColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-    	idColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    	nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    	idColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
     	storeColomn.setCellValueFactory(new PropertyValueFactory<>("storeID"));
     	phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNumber"));
     	selectColumn.setCellValueFactory(new PropertyValueFactory<>("SelectButton"));
@@ -185,6 +185,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 				getClient().setUI(selectOrderForComplaintGUI);
 				//getClient().setUI(SelectOrderInterface);
 				selectOrderForComplaintGUI.setClinet(client);
+				selectOrderForComplaintGUI.doInit();
 				FormController.primaryStage.setScene(selectOrderForComplaintGUI.getScene());
 			}
 	    }

@@ -31,37 +31,37 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 	private Customer currentCustomer = null;
 	
     @FXML
-    private TableView<OrderView> orderTable;
+    private TableView<OrderRow> orderTable;
 
     @FXML
-    private TableColumn<OrderView, Number> IDCol;
+    private TableColumn<OrderRow, Number> IDCol;
 
     @FXML
-    private TableColumn<OrderView, String> statusCol;
+    private TableColumn<OrderRow, String> statusCol;
 
     @FXML
-    private TableColumn<OrderView, Number> totalCol;
+    private TableColumn<OrderRow, Number> totalCol;
 
     @FXML
-    private TableColumn<OrderView, String> creationDateCol;
+    private TableColumn<OrderRow, String> creationDateCol;
 
     @FXML
-    private TableColumn<OrderView, LocalDate> orderDateCol;
+    private TableColumn<OrderRow, LocalDate> orderDateCol;
 
     @FXML
-    private TableColumn<OrderView, Button> delivaryInfoCol;
+    private TableColumn<OrderRow, Button> delivaryInfoCol;
 
     @FXML
-    private TableColumn<OrderView, String> payMethodPol;
+    private TableColumn<OrderRow, String> payMethodPol;
 
     @FXML
-    private TableColumn<OrderView, Number> storeIDCol;
+    private TableColumn<OrderRow, Number> storeIDCol;
 
     @FXML
-    private TableColumn<OrderView, Button> viewProductCol;
+    private TableColumn<OrderRow, Button> viewProductCol;
 
     @FXML
-    private TableColumn<OrderView, Button> cancelCol;
+    private TableColumn<OrderRow, Button> cancelCol;
 
     @FXML
     private Button backBtn;
@@ -92,16 +92,16 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 //*************************************************************************************************
     private void InitTableView()
     {
-    	IDCol.setCellValueFactory( new PropertyValueFactory<OrderView,Number>("ID"));
-    	statusCol.setCellValueFactory( new PropertyValueFactory<OrderView,String>("Status"));
-    	totalCol.setCellValueFactory( new PropertyValueFactory<OrderView,Number>("Price"));
-    	creationDateCol.setCellValueFactory( new PropertyValueFactory<OrderView,String>("CreationDateTime")); 
-    	orderDateCol.setCellValueFactory( new PropertyValueFactory<OrderView,LocalDate>("RequiredDateTime")); 
-    	delivaryInfoCol.setCellValueFactory( new PropertyValueFactory<OrderView,Button>("viewInfoButton"));
-    	payMethodPol.setCellValueFactory( new PropertyValueFactory<OrderView,String>("orderPaymentMethod"));
-    	storeIDCol.setCellValueFactory( new PropertyValueFactory<OrderView,Number>("orderOriginStore")); 
-    	viewProductCol.setCellValueFactory( new PropertyValueFactory<OrderView,Button>("viewProductsButton"));
-    	cancelCol.setCellValueFactory( new PropertyValueFactory<OrderView,Button>("cancelButton"));
+    	IDCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Number>("ID"));
+    	statusCol.setCellValueFactory( new PropertyValueFactory<OrderRow,String>("Status"));
+    	totalCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Number>("Price"));
+    	creationDateCol.setCellValueFactory( new PropertyValueFactory<OrderRow,String>("CreationDateTime")); 
+    	orderDateCol.setCellValueFactory( new PropertyValueFactory<OrderRow,LocalDate>("RequiredDateTime")); 
+    	delivaryInfoCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewInfoButton"));
+    	payMethodPol.setCellValueFactory( new PropertyValueFactory<OrderRow,String>("orderPaymentMethod"));
+    	storeIDCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Number>("orderOriginStore")); 
+    	viewProductCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewProductsButton"));
+    	cancelCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("cancelButton"));
     }
     
     public void onRefresh(ActionEvent event) {
@@ -124,12 +124,12 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 			if (replay.getType() == Response.Type.SUCCESS)
 			{
 				ArrayList<Order> orders = (ArrayList<Order>)replay.getMessage();
-				final ObservableList<OrderView> observableOrders = FXCollections.observableArrayList();
+				final ObservableList<OrderRow> observableOrders = FXCollections.observableArrayList();
 				
 				for (Order o : orders)
 				{
 					try {
-						OrderView newO = new OrderView(o);
+						OrderRow newO = new OrderRow(o);
 						observableOrders.add(newO);
 						newO.getObservableCancelButton().addObserver(this);
 						newO.getObservableViewProductsButton().addObserver(this);
@@ -191,7 +191,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 			ButtonType result = alert.showAndWait().get();
 			if (result == ButtonType.YES)
 			{
-				OrderView orderItem = (OrderView)arg;
+				OrderRow orderItem = (OrderRow)arg;
 				OrderController.cancelOrder(orderItem.getID());
 
 				// wait for response
@@ -231,7 +231,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 		
 		if (b.getButtonText().equals("View Products"))
 		{
-			OrderView orderItem = (OrderView)arg;
+			OrderRow orderItem = (OrderRow)arg;
 			OrderController.getOrderProducts(orderItem.getID());
 			
 			// wait for response
