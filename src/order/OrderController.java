@@ -3,6 +3,8 @@ package order;
 import client.Client;
 import javafx.collections.ObservableList;
 import serverAPI.AddRequest;
+import serverAPI.GetRequestWhere;
+import serverAPI.RemoveOrderRequest;
 
 
 public class OrderController
@@ -26,6 +28,16 @@ public class OrderController
     		}
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
+	}
+	
+	public static void requestCustomerOrders(long customerID)
+	{
+		Client.client.handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
+	}
+	
+	public static void cancelOrder(long orderID)
+	{
+		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(orderID));
 	}
 
 }

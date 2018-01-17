@@ -105,8 +105,10 @@ public class Order implements Serializable
 	Status orderStatus;
 	float  orderPrice;
 
-	LocalDate orderDate;
-	String    orderTime;
+	Calendar orderCreationDateTime;
+	Calendar orderRequiredDateTime;
+	//LocalDate orderDate;
+	//String    orderTime;
 	DelivaryInfo delivaryInfo = null;
 	PayMethod orderPaymentMethod;
 	long orderOriginStore;
@@ -115,7 +117,7 @@ public class Order implements Serializable
 	ArrayList<ItemInOrder> itemsInOrder;
 	ArrayList<CustomItemInOrder> customItemInOrder;
 
-	public Order(int id,Status status,float price,LocalDate date,String time,
+	public Order(int id,Status status,float price,Calendar orderCreationDateTime,LocalDate date,String time,
 			String delivaryAddress, String receiverName, String receiverPhoneNumber 
 			,PayMethod payMethod,long originShop, long customerID) throws OrderException
 	{
@@ -125,8 +127,8 @@ public class Order implements Serializable
 		setID(id);
 		setStatus(status);
 		setPrice(price);
-		this.setOrderDate(date);
-		this.setOrderTime(time);
+		this.orderCreationDateTime = orderCreationDateTime;
+		setOrderRequiredDateTime(date, time);
 		if (delivaryAddress != null)
 			delivaryInfo = new DelivaryInfo(delivaryAddress, receiverName, receiverPhoneNumber);
 		setOrderPaymentMethod(payMethod);
@@ -134,6 +136,33 @@ public class Order implements Serializable
 		setCustomerID(customerID);
 	}
 
+	public Order(int id,Status status,float price,Calendar orderCreationDateTime, Calendar orderRequiredDateTime,
+			String delivaryAddress, String receiverName, String receiverPhoneNumber 
+			,PayMethod payMethod,long originShop, long customerID) throws OrderException
+	{
+		itemsInOrder = new ArrayList<ItemInOrder>();
+		customItemInOrder = new ArrayList<CustomItemInOrder>();
+		
+		setID(id);
+		setStatus(status);
+		setPrice(price);
+		this.orderCreationDateTime = orderCreationDateTime;
+		setOrderRequiredDateTime(orderRequiredDateTime);
+		if (delivaryAddress != null)
+			delivaryInfo = new DelivaryInfo(delivaryAddress, receiverName, receiverPhoneNumber);
+		setOrderPaymentMethod(payMethod);
+		setOrderOriginStore(originShop);
+		setCustomerID(customerID);
+	}
+	
+	public Order(int id, Status status, float price, Calendar orderCreationDateTime,Calendar orderRequiredDateTime, DelivaryInfo info,
+			PayMethod payMethod, long originShop, long customerID) throws OrderException
+	{
+		this(id, status, price, orderCreationDateTime, orderRequiredDateTime , null, null, null ,
+				payMethod, originShop, customerID);
+		
+		this.setDelivaryInfo(info);
+	}
 
 	public void setID(int orderID)
 	{
@@ -168,35 +197,24 @@ public class Order implements Serializable
 		return this.orderPrice;
 	}
 
-	public LocalDate getOrderDate() {
-		return orderDate;
-	}
-
-
-	public void setOrderDate(LocalDate orderDate) {
-		this.orderDate = orderDate;
-	}
-
-
-	public String getOrderTime() {
-		return orderTime;
-	}
-
-
-	public void setOrderTime(String orderTime) {
-		this.orderTime = orderTime;
-	}
-
-	public Calendar getOrderDateAndTime() 
-	{
-		//Calendar orderDateAndTime = Calendar.getInstance();
-		Calendar orderDateAndTime = new GregorianCalendar();
-		String[] time = orderTime.trim().split(":");
-		orderDateAndTime.set(orderDate.getYear(), orderDate.getMonth().getValue() - 1, orderDate.getDayOfMonth(),
-				Integer.parseInt(time[0]), Integer.parseInt(time[1]));
-		
-		return orderDateAndTime;
-	}
+//	public LocalDate getOrderDate() {
+//		return orderDate;
+//	}
+//
+//
+//	public void setOrderDate(LocalDate orderDate) {
+//		this.orderDate = orderDate;
+//	}
+//
+//
+//	public String getOrderTime() {
+//		return orderTime;
+//	}
+//
+//
+//	public void setOrderTime(String orderTime) {
+//		this.orderTime = orderTime;
+//	}
 	
 	public DelivaryInfo getDelivaryInfo() {
 		return delivaryInfo;
@@ -257,6 +275,44 @@ public class Order implements Serializable
 		this.customerID = customerID;
 	}
 
+	public Calendar getOrderCreationDateTime() {
+//		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		return sdf.format(orderCreationDateTime.getTime());
+		
+		return orderCreationDateTime;
+	}
+
+	public String getCreationDateTime() {
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return sdf.format(orderCreationDateTime.getTime());
+	}
+	
+	public void setOrderCreationDateTime(Calendar orderCreationDateTime) {
+		this.orderCreationDateTime = orderCreationDateTime;
+	}
+
+	public Calendar getOrderRequiredDateTime() {
+		return orderRequiredDateTime;
+	}
+
+	public String getRequiredDateTime() {
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return sdf.format(orderRequiredDateTime.getTime());
+	}
+	
+	public void setOrderRequiredDateTime(LocalDate orderDate, String orderTime) 
+	{
+		String[] time = orderTime.trim().split(":");
+		orderRequiredDateTime = new GregorianCalendar(orderDate.getYear(), orderDate.getMonth().getValue() - 1, orderDate.getDayOfMonth(),
+				Integer.parseInt(time[0]), Integer.parseInt(time[1]));
+	}
+	
+	public void setOrderRequiredDateTime(Calendar orderRequiredDateTime) 
+	{
+		this.orderRequiredDateTime = orderRequiredDateTime;
+	}
+
+	
 	
 
 }

@@ -4,10 +4,16 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import customer.Customer;
+import order.Order;
+import order.OrderException;
 import user.User;
 import product.CatalogItem;
 import product.Product;
@@ -38,6 +44,9 @@ public class EntityFactory {
 			  
 		  case "Store":
 			  return loadStores(rs);
+			  
+		  case "Order":
+			  return loadOrders(rs);
 			  
 			  
 		  default:
@@ -220,4 +229,31 @@ public class EntityFactory {
 		  return stores;
 	  }
 	  
+	  public static ArrayList<Order> loadOrders(ResultSet rs)
+	  {
+		  ArrayList<Order> orders = new ArrayList<Order>();
+		  try
+		  {
+			  while (rs.next())
+			  {				  
+				  Calendar creationTime = new GregorianCalendar();
+				  //creationTime.setTime(rs.getDate("OrderCreationDateTime"));
+				  Timestamp t = rs.getTimestamp("OrderCreationDateTime");
+				  creationTime.setTimeInMillis(t.getTime());
+				  
+				  Calendar requiredTime = new GregorianCalendar();
+				  t = rs.getTimestamp("OrderRequiredDate");
+				  requiredTime.setTimeInMillis(t.getTime());
+				  
+				  orders.add(new Order(rs.getInt("OrderID"), Order.Status.valueOf(rs.getString("OrderStatus")), rs.getFloat("OrderPrice"),
+						  creationTime, requiredTime,
+						  rs.getString("OrderShipmentAddress"), rs.getString("OrderReceiverName"), rs.getString("OrderReceiverPhoneNUmber"),
+						  Order.PayMethod.valueOf(rs.getString("OrderPaymentMethod")), rs.getInt("OrderOriginStore"), rs.getInt("OrderCustomerID")));
+				  
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  catch (OrderException e) {e.printStackTrace();}
+		  
+		  return orders;
+	  }
 }
