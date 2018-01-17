@@ -28,7 +28,7 @@ public class OrderReport implements Serializable{
 	private long bouquetAmount;
 	private long brideBouquetAmount;
 	private long flowerPotAmount;
-	private long flowerAmount;
+	private long flowerAmount;		//Maybe need to be removed
 	private long plantAmount;
 	
 	public OrderReport(Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,
