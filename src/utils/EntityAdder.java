@@ -2,6 +2,7 @@ package utils;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -125,12 +126,11 @@ public class EntityAdder {
 		}
 }
 		
+		@SuppressWarnings("deprecation")
 		private static Boolean addOrder(Order order, DBConnector db)
 		{
 			String orderStatus = "'"+order.getStatus()+"'";
 			float orderPrice = order.getPrice();
-			Date sqlDate = Date.valueOf(order.getOrderDate());
-			String orderTime = "'" + order.getOrderTime() + "'";
 
 			String orderAddress = null;
 			String receiverName = null;
@@ -142,38 +142,50 @@ public class EntityAdder {
 				receiverName = "'" + order.getDelivaryInfo().getReceiverName() + "'";
 				receiverPhoneNumber = "'" + order.getDelivaryInfo().getReceiverPhoneNumber() + "'";
 			}
+			
+			
 			String paymentMethod = "'"+order.getOrderPaymentMethod() + "'";
 			long originStore = order.getOrderOriginStore();
 			long customerID = order.getCustomerID();
 			
 			try {
-				Calendar orderTimeAndDate = order.getOrderDateAndTime();
+				Calendar orderTimeAndDate = order.getOrderRequiredDateTime();
 				Calendar currentTime = Calendar.getInstance();
+						
 				
-				Calendar orderMinTime = new GregorianCalendar(currentTime.get(Calendar.YEAR), currentTime.get(Calendar.MONTH),
-						currentTime.get(Calendar.DAY_OF_MONTH), currentTime.get(Calendar.HOUR), currentTime.get(Calendar.MINUTE));
-				orderMinTime.add(Calendar.HOUR, 3);
+				Timestamp orderMinTimestamp = new Timestamp(currentTime.get(Calendar.YEAR) - 1900, currentTime.get(Calendar.MONTH),
+						currentTime.get(Calendar.DAY_OF_MONTH), currentTime.get(Calendar.HOUR),
+						currentTime.get(Calendar.MINUTE), currentTime.get(Calendar.SECOND), 0);
+				;
+				if (currentTime.get(Calendar.HOUR_OF_DAY) < 12)
+					orderMinTimestamp.setTime(orderMinTimestamp.getTime() + 10800000);
+				else
+					orderMinTimestamp.setTime(orderMinTimestamp.getTime() + 54000000);
+
 				
 				if (orderTimeAndDate.before(currentTime))
 					throw new Exception("Bad Date and Time was Given");
-				
-				if (orderTimeAndDate.before(orderMinTime))
+
+				String orderRequiredDate;
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				//if (orderTimeAndDate.before(orderMinTimestamp))
+				if (orderMinTimestamp.after(orderTimeAndDate.getTime()))
 				{
-					orderTimeAndDate = orderMinTime;
-					
-					LocalDate finalOrderDate = orderTimeAndDate.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-					sqlDate = Date.valueOf(finalOrderDate);
-					orderTime = "'" + orderTimeAndDate.get(Calendar.HOUR_OF_DAY) + ":" + orderTimeAndDate.get(Calendar.MINUTE) + "'";
+					Calendar orderMinTime = new GregorianCalendar();
+					orderMinTime.setTimeInMillis(orderMinTimestamp.getTime());
+
+					orderRequiredDate = sdf.format(orderMinTime.getTime());
 				}
 				else
-					orderTime = "'" + order.getOrderTime() + "'";
-								
-				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				{
+					orderRequiredDate = sdf.format(orderTimeAndDate.getTime());
+				}
+
 				String currentTimeString = sdf.format(currentTime.getTime());
 				
 				db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + 
-						"'" + currentTimeString + "'" + "," + "'" + sqlDate + "'" +
-						"," + orderTime + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
+						"'" + currentTimeString + "'" + "," + "'" + orderRequiredDate + "'" +
+						"," + "''" + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
 						+ paymentMethod + "," + originStore + "," + customerID);
 								
 				// get the orderID from database
@@ -192,7 +204,7 @@ public class EntityAdder {
 					String itemColor = "'" + item.getColor() + "'";
 					String greetingCrad = "'" + item.getGreetingCard() + "'"; 
 					db.insertData("CustomItem", "null" + "," + itemType + "," + item.getPrice() + "," + itemColor +
-							"," + greetingCrad);
+							"," + greetingCrad + "," + orderID);
 
 					ResultSet rss = db.selectLastInsertID();
 					rss.next();

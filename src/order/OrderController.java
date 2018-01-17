@@ -4,6 +4,10 @@ import client.Client;
 import javafx.collections.ObservableList;
 import serverAPI.AddRequest;
 import serverAPI.GetRequestWhere;
+<<<<<<< HEAD
+=======
+import serverAPI.RemoveOrderRequest;
+>>>>>>> branch 'master' of https://github.com/XmakerenX/prototype
 
 
 public class OrderController
@@ -28,9 +32,23 @@ public class OrderController
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
+<<<<<<< HEAD
 	//==============================================================================================================
 	public static void getOrdersOfaUser(String customerID)
 	{
 		Client.client.handleMessageFromClientUI((new GetRequestWhere("prototype.Order", "OrderCustomerID", customerID)));
 	}
+=======
+	
+	public static void requestCustomerOrders(long customerID)
+	{
+		Client.client.handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
+	}
+	
+	public static void cancelOrder(long orderID)
+	{
+		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(orderID));
+	}
+
+>>>>>>> branch 'master' of https://github.com/XmakerenX/prototype
 }

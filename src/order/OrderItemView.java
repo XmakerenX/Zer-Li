@@ -29,23 +29,23 @@ public class OrderItemView extends CatalogItem {
 	protected Button viewBtn;
 	private TextArea greetingCard;
 	
-	public class OrderItemViewButton extends Observable
-	{
-		public Button button;
-		public OrderItemView orderItem;
-		
-		public OrderItemViewButton(OrderItemView orderItem, String buttonText)
-		{
-			this.button = new Button(buttonText);
-			this.button.setUserData(this);
-			this.orderItem = orderItem;
-		}
-		
-		public void change()
-		{
-			this.setChanged();
-		}
-	}
+//	public class OrderItemViewButton extends Observable
+//	{
+//		public Button button;
+//		public OrderItemView orderItem;
+//		
+//		public OrderItemViewButton(OrderItemView orderItem, String buttonText)
+//		{
+//			this.button = new Button(buttonText);
+//			this.button.setUserData(this);
+//			this.orderItem = orderItem;
+//		}
+//		
+//		public void change()
+//		{
+//			this.setChanged();
+//		}
+//	}
 	
 	EventHandler<ActionEvent> viewProductAction  = new EventHandler<ActionEvent>() 
 	{
@@ -122,11 +122,11 @@ public class OrderItemView extends CatalogItem {
 	}
 
 	public Button getRemoveBtn() {
-		return removeBtn.button;
+		return removeBtn.getButton();
 	}
 
 	public void setRemoveBtn(Button button) {
-		this.removeBtn.button = button;
+		this.removeBtn.setButton(button);
 	}
 	
 	public OrderItemViewButton getObservableRemoveButton() {

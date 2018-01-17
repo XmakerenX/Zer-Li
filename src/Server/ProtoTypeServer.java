@@ -4,10 +4,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import customer.Customer;
+import customer.CustomerController;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import order.Order;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
 import serverAPI.GetEmployeeStoreRequest;
@@ -19,6 +24,7 @@ import serverAPI.GetRequestWhere;
 import serverAPI.ImageRequest;
 import serverAPI.LoginRequest;
 import serverAPI.LogoutRequest;
+import serverAPI.RemoveOrderRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Request;
 import serverAPI.Response;
@@ -160,6 +166,60 @@ public class ProtoTypeServer extends AbstractServer {
 		  logoutUser(client);
 	  }
 	  			    	  
+	  
+	  private ArrayList<?> handleGetRequest(Request getRequest)
+	  {
+		  String table = "";
+		  String condition = "";
+		  String fields = "*";
+		  
+		  switch (getRequest.getType())
+		  {
+		  case "GetRequest":
+		  {
+			  GetRequest GetRequest = (GetRequest)getRequest;
+			  table = GetRequest.getTable();
+		  }break;
+		  
+		  case "GetRequestWhere":
+		  {
+			  GetRequestWhere getRequestWhere = (GetRequestWhere)getRequest;
+			  table = getRequestWhere.getTable();
+
+			  if (!getRequestWhere.getCheckColomn().equals("OrderCustomerID"))
+				  condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
+			  else
+				  condition = "" + getRequestWhere.getCheckColomn() + " = " + getRequestWhere.getCondition();
+
+		  }break;
+
+		  case "GetRequestByKey":
+		  {
+			  GetRequestByKey getRequestByKey  = (GetRequestByKey)getRequest;
+			  table = getRequestByKey.getTable();
+			  condition = db.generateConditionForPrimayKey(getRequestByKey.getTable(), getRequestByKey.getKey(), condition);
+		  }break;
+		  
+		  }
+
+		  ResultSet rs = db.selectTableData(fields, table, condition);
+		  return  EntityFactory.loadEntity(table, rs);
+		  
+	  }
+	  
+	  private void sentGetReqeustResultToClient(ArrayList<?> entityArray, ConnectionToClient client)
+	  {
+		  if (entityArray != null)
+		  {
+			  if (entityArray.size() > 0)
+				  sendToClient(client, new Response(Response.Type.SUCCESS, entityArray));
+			  else
+				  sendToClient(client, new Response(Response.Type.ERROR, "No results under this condition"));
+		  }
+		  else
+			  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
+	  }
+	  
 	  /**
 	   * This method handles any requests received from the client.
 	   *
@@ -192,6 +252,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "GetRequestWhere":
 			  {
 				  GetRequestWhere getRequestWhere = (GetRequestWhere)request;
+<<<<<<< HEAD
 				  String condition;
 				  if(getRequestWhere.getCheckColomn().equals("OrderCustomerID"))
 				  {
@@ -199,6 +260,15 @@ public class ProtoTypeServer extends AbstractServer {
 				  }
 				  else
 					  condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
+=======
+				  
+				  String condition;
+				  if (!getRequestWhere.getCheckColomn().equals("OrderCustomerID"))
+					  condition = "" + getRequestWhere.getCheckColomn() + " = " + "'" + getRequestWhere.getCondition() + "'";
+				  else
+					  condition = "" + getRequestWhere.getCheckColomn() + " = " + getRequestWhere.getCondition();
+				  
+>>>>>>> branch 'master' of https://github.com/XmakerenX/prototype
 				  ResultSet rs = db.selectTableData("*", getRequestWhere.getTable(), condition);
 				  ArrayList<?> entityArray = EntityFactory.loadEntity(getRequestWhere.getTable(), rs);
 				  if (entityArray != null)
@@ -398,7 +468,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "LoginRequest":
 			  {
 				  LoginRequest loginRequest = (LoginRequest)request;
-				  ResultSet rs  =  db.selectTableData("*", "prototype.User", "userName=\""+loginRequest.getUsername() +"\"");
+				  ResultSet rs  =  db.selectTableData("*", "User", "userName=\""+loginRequest.getUsername() +"\"");
 				  ArrayList<User> users = (ArrayList<User>)EntityFactory.loadEntity("User", rs);
 				  
 				  if (users.size() > 0)
@@ -455,11 +525,61 @@ public class ProtoTypeServer extends AbstractServer {
 				  break;
 			  }
 			  
+			  case "RemoveOrderRequest":
+			  {
+				  RemoveOrderRequest removeOrderRequest = (RemoveOrderRequest)request;
+				  
+				  ArrayList<String> key = new ArrayList<String>();
+				  key.add(""+removeOrderRequest.getOrderID());
+				  
+				  ArrayList<Order> order = (ArrayList<Order>)handleGetRequest(new GetRequestByKey("Order", key));
+				  if (order.size() > 0)
+				  {
+					  Calendar requiredDate = order.get(0).getOrderRequiredDateTime();
+					  float refundRate = CustomerController.calcCustomerRefund(requiredDate);
+					  
+					  if (refundRate != 0)
+					  {
+						  ArrayList<String> customerKeys = new ArrayList<String>();
+						  customerKeys.add(""+order.get(0).getCustomerID());
+						  customerKeys.add(""+order.get(0).getOrderOriginStore());
+						  try {
+							  refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
+						  } catch (SQLException e) {
+							  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
+							  e.printStackTrace();
+							  break;
+						  }
+					  }
+					  
+					// Cancel order
+					if (EntityRemover.removeEntity("Order", key, db))
+						sendToClient(client, new Response(Response.Type.SUCCESS, "Order removed Successfully"));
+					else
+						sendToClient(client, new Response(Response.Type.ERROR, "Failed to remove the order"));
+				  }
+				  else
+				  {
+					  sendToClient(client, new Response(Response.Type.ERROR, "No such Order exist"));
+				  }
+				  
+			  }break;
+			  
 			  default:
 				  System.out.println("Error Invalid message received");
 				  break;
 
 		  }	//end of switch  
+	  }
+	  
+	  private void refundCustomer(ArrayList<String> customerKeys, float refundRate, float refundAmount) throws SQLException
+	  {
+		  ArrayList<Customer> customer = (ArrayList<Customer>)handleGetRequest(new GetRequestByKey("Customers", customerKeys));
+		  
+		  customer.get(0).setAccountBalance(customer.get(0).getAccountBalance() + refundAmount * refundRate);
+		db.executeUpdate("Customers", "accountBalance="+customer.get(0).getAccountBalance(), 
+					  "PersonID="+customer.get(0).getID()+" AND StoreID="+customer.get(0).getStoreID() );
+	
 	  }
 	  
 	  /**

@@ -65,7 +65,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private TableColumn<OrderItemView, TextArea> greetingCardCol;
     
     @FXML
-    private TableColumn<OrderItemView, OrderItemView.OrderItemViewButton> removeCol;
+    private TableColumn<OrderItemView, OrderItemViewButton> removeCol;
 
     @FXML
     private TableColumn<OrderItemView, Button> viewCol;
@@ -202,7 +202,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	
     	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,Number>("Price"));
     	greetingCardCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
-    	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemView.OrderItemViewButton>("removeBtn"));
+    	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemViewButton>("removeBtn"));
     	viewCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,Button>("viewBtn"));
     	
     	this.orderTable.setEditable(false);
@@ -221,9 +221,9 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 	    @Override public void handle(ActionEvent e) 
 	    {
 	    	Button b = (Button)e.getSource();
-	    	OrderItemView.OrderItemViewButton obsButton = (OrderItemView.OrderItemViewButton)b.getUserData();
+	    	OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
 	    	obsButton.change();
-	    	obsButton.notifyObservers(obsButton.orderItem);
+	    	obsButton.notifyObservers(obsButton.getOrderItem());
 	    }
 	};
 	    
@@ -294,7 +294,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	String receiverName = null;
     	String receiverPhoneNumber = null;
     	
-    	if ( ((RadioButton)pickupMethod.getSelectedToggle()).getText().equals("Delivary") )
+    	if ( ((RadioButton)pickupMethod.getSelectedToggle()).getText().contains("Delivery") )
     	{
     		delivaryAddress= this.addressTxt.getText();
     		receiverName = this.receiverNameTxt.getText();
@@ -319,7 +319,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     		}
         	// create our order
         	// we don't give the order ID , the database(on the server side) will do it for us :)
-    		Order order = new Order(0, Order.Status.NEW, orderTotalPrice, this.date.getValue(), orderTime,
+    		Order order = new Order(0, Order.Status.NEW, orderTotalPrice, null,this.date.getValue(), orderTime,
     				delivaryAddress, receiverName, receiverPhoneNumber,
     				payMethod, currentStoreID, currentCustomer.getID());
 
@@ -437,6 +437,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	customItem.getRemoveBtn().setOnAction(orderItemRemoveAction);
     	
     	this.orderTable.setItems(orderItems);
+    	orderTotalPrice = customItem.getPrice();
     	totalPrice.setText(""+customItem.getPrice());
     	selfPickupRadio.setSelected(true);
     	this.addressTxt.setDisable(true);

@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import networkGUI.SystemManagerGUI;
+import order.CancelOrderGUI;
 import order.CustomItemGUI;
 import product.Product;
 import prototype.FormController;
@@ -24,6 +25,7 @@ import serverAPI.Response;
 import store.Store;
 import user.LoginGUI;
 import user.User;
+import user.UserController;
 
 public class CustomerGUI extends FormController implements ClientInterface {
 
@@ -32,6 +34,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 	private Response replay = null;
 	private CatalogGUI catalogGui;
 	private CustomItemGUI  customItemGUI;
+	private CancelOrderGUI cancelOrderGUI;
 	
     @FXML
     private Label welcomeLbl;
@@ -47,6 +50,9 @@ public class CustomerGUI extends FormController implements ClientInterface {
     
     @FXML
     private Button orderCustomItemBtn;
+    
+    @FXML
+    private Button viewOrdersBtn;
 
 
     @FXML
@@ -54,10 +60,12 @@ public class CustomerGUI extends FormController implements ClientInterface {
     public void initialize(){
     	catalogGui = FormController.<CatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/CatalogGUI.fxml"), this);
     	customItemGUI = FormController.<CustomItemGUI, AnchorPane>loadFXML(getClass().getResource("/order/CustomItemGUI.fxml"), this);
+    	cancelOrderGUI = FormController.<CancelOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CancelOrderGUI.fxml"), this);
     }
     
     @FXML
     void onBack(ActionEvent event) {
+    	UserController.requestLogout(currentUser, client);
     	LoginGUI loginGUi = (LoginGUI)parent;
     	client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
@@ -98,6 +106,18 @@ public class CustomerGUI extends FormController implements ClientInterface {
     @FXML
     void onStoreChanged(ActionEvent event) {
     	currentCustomer = loadCustomer();
+    }
+    
+    @FXML
+    void onViewOrders(ActionEvent event) 
+    {
+    	if (cancelOrderGUI != null)
+    	{
+    		cancelOrderGUI.setCurrentCustomer(currentCustomer);
+    		client.setUI(cancelOrderGUI);
+    		cancelOrderGUI.onRefresh(null);
+    		FormController.primaryStage.setScene(cancelOrderGUI.getScene());
+    	}
     }
     
     public Customer loadCustomer()
