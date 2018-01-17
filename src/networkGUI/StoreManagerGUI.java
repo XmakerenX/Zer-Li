@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
-import report.ViewReportsGUI;
+import report.ReportsMenuGUI;
 import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.GetRequest;
 import serverAPI.Response;
@@ -33,7 +33,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 	//Current user's name
 	private User user;
 	
-	ViewReportsGUI viewReportsGUI;
+	ReportsMenuGUI viewReportsGUI;
 	
     @FXML // fx:id="welcomeLbl"
     private Label welcomeLbl; 
@@ -51,7 +51,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     //Will be called by FXMLLoader
     public void initialize(){
     	
-    	viewReportsGUI = FormController.<ViewReportsGUI, AnchorPane>loadFXML(getClass().getResource("/report/ViewReportsGUI.fxml"), this);
+    	viewReportsGUI = FormController.<ReportsMenuGUI, AnchorPane>loadFXML(getClass().getResource("/report/ReportsMenuGUI.fxml"), this);
     	
     }
     

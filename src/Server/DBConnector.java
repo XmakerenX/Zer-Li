@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 
 public class DBConnector {
 	
-	final static String DBName = "prototype";
 	private static boolean isDriverLoaded = false;
 	private Connection conn = null;
 	
@@ -45,13 +44,12 @@ public class DBConnector {
 				if (conn != null)
 					conn.close();
 
-				conn = DriverManager.getConnection("jdbc:mysql://localhost/"+DBName, username, password);
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/prototype", username, password);
 
 			} catch (SQLException ex) {/* handle any errors */
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
-				ex.printStackTrace();
 				System.exit(0);
 			}
 	  }
@@ -65,20 +63,19 @@ public class DBConnector {
 			  ResultSet rs;
 			  if (condition.length() == 0)
 			  {
-				  System.out.println("SELECT "+fields+" FROM "+DBName+"."+table+";");
-				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+DBName+"."+table+";");
+				  System.out.println("SELECT "+fields+" FROM "+table+";");
+				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+";");
 			  }
 			  else
 			  {
-				  System.out.println("SELECT "+fields+" FROM "+DBName+"."+table+" Where "+condition+";");
-				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+DBName+"."+table+" Where "+condition+";");
+				  System.out.println("SELECT "+fields+" FROM "+table+" Where "+condition+";");
+				  rs = stmt.executeQuery("SELECT "+fields+" FROM "+table+" Where "+condition+";");
 			  }
 			  return rs;
 		  }catch (SQLException ex) {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  return null;
 		  }
 	  }
@@ -105,7 +102,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  return null;
 		  }
 	  }
@@ -124,7 +120,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  return null;
 		  }
 	  }
@@ -144,7 +139,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  throw ex;
 		  }
 	  }
@@ -164,7 +158,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  throw ex;
 		  }
 	  }
@@ -180,8 +173,8 @@ public class DBConnector {
 		{
 			stmnt = conn.createStatement();
 			//stmnt.executeUpdate("delete from "+table+" where "+primaryKeys.get(0)+"="+"\""+key+"\"" +"limit 1");
-			System.out.println("delete from "+DBName+"."+table+" where "+ primaryCondition + " limit 1");
-			stmnt.executeUpdate("delete from "+DBName+"."+table+" where "+ primaryCondition  +" limit 1");
+			System.out.println("delete from "+table+" where "+ primaryCondition + " limit 1");
+			stmnt.executeUpdate("delete from "+table+" where "+ primaryCondition  +" limit 1");
 			return true;
 		} 
 		
@@ -203,7 +196,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  return null;
 		  }
 	  }
@@ -216,8 +208,8 @@ public class DBConnector {
 		  try
 		  {
 			  stmt = conn.createStatement();
-			  System.out.println("SHOW KEYS FROM "+DBName+"."+table+" WHERE Key_name ='PRIMARY';");
-			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+DBName+"."+table+" WHERE Key_name ='PRIMARY';");
+			  System.out.println("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
+			  ResultSet rs = stmt.executeQuery("SHOW KEYS FROM "+table+" WHERE Key_name ='PRIMARY';");
 			  while (rs.next())
 			  {
 				  primaryKeysNames.add(rs.getString("Column_name"));
@@ -231,7 +223,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  return null;
 		  }  
 	  }
@@ -252,7 +243,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 			  return null;
 		  } 
 	  }
@@ -267,7 +257,6 @@ public class DBConnector {
 			  System.out.println("SQLException: " + ex.getMessage());
 			  System.out.println("SQLState: " + ex.getSQLState());
 			  System.out.println("VendorError: " + ex.getErrorCode());
-			  ex.printStackTrace();
 		  }
 	  }
 //----------------------------------------------------------------------

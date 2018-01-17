@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import order.OrderItemViewButton;
+import order.OrderItemView.OrderItemViewButton;
 import product.Product;
 import prototype.FormController;
 

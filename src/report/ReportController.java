@@ -1,10 +1,7 @@
 package report;
 
-import java.util.ArrayList;
-
 import client.Client;
 import report.ComplaintReport.Quarterly;
-import serverAPI.GetRequestByKey;
 
 /**
  * This class includes functionality of four entities: ComplaintReport, IncomeReport, OrderReport and SurveyReport
@@ -86,11 +83,6 @@ public class ReportController {
 	 */
 	public static void getReport(String specificReport, Quarterly quarterly, String year, long storeID, Client client)
 	{
-		ArrayList<String> keys = new ArrayList<String>();
-		keys.add(""+quarterly);
-		keys.add(""+year);
-		keys.add(""+storeID);
 		
-		client.handleMessageFromClientUI(new GetRequestByKey(specificReport, keys));
 	}
 }

@@ -64,6 +64,7 @@ public class Client  extends AbstractClient{
 //*************************************************************************************************
 	public void handleMessageFromServer(Object msg) 
 	{
+		System.out.println(msg.toString());
 		if (UI != null)
 			UI.display(msg);
 	}
@@ -80,7 +81,6 @@ public class Client  extends AbstractClient{
 	{
 		try
 		{
-			System.out.println(request.getType());
 			sendToServer(request);
 		}
 		catch(IOException e)

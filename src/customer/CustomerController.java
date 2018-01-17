@@ -1,7 +1,6 @@
 package customer;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import client.Client;
 import customer.Customer.CustomerException;
@@ -75,23 +74,6 @@ public class CustomerController {
 	public static void getCertainCustomers(String column, String condition, Client client)
 	{
 		client.handleMessageFromClientUI(new GetRequestWhere("Customers", column, condition));
-	}
-	
-	public static float calcCustomerRefund(Calendar requiredDate)
-	{
-		  Calendar currentTime = Calendar.getInstance();
-
-		  float refundRate = 0.0f;
-		  long requiredDateTimestamp = requiredDate.getTimeInMillis();
-		  long currentTimestamp = currentTime.getTimeInMillis();
-		  long timediff = requiredDateTimestamp - currentTimestamp;
-		  if (timediff >= 10800000)
-			  refundRate = 1.0f;
-		  else
-			  if (timediff < 10800000 && timediff > 3600000)
-				  refundRate = 0.5f;
-		  
-		  return refundRate;
 	}
 
 }
