@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
 --
 -- Host: localhost    Database: prototype
 -- ------------------------------------------------------
@@ -40,7 +40,7 @@ CREATE TABLE `CatalogProduct` (
 
 LOCK TABLES `CatalogProduct` WRITE;
 /*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
-INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,50,NULL,0),(6,10,NULL,3);
+INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,-1,'Zer-li Class Diagram.jpg',0),(6,10,NULL,3);
 /*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,8 +57,11 @@ CREATE TABLE `CustomItem` (
   `CustomItemPrice` float DEFAULT NULL,
   `CustomItemColor` varchar(45) DEFAULT NULL,
   `CustomItemGreetingCard` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`CustomItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  `CustomItemOrderID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`CustomItemID`),
+  KEY `fk_CustomItem_1_idx` (`CustomItemOrderID`),
+  CONSTRAINT `fk_CustomItem_1` FOREIGN KEY (`CustomItemOrderID`) REFERENCES `Order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +70,7 @@ CREATE TABLE `CustomItem` (
 
 LOCK TABLES `CustomItem` WRITE;
 /*!40000 ALTER TABLE `CustomItem` DISABLE KEYS */;
+INSERT INTO `CustomItem` VALUES (1,'BOUQUET',198,'Red','',67);
 /*!40000 ALTER TABLE `CustomItem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +99,7 @@ CREATE TABLE `CustomItemProduct` (
 
 LOCK TABLES `CustomItemProduct` WRITE;
 /*!40000 ALTER TABLE `CustomItemProduct` DISABLE KEYS */;
+INSERT INTO `CustomItemProduct` VALUES (1,7,4,'36.0'),(1,8,3,'30.0'),(1,10,11,'132.0');
 /*!40000 ALTER TABLE `CustomItemProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +131,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1234,'mk','452','CREDIT_CARD',0,'3423',0,2),(12345,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',NULL,1),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3);
+INSERT INTO `Customers` VALUES (1234,'mk','452','CREDIT_CARD',0,'3423',0,2),(12345,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',NULL,1),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3);
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +146,8 @@ CREATE TABLE `Order` (
   `OrderID` int(11) NOT NULL AUTO_INCREMENT,
   `OrderStatus` varchar(45) DEFAULT NULL,
   `OrderPrice` float DEFAULT NULL,
-  `OrderRequiredDate` date DEFAULT NULL,
+  `OrderCreationDateTime` varchar(45) DEFAULT NULL,
+  `OrderRequiredDate` varchar(45) DEFAULT NULL,
   `OrderRequiredTime` varchar(45) DEFAULT NULL,
   `OrderShipmentAddress` varchar(45) DEFAULT NULL,
   `OrderReceiverName` varchar(45) DEFAULT NULL,
@@ -152,7 +158,7 @@ CREATE TABLE `Order` (
   PRIMARY KEY (`OrderID`),
   KEY `fk_Order_1_idx` (`OrderCustomerID`),
   CONSTRAINT `fk_Order_1` FOREIGN KEY (`OrderCustomerID`) REFERENCES `Customers` (`personID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,6 +167,7 @@ CREATE TABLE `Order` (
 
 LOCK TABLES `Order` WRITE;
 /*!40000 ALTER TABLE `Order` DISABLE KEYS */;
+INSERT INTO `Order` VALUES (60,'NEW',233,'2018-01-17 12:53:59','2018-01-18 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(61,'NEW',110,'2018-01-17 12:58:28','2018-01-17 20:20:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(62,'NEW',110,'2018-01-17 13:00:43','2018-01-17 20:20:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(64,'NEW',110,'2018-01-17 13:03:20','2018-01-17 16:16:00','','24242','34234','2342342','CREDITCARD',1,305022949),(65,'NEW',100,'2018-01-17 13:40:44','2018-01-17 20:20:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(66,'NEW',100,'2018-01-18 01:16:32','2018-01-18 04:16:32','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(67,'NEW',198,'2018-01-18 01:16:53','2018-01-18 06:50:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949);
 /*!40000 ALTER TABLE `Order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,6 +223,7 @@ CREATE TABLE `ProductInOrder` (
 
 LOCK TABLES `ProductInOrder` WRITE;
 /*!40000 ALTER TABLE `ProductInOrder` DISABLE KEYS */;
+INSERT INTO `ProductInOrder` VALUES (4,60,''),(4,61,''),(4,62,''),(4,64,''),(4,65,'23423'),(4,66,''),(6,60,'');
 /*!40000 ALTER TABLE `ProductInOrder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +300,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   PRIMARY KEY (`id`),
   KEY `fk_customersatisfactionsurveyresults_1_idx` (`storeID`),
   CONSTRAINT `fk_customersatisfactionsurveyresults_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,4 +377,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-12 19:47:31
+-- Dump completed on 2018-01-18  1:22:55
