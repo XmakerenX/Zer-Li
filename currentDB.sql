@@ -367,6 +367,134 @@ LOCK TABLES `surveys` WRITE;
 INSERT INTO `surveys` VALUES ('12','1','1','1','1','1','1','1'),('123','Question','Question','Question','Question','Question','Question','Bla bla'),('12355','1','1','1','1','1','1',NULL),('new survey','1','1','1','1','1','1',NULL);
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `ComplaintReport`
+--
+
+DROP TABLE IF EXISTS `ComplaintReport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ComplaintReport` (
+  `Quarterly` varchar(45) NOT NULL,
+  `Year` varchar(45) NOT NULL,
+  `StoreID` int(11) NOT NULL,
+  `FirstMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
+  `FirstMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
+  `SecondMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
+  `SecondMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
+  `ThirdMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
+  `ThirdMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
+   PRIMARY KEY (`Quarterly`, `Year` ,`StoreID`),
+  KEY `fk_ComplaintReport_1_idx` (`StoreID`),
+  CONSTRAINT `fk_ComplaintReport_1` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ComplaintReport`
+--
+
+LOCK TABLES `ComplaintReport` WRITE;
+/*!40000 ALTER TABLE `ComplaintReport` DISABLE KEYS */;
+INSERT INTO `ComplaintReport` VALUES ('FIRST','2017', 2, 13, 14, 15, 16, 17, 18);
+/*!40000 ALTER TABLE `ComplaintReport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `incomereport`
+--
+
+DROP TABLE IF EXISTS `incomereport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incomereport` (
+  `Quarterly` varchar(45) NOT NULL,
+  `Year` varchar(45) NOT NULL,
+  `StoreID` int(11) NOT NULL,
+  `IncomeAmount` float DEFAULT NULL,
+  PRIMARY KEY (`Quarterly`,`Year`,`StoreID`),
+  KEY `fk_IncomeReport_1_idx` (`StoreID`),
+  CONSTRAINT `fk_IncomeReport_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `incomereport`
+--
+
+LOCK TABLES `incomereport` WRITE;
+/*!40000 ALTER TABLE `incomereport` DISABLE KEYS */;
+INSERT INTO `incomereport` VALUES ('SECOND','2017',2,1290);
+/*!40000 ALTER TABLE `incomereport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orderreport`
+--
+
+DROP TABLE IF EXISTS `orderreport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orderreport` (
+  `Quarterly` varchar(45) NOT NULL,
+  `Year` varchar(45) NOT NULL,
+  `StoreID` int(11) NOT NULL,
+  `TotalOrdersAmount` int(11) DEFAULT NULL,
+  `BouquetAmount` int(11) DEFAULT NULL,
+  `BrideBouquetAmount` int(11) DEFAULT NULL,
+  `FlowerPotAmount` int(11) DEFAULT NULL,
+  `FlowerAmount` int(11) DEFAULT NULL,
+  `PlantAmount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Quarterly`,`Year`,`StoreID`),
+  KEY `OrderReport_idx` (`StoreID`),
+  CONSTRAINT `fk_OrderReport_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orderreport`
+--
+
+LOCK TABLES `orderreport` WRITE;
+/*!40000 ALTER TABLE `orderreport` DISABLE KEYS */;
+INSERT INTO `orderreport` VALUES ('THIRD','2017',2,265,51,52,53,54,55);
+/*!40000 ALTER TABLE `orderreport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `surveyreport`
+--
+
+DROP TABLE IF EXISTS `surveyreport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `surveyreport` (
+  `Quarterly` varchar(45) NOT NULL,
+  `Year` varchar(45) NOT NULL,
+  `StoreID` int(11) NOT NULL,
+  `FirstSurveyAverageResult` int(11) DEFAULT NULL,
+  `SecondSurveyAverageResult` int(11) DEFAULT NULL,
+  `ThirdSurveyAverageResult` int(11) DEFAULT NULL,
+  `FourthSurveyAverageResult` int(11) DEFAULT NULL,
+  `FifthSurveyAverageResult` int(11) DEFAULT NULL,
+  `SixthSurveyAverageResult` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Quarterly`,`Year`,`StoreID`),
+  KEY `fk_SurveyReport_1_idx` (`StoreID`),
+  CONSTRAINT `fk_SurveyReport_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `surveyreport`
+--
+
+LOCK TABLES `surveyreport` WRITE;
+/*!40000 ALTER TABLE `surveyreport` DISABLE KEYS */;
+INSERT INTO `surveyreport` VALUES ('FOURTH','2018',1,1,3,5,7,9,4);
+/*!40000 ALTER TABLE `surveyreport` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

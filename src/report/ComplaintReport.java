@@ -32,7 +32,7 @@ public class ComplaintReport implements Serializable{
 	private long thirdMonthPendingComplaintsAmount;
 
 	public ComplaintReport(Quarterly quarterly, String year, long storeID, long firstMonthHandled, long firstMonthPending,
-			long secondMonthHandled, long secondMonthPending, long thirdMonthHandled, long thirdMonthPending) {
+			long secondMonthHandled, long secondMonthPending, long thirdMonthHandled, long thirdMonthPending) throws ReportException{
 		
 		this.quarterly = quarterly;
 		this.year = year;

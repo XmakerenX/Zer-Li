@@ -12,7 +12,6 @@ import report.ComplaintReport.ReportException;
 
 public class SurveyReport implements Serializable {
 
-
 	public class ReportException extends Exception {
 
 		public ReportException(String message) {
@@ -27,55 +26,117 @@ public class SurveyReport implements Serializable {
 	private Quarterly quarterly;
 	private String year;
 	private long storeID;
-	private float[] surveyAverageResults;
+	private long firstSurveyAverageResult;
+	private long secondSurveyAverageResult;
+	private long thirdSurveyAverageResult;
+	private long fourthSurveyAverageResult;
+	private long fifthSurveyAverageResult;
+	private long sixthSurveyAverageResult;
 
-	public SurveyReport(Quarterly quarterly, String year, long storeID, float[] surveyAverageResults) {
-
+	
+	public SurveyReport(Quarterly quarterly, String year, long storeID, long firstSurveyAverageResult,
+			long secondSurveyAverageResult, long thirdSurveyAverageResult, long fourthSurveyAverageResult,
+			long fifthSurveyAverageResult, long sixthSurveyAverageResult) throws ReportException{
+		super();
 		this.quarterly = quarterly;
 		this.year = year;
 		this.storeID = storeID;
-		this.surveyAverageResults = surveyAverageResults;
+		this.firstSurveyAverageResult = firstSurveyAverageResult;
+		this.secondSurveyAverageResult = secondSurveyAverageResult;
+		this.thirdSurveyAverageResult = thirdSurveyAverageResult;
+		this.fourthSurveyAverageResult = fourthSurveyAverageResult;
+		this.fifthSurveyAverageResult = fifthSurveyAverageResult;
+		this.sixthSurveyAverageResult = sixthSurveyAverageResult;
 	}
-	
+
+
 	public Quarterly getQuarterly() {
 		return quarterly;
 	}
+
 
 	public void setQuarterly(Quarterly quarterly) {
 		this.quarterly = quarterly;
 	}
 
+
 	public String getYear() {
 		return year;
 	}
 
-	public void setYear(String year) throws ReportException{
-		if (Integer.parseInt(year) > 0)
-			this.year = year;
-		else
-			throw new ReportException("Entered year is invalid!");
+
+	public void setYear(String year) {
+		this.year = year;
 	}
+
 
 	public long getStoreID() {
 		return storeID;
 	}
 
-	public void setStoreID(long storeID) throws ReportException{
-		if(storeID > 0)
-			this.storeID = storeID;
-		else
-			throw new ReportException("Entered store's ID is invalid!");
+
+	public void setStoreID(long storeID) {
+		this.storeID = storeID;
 	}
 
-	public float[] getSurveyAverageResults() {
-		return surveyAverageResults;
+
+	public long getFirstSurveyAverageResult() {
+		return firstSurveyAverageResult;
 	}
 
-	public void setSurveyAverageResults(float[] surveyAverageResults) throws ReportException{
-		if(surveyAverageResults.length == 6)
-			this.surveyAverageResults = surveyAverageResults;
-		else
-			throw new ReportException("The amount of average results is invalid!");
+
+	public void setFirstSurveyAverageResult(long firstSurveyAverageResult) {
+		this.firstSurveyAverageResult = firstSurveyAverageResult;
+	}
+
+
+	public long getSecondSurveyAverageResult() {
+		return secondSurveyAverageResult;
+	}
+
+
+	public void setSecondSurveyAverageResult(long secondSurveyAverageResult) {
+		this.secondSurveyAverageResult = secondSurveyAverageResult;
+	}
+
+
+	public long getThirdSurveyAverageResult() {
+		return thirdSurveyAverageResult;
+	}
+
+
+	public void setThirdSurveyAverageResult(long thirdSurveyAverageResult) {
+		this.thirdSurveyAverageResult = thirdSurveyAverageResult;
+	}
+
+
+	public long getFourthSurveyAverageResult() {
+		return fourthSurveyAverageResult;
+	}
+
+
+	public void setFourthSurveyAverageResult(long fourthSurveyAverageResult) {
+		this.fourthSurveyAverageResult = fourthSurveyAverageResult;
+	}
+
+
+	public long getFifthSurveyAverageResult() {
+		return fifthSurveyAverageResult;
+	}
+
+
+	public void setFifthSurveyAverageResult(long fifthSurveyAverageResult) {
+		this.fifthSurveyAverageResult = fifthSurveyAverageResult;
+	}
+
+
+	public long getSixthSurveyAverageResult() {
+		return sixthSurveyAverageResult;
+	}
+
+
+	public void setSixthSurveyAverageResult(long sixthSurveyAverageResult) {
+		this.sixthSurveyAverageResult = sixthSurveyAverageResult;
 	}
 
 }

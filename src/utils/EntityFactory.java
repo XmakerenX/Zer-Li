@@ -18,6 +18,10 @@ import order.ProductInOrder;
 import user.User;
 import product.CatalogItem;
 import product.Product;
+import report.ComplaintReport;
+import report.IncomeReport;
+import report.OrderReport;
+import report.SurveyReport;
 import store.Store;
 import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
@@ -54,6 +58,19 @@ public class EntityFactory {
 			  
 		  case "orderComplaint":
 			  return loadOrderComplaints(rs);
+			  
+		  case "ComplaintReport":
+			  return loadComplaintReports(rs);
+			
+		  case "IncomeReport":
+			  return loadIncomeReports(rs);
+		
+		  case "OrderReport":
+			  return loadOrderReports(rs);
+			  
+		  case "SurveyReport":
+			  return loadSurveyReports(rs);
+			  
 			  
 		  default:
 			  return null;
@@ -310,5 +327,109 @@ public class EntityFactory {
 		  
 		  return productsInOrder;
 	  }
+	  
+  	  /**
+   * parse a ResultSet and returns an ArrayList of complaint reports from it
+   * @param rs ResultSet of the query to get the users table
+   * @return an arrayList of complaint reports made from the given ResultSet
+   */
+  public static ArrayList<ComplaintReport> loadComplaintReports(ResultSet rs)
+  {
+	  ArrayList<ComplaintReport> reports = new ArrayList<ComplaintReport>();
+	  try
+	  {
+		  while (rs.next())
+		  {
+			  reports.add(new ComplaintReport(ComplaintReport.Quarterly.valueOf(rs.getString("Quarterly")), rs.getString("Year"), rs.getLong("StoreID"),
+					  			rs.getLong("FirstMonthHandledComplaintsAmount"), rs.getLong("FirstMonthPendingComplaintsAmount"),
+					  			rs.getLong("SecondMonthHandledComplaintsAmount"), rs.getLong("SecondMonthPendingComplaintsAmount"),
+					  			rs.getLong("ThirdMonthHandledComplaintsAmount"), rs.getLong("ThirdMonthPendingComplaintsAmount")));
+			  
+		  }
+	  }catch (SQLException e) {e.printStackTrace();}
+	  catch (ComplaintReport.ReportException re ) {
+		  System.out.println("Invalid complaint reports' data received from database");
+		  re.printStackTrace();
+	  }
+	  
+	  return reports;
+  }
+  
+  /**
+   * parse a ResultSet and returns an ArrayList of income reports from it
+   * @param rs ResultSet of the query to get the users table
+   * @return an arrayList of income reports made from the given ResultSet
+   */
+  public static ArrayList<IncomeReport> loadIncomeReports(ResultSet rs)
+  {
+	  ArrayList<IncomeReport> reports = new ArrayList<IncomeReport>();
+	  try
+	  {
+		  while (rs.next())
+		  {
+			  reports.add(new IncomeReport(IncomeReport.Quarterly.valueOf(rs.getString("Quarterly")), rs.getString("Year"), rs.getLong("StoreID"), 
+					  						rs.getFloat("IncomeAmount")));
+			  
+		  }
+	  }catch (SQLException e) {e.printStackTrace();}
+	  catch (IncomeReport.ReportException re ) {
+		  System.out.println("Invalid income reports' data received from database");
+		  re.printStackTrace();
+	  }
+	  
+	  return reports;
+  } 
+  
+  /**
+   * parse a ResultSet and returns an ArrayList of order reports from it
+   * @param rs ResultSet of the query to get the users table
+   * @return an arrayList of order reports made from the given ResultSet
+   */
+  public static ArrayList<OrderReport> loadOrderReports(ResultSet rs)
+  {
+	  ArrayList<OrderReport> reports = new ArrayList<OrderReport>();
+	  try
+	  {
+		  while (rs.next())
+		  {
+			  reports.add(new OrderReport(OrderReport.Quarterly.valueOf(rs.getString("Quarterly")), rs.getString("Year"), rs.getLong("StoreID"), 
+					  		rs.getLong("TotalOrdersAmount"), rs.getLong("BouquetAmount"), rs.getLong("BrideBouquetAmount"),
+					  		rs.getLong("FlowerPotAmount"), rs.getLong("FlowerAmount"), rs.getLong("PlantAmount")));
+			  
+		  }
+	  }catch (SQLException e) {e.printStackTrace();}
+	  catch (OrderReport.ReportException re ) {
+		  System.out.println("Invalid order reports' data received from database");
+		  re.printStackTrace();
+	  }
+	  
+	  return reports;
+  }
+  
+  /**
+   * parse a ResultSet and returns an ArrayList of survey reports from it
+   * @param rs ResultSet of the query to get the users table
+   * @return an arrayList of survey reports made from the given ResultSet
+   */
+  public static ArrayList<SurveyReport> loadSurveyReports(ResultSet rs)
+  {
+	  ArrayList<SurveyReport> reports = new ArrayList<SurveyReport>();
+	  try
+	  {
+		  while (rs.next())
+		  {
+			  reports.add(new SurveyReport(SurveyReport.Quarterly.valueOf(rs.getString("Quarterly")), rs.getString("Year"), rs.getLong("StoreID"), 
+					  		rs.getLong("FirstSurveyAverageResult"), rs.getLong("SecondSurveyAverageResult"), rs.getLong("ThirdSurveyAverageResult"),
+					  		rs.getLong("FourthSurveyAverageResult"), rs.getLong("FifthSurveyAverageResult"), rs.getLong("SixthSurveyAverageResult")));
+			  
+		  }
+	  }catch (SQLException e) {e.printStackTrace();}
+	  catch (SurveyReport.ReportException re ) {
+		  System.out.println("Invalid survey reports' data received from database");
+		  re.printStackTrace();
+	  }
+	  
+	  return reports;
+  }
 	  
 }
