@@ -12,6 +12,7 @@ import Server.DBConnector;
 import customer.Customer;
 import customer.Customer.PayType;
 import order.Order;
+import order.OrderComplaint;
 import product.CatalogItem;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
@@ -40,6 +41,9 @@ public class EntityAdder {
 			
 		case "Customers":
 			return addCustomer((Customer)entity, db);
+			
+		case "orderComplaint":
+			return addOrderComplaint((OrderComplaint)entity, db);
 		
 		default:return false;
 		
@@ -240,6 +244,30 @@ public class EntityAdder {
 			{
 			db.insertData("Customers", personID + "," + fullName + "," + phoneNumber + "," + payMethod + "," + accountBalance + ","
 					+ creditCardNumber + "," + accountStatus + "," + storeID);
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		private static Boolean addOrderComplaint(OrderComplaint complaint, DBConnector db)
+		{
+			String personID = ""+complaint.getCustomerID();
+			String complaintTxt = "'"+complaint.getComplaintDescription() + "'";
+			String name = "'" + complaint.getCustomerName() +"'";
+			String phone = "'" + complaint.getCustomerPhoneNum() +"'";
+			java.sql.Date sqlDate = java.sql.Date.valueOf( complaint.getComplaintDate() );
+			String time = "'"+ complaint.getComplaintTime()+"'";
+			float maxConpensation = complaint.getMaxCompensationAmount();
+			String complaintStatus = "'"+complaint.getComplaintStatus()+"'";
+			String storeID = "" + complaint.getStoreID();
+			
+			try
+			{
+			db.insertData("orderComplaint", null + "," + personID + "," + name +"," + phone + "," + storeID + "," + complaintTxt + "," + "'" + sqlDate + "'" + ","
+					+ time + "," + null + "," + maxConpensation  + "," +  complaintStatus);
 				return true;
 			}
 			catch(Exception e)

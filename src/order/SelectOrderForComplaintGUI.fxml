@@ -9,16 +9,14 @@
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="Select an order:" />
       <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="57.0" text="Back" />
-      <TableView fx:id="orderTable" layoutX="14.0" layoutY="31.0" prefHeight="283.0" prefWidth="473.0">
+      <TableView fx:id="orderTable" layoutX="14.0" layoutY="31.0" prefHeight="309.0" prefWidth="473.0">
         <columns>
           <TableColumn fx:id="storeColumn" prefWidth="56.0" text="Store" />
-            <TableColumn fx:id="deliveryDateColumn" prefWidth="94.0" text="Devilery Date" />
-            <TableColumn fx:id="deliveryTimeColumn" prefWidth="90.0" text="Delivery Time" />
-            <TableColumn fx:id="shipmentAddressColumn" prefWidth="106.0" text="Shipment address" />
-          <TableColumn fx:id="priceColumn" prefWidth="60.0" text="Price" />
-            <TableColumn fx:id="selectCulomn" prefWidth="66.0" text="Select" />
+            <TableColumn fx:id="deliveryDateColumn" prefWidth="160.0" text="Order date" />
+          <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="orderColumn" prefWidth="105.0" text="Order" />
+            <TableColumn fx:id="selectCulomn" prefWidth="76.0" text="Select" />
         </columns>
       </TableView>
-      <Button fx:id="testCustomer" layoutX="170.0" layoutY="337.0" mnemonicParsing="false" onAction="#onTestCustomer" text="TEST RECEIVED CUSTOMER" />
    </children>
 </AnchorPane>

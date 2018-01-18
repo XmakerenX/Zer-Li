@@ -311,5 +311,9 @@ public class Order implements Serializable
 	{
 		this.orderRequiredDateTime = orderRequiredDateTime;
 	}
+	public String getDeliverAddress()
+	{
+		return this.getDelivaryInfo().getDelivaryAddress();
+	}
 
 }

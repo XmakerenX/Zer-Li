@@ -2,7 +2,11 @@ package order;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
+/**
+ * a class that holds all the  information about order complaints 
+ * @author dk198
+ *
+ */
 public class OrderComplaint implements Serializable {
 
 	private static final long serialVersionUID = 65L;
@@ -13,19 +17,30 @@ public class OrderComplaint implements Serializable {
 	private LocalDate complaintDate;
 	private String complaintTime;
 	private float complaintCompensation;
+	private float maxCompensationAmount;
 	private String complaintStatus;
+	private int storeID;
+	private String customerPhoneNum;
+	private String customerName;
 	
 	//A constructor for adding a new complaint to the date base
-	public OrderComplaint(long customerID, String complaint, LocalDate date, String time)
+	public OrderComplaint(long customerID, String name, String phone, String complaint, LocalDate date, String time, 
+			int storeID, float maxCompensationAmount)
 	{
 		setCustomerID(customerID);
 		setComplaintDescription(complaint);
 		setComplaintDate(date);
 		setComplaintTime(time);
+		setStoreID(storeID);
+		setMaxCompensationAmount(maxCompensationAmount);
+		setComplaintStatus("NEW");
+		setCustomerName(name);
+		setCustomerPhoneNum(phone);
 	}
 	
 	//A constructor for receiving complaint info from data base
-	public OrderComplaint(long complaintID, long customerID, String complaint, LocalDate date, String time, float amountOfCompensation, String complaintStatus)
+	public OrderComplaint(long complaintID, String name, String phone, long customerID, String complaint, LocalDate date, String time, 
+			float amountOfCompensation, String complaintStatus, int storeID, float maxCompensationAmount)
 	{
 		setComplaintID(complaintID);
 		setCustomerID(customerID);
@@ -34,6 +49,10 @@ public class OrderComplaint implements Serializable {
 		setComplaintTime(time);
 		setComplaintCompensation(amountOfCompensation);
 		setComplaintStatus(complaintStatus);
+		setStoreID(storeID);
+		setMaxCompensationAmount(maxCompensationAmount);
+		setCustomerName(name);
+		setCustomerPhoneNum(phone);
 	}
 
 	public long getComplaintID() {
@@ -90,6 +109,38 @@ public class OrderComplaint implements Serializable {
 
 	public void setComplaintStatus(String complaintStatus) {
 		this.complaintStatus = complaintStatus;
+	}
+
+	public float getMaxCompensationAmount() {
+		return maxCompensationAmount;
+	}
+
+	public void setMaxCompensationAmount(float maxCompensationAmount) {
+		this.maxCompensationAmount = maxCompensationAmount;
+	}
+
+	public int getStoreID() {
+		return storeID;
+	}
+
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
+
+	public String getCustomerPhoneNum() {
+		return customerPhoneNum;
+	}
+
+	public void setCustomerPhoneNum(String customerPhoneNum) {
+		this.customerPhoneNum = customerPhoneNum;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 	
 }

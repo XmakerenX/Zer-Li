@@ -16,6 +16,7 @@ public class OrderRow extends Order {
 	private Button viewInfoButton;
 	private OrderItemViewButton viewProductsButton;
 	private OrderItemViewButton cancelButton;
+	private OrderViewButton selectButton;
 	
 	EventHandler<ActionEvent> cancelAction  = new EventHandler<ActionEvent>() 
 	{
@@ -48,6 +49,17 @@ public class OrderRow extends Order {
 		}
 	};
 	
+	EventHandler<ActionEvent> selectAction  = new EventHandler<ActionEvent>() 
+	{
+	    @Override public void handle(ActionEvent e) 
+	    {	    	
+	    	Button b = (Button)e.getSource();
+	    	OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
+	    	obsButton.change();
+	    	obsButton.notifyObservers(obsButton.getOrderItem());
+	    }
+	};
+	
 	public OrderRow(Order order) throws OrderException
 	{
 		super(order.getID(), order.getStatus(), order.getPrice(), order.getOrderCreationDateTime(),order.getOrderRequiredDateTime(),
@@ -65,6 +77,8 @@ public class OrderRow extends Order {
 		
 		cancelButton = new OrderItemViewButton(this, "Cancel");
 		cancelButton.getButton().setOnAction(cancelAction);
+		
+		selectButton = new OrderViewButton(this, "Select");
 	}
 
 	public Button getViewInfoButton() {
@@ -91,6 +105,10 @@ public class OrderRow extends Order {
 	public Button getCancelButton() {
 		return cancelButton.getButton();
 	}
+	
+	public OrderViewButton getSelectButton() {
+		return selectButton;
+	}
 
 	public void setCancelButton(Button cancelButton) {
 		this.cancelButton.setButton(cancelButton);
@@ -100,6 +118,21 @@ public class OrderRow extends Order {
 	{
 		return this.cancelButton;
 	}
-	
+	//===========================================================================================================
+		public class OrderViewButton extends Button
+		{
+			OrderRow origin;
+			public OrderViewButton(OrderRow origin, String name)
+			{
+				super(name);
+				this.origin = origin;
+			}
+			
+			public OrderRow getOrigin()
+			{
+				return this.origin;
+			}
+		}
+		//===========================================================================================================
 	
 }

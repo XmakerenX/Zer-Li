@@ -7,12 +7,17 @@ import javafx.scene.control.Button;
 public class OrderItemViewButton extends Observable {
 	private Button button;
 	private Object orderItem;
+	private OrderView origin;
 	
 	public OrderItemViewButton(Object orderItem, String buttonText)
 	{
 		this.button = new Button(buttonText);
 		this.button.setUserData(this);
 		this.orderItem = orderItem;
+	}
+	public OrderView getOrigin()
+	{
+		return this.origin;
 	}
 	
 	public void change()
