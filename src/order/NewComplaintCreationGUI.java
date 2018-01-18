@@ -55,21 +55,7 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 
     @FXML
     private TextArea complaintBodyTextField;
-	//===============================================================================================================
 
-//    public void initialize(){
-//    	compensationAmountTextFiel.textProperty().addListener(new ChangeListener<String>() {
-//	    @Override
-//	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-//	        String newValue) 
-//	    {
-//	    	if(newValue.isEmpty() || (Float.valueOf(newValue) >= 0 && Float.valueOf(newValue) <= order.getPrice()))
-//	    		compensationAmountTextFiel.setText(newValue);
-//	    	else
-//	    		compensationAmountTextFiel.setText(oldValue);
-//	    }
-//	});
-//    }
   //===============================================================================================================
     @FXML
     void onCancelButton(ActionEvent event) {

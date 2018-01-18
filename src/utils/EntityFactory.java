@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 
 import customer.Customer;
 import order.Order;
+import order.OrderComplaint;
 import order.OrderException;
 import order.ProductInOrder;
 import user.User;
@@ -50,6 +51,9 @@ public class EntityFactory {
 			  
 		  case "ProductInOrder":
 			  return loadProductInOrder(rs);
+			  
+		  case "orderComplaint":
+			  return loadOrderComplaints(rs);
 			  
 		  default:
 			  return null;
@@ -211,7 +215,36 @@ public class EntityFactory {
 		  
 		  return customers;
 	  }
-	  
+	//==========================================================================================================================
+	  /**
+	   * 
+	   * parse a ResultSet and returns an ArrayList of order complaints from it
+	   * @param rs ResultSet of the query to get the order complaints table
+	   * @return an arrayList of order complaints made from the given ResultSet
+	   */
+	  public static ArrayList<OrderComplaint> loadOrderComplaints(ResultSet rs)
+	  {
+		  ArrayList<OrderComplaint> complaints = new ArrayList<OrderComplaint>();
+		  try
+		  {
+			  while (rs.next())
+			  {
+				  java.sql.Date sqlDate = rs.getDate("date");
+				  LocalDate date = sqlDate.toLocalDate();
+				  complaints.add(new OrderComplaint(rs.getInt("id") ,rs.getInt("customerID"),  rs.getString("customerName"), rs.getString("customerPhoneNumber"),
+						  rs.getInt("storeID"), rs.getString("complaintDescription"),
+						  date, rs.getString("time"), rs.getFloat("givenCompensationAmount"), rs.getFloat("maxCompensationAmount"), 
+						  rs.getString("status")));
+			  }
+		  }catch (SQLException e) {e.printStackTrace();}
+		  catch (Exception ce ) {
+			  System.out.println("Invalid customer data received from database");
+			  ce.printStackTrace();
+		  }
+		  
+		  return complaints;
+	  }
+	//==========================================================================================================================
 	  /**
 	   * parse a ResultSet and returns an ArrayList of Stores from it
 	   * @param rs ResultSet of the query to get the users table

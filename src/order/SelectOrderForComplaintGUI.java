@@ -64,19 +64,11 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
     	deliveryDateColumn.setCellValueFactory(new PropertyValueFactory<OrderRow,LocalDate>("CreationDateTime"));
     	orderColumn.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewProductsButton"));
-    	//shipmentAddressColumn.setCellValueFactory(new PropertyValueFactory("DeliverAddress"));
     	priceColumn.setCellValueFactory(new PropertyValueFactory("Price"));
     	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
     	
-//    	nameColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-//    	idColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
-//    	storeColomn.setCellValueFactory(new PropertyValueFactory<>("storeID"));
-//    	phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNumber"));
-//    	selectColumn.setCellValueFactory(new PropertyValueFactory<>("SelectButton"));
-    	
     	newComplaintCreationGUI = FormController.<NewComplaintCreationGUI, AnchorPane>loadFXML(getClass().getResource("/order/NewComplaintCreationGUI.fxml"), this);
     	initOrderTableContent(Long.toString(customer.getID()));
-    	System.out.println("IN DO INIT "+orderList);
     }
   //==============================================================================================================
     @FXML

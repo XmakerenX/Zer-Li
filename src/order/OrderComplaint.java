@@ -39,8 +39,8 @@ public class OrderComplaint implements Serializable {
 	}
 	
 	//A constructor for receiving complaint info from data base
-	public OrderComplaint(long complaintID, String name, String phone, long customerID, String complaint, LocalDate date, String time, 
-			float amountOfCompensation, String complaintStatus, int storeID, float maxCompensationAmount)
+	public OrderComplaint(long complaintID, long customerID, String name, String phone, int storeID, String complaint, LocalDate date, String time, 
+			float amountOfCompensation, float maxCompensationAmount, String complaintStatus)
 	{
 		setComplaintID(complaintID);
 		setCustomerID(customerID);

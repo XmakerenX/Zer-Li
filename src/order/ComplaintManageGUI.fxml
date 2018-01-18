@@ -11,9 +11,9 @@
       <TableView fx:id="complaintTable" layoutX="14.0" layoutY="39.0" prefHeight="311.0" prefWidth="472.0">
         <columns>
             <TableColumn fx:id="storeIDComlumn" prefWidth="71.0" text="Store" />
-            <TableColumn fx:id="customerIDColumn" prefWidth="88.0" text="Customer ID" />
-          <TableColumn fx:id="complaintDateColumn" prefWidth="103.0" text="Complaint date" />
-          <TableColumn fx:id="complaintTimeColumn" prefWidth="130.0" text="Complaint time" />
+            <TableColumn fx:id="customerIDColumn" prefWidth="100.0" text="Customer name" />
+          <TableColumn fx:id="complaintDateColumn" prefWidth="99.0" text="Complaint date" />
+          <TableColumn fx:id="complaintTimeColumn" prefWidth="122.0" text="Complaint time" />
             <TableColumn fx:id="selectColumn" prefWidth="78.0" text="Select" />
         </columns>
       </TableView>

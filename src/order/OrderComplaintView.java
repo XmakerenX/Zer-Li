@@ -24,10 +24,10 @@ public class OrderComplaintView extends OrderComplaint{
 		}
 		//===========================================================================================================
 		private ComplaintViewButton selectButton;
-	public OrderComplaintView(long complaintID, String name, String phone, long customerID, String complaint, LocalDate date, String time,
-			float amountOfCompensation, String complaintStatus, int storeID, float maxCompensationAmount) {
-		super(complaintID, name, phone, customerID, complaint, date, time, amountOfCompensation, complaintStatus, storeID,
-				maxCompensationAmount);
+	public OrderComplaintView(OrderComplaint complaint) {
+		super(complaint.getComplaintID(), complaint.getCustomerID(), complaint.getCustomerName(), complaint.getCustomerPhoneNum(), complaint.getStoreID(), 
+				complaint.getComplaintDescription(), complaint.getComplaintDate(), complaint.getComplaintTime(), complaint.getComplaintCompensation(),
+				complaint.getMaxCompensationAmount(), complaint.getComplaintStatus());
 		// TODO Auto-generated constructor stub
 		this.selectButton = new ComplaintViewButton(this, "Select");
 	}

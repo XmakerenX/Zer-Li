@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import Server.DBConnector;
 import customer.Customer;
 import customer.Customer.PayType;
+import order.OrderComplaint;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
@@ -34,6 +35,9 @@ public class EntityUpdater {
 			case "CustomerSatisfactionSurveyResults":
 				setCustomerSatisfactionSurveyResult(oldKey, (CustomerSatisfactionSurveyResults)entity, db);
 				break;
+				
+			case "orderComplaint":
+				setOrderComplaint(oldKey, (OrderComplaint)entity, db);
 			}
 			
 			return true;
@@ -93,5 +97,13 @@ public class EntityUpdater {
 		String analysis = "analysis='"+result.getAnalysis()+"'";
 		String condition = "id=" + result.getID();
 		db.executeUpdate("customersatisfactionsurveyresults", analysis, condition);
+	}
+	
+	private static void setOrderComplaint(String oldKey, OrderComplaint order, DBConnector db) throws SQLException
+	{
+		String compensationValue = "givenCompensationAmount= "+order.getComplaintCompensation();
+		String status = "status = 'Closed'";
+		String condition = "id=" + order.getComplaintID();
+		db.executeUpdate("orderComplaint", compensationValue + "," + status, condition);
 	}
 }

@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="order.HandleComplaintGUI">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.HandleComplaintGUI">
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="Hanldle selected complaint:" />
       <Label layoutX="14.0" layoutY="316.0" text="Refund:" />
@@ -20,7 +19,7 @@
       <Button fx:id="cancelButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" />
       <TextArea fx:id="complainTextField" editable="false" layoutX="21.0" layoutY="100.0" prefHeight="175.0" prefWidth="460.0" />
       <Text layoutX="14.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order price:" />
-      <TextField editable="false" layoutX="86.0" layoutY="279.0" />
+      <TextField fx:id="orderPriceTextFiled" editable="false" layoutX="86.0" layoutY="279.0" />
       <Label layoutX="251.0" layoutY="316.0" text="(Optional and limited to the order's price)" />
       <Separator layoutX="1.0" layoutY="346.0" prefHeight="4.0" prefWidth="500.0" />
    </children>
