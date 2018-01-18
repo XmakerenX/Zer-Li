@@ -6,7 +6,6 @@ import catalog.CatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,10 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import networkGUI.SystemManagerGUI;
 import order.CancelOrderGUI;
 import order.CustomItemGUI;
-import product.Product;
+import order.createOrderBySearchGUI;
 import prototype.FormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
@@ -34,6 +32,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 	private Response replay = null;
 	private CatalogGUI catalogGui;
 	private CustomItemGUI  customItemGUI;
+	private createOrderBySearchGUI orderBySearchGUI;
 	private CancelOrderGUI cancelOrderGUI;
 	
     @FXML
@@ -54,13 +53,20 @@ public class CustomerGUI extends FormController implements ClientInterface {
     @FXML
     private Button viewOrdersBtn;
 
+    @FXML
+    private Button orderBySearch;
 
+    
+
+   
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
     	catalogGui = FormController.<CatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/CatalogGUI.fxml"), this);
+    	orderBySearchGUI = FormController.<createOrderBySearchGUI, AnchorPane>loadFXML(getClass().getResource("/order/createOrderBySearchGUI.fxml"), this);
     	customItemGUI = FormController.<CustomItemGUI, AnchorPane>loadFXML(getClass().getResource("/order/CustomItemGUI.fxml"), this);
     	cancelOrderGUI = FormController.<CancelOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CancelOrderGUI.fxml"), this);
+    
     }
     
     @FXML
@@ -86,7 +92,8 @@ public class CustomerGUI extends FormController implements ClientInterface {
     }
     
     @FXML
-    void onViewCatalog(ActionEvent event) {
+    void onViewCatalog(ActionEvent event) 
+    {
     	Customer currentCustomer = null;
     	if (catalogGui != null)
     	{
@@ -103,6 +110,22 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	}
     }
     
+    @FXML
+    void onOrderBySearch(ActionEvent event) 
+    {
+    	Customer currentCustomer = null;
+    	if (orderBySearchGUI != null)
+    	{
+    		currentCustomer = loadCustomer();
+    		client.setUI(orderBySearchGUI);
+    		orderBySearchGUI.setClinet(client);
+    		orderBySearchGUI.doInit();
+    		orderBySearchGUI.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
+    		orderBySearchGUI.setCurrentCustomer(currentCustomer);
+    		orderBySearchGUI.setCurrentUser(this.currentUser);
+	        FormController.primaryStage.setScene(orderBySearchGUI.getScene());	
+    	}
+    }
     @FXML
     void onStoreChanged(ActionEvent event) {
     	currentCustomer = loadCustomer();
