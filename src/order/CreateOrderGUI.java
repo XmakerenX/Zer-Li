@@ -36,15 +36,15 @@ import serverAPI.Response;
 
 public class CreateOrderGUI extends FormController implements ClientInterface, Observer {
 
-	private Customer currentCustomer = null;
+	protected Customer currentCustomer = null;
 	private long currentStoreID = 0;
-	private float orderTotalPrice;
-	private boolean customOrder = false;
+	protected float orderTotalPrice;
+	protected boolean customOrder = false;
 	 // holds the last replay we got from server
  	private Response replay = null;
 	
     @FXML
-    private TableView<OrderItemView> orderTable;
+	protected TableView<OrderItemView> orderTable;
 
     @FXML
     private TableColumn<OrderItemView, ImageView> imageCol;
@@ -65,43 +65,43 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private TableColumn<OrderItemView, TextArea> greetingCardCol;
     
     @FXML
-    private TableColumn<OrderItemView, OrderItemViewButton> removeCol;
+	protected TableColumn<OrderItemView, OrderItemViewButton> removeCol;
 
     @FXML
-    private TableColumn<OrderItemView, Button> viewCol;
+	protected TableColumn<OrderItemView, Button> viewCol;
     
     @FXML
-    private Label totalPrice;
+	protected Label totalPrice;
 
     @FXML
-    private DatePicker date;
+    protected DatePicker date;
     
     @FXML
-    private RadioButton selfPickupRadio;
+	protected RadioButton selfPickupRadio;
     
     @FXML
-    private ToggleGroup pickupMethod;
+    protected ToggleGroup pickupMethod;
 
     @FXML
-    private TextField addressTxt;
+	protected TextField addressTxt;
 
     @FXML
-    private RadioButton cashRadio;
+    protected RadioButton cashRadio;
     
     @FXML
-    private ToggleGroup payMethod;
+    protected ToggleGroup payMethod;
 
     @FXML
-    private RadioButton creditCardRadio;
+	protected RadioButton creditCardRadio;
     
     @FXML
-    private RadioButton subscriptonRadio;
+    protected RadioButton subscriptonRadio;
     
     @FXML
-    private TextField hourTxt;
+    protected TextField hourTxt;
 
     @FXML
-    private TextField minsTxt;
+    protected TextField minsTxt;
 
     @FXML
     private Button confirmOrderBtn;
@@ -110,10 +110,10 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private Button cancelBtn;
     
     @FXML
-    private TextField receiverPhoneTxt;
+	protected TextField receiverPhoneTxt;
 
     @FXML
-    private TextField receiverNameTxt;
+	protected TextField receiverNameTxt;
 	
 //*************************************************************************************************
     /**
