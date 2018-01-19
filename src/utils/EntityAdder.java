@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import Server.DBConnector;
 import customer.Customer;
 import customer.Customer.PayType;
+import order.CustomItemInOrder;
 import order.Order;
 import order.OrderComplaint;
 import product.CatalogItem;
@@ -156,11 +157,11 @@ public class EntityAdder {
 		String receiverName = null;
 		String receiverPhoneNumber = null;
 		
-		if (order.getDelivaryInfo() != null)
+		if (order.getDeliveryInfo() != null)
 		{
-			orderAddress = "'" + order.getDelivaryInfo().getDelivaryAddress() + "'";
-			receiverName = "'" + order.getDelivaryInfo().getReceiverName() + "'";
-			receiverPhoneNumber = "'" + order.getDelivaryInfo().getReceiverPhoneNumber() + "'";
+			orderAddress = "'" + order.getDeliveryInfo().getDeliveryAddress() + "'";
+			receiverName = "'" + order.getDeliveryInfo().getReceiverName() + "'";
+			receiverPhoneNumber = "'" + order.getDeliveryInfo().getReceiverPhoneNumber() + "'";
 		}
 		
 		
@@ -218,7 +219,7 @@ public class EntityAdder {
 				db.insertData("ProductInOrder", item.getProductID() + "," + orderID + "," + "'" +item.getGreetingCard() + "'" );
 			}
 			
-			for (Order.CustomItemInOrder item : order.getCustomItemInOrder())
+			for (CustomItemInOrder item : order.getCustomItemInOrder())
 			{
 				String itemType = "'" + item.getType() + "'";
 				String itemColor = "'" + item.getColor() + "'";

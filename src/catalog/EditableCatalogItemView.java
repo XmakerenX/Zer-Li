@@ -11,7 +11,11 @@ import product.Product;
 
 
 
-
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the editable catalog TableView  
+	*/
+//*************************************************************************************************
 public class EditableCatalogItemView extends CatalogItem implements Serializable
 {
 	public class editableCatalogItemViewButton extends Button implements Serializable

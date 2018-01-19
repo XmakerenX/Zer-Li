@@ -26,8 +26,16 @@ import serverAPI.GetRequestWhere;
 import serverAPI.Response;
 import utils.ImageData;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI allows the customer to order custom Item
+	*/
+//*************************************************************************************************
 public class CustomItemGUI extends FormController implements ClientInterface {
 
+	//*********************************************************************************************
+	// class instance variables
+	//*********************************************************************************************
 	private Response replay = null;
 	private long currentStoreID = 0;
 	private Customer currentCustomer = null;
@@ -75,13 +83,13 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	return typeName;
     }
     
- //*************************************************************************************************
+ 	//*************************************************************************************************
     /**
   	*  Called by FXMLLoader on class initialization 
+  	*  Initializes the table view and child GUI's
   	*/
-//*************************************************************************************************
+ 	//*************************************************************************************************
     @FXML
-    //Will be called by FXMLLoader
     public void initialize()
     {
     	InitTableView();
@@ -98,15 +106,13 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	
     } 
     
-  //*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Initializes the Table View to be compatible with the product class (get and set class values)
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     private void InitTableView()
-    {
-    	//imageCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView, ImageView>("image"));
-    	
+    {   	
     	nameCol.setCellValueFactory( new PropertyValueFactory<Product,String>("Name"));
     	nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
     			
@@ -120,6 +126,13 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	amountCol.setCellFactory(TextFieldTableCell.<Product, Number>forTableColumn(new NumberStringConverter()));
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called when the Create Custom Item button is pressed
+  	*  Generates a custom Item based on customer entered preferences
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onCreateCustomItem(ActionEvent event) 
     {
@@ -195,6 +208,14 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	}
     }
 
+    //*************************************************************************************************
+    /**
+  	*  Called when the Create Order Custom Item button is pressed
+  	*  loads the selected custom Item to createOrderGUI and pass to it so customer can finalize his 
+  	*  order
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onOrderCustomItem(ActionEvent event) 
     {
@@ -216,6 +237,12 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	}
     }
     	
+    //*************************************************************************************************
+    /**
+    *  Requests from server all the flowers items 
+  	*  @return an Arraylist of the flowers items
+  	*/
+    //*************************************************************************************************
     public ArrayList<Product> getFlowers()
     {
     	replay = null;
@@ -260,6 +287,11 @@ public class CustomItemGUI extends FormController implements ClientInterface {
 	    
     }
     
+    //*************************************************************************************************
+    /**
+    *  Initialize the dominateColorCbx with all the flowers item dominate colors
+  	*/
+    //*************************************************************************************************
     public void loadDominateColors()
     {
     	dominateColorCbx.getSelectionModel().clearSelection();
@@ -285,6 +317,13 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	}
     }
 
+    //*************************************************************************************************
+    /**
+  	*  Called from the client when the server sends a response
+  	*  fills the TableView with the received products data
+  	*  @param message The Server response , an ArrayList of products
+  	*/
+    //*************************************************************************************************
     @Override
     public void display(Object message) 
     {
@@ -301,20 +340,30 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	}
     }
 
+    //*************************************************************************************************
+    /**
+     * Sets the current Customer that is viewing the catalog
+  	*  @param currentCustomer the customer to be set
+  	*/
+    //*************************************************************************************************
+	public void setCurrentStoreID(long currentStoreID) {
+		this.currentStoreID = currentStoreID;
+	}
+
+    //*************************************************************************************************
+    /**
+     * Sets the current store whose catalog is being viewed
+  	*  @param storeID the storeID to be set
+  	*/
+    //*************************************************************************************************
+	public void setCurrentCustomer(Customer currentCustomer) {
+		this.currentCustomer = currentCustomer;
+	}
+
 	@Override
 	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
 
 	}
-
-	public void setCurrentStoreID(long currentStoreID) {
-		this.currentStoreID = currentStoreID;
-	}
-
-	public void setCurrentCustomer(Customer currentCustomer) {
-		this.currentCustomer = currentCustomer;
-	}
-
-	
 	
 }

@@ -16,7 +16,11 @@ import user.LoginGUI;
 import user.NewUserCreationGUI;
 import user.User;
 import user.UserController;
-
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle simple network worker gui (handle base catalog and products)
+	*/
+//*************************************************************************************************
 public class NetworkWorkerGUI extends  FormController  implements ClientInterface
 {
     @FXML

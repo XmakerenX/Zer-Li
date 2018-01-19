@@ -45,7 +45,11 @@ import utils.ImageData;
 
 
 
-
+//*************************************************************************************************
+	/**
+	*  Provides a GUI to create an order by search(without the catalog)
+	*/
+//*************************************************************************************************
 //------------------------------------------------------------------------
 
 public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInterface
@@ -101,14 +105,13 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			this.receiverPhoneTxt.clear();
 			this.date.getEditor().clear();
 			
-	    	CustomerGUI customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
+			CustomerGUI customerGUI = (CustomerGUI)parent;
+	    	//CustomerGUI customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
 	    	Client.client.setUI(customerGUI);
-			customerGUI.setClinet(Client.client);
-			customerGUI.setCurrentUser(currentUser);
 			customerGUI.loadStores();
 			FormController.primaryStage.setScene(customerGUI.getScene());
-		    	FormController.primaryStage.hide();
-		    	FormController.primaryStage.show();
+		    FormController.primaryStage.hide();
+		    FormController.primaryStage.show();
 	
 		}
 //----------------------------------------------------------------
@@ -246,7 +249,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
 	    {
 	    	res = null;
-	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", "StoreID", ""+storeID));
+	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
 	    	
 	    	// wait for response
 			synchronized(this)

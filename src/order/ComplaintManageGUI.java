@@ -29,6 +29,11 @@ import prototype.FormController;
 import serverAPI.Response;
 import user.User;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI to handle complaint management
+	*/
+//*************************************************************************************************
 public class ComplaintManageGUI extends FormController implements ClientInterface{
 
 	Response response = null;

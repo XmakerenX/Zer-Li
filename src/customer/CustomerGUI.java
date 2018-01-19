@@ -25,8 +25,16 @@ import user.LoginGUI;
 import user.User;
 import user.UserController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that shows the action the customer can do  
+	*/
+//*************************************************************************************************
 public class CustomerGUI extends FormController implements ClientInterface {
 
+	//*********************************************************************************************
+	// class instance variables
+	//*********************************************************************************************
 	private User currentUser = null;
 	private Customer currentCustomer = null;
 	private Response replay = null;
@@ -55,10 +63,13 @@ public class CustomerGUI extends FormController implements ClientInterface {
 
     @FXML
     private Button orderBySearch;
-
     
-
-   
+    //*************************************************************************************************
+    /**
+  	*  Called by FXMLLoader on class initialization 
+  	*  Initializes child GUI's
+  	*/
+    //*************************************************************************************************
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
@@ -69,6 +80,13 @@ public class CustomerGUI extends FormController implements ClientInterface {
     
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called when the back button is pressed
+  	*  Goes back to the parent GUI
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onBack(ActionEvent event) {
     	UserController.requestLogout(currentUser, client);
@@ -77,6 +95,13 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	FormController.primaryStage.setScene(parent.getScene());
     }
 	
+    //*************************************************************************************************
+    /**
+  	*  Called when the Order Custom Item button is pressed
+  	*  Opens the Custom Item GUI 
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onOrderCustomItem(ActionEvent event) 
     {
@@ -90,7 +115,14 @@ public class CustomerGUI extends FormController implements ClientInterface {
 			FormController.primaryStage.setScene(customItemGUI.getScene());
     	}
     }
-    
+
+    //*************************************************************************************************
+    /**
+  	*  Called when the View Catalog button is pressed
+  	*  Opens the Catalog GUI
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onViewCatalog(ActionEvent event) 
     {
@@ -99,7 +131,6 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	{
     		currentCustomer = loadCustomer();
     		if (catalogGui!= null)
-    		//if (currentCustomer != null && catalogGui!= null)
     		{
 	    		catalogGui.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
 	    		catalogGui.setCurrentCustomer(currentCustomer);
@@ -110,6 +141,13 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called when the Order By Search button is pressed
+  	*  Opens the create Order By Search GUI
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onOrderBySearch(ActionEvent event) 
     {
@@ -126,11 +164,26 @@ public class CustomerGUI extends FormController implements ClientInterface {
 	        FormController.primaryStage.setScene(orderBySearchGUI.getScene());	
     	}
     }
+    
+    //*************************************************************************************************
+    /**
+  	*  Called when the store Combobox is pressed
+  	*  Loads the user customer matching the selected store
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onStoreChanged(ActionEvent event) {
     	currentCustomer = loadCustomer();
     }
-    
+
+    //*************************************************************************************************
+    /**
+  	*  Called when the store Combobox is pressed
+  	*  Loads the user customer matching the selected store
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onViewOrders(ActionEvent event) 
     {
@@ -143,6 +196,11 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Loads the user customer matching the current store
+  	*/
+    //*************************************************************************************************
     public Customer loadCustomer()
     {
 		replay = null;
@@ -183,6 +241,11 @@ public class CustomerGUI extends FormController implements ClientInterface {
 		}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Loads from the server all the stores and sets the store combobox
+  	*/
+    //*************************************************************************************************
     public void loadStores()
     {
     	Client.client.handleMessageFromClientUI(new GetRequest("Store"));
@@ -229,6 +292,13 @@ public class CustomerGUI extends FormController implements ClientInterface {
    		}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called from the client when the server sends a response
+  	*  fills the TableView with the received products data
+  	*  @param message The Server response , an ArrayList of products
+  	*/
+    //*************************************************************************************************
 	public void display(Object message)
 	{
     	System.out.println(message.toString());
@@ -244,6 +314,12 @@ public class CustomerGUI extends FormController implements ClientInterface {
 		}
 	}
 	
+    //*************************************************************************************************
+    /**
+  	*  sets the current user
+  	*  @param currentUser The user to set
+  	*/
+    //*************************************************************************************************
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}

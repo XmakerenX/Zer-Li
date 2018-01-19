@@ -17,41 +17,62 @@ import serverAPI.RemoveRequest;
 import utils.ImageData;
 import utils.ImageFileFilter;
 
+//*************************************************************************************************
+	/**
+	* Provides functions that Manages the Catalog 
+	*/
+//*************************************************************************************************
 public class CatalogController 
 {
 	
+	//*************************************************************************************************
+		/**
+		* Sends a Request to the Server to get the catalog Items
+		* @param client the client to use to send the Request
+		*/
+	//*************************************************************************************************
 	public static void requestCatalogItems(Client client)
 	{
-		client.handleMessageFromClientUI(new GetJoinedTablesRequest("Product", "CatalogProduct"));
+		client.handleMessageFromClientUI(new GetJoinedTablesRequest("Product", "CatalogProduct", 0));
 	}
 	
 	
-	/*
-	 * input: primary key for CatalogProduct table, client
-	 * output: the entry which had that key is removed from the CatalogProduct table
-	 */
-	public static void removeCatalogProductFromDataBase(long l, int storeID,Client client)
+	//*************************************************************************************************
+	/**
+	* Sends a Remove Request to the Server to remove product from CatalogProduct table
+	* @param productID the productID to remove 
+	* @param storeID the store catalog to remove from
+	* @param client the client to use to send the Request 
+	*/
+	//*************************************************************************************************
+	public static void removeCatalogProductFromDataBase(long productID, int storeID,Client client)
 	{
 		ArrayList<String> keys = new ArrayList<String>();
-		keys.add(Long.toString(l));
+		keys.add(Long.toString(productID));
 		keys.add(Integer.toString(storeID));
 		client.handleMessageFromClientUI(new RemoveRequest("CatalogProduct", keys));
 	}
 	
-	/*
-	 * input: catalogItem object, client
-	 * output: catalogItem is added as a new entry in CatalogProducts table in database
-	 */
+	//*************************************************************************************************
+	/**
+	* Sends a add Request to the Server to add product to the CatalogProduct table
+	* @param catItem the catalogITem to add 
+	* @param client the client to use to send the Request 
+	*/
+	//*************************************************************************************************
 	public static void addCatalogProductToDataBase(CatalogItem catItem,Client client)
 	{
 		client.handleMessageFromClientUI(new AddRequest("CatalogProduct", catItem));
 		System.out.println(catItem.getSalePrice());
 	}
 	
-	/*
-	 * checks if  there are any missing cached images, and does a checksum test to see
-	 * if the images found on cache are the same as the ones on the server side
-	 */
+	//*************************************************************************************************
+	/**
+	* checks if  there are any missing cached images, and does a checksum test to see
+	* if the images found on cache are the same as the ones on the server side
+	* @param catalogItems The items  Collection to check against
+	*/
+	//*************************************************************************************************
 	public static ArrayList<String> scanForMissingCachedImages(AbstractCollection<CatalogItem> catalogItems)
 	{
 		ArrayList<String> imagesToRequest = new ArrayList<String>();
@@ -100,27 +121,38 @@ public class CatalogController
 	    return imagesToRequest;
 	}
 	
-	/*
-	 * return a list of the images from the server side
-	 */
+	//*************************************************************************************************
+	/**
+	* Sends a Request to the server to send images
+	* @param imagesToRequest the image names of the requested images
+	* @param client the client to use to send the Request 
+	*/
+	//*************************************************************************************************
 	public static void requestCatalogImages(ArrayList<String> imagesToRequest, Client client)
 	{
 			client.handleMessageFromClientUI(new ImageRequest(imagesToRequest));
 	}
 	
-	/*
-	 * save image to cache folder
-	 */
+	//*************************************************************************************************
+	/**
+	* Saves the  gotten ImageData to Client Images Directory
+	* @param imagesData the images data to save 
+	*/
+	//*************************************************************************************************
 	public static void saveCatalogImages(ArrayList<ImageData> imagesData)
 	{
 		for (ImageData image : imagesData)
 		{
-			image.saveToDisk("Cache//");
+			image.saveToDisk(ImageData.ClientImagesDirectory);
 		}
 	}
-	/*
-	 * create a catalog view for viewing the catalog
-	 */
+	
+	//*************************************************************************************************
+	/**
+	* create a catalog view for viewing the catalog
+	* @param catalogItems CatalogItems to add to the view 
+	*/
+	//*************************************************************************************************
 	public static void createCatalogItemsView(ArrayList<CatalogItem> catalogItems)
 	{
 		final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();

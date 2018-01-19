@@ -32,7 +32,7 @@ public class OrderView extends Order{
 			//	order.getDelivaryInfo().getDelivaryAddress(), order.getDelivaryInfo().getReceiverName(), order.getDelivaryInfo().getReceiverPhoneNumber(), order.getOrderPaymentMethod(), 
 				//order.getOrderOriginStore(), order.getCustomerID());
 		super(order.getID(), order.getStatus(), order.getPrice(), order.getOrderCreationDateTime(),order.getOrderRequiredDateTime(),
-				order.getDelivaryInfo(), order.getOrderPaymentMethod(), order.getOrderOriginStore(), order.getCustomerID());
+				order.getDeliveryInfo(), order.getOrderPaymentMethod(), order.getOrderOriginStore(), order.getCustomerID());
 		this.selectButton = new OrderViewButton(this, "Select");
 	}
 	//===========================================================================================================

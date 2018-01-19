@@ -14,6 +14,11 @@ import user.LoginGUI;
 import user.User;
 import user.UserController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI to handle customer service expert actions : Analyzing the surveys results
+	*/
+//*************************************************************************************************
 public class CustomerServiceExpertGUI extends FormController implements ClientInterface{
 
 	SurveyAnalysisGUI surveyAnalysisGUI;	
