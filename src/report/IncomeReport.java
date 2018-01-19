@@ -2,8 +2,6 @@ package report;
 
 import java.io.Serializable;
 
-import user.User.UserException;
-
 /**
  * This class includes attributes that are needed for income report at the end
  * of quarterly
@@ -27,7 +25,7 @@ public class IncomeReport implements Serializable {
 	private long storeID;
 	private float incomeAmount;
 
-	public IncomeReport(Quarterly quarterly, String year, long storeID, float incomeAmount) {
+	public IncomeReport(Quarterly quarterly, String year, long storeID, float incomeAmount) throws ReportException {
 		
 		this.quarterly = quarterly;
 		this.year = year;

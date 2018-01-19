@@ -15,6 +15,10 @@ import order.Order;
 import order.OrderComplaint;
 import product.CatalogItem;
 import product.Product;
+import report.ComplaintReport;
+import report.IncomeReport;
+import report.OrderReport;
+import report.SurveyReport;
 import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
 import user.User;
@@ -45,6 +49,18 @@ public class EntityAdder {
 		case "orderComplaint":
 			return addOrderComplaint((OrderComplaint)entity, db);
 		
+	    case "ComplaintReport":
+			return addComplaintReports((ComplaintReport)entity, db);
+			
+	    case "IncomeReport":
+			return addIncomeReports((IncomeReport)entity, db);
+		
+		case "OrderReport":
+			return addOrderReports((OrderReport)entity, db);
+			  
+		case "SurveyReport":
+			return addSurveyReports((SurveyReport)entity, db);
+			
 		default:return false;
 		
 		}
@@ -268,6 +284,122 @@ public class EntityAdder {
 			{
 			db.insertData("orderComplaint", null + "," + personID + "," + name +"," + phone + "," + storeID + "," + complaintTxt + "," + "'" + sqlDate + "'" + ","
 					+ time + "," + null + "," + maxConpensation  + "," +  complaintStatus);
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		/**
+		 * Defines fields to insert into "ComplaintReport" table
+		 * @param complaintReport - a complaint report's entity with info which will be added to data base
+		 * @param db - a connector to data base
+		 * @return - a boolean value of success or failure
+		 */
+		private static Boolean addComplaintReports(ComplaintReport complaintReport, DBConnector db)
+		{
+			String quarterly = "'"+complaintReport.getQuarterly()+"'";
+			String year = "'"+complaintReport.getYear()+"'";
+			String storeID = ""+complaintReport.getStoreID();
+			String firstMonthHandledComplaintsAmount = ""+complaintReport.getFirstMonthHandledComplaintsAmount();
+			String firstMonthPendingComplaintsAmount = ""+complaintReport.getFirstMonthPendingComplaintsAmount();
+			String secondMonthHandledComplaintsAmount = ""+complaintReport.getSecondMonthHandledComplaintsAmount();
+			String secondMonthPendingComplaintsAmount = ""+complaintReport.getSecondMonthPendingComplaintsAmount();
+			String thirdMonthHandledComplaintsAmount = ""+complaintReport.getThirdMonthHandledComplaintsAmount();
+			String thirdMonthPendingComplaintsAmount = ""+complaintReport.getThirdMonthPendingComplaintsAmount();
+			
+			try
+			{
+			db.insertData("ComplaintReport", quarterly + "," + year + "," + storeID + "," + firstMonthHandledComplaintsAmount + "," +
+					firstMonthPendingComplaintsAmount + "," + secondMonthHandledComplaintsAmount + "," + secondMonthPendingComplaintsAmount + "," +
+					thirdMonthHandledComplaintsAmount + "," + thirdMonthPendingComplaintsAmount);
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		/**
+		 * Defines fields to insert into "IncomeReport" table
+		 * @param incomeReport - a income report's entity with info which will be added to data base
+		 * @param db - a connector to data base
+		 * @return - a boolean value of success or failure
+		 */
+		private static Boolean addIncomeReports(IncomeReport incomeReport, DBConnector db)
+		{
+			String quarterly = "'"+incomeReport.getQuarterly()+"'";
+			String year = "'"+incomeReport.getYear()+"'";
+			String storeID = ""+incomeReport.getStoreID();
+			String incomeAmount = ""+incomeReport.getIncomeAmount();
+			
+			try
+			{
+			db.insertData("IncomeReport", quarterly + "," + year + "," + storeID + "," + incomeAmount);
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		/**
+		 * Defines fields to insert into "OrderReport" table
+		 * @param orderReport - a order report's entity with info which will be added to data base
+		 * @param db - a connector to data base
+		 * @return - a boolean value of success or failure
+		 */
+		private static Boolean addOrderReports(OrderReport orderReport, DBConnector db)
+		{
+			String quarterly = "'"+orderReport.getQuarterly()+"'";
+			String year = "'"+orderReport.getYear()+"'";
+			String storeID = ""+orderReport.getStoreID();
+			String totalOrdersAmount = ""+orderReport.getTotalOrdersAmount();
+			String bouquetAmount = ""+orderReport.getBouquetAmount();
+			String brideBouquetAmount = ""+orderReport.getBrideBouquetAmount();
+			String flowerPotAmount = ""+orderReport.getFlowerPotAmount();
+			String flowerAmount = ""+orderReport.getFlowerAmount();
+			String plantAmount = ""+orderReport.getPlantAmount();
+			
+			try
+			{
+			db.insertData("OrderReport", quarterly + "," + year + "," + storeID + "," + totalOrdersAmount + "," + bouquetAmount + ","
+						+ brideBouquetAmount + "," + flowerPotAmount + "," + flowerAmount + "," + plantAmount);
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		/**
+		 * Defines fields to insert into "SurveyReport" table
+		 * @param surveyReport - a survey report's entity with info which will be added to data base
+		 * @param db - a connector to data base
+		 * @return - a boolean value of success or failure
+		 */
+		private static Boolean addSurveyReports(SurveyReport surveyReport, DBConnector db)
+		{
+			String quarterly = "'"+surveyReport.getQuarterly()+"'";
+			String year = "'"+surveyReport.getYear()+"'";
+			String storeID = ""+surveyReport.getStoreID();
+			String firstSurveyAverageResult = ""+surveyReport.getFirstSurveyAverageResult();
+			String secondSurveyAverageResult = ""+surveyReport.getSecondSurveyAverageResult();
+			String thirdSurveyAverageResult = ""+surveyReport.getThirdSurveyAverageResult();
+			String fourthSurveyAverageResult = ""+surveyReport.getFourthSurveyAverageResult();
+			String fifthSurveyAverageResult = ""+surveyReport.getFifthSurveyAverageResult();
+			String sixthSurveyAverageResult = ""+surveyReport.getSixthSurveyAverageResult();
+			
+			try
+			{
+			db.insertData("SurveyReport", quarterly + "," + year + "," + storeID + "," + firstSurveyAverageResult + "," + 
+					secondSurveyAverageResult + "," + thirdSurveyAverageResult + "," + fourthSurveyAverageResult + "," +
+					fifthSurveyAverageResult + "," + sixthSurveyAverageResult);
 				return true;
 			}
 			catch(Exception e)
