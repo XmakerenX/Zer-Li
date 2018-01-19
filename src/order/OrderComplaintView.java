@@ -47,4 +47,11 @@ public class OrderComplaintView extends OrderComplaint{
 			this.selectButton = button;
 		}
 		//===========================================================================================================
+		public OrderComplaint getOrderComplaint() 
+		{
+			OrderComplaint complaint = new OrderComplaint(getComplaintID(), getCustomerID(), getCustomerName(), getCustomerPhoneNum(), getStoreID(), 
+					getComplaintDescription(), getComplaintDate(), getComplaintTime(), getComplaintCompensation(), 
+					getMaxCompensationAmount(), getComplaintStatus());
+			return complaint;
+		}
 }
