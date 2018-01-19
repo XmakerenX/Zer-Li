@@ -96,61 +96,6 @@ public class Order implements Serializable
 	}
 	
 	//*********************************************************************************************
-	/**
-	* Holds the custom Item data that is in the current Order
-	*/
-	//*********************************************************************************************
-	public class CustomItemInOrder implements Serializable
-	{
-		private static final long serialVersionUID = -5628523607173737142L;
-		private Product.Type type;
-		private float price;
-		private String color;
-		private String greetingCard;
-		private ArrayList<Product> components;
-		
-		//*****************************************************************************************
-		/**
-		* Creates a new CustomItemInOrder with the following parameters
-		* @param type the custom item type
-		* @param price the custom item total price
-		* @param color the custom item dominate color
-		* @param greetingCard the custom item greetingCard
-		* @param components the sub products contained in the custom item 
-		*/
-		//*****************************************************************************************
-		public CustomItemInOrder(String type, float price, String color, String greetingCard
-				, ArrayList<Product> components)
-		{
-			this.type = Product.Type.valueOf(type);
-			this.price = price;
-			this.color = color;
-			this.greetingCard = greetingCard;
-			this.components = components;
-		}
-		
-		public String getGreetingCard() {
-			return greetingCard;
-		}
-
-		public ArrayList<Product> getComponents() {
-			return components;
-		}
-
-		public Product.Type getType() {
-			return type;
-		}
-
-		public float getPrice() {
-			return price;
-		}
-
-		public String getColor() {
-			return color;
-		}
-	}
-
-	//*********************************************************************************************
 	// class instance variables
 	//*********************************************************************************************
 	private static final long serialVersionUID = -4572335109967371787L;

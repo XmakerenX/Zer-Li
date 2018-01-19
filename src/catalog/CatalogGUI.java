@@ -194,7 +194,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
     {
     	replay = null;
-    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", "StoreID", ""+storeID));
+    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0,"StoreID", ""+storeID));
     	
     	// wait for response
 		synchronized(this)

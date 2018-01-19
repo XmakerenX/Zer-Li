@@ -245,7 +245,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
 	    {
 	    	res = null;
-	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", "StoreID", ""+storeID));
+	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
 	    	
 	    	// wait for response
 			synchronized(this)

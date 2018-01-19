@@ -5,9 +5,9 @@ public class GetJoinedTablesWhereRequest extends GetJoinedTablesRequest {
 	String checkColomn;
 	String condition;
 	
-	public GetJoinedTablesWhereRequest(String table , String joinedTable, String checkColomn, String condition)
+	public GetJoinedTablesWhereRequest(String table , String joinedTable, int keyIndex,String checkColomn, String condition)
 	{
-		super(table, joinedTable);
+		super(table, joinedTable, keyIndex);
 		this.checkColomn = checkColomn;
 		this.condition = condition;
 		this.type = "GetJoinedTablesWhereRequest";

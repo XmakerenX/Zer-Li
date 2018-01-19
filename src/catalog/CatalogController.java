@@ -33,7 +33,7 @@ public class CatalogController
 	//*************************************************************************************************
 	public static void requestCatalogItems(Client client)
 	{
-		client.handleMessageFromClientUI(new GetJoinedTablesRequest("Product", "CatalogProduct"));
+		client.handleMessageFromClientUI(new GetJoinedTablesRequest("Product", "CatalogProduct", 0));
 	}
 	
 	
