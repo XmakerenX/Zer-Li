@@ -43,8 +43,16 @@ import serverAPI.Response;
 import user.LoginGUI;
 import utils.ImageData;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that shows a store catalog items  
+	*/
+//*************************************************************************************************
 public class CatalogGUI extends FormController implements ClientInterface {
 
+	//*********************************************************************************************
+	// class instance variables
+	//*********************************************************************************************
 	private CreateOrderGUI createOrderGUI;
 	private long currentStoreID = 0;
 	private Customer currentCustomer = null;
@@ -79,14 +87,15 @@ public class CatalogGUI extends FormController implements ClientInterface {
     @FXML
     private Button createOrderBtn;
     
- // holds the last replay we got from server
+    // holds the last replay we got from server
  	private Response replay = null;
     
-//*************************************************************************************************
+ 	//*************************************************************************************************
     /**
   	*  Called by FXMLLoader on class initialization 
+  	*  Initializes the table view and child GUI's
   	*/
-//*************************************************************************************************
+ 	//*************************************************************************************************
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
@@ -95,11 +104,11 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	createOrderGUI = FormController.<CreateOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CreateOrderGUI.fxml"), this);
     }
     
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Initializes the Table View to be compatible with the product class (get and set class values)
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     private void InitTableView()
     {
     	imageCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView, ImageView>("image"));
@@ -175,6 +184,13 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	checkboxCol.setEditable(true);
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Loads from the server the requested store catalog products to the  catalogItemsSet
+  	*  @param storeID the store ID for which to load the catalog products
+  	*  @param catalogItemsSet the catalog Items set to which to add the items
+  	*/
+    //*************************************************************************************************
     private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
     {
     	replay = null;
@@ -205,6 +221,13 @@ public class CatalogGUI extends FormController implements ClientInterface {
 		}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Requests from the server the images that the client is missing to show the catalog and saves
+  	*  them to the client cache
+  	*  @param catalogItemsSet the catalog items to show in the catalog
+  	*/
+    //*************************************************************************************************
     public void downloadMissingCatalogImages(TreeSet<CatalogItem> catalogItemsSet)
     {
     	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItemsSet);
@@ -230,6 +253,12 @@ public class CatalogGUI extends FormController implements ClientInterface {
 		}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Request from the Server the catalog items for the current selected Store
+  	*  TODO: delete the event parameter
+  	*/
+    //*************************************************************************************************
     public void onRefresh(ActionEvent event) {
     	//TODO: add check if customer is blocked
     	if (currentCustomer == null)
@@ -244,6 +273,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     		
     	
     	final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
+    	// item set to combine the store catalog with the base catalog without duplicates
     	TreeSet<CatalogItem> catalogItemsSet = new TreeSet<CatalogItem>();
     	
     	// get currentStore catalog items
@@ -268,28 +298,35 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	replay = null;
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called when the back button is pressed
+  	*  Goes back to the parent GUI
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onBack(ActionEvent event) {
     	Client.client.setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     }
-    
-    @FXML
-    void onPrint(ActionEvent event) {
-    	final ObservableList<CatalogItemView> itemData = catalogTable.getItems();
-    	
-    	for (CatalogItemView item : itemData)
-    	{
-    		System.out.println(item.getName()+ " "+ item.isSelected());
-    	}
-    }
-    
+
+    //*************************************************************************************************
+    /**
+  	*  Called when the Create Order button is pressed
+  	*  Creates a new order and send a Request to add it to the server
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onCreateOrder(ActionEvent event) 
     {
+    	// the items in the table
     	final ObservableList<CatalogItemView> itemData = catalogTable.getItems();
+    	// the selected items in the table
     	final ObservableList<CatalogItemView> itemsSelected = FXCollections.observableArrayList();
     	
+    	// get the selected items
     	for (CatalogItemView item : itemData)
     	{
     		if (item.isSelected())
@@ -322,7 +359,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
   	*  fills the TableView with the received products data
   	*  @param message The Server response , an ArrayList of products
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     public void display(Object message)
     {
     	System.out.println(message.toString());
@@ -337,16 +374,29 @@ public class CatalogGUI extends FormController implements ClientInterface {
     	    	
     }
     
+    //TODO: delete this function
     @Override
 	public void setClinet(Client client)
 	{
     	onRefresh(null);
 	}
     
+    //*************************************************************************************************
+    /**
+     * Sets the current Customer that is viewing the catalog
+  	*  @param currentCustomer the customer to be set
+  	*/
+    //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {
 		this.currentCustomer = currentCustomer;
 	}
-	
+
+    //*************************************************************************************************
+    /**
+     * Sets the current store whose catalog is being viewed
+  	*  @param storeID the storeID to be set
+  	*/
+    //*************************************************************************************************
 	public void setCurrentStoreID(long storeID)
 	{
 		this.currentStoreID = storeID;

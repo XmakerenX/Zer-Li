@@ -101,14 +101,13 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			this.receiverPhoneTxt.clear();
 			this.date.getEditor().clear();
 			
-	    	CustomerGUI customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
+			CustomerGUI customerGUI = (CustomerGUI)parent;
+	    	//CustomerGUI customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
 	    	Client.client.setUI(customerGUI);
-			customerGUI.setClinet(Client.client);
-			customerGUI.setCurrentUser(currentUser);
 			customerGUI.loadStores();
 			FormController.primaryStage.setScene(customerGUI.getScene());
-		    	FormController.primaryStage.hide();
-		    	FormController.primaryStage.show();
+		    FormController.primaryStage.hide();
+		    FormController.primaryStage.show();
 	
 		}
 //----------------------------------------------------------------

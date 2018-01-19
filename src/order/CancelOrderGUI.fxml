@@ -21,7 +21,7 @@
             <TableColumn fx:id="totalCol" prefWidth="86.0" text="Total" />
             <TableColumn fx:id="creationDateCol" prefWidth="182.0" text="Creation Date and Time" />
             <TableColumn fx:id="orderDateCol" prefWidth="172.0" text="Order Date and Time" />
-            <TableColumn fx:id="delivaryInfoCol" prefWidth="189.0" text="Delivary Info" />
+            <TableColumn fx:id="deliveryInfoCol" prefWidth="189.0" text="Delivery Info" />
             <TableColumn fx:id="payMethodPol" prefWidth="116.0" text="Pay Method" />
             <TableColumn fx:id="storeIDCol" prefWidth="90.0" text="Store ID" />
             <TableColumn fx:id="viewProductCol" prefWidth="128.0" text="View products" />

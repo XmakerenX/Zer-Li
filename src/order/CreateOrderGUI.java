@@ -34,8 +34,16 @@ import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that allow the customer to finalize his order
+	*/
+//*************************************************************************************************
 public class CreateOrderGUI extends FormController implements ClientInterface, Observer {
 
+	//*********************************************************************************************
+	// class instance variables
+	//*********************************************************************************************
 	protected Customer currentCustomer = null;
 	private long currentStoreID = 0;
 	protected float orderTotalPrice;
@@ -115,13 +123,13 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     @FXML
 	protected TextField receiverNameTxt;
 	
-//*************************************************************************************************
+ 	//*************************************************************************************************
     /**
   	*  Called by FXMLLoader on class initialization 
+  	*  Initializes the table view and text fields listeners
   	*/
-//*************************************************************************************************
+ 	//*************************************************************************************************
     @FXML
-    //Will be called by FXMLLoader
     public void initialize()
     {
     	InitTableView();
@@ -188,11 +196,11 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     }
     	
     
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Initializes the Table View to be compatible with the product class (get and set class values)
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     private void InitTableView()
     {
     	imageCol.setCellValueFactory(new PropertyValueFactory<OrderItemView, ImageView>("image"));
@@ -208,14 +216,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	this.orderTable.setEditable(false);
     }
     
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  The action to perform when the remove button is pressed
   	*  "Changes" the state of the observable remove button in the tableview to trigger our update method 
   	*  to signal us what item in the table to remove
   	*  @param e the event that triggered this function
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
 	EventHandler<ActionEvent> orderItemRemoveAction  = new EventHandler<ActionEvent>() 
 	{
 	    @Override public void handle(ActionEvent e) 
@@ -227,11 +235,11 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 	    }
 	};
 	    
-//*************************************************************************************************
+	//*************************************************************************************************
     /**
   	*  Switches to this GUI parent
   	*/
-//*************************************************************************************************
+	//*************************************************************************************************
 	void returnToParent()
 	{
 		this.addressTxt.clear();
@@ -261,12 +269,12 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		}
 	}
 
-//*************************************************************************************************
+	//*************************************************************************************************
     /**
   	*  Cancels this order and Switches to this GUI parent
   	*  @param e the event that triggered this function
   	*/
-//*************************************************************************************************
+	//*************************************************************************************************
     @FXML
     void OnCancel(ActionEvent event) 
     {
@@ -281,22 +289,22 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		}
     }
 
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Creates a new Order
   	*  @param e the event that triggered this function
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     @FXML
     void onConfirmOrder(ActionEvent event) 
     {
-    	String delivaryAddress = null;
+    	String deliveryAddress = null;
     	String receiverName = null;
     	String receiverPhoneNumber = null;
     	
     	if ( ((RadioButton)pickupMethod.getSelectedToggle()).getText().contains("Delivery") )
     	{
-    		delivaryAddress= this.addressTxt.getText();
+    		deliveryAddress= this.addressTxt.getText();
     		receiverName = this.receiverNameTxt.getText();
     		receiverPhoneNumber = this.receiverPhoneTxt.getText();
     	}
@@ -320,7 +328,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
         	// create our order
         	// we don't give the order ID , the database(on the server side) will do it for us :)
     		Order order = new Order(0, Order.Status.NEW, orderTotalPrice, null,this.date.getValue(), orderTime,
-    				delivaryAddress, receiverName, receiverPhoneNumber,
+    				deliveryAddress, receiverName, receiverPhoneNumber,
     				payMethod, currentStoreID, currentCustomer.getID());
 
     		if (!customOrder)
@@ -366,42 +374,42 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	}
     }
 
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Updates the order GUI to enable the Delivery fields
   	*  @param e the event that triggered this function
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     @FXML
-    void onDelivary(ActionEvent event) {
+    void onDelivery(ActionEvent event) {
     	this.addressTxt.setDisable(false);
     	this.receiverNameTxt.setDisable(false);
     	this.receiverPhoneTxt.setDisable(false);
-    	orderTotalPrice += Order.delivaryCost;
+    	orderTotalPrice += Order.deliveryCost;
     	this.totalPrice.setText(""+orderTotalPrice);
     }
 
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Updates the order GUI to disable the Delivery fields
   	*  @param e the event that triggered this function
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     @FXML
     void onSelfPickup(ActionEvent event) {
     	this.addressTxt.setDisable(true);
     	this.receiverNameTxt.setDisable(true);
     	this.receiverPhoneTxt.setDisable(true);
-    	orderTotalPrice -= Order.delivaryCost;
+    	orderTotalPrice -= Order.deliveryCost;
     	this.totalPrice.setText(""+orderTotalPrice);
     }
     
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  loads the given orderCatalogItems to orderTable
   	*  @param orderCatalogItems an Arraylist of the items to load in this order
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     public void loadItemsInOrder(ObservableList<CatalogItemView> orderCatalogItems)
     {
     	orderTotalPrice = 0;
@@ -425,7 +433,13 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	creditCardRadio.setSelected(true);
     	customOrder = false;
     }
-    
+
+    //*************************************************************************************************
+    /**
+  	*  loads the given CustomItemView to orderTable
+  	*  @param customItem the custom item to add the orderTable
+  	*/
+    //*************************************************************************************************
     public void loadCustomItemInOrder(CustomItemView customItem)
     {
     	orderTotalPrice = 0;
@@ -447,6 +461,13 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	customOrder = true;
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called from the client when the server sends a response
+  	*  fills the TableView with the received products data
+  	*  @param message The Server response , an ArrayList of products
+  	*/
+    //*************************************************************************************************
 	@Override
 	public void display(Object message) {
     	System.out.println(message.toString());
@@ -460,20 +481,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		}
 	}
 
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
-
-//*************************************************************************************************
+	//*************************************************************************************************
     /**
   	*  Triggered by the observable remove button in the table to indicate what item to remove form
   	*  the table
   	*  @param o the Observable button triggering this method
   	*  @param arg the item to remove from the table
   	*/
-//*************************************************************************************************
+	//*************************************************************************************************
 	@Override
 	public void update(Observable o, Object arg)
 	{
@@ -501,14 +516,30 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		}
 	}
 
+    //*************************************************************************************************
+    /**
+    *  Sets the current Customer that is viewing the catalog
+  	*  @param currentCustomer the customer to be set
+  	*/
+    //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {
 		this.currentCustomer = currentCustomer;
 	}
 
+    //*************************************************************************************************
+    /**
+    *  Sets the current store whose catalog is being viewed
+  	*  @param storeID the storeID to be set
+  	*/
+    //*************************************************************************************************
 	public void setCurrentStore(long currentStore) {
 		this.currentStoreID = currentStore;
 	}
 	
-	
+	@Override
+	public void onSwitch(Client newClient) {
+		// TODO Auto-generated method stub
+
+	}
 	
 }

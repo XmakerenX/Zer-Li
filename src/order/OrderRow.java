@@ -42,7 +42,7 @@ public class OrderRow extends Order {
 			newWindow.initOwner(FormController.getPrimaryStage());
 			newWindow.initModality(Modality.WINDOW_MODAL);  
 			newWindow.setScene(viewDelivery.getScene());
-			viewDelivery.loadDeliveryInfo(order.getDelivaryInfo());
+			viewDelivery.loadDeliveryInfo(order.getDeliveryInfo());
 			viewDelivery.setWindowStage(newWindow);
 			newWindow.requestFocus();     
 			newWindow.showAndWait();
@@ -63,11 +63,11 @@ public class OrderRow extends Order {
 	public OrderRow(Order order) throws OrderException
 	{
 		super(order.getID(), order.getStatus(), order.getPrice(), order.getOrderCreationDateTime(),order.getOrderRequiredDateTime(),
-				order.getDelivaryInfo(), order.getOrderPaymentMethod(), order.getOrderOriginStore(), order.getCustomerID());
+				order.getDeliveryInfo(), order.getOrderPaymentMethod(), order.getOrderOriginStore(), order.getCustomerID());
 		
 		viewInfoButton = new Button("View Delivery");
 		viewInfoButton.setOnAction(onDeliveryAction);
-		if (this.getDelivaryInfo() == null)
+		if (this.getDeliveryInfo() == null)
 			viewInfoButton.setDisable(true);
 		else
 			viewInfoButton.setUserData(this);

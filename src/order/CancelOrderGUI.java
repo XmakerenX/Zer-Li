@@ -25,8 +25,16 @@ import customer.Customer;
 import prototype.FormController;
 import serverAPI.Response;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that shows all the user orders and allows to cancel them
+	*/
+//*************************************************************************************************
 public class CancelOrderGUI extends FormController implements ClientInterface, Observer {
-
+	
+	//*********************************************************************************************
+	// class instance variables
+	//*********************************************************************************************
 	private Response replay;
 	private Customer currentCustomer = null;
 	
@@ -49,7 +57,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
     private TableColumn<OrderRow, LocalDate> orderDateCol;
 
     @FXML
-    private TableColumn<OrderRow, Button> delivaryInfoCol;
+    private TableColumn<OrderRow, Button> deliveryInfoCol;
 
     @FXML
     private TableColumn<OrderRow, String> payMethodPol;
@@ -66,30 +74,36 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
     @FXML
     private Button backBtn;
 
+    //*************************************************************************************************
+    /**
+  	*  Called when the back button is pressed
+  	*  Goes back to the parent GUI
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onBack(ActionEvent event) {
     	Client.client.setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     }
 
- //*************************************************************************************************
+ 	//*************************************************************************************************
     /**
   	*  Called by FXMLLoader on class initialization 
+  	*  Initializes the table view
   	*/
-//*************************************************************************************************
+ 	//*************************************************************************************************
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
     	InitTableView();
-    	
-    	//createOrderGUI = FormController.<CreateOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CreateOrderGUI.fxml"), this);
     }
     
-  //*************************************************************************************************
+    //*************************************************************************************************
     /**
   	*  Initializes the Table View to be compatible with the product class (get and set class values)
   	*/
-//*************************************************************************************************
+    //*************************************************************************************************
     private void InitTableView()
     {
     	IDCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Number>("ID"));
@@ -97,13 +111,19 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
     	totalCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Number>("Price"));
     	creationDateCol.setCellValueFactory( new PropertyValueFactory<OrderRow,String>("CreationDateTime")); 
     	orderDateCol.setCellValueFactory( new PropertyValueFactory<OrderRow,LocalDate>("RequiredDateTime")); 
-    	delivaryInfoCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewInfoButton"));
+    	deliveryInfoCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewInfoButton"));
     	payMethodPol.setCellValueFactory( new PropertyValueFactory<OrderRow,String>("orderPaymentMethod"));
     	storeIDCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Number>("orderOriginStore")); 
     	viewProductCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewProductsButton"));
     	cancelCol.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("cancelButton"));
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Request from the Server the customer orders
+  	*  TODO: delete the event parameter
+  	*/
+    //*************************************************************************************************
     public void onRefresh(ActionEvent event) {
     	OrderController.requestCustomerOrders(currentCustomer.getID());
     	
@@ -146,6 +166,13 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 		}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  Called from the client when the server sends a response
+  	*  fills the TableView with the received products data
+  	*  @param message The Server response , an ArrayList of products
+  	*/
+    //*************************************************************************************************
 	@Override
 	public void display(Object message)
 	{
@@ -160,12 +187,12 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 		}
 	}
 
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
-
+    //*************************************************************************************************
+    /**
+    *  Sets the current Customer that is viewing the catalog
+  	*  @param currentCustomer the customer to be set
+  	*/
+    //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {
 		this.currentCustomer = currentCustomer;
 	}
@@ -177,7 +204,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
   	*  @param o the Observable button triggering this method
   	*  @param arg the item to remove from the table
   	*/
-//*************************************************************************************************
+	//*************************************************************************************************
 	@Override
 	public void update(Observable o, Object arg)
 	{
@@ -269,5 +296,10 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 		}
 	}
 	
+	@Override
+	public void onSwitch(Client newClient) {
+		// TODO Auto-generated method stub
 
+	}
+	
 }

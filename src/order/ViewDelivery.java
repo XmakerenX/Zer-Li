@@ -35,11 +35,11 @@ public class ViewDelivery extends FormController {
     	windowStage.hide();
     }
     
-    public void loadDeliveryInfo(Order.DelivaryInfo delivaryInfo)
+    public void loadDeliveryInfo(Order.DeliveryInfo deliveryInfo)
     {
-    	this.addressTxt.setText(delivaryInfo.delivaryAddress);
-    	this.reciverNameTxt.setText(delivaryInfo.getReceiverName());
-    	this.reciverPhoneNumberTxt.setText(delivaryInfo.getReceiverPhoneNumber());
+    	this.addressTxt.setText(deliveryInfo.deliveryAddress);
+    	this.reciverNameTxt.setText(deliveryInfo.getReceiverName());
+    	this.reciverPhoneNumberTxt.setText(deliveryInfo.getReceiverPhoneNumber());
     }
     
 	public void setWindowStage(Stage windowStage) {
