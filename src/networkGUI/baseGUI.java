@@ -18,7 +18,8 @@ public class baseGUI extends FormController
     private Button logOutBtn;
 
     @FXML
-    void logOut(ActionEvent event) {
+    void logOut(ActionEvent event) 
+    {
 
     }
 

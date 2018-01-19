@@ -50,7 +50,11 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that enable editing a catalog's store
+	*/
+//*************************************************************************************************
 public class EditCatalogItemGUI extends AddToCatalogGUI 
 {
 	CatalogItem eCatProd;

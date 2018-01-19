@@ -14,6 +14,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle store worker actions : input surveys results
+	*/
+//*************************************************************************************************
+
 public class StoreWorkerGUI extends FormController implements ClientInterface{
 	
 	//Current user's name

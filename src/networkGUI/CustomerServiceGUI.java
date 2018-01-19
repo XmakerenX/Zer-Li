@@ -15,6 +15,11 @@ import user.NewUserCreationGUI;
 import user.User;
 import user.UserController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle  customer service actions: (create new survey) 
+	*/
+//*************************************************************************************************
 public class CustomerServiceGUI extends FormController implements ClientInterface{
 
 	SurveyCreationGUI surveyCreationGUI;

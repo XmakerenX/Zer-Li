@@ -41,7 +41,11 @@ import user.UserController;
 import user.User.Permissions;
 import utils.ImageData;
 
-
+//*************************************************************************************************
+	/**
+	*  Provides a GUI to manage a store's catalog, network products and base catalog
+	*/
+//*************************************************************************************************
 public class ManageCatalogGUI extends FormController implements ClientInterface
 {
 	

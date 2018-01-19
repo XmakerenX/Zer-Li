@@ -3,7 +3,15 @@ package customer;
 import javafx.scene.control.Button;
 import product.EditableProductView;
 
-public class CustomerView extends Customer{
+
+//*************************************************************************************************
+	/**
+	*  The class that holds the data of the customer to be shown in gui  
+	*/
+//*************************************************************************************************
+
+public class CustomerView extends Customer
+{
 	//===========================================================================================================
 	public class CustomerViewButton extends Button
 	{

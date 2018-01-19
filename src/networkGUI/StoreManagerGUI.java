@@ -25,6 +25,12 @@ import user.UpdateUsersInfoGUI;
 import user.User;
 import user.UserController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle Store Manager actions: viewing report
+	*/
+//*************************************************************************************************
+
 public class StoreManagerGUI extends FormController implements ClientInterface {
 
 	// holds the last replay we got from server

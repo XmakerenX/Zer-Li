@@ -51,6 +51,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+/*
+ * A gui to handle the proccess of adding a product to a store's catalog
+ */
 public class AddToCatalogGUI extends FormController implements ClientInterface 
 {
 	int storeID;
