@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import customer.Customer;
+import order.CustomItemInOrder;
 import order.Order;
 import order.OrderComplaint;
 import order.OrderException;
@@ -70,6 +71,12 @@ public class EntityFactory {
 			  
 		  case "SurveyReport":
 			  return loadSurveyReports(rs);
+			  
+		  case "CustomItem":
+			  return loadCustomItem(rs);
+			  
+		  case "CustomItemProduct":
+			  return loadCustomItemInOrder(rs);
 			  
 			  
 		  default:
@@ -431,5 +438,37 @@ public class EntityFactory {
 	  
 	  return reports;
   }
+
+  public static ArrayList<CustomItemInOrder> loadCustomItem(ResultSet rs)
+  {
+	  ArrayList<CustomItemInOrder> customItems = new ArrayList<CustomItemInOrder>();
 	  
+	  try
+	  {
+		  while (rs.next())
+		  {	  
+			  customItems.add(new CustomItemInOrder(rs.getInt("CustomItemID") ,rs.getString("CustomItemType"),
+					  rs.getFloat("CustomItemPrice"), rs.getString("CustomItemColor"), rs.getString("CustomItemGreetingCard"), null));
+		  }
+	  }catch (SQLException e) {e.printStackTrace();}
+	  
+	  return customItems;
+  }
+  
+  public static ArrayList<Product> loadCustomItemInOrder(ResultSet rs)
+  {
+	  ArrayList<Product> components = new ArrayList<Product>();
+	  
+	  try
+	  {
+		  while (rs.next())
+		  {
+			  components.add(new Product(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getString("ProductType"),
+					  rs.getFloat("Price"), rs.getInt("Amount"), rs.getString("ProductColor") ) );
+		  }
+	  }catch (SQLException e) {e.printStackTrace();}
+	  
+	  return components;
+  }
+  
 }

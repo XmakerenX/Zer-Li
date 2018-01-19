@@ -3,7 +3,9 @@ package order;
 import client.Client;
 import javafx.collections.ObservableList;
 import serverAPI.AddRequest;
+import serverAPI.GetCustomItemRequest;
 import serverAPI.GetJoinedTablesWhereRequest;
+import serverAPI.GetRequest;
 import serverAPI.GetRequestWhere;
 import serverAPI.RemoveOrderRequest;
 
@@ -48,6 +50,11 @@ public class OrderController
 	
 	public static void getOrderProducts(long orderID)
 	{
-		Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "ProductInOrder", "OrderID", ""+orderID));
+		Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "ProductInOrder", 0,"OrderID", ""+orderID));
+	}
+	
+	public static void getOrderCustomProducts(long orderID)
+	{
+		Client.client.handleMessageFromClientUI(new GetCustomItemRequest(orderID));
 	}
 }
