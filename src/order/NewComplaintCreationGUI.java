@@ -33,7 +33,8 @@ import user.User;
 	*  Provides a gui to enable the creation of a new complaint
 	*/
 //*************************************************************************************************
-public class NewComplaintCreationGUI extends FormController implements ClientInterface{
+public class NewComplaintCreationGUI extends FormController implements ClientInterface
+{
 	
 	Customer customer;
 	Order order;
@@ -117,12 +118,20 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 
     }	
 	//===============================================================================================================
-
-	@Override
-	public void display(Object message) {
-		// TODO Auto-generated method stub
-		
-	}
+  	public void display(Object message) {
+  		
+      	System.out.println(message.toString());
+      	System.out.println(message.getClass().toString());
+  		
+  		Response response = (Response)message;
+  		this.response = response;
+  		
+  		synchronized(this)
+  		{
+  			this.notify();
+  		}
+  	}
+  	//===============================================================================================================
 
 	@Override
 	public void onSwitch(Client newClient) {
