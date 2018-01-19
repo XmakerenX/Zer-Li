@@ -52,7 +52,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 /*
- * A gui to handle the proccess of adding a product to a store's catalog
+ * provides a GUI to handle the proccess of adding a product to a store's catalog
  */
 public class AddToCatalogGUI extends FormController implements ClientInterface 
 {
@@ -223,7 +223,9 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 			catch (IOException e)    {e.printStackTrace();} }
     }
     
-    
+    /*
+     * This function waits for the server response by putting the caller in sleep
+     */
     private void waitForResponse()
     {
     	synchronized(this)

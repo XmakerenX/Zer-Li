@@ -2,11 +2,11 @@ package product;
 
 import java.io.Serializable;
 
+/*
+ * This class stores the data of a catalogItem - a product with image to appear in catalog
+ */
 public class CatalogItem extends Product implements Comparable<CatalogItem>
 {
-	
-	
-
 	public class ImageInfo implements Serializable
 	{
 		
@@ -32,7 +32,9 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 		this.storeID = storeID;
 	}
 
-	
+	/*
+	 * constructor based mostly on product for easier creation
+	 */
 	public CatalogItem(Product prod,float salesPrice, String imageName, byte[] imageCheckSum,int storeID)
 	{
 		super(prod.getID(), prod.getName(), prod.getType(), prod.getPrice(), prod.getAmount(), prod.getColor());
@@ -40,6 +42,9 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 		this.imageInfo = new ImageInfo(imageName, imageCheckSum);
 		this.storeID = storeID;
 	}
+	/*
+	 * full constructor
+	 */
 	public CatalogItem(long productID, String productName, String productType, float productPrice, int productAmount,
 			String productColor,float salesPrice, String imageName, byte[] imageCheckSum,int storeID) 
 	{
