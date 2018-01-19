@@ -8,8 +8,6 @@ import java.util.Observer;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
-import customer.CustomerController;
-import customer.Customer.CustomerException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -73,7 +71,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   //==============================================================================================================
     @FXML
     void onTestCustomer(ActionEvent event) {
-    	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer, ButtonType.OK);
+    	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer+" Store id: "+customer.getStoreID(), ButtonType.OK);
 		alert.showAndWait();
 
     }
@@ -132,16 +130,19 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	    	ArrayList<Order> orderList = (ArrayList<Order>)response.getMessage();
 	    	for(Order order : orderList)
 	    	{
-	    		System.out.println(order);
-	    		OrderRow view = null;
-				try {
-					view = new OrderRow(order);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		//add function for the button:
-	    		view.getSelectButton().setOnAction(selectOrder);
-	    		orderViewList.add(view);
+	    		if(order.getOrderOriginStore()==customer.getStoreID())
+	    		{
+		    		System.out.println(order);
+		    		OrderRow view = null;
+					try {
+						view = new OrderRow(order);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		    		//add function for the button:
+		    		view.getSelectButton().setOnAction(selectOrder);
+		    		orderViewList.add(view);
+	    		}
 	    	}
 	    	System.out.println(orderViewList);
 	    	//clearing response
@@ -169,24 +170,64 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   			Order order = src.getOrigin();
   			if (newComplaintCreationGUI != null)
   			{
-//  				Stage newWindow = new Stage();
-//  				getClient().setUI(selectOrderForComplaintGUI);
-//  				selectOrderForComplaintGUI.setClinet(client);
-//  				selectOrderForComplaintGUI.setCustomer(customer);
-//  				newWindow.initOwner(FormController.primaryStage);
-//  		    	newWindow.initModality(Modality.WINDOW_MODAL);  
-//  				newWindow.setScene(selectOrderForComplaintGUI.getScene());
-//  				newWindow.showAndWait();
-//  				getClient().setUI(SelectOrderInterface);
+//  				newComplaintCreationGUI.setCustomer(customer);
+//  				newComplaintCreationGUI.setOrder(order);
+//  				newComplaintCreationGUI.setUser(user);
+//  				newComplaintCreationGUI.setClinet(client);
+//  				getClient().setUI(newComplaintCreationGUI);
+//  				//getClient().setUI(SelectOrderInterface);
+//  				newComplaintCreationGUI.setClinet(client);
+//  				newComplaintCreationGUI.doInit();
+//  				FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				
   				newComplaintCreationGUI.setCustomer(customer);
   				newComplaintCreationGUI.setOrder(order);
+  				
+  				
   				newComplaintCreationGUI.setUser(user);
-  				newComplaintCreationGUI.setClinet(client);
   				getClient().setUI(newComplaintCreationGUI);
-  				//getClient().setUI(SelectOrderInterface);
-  				newComplaintCreationGUI.setClinet(client);
-  				newComplaintCreationGUI.doInit();
-  				FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				newComplaintCreationGUI.setClinet(Client.client);
+  				
+    			FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				
+  				
+  				
+  			}
+  	    }
+  	};	
+  	 //===============================================================================================================
+  	//show order button event handler:
+  	EventHandler<ActionEvent> showOrder  = new EventHandler<ActionEvent>() 
+  	{
+  	    @Override public void handle(ActionEvent e) 
+  	    {
+  	    	
+  	    	OrderViewButton src = (OrderViewButton)e.getSource();
+  			Order order = src.getOrigin();
+  			if (newComplaintCreationGUI != null)
+  			{
+//  				newComplaintCreationGUI.setCustomer(customer);
+//  				newComplaintCreationGUI.setOrder(order);
+//  				newComplaintCreationGUI.setUser(user);
+//  				newComplaintCreationGUI.setClinet(client);
+//  				getClient().setUI(newComplaintCreationGUI);
+//  				//getClient().setUI(SelectOrderInterface);
+//  				newComplaintCreationGUI.setClinet(client);
+//  				newComplaintCreationGUI.doInit();
+//  				FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				
+  				newComplaintCreationGUI.setCustomer(customer);
+  				newComplaintCreationGUI.setOrder(order);
+  				
+  				
+  				newComplaintCreationGUI.setUser(user);
+  				getClient().setUI(newComplaintCreationGUI);
+  				newComplaintCreationGUI.setClinet(Client.client);
+  				
+    			FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				
+  				
+  				
   			}
   	    }
   	};	
