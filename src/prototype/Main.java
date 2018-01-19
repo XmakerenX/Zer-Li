@@ -76,7 +76,7 @@ public class Main extends Application
 //*************************************************************************************************
 	private void openNewClientGui(Stage primaryStage) throws IOException
 	{
-				System.out.println("pills here!");
+				System.out.println("Hi, how are you ?");
 				
 				FormController.primaryStage = primaryStage;
 				//MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
