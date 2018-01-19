@@ -27,6 +27,12 @@ import prototype.FormController;
 import serverAPI.Response;
 import user.User;
 
+
+//*************************************************************************************************
+	/**
+	*  Provides a gui to enable the creation of a new complaint
+	*/
+//*************************************************************************************************
 public class NewComplaintCreationGUI extends FormController implements ClientInterface{
 	
 	Customer customer;

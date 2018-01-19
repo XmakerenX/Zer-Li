@@ -5,6 +5,12 @@ import java.time.LocalDate;
 import javafx.scene.control.Button;
 import order.OrderView.OrderViewButton;
 
+
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the order complaint TableView  
+	*/
+//*************************************************************************************************
 public class OrderComplaintView extends OrderComplaint{
 
 	//===========================================================================================================

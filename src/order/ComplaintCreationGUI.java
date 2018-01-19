@@ -40,7 +40,7 @@ import serverAPI.Response;
 import user.User;
 /**
  * this class holds all the GUI related info so we could start the complaint creation process
- * @author dk198
+ * 
  *
  */
 public class ComplaintCreationGUI extends FormController implements ClientInterface{
