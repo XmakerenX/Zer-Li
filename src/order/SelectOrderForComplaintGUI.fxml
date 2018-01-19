@@ -18,5 +18,6 @@
             <TableColumn fx:id="selectCulomn" prefWidth="76.0" text="Select" />
         </columns>
       </TableView>
+      <Button fx:id="testCustomer" layoutX="225.0" layoutY="349.0" mnemonicParsing="false" onAction="#onTestCustomer" text="Button" />
    </children>
 </AnchorPane>

@@ -127,17 +127,16 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 				
 				if (handleComplaintGUI != null)
 				{
-					handleComplaintGUI.setComplaint(complaint);
-					getClient().setUI(handleComplaintGUI);
-					handleComplaintGUI.setClinet(client);
-					handleComplaintGUI.doInit();
-					
 //					handleComplaintGUI.setComplaint(complaint);
-//					handleComplaintGUI.setUser(user);
-//					//handleComplaintGUI.setClinet(client);
 //					getClient().setUI(handleComplaintGUI);
 //					handleComplaintGUI.setClinet(client);
 //					handleComplaintGUI.doInit();
+//					FormController.primaryStage.setScene(handleComplaintGUI.getScene());
+					
+					handleComplaintGUI.setComplaint(complaint.getOrderComplaint());
+					client.setUI(handleComplaintGUI);
+					handleComplaintGUI.setClinet(client);
+					handleComplaintGUI.doInit();
 					FormController.primaryStage.setScene(handleComplaintGUI.getScene());
 				}
 		    }

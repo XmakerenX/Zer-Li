@@ -1,18 +1,19 @@
 package order;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
-import catalog.CatalogController;
-import catalog.EditableCatalogItemView;
+import Server.ProtoTypeServer;
 import client.Client;
 import client.ClientInterface;
-import customer.CustomerView;
+import customer.Customer;
+import customer.CustomerController;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
+import user.UserController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,8 +22,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import product.ProdcutController;
-import product.EditableProductView.EditableProductViewButton;
 
 public class HandleComplaintGUI extends FormController implements ClientInterface{
 
@@ -49,6 +48,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     @FXML
     void onHandleButton(ActionEvent event) {
     	
+    	System.out.println(complaint);
 		Alert alert = new Alert(AlertType.WARNING, "Are you sure the complaint has been taken care of?", ButtonType.YES, ButtonType.NO);
 		alert.showAndWait();
 
@@ -56,11 +56,54 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 		{
 			if(!refundTextField.getText().isEmpty())
 				complaint.setComplaintCompensation(Float.valueOf(refundTextField.getText()));
+			
 			else
 				complaint.setComplaintCompensation(0);
 	    	OrderComplaintController.handleOrderComplaint(String.valueOf(complaint.getComplaintID()), complaint);
+	    	waitForServerResponse();
+	    	if(response.getType() == Response.Type.SUCCESS)			//updating complaint in data base success
+	    	{
+	    		CustomerController.getCertainCustomers("personID", complaint.getCustomerID()+"", client);
+	    		waitForServerResponse();
+	    		if(response.getType() == Response.Type.SUCCESS)				//we got the right customer
+	    		{
+	    			Customer customer = ((ArrayList<Customer>)response.getMessage()).get(0);
+		    		customer.setAccountBalance(customer.getAccountBalance()+complaint.getComplaintCompensation());
+		    		CustomerController.updateCustomerDetails(customer, complaint.getCustomerID()+"", client);
+		    		waitForServerResponse();
+		    		if(response.getType() == Response.Type.SUCCESS)				//refunding succeed
+		    		{
+		    			Alert alert2 = new Alert(AlertType.CONFIRMATION, "A refund has been issued successfuly!", ButtonType.OK);
+			    		alert2.showAndWait();
+		    			//clearing response
+			    		response = null;
+		    		}
+		    		else if(response.getType() == Response.Type.ERROR)			//refunding failed
+		    		{
+		    			Alert alert2 = new Alert(AlertType.ERROR, "Could not update user balance!", ButtonType.OK);
+			    		alert2.showAndWait();
+		    			//clearing response
+			    		response = null;
+		    		}
+	    		}
+	    		else if(response.getType() == Response.Type.ERROR)				//we didn't get the customer
+	    		{
+	    			Alert alert2 = new Alert(AlertType.ERROR, "Could not find the customer!", ButtonType.OK);
+		    		alert2.showAndWait();
+	    			//clearing response
+		    		response = null;
+	    		}
+		    	//clearing response
+	    		response = null;
+	    	}
+	    	else if(response.getType() == Response.Type.ERROR)		//updating complaint in database failed
+	    	{
+	    		Alert alert2 = new Alert(AlertType.ERROR, "Could not update complaint!", ButtonType.OK);
+	    		alert2.showAndWait();
+	    		//clearing response
+	    		response = null;
+	    	}
 		} else return;
-
     }
     //===============================================================================================================
 
@@ -87,6 +130,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     	
     	ComplaintManageGUI complaintManageGUI = (ComplaintManageGUI)parent;
     	client.setUI(complaintManageGUI);
+    	complaintManageGUI.doInit();
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================

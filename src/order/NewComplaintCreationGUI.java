@@ -67,6 +67,7 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
     //===============================================================================================================
     @FXML
     void onCreateButton(ActionEvent event) {
+    	System.out.println(customer.getStoreID());
     	String complaint = complaintBodyTextField.getText();
     	if(!complaint.isEmpty()) 
     	{
