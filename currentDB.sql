@@ -308,7 +308,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('daniel','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,7 +329,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   `answer5` int(2) DEFAULT NULL,
   `answer6` int(2) DEFAULT NULL,
   `storeID` int(11) DEFAULT NULL,
-  `analysis` varchar(300) DEFAULT '',
+  `analysis` varchar(500) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `fk_customersatisfactionsurveyresults_1_idx` (`storeID`),
   CONSTRAINT `fk_customersatisfactionsurveyresults_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE

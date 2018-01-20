@@ -26,7 +26,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	private User user;
 	
 	private ResultInputGUI resultInputGUI;
-	private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
+	//private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
     @FXML
     private Button inputSurveyAnalysis;
@@ -52,7 +52,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
-    	addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
+    	//addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
     	resultInputGUI = FormController.<ResultInputGUI, AnchorPane>loadFXML(getClass().getResource("/survey/ResultInputGUI.fxml"), this);
     }
   //===============================================================================================================
@@ -69,16 +69,16 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 
     }
     //===============================================================================================================
-    @FXML
-    void onInputSurveyAnalysis(ActionEvent event) {
-    	if ( resultInputGUI != null)
-		{
-	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
-			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
-			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
-			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
-		}
-    }
+//    @FXML
+//    void onInputSurveyAnalysis(ActionEvent event) {
+//    	if ( addSurveyAnalysisToExistingSurveyGUI != null)
+//		{
+//	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
+//			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
+//			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
+//			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
+//		}
+//    }
     
   //===============================================================================================================
     /**

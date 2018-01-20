@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
+import survey.AddSurveyAnalysisToExistingSurveyGUI;
 import survey.ResultInputGUI;
 import survey.SurveyCreationGUI;
 import survey.SurveyExplorerGUI;
@@ -17,58 +18,45 @@ import user.UserController;
 
 //*************************************************************************************************
 	/**
-	*  Provides a gui to handle  customer service actions: (create new survey) 
+	*  Provides a gui to handle  customer service actions: (input survey analysis) 
 	*/
 //*************************************************************************************************
 public class CustomerServiceGUI extends FormController implements ClientInterface{
 
-	SurveyCreationGUI surveyCreationGUI;
-	SurveyExplorerGUI surveyExplorer;
+	private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
 	//Current user's name
 	private User user;
 	
-    @FXML // fx:id="surveylistBtn"
-    private Button surveylistBtn; // Value injected by FXMLLoader
+	  @FXML
+	    private Button inputSurveyAnalysisButton;
 
-    @FXML // fx:id="newSurveyBtn"
-    private Button newSurveyBtn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="backBtn"
-    private Button backBtn; // Value injected by FXMLLoader
+	    @FXML
+	    private Button logOutButton;
 
   //===============================================================================================================
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
-    	surveyCreationGUI = FormController.<SurveyCreationGUI, AnchorPane>loadFXML(getClass().getResource("/survey/SurveyCreationGUI.fxml"), this);
-    	surveyExplorer = FormController.<SurveyExplorerGUI, AnchorPane>loadFXML(getClass().getResource("/survey/SurveyExplorerGUI.fxml"), this);
-    }
-  //===============================================================================================================
-    @FXML
-    void onNewSurvey(ActionEvent event) {
-    	if ( surveyCreationGUI != null)
-		{
-    		client.setUI(surveyCreationGUI);
-			surveyCreationGUI.setClinet(client);
-			FormController.primaryStage.setScene(surveyCreationGUI.getScene());
-		}
+    	addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
     }
   //===============================================================================================================
  
     @FXML
-    void onSurveyList(ActionEvent event) {
-    	if ( surveyExplorer != null)
+    void onInputSurveyAnalysisButton(ActionEvent event) 
+    {
+    	if ( addSurveyAnalysisToExistingSurveyGUI != null)
 		{
-    		client.setUI(surveyExplorer);
-    		surveyExplorer.setClinet(client);
-    		surveyExplorer.initComboBox();
-			FormController.primaryStage.setScene(surveyExplorer.getScene());
+	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
+			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
+			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
+			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
 		}
     }
   //===============================================================================================================
     @FXML
-    void onBack(ActionEvent event) {
+    void onLogOutButton(ActionEvent event) 
+    {
     	
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
     	UserController.requestLogout(user, client);

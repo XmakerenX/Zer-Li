@@ -12,6 +12,6 @@ public abstract class CustomerSatisfactionSurvey {
 	static String question3 = "Pricing";
 	static String question4 = "The order system";
 	static String question5 = "Deliery";
-	static String question6 = "Overal satisfied with the company service";
+	static String question6 = "Overal service satisfaction";
 
 }
