@@ -27,6 +27,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import networkGUI.CustomerServiceWorkerGUI;
 import order.OrderRow.OrderViewButton;
+import order.OrderRow.orderRowButton;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
@@ -67,7 +68,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     //==============================================================================================================
     public void doInit()
     {
-    	storeLabel.setText("Store Address: "+getStoreAddress()+"\nstoreID: "+customer.getStoreID());
+    	storeLabel.setText("Store Address: "+getStoreAddress()+"\nStore ID: "+customer.getStoreID());
     	//storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
     	deliveryDateColumn.setCellValueFactory(new PropertyValueFactory<OrderRow,LocalDate>("CreationDateTime"));
     	orderColumn.setCellValueFactory( new PropertyValueFactory<OrderRow,OrderItemViewButton>("viewProductsButton"));
@@ -218,8 +219,8 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   	    @Override public void handle(ActionEvent e) 
   	    {
   	    	
-  	    	OrderItemViewButton src = (OrderItemViewButton)e.getSource();
-  			Order order = src.getOrigin();
+  	    	orderRowButton src = (orderRowButton)e.getSource();
+  			Order order = src.origin;
   			onViewProducts((OrderRow)order);
   	    }
   	};	

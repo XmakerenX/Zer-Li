@@ -14,12 +14,12 @@
             <Font size="14.0" />
          </font></Label>
       <Button fx:id="backButton" layoutX="18.0" layoutY="427.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="57.0" text="Back" />
-      <TableView fx:id="orderTable" layoutX="56.0" layoutY="72.0" prefHeight="309.0" prefWidth="468.0">
+      <TableView fx:id="orderTable" layoutX="43.0" layoutY="72.0" prefHeight="309.0" prefWidth="499.0">
         <columns>
             <TableColumn fx:id="deliveryDateColumn" prefWidth="160.0" text="Order date" />
           <TableColumn fx:id="priceColumn" prefWidth="94.0" text="Price" />
-            <TableColumn fx:id="orderColumn" prefWidth="113.0" text="Order" />
-            <TableColumn fx:id="selectCulomn" prefWidth="95.0" text="Select" />
+            <TableColumn fx:id="orderColumn" prefWidth="120.0" text="Order" />
+            <TableColumn fx:id="selectCulomn" prefWidth="93.0" text="Select" />
         </columns>
       </TableView>
       <Button fx:id="testCustomer" layoutX="256.0" layoutY="392.0" mnemonicParsing="false" onAction="#onTestCustomer" text="Button" />
