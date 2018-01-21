@@ -45,7 +45,11 @@ import utils.ImageData;
 
 
 
-
+//*************************************************************************************************
+	/**
+	*  Provides a GUI to create an order by search(without the catalog)
+	*/
+//*************************************************************************************************
 //------------------------------------------------------------------------
 
 public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInterface

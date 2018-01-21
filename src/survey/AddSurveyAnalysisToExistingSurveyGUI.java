@@ -1,13 +1,17 @@
 package survey;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import networkGUI.CustomerServiceGUI;
 import networkGUI.StoreWorkerGUI;
 
 import java.util.ArrayList;
@@ -17,7 +21,11 @@ import client.ClientInterface;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
-
+/**
+ * this class holds the GUI functionality that lets the customer service add an analysis to a specific survey result
+ * @author dk198
+ *
+ */
 public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implements ClientInterface{
 
 	Response response = null;
@@ -35,7 +43,32 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	private Button addButton;
 	@FXML
 	private TextArea analysisField;
+    @FXML
+    private Label lengthField;
 	    //===============================================================================================================
+	 public void initialize(){
+		 // a listener that checks the length of the input analysis.
+		 analysisField.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) 
+		    {
+		    int inputLength = newValue.length();
+		    	if(inputLength<=500) 
+		    	{
+		    		if(inputLength<=9)
+		    			lengthField.setText("  " + inputLength+"/500");
+		    		else if(inputLength<=99)
+		    			lengthField.setText(" " + inputLength+"/500");
+		    		else 
+		    			lengthField.setText("" + inputLength+"/500");
+		    	}
+		    	else
+		    		analysisField.setText(oldValue);
+		    }
+		});
+	 }
+	  //===============================================================================================================
 	    @FXML
 	    void onSeachButton(ActionEvent event) {
 	    	if(!resultNumberField.getText().isEmpty())
@@ -73,9 +106,9 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	    @FXML
 	    void onCancelButton(ActionEvent event) {
 	    	clearForm();
-	        StoreWorkerGUI storeWorkerGUI = (StoreWorkerGUI)parent;
-	        client.setUI(storeWorkerGUI);
-	        FormController.primaryStage.setScene(parent.getScene());
+	    	CustomerServiceGUI customerServiceGUI = (CustomerServiceGUI)parent;
+	    	client.setUI(customerServiceGUI);
+	    	FormController.primaryStage.setScene(parent.getScene());
 	    }
 	    //===============================================================================================================
 	    @FXML

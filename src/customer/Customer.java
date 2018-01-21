@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import user.User.UserException;
 
+//*************************************************************************************************
+	/**
+	*  A class to holds customer's data
+	*/
+//*************************************************************************************************
 public class Customer implements Serializable {
 	
 	public class  CustomerException extends Exception {

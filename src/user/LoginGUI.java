@@ -56,6 +56,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	CustomerServiceExpertGUI customerServiceExpertGUI;
 	StoreManagerGUI storeManagerGUI;
 	CustomerServiceWorkerGUI customerServiceWorkerGUI;
+	CustomerServiceGUI customerServiceGUI;
 	
 	/* For fast login only, edit user.properties:
 	 * 
@@ -91,7 +92,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
     	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
     	customerServiceWorkerGUI =  FormController.<CustomerServiceWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceWorkerGUI.fxml"), this);
-    	
+    	customerServiceGUI =  FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
     	if(rememberSelect)
     	{
         	rememberMeBtn.setSelected(true);
@@ -269,6 +270,19 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    				customerServiceExpertGUI.setClinet(Client.client);
 	    				client.setUI(customerServiceExpertGUI);
 	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
+	        		}
+	    			break;
+	    		}
+	    		
+	    		case "CUSTOMER_SERVICE":
+	    		{
+	    			
+	    			if (customerServiceGUI != null)
+	        		{
+	    				customerServiceGUI.setUser(user);
+	    				customerServiceGUI.setClinet(Client.client);
+	    				client.setUI(customerServiceGUI);
+	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
 	        		}
 	    			break;
 	    		}

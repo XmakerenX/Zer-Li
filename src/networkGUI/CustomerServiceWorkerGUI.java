@@ -17,7 +17,11 @@ import survey.SurveyExplorerGUI;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
-
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle customer service worker actions: adding new complaint, managing complaint
+	*/
+//*************************************************************************************************
 public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
 
 	ComplaintCreationGUI complaintCreationGUI;

@@ -36,7 +36,9 @@ import product.CatalogItem;
 import product.Product;
 import product.EditableProductView.EditableProductViewButton;
 import prototype.FormController;
+import serverAPI.GetRequest;
 import serverAPI.Response;
+import store.Store;
 import user.User;
 /**
  * this class holds all the GUI related info so we could start the complaint creation process
@@ -50,7 +52,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 	User user;
 	ObservableList<CustomerView> customerList; //table's data
 	SelectOrderForComplaintGUI selectOrderForComplaintGUI;
-	
+	ArrayList<Store> currentStores = new ArrayList<Store>();
 	 //===============================================================================================================
     @FXML // fx:id="idTextField"
     private TextField idTextField; // Value injected by FXMLLoader
@@ -81,16 +83,51 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 
     @FXML // fx:id="storeColomn"
     private TableColumn<CustomerView, String> storeColomn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="storeAddress"
+    private TableColumn<?, ?> storeAddress;// Value injected by FXMLLoader
+
     //===============================================================================================================
     public void doInit()
     {
+    	currentStores = getCurrentStores();
     	nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
     	idColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
     	storeColomn.setCellValueFactory(new PropertyValueFactory<>("storeID"));
+    	storeAddress.setCellValueFactory(new PropertyValueFactory<>("StoreAddress"));
     	phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNumber"));
     	selectColumn.setCellValueFactory(new PropertyValueFactory<>("SelectButton"));
     	
     	selectOrderForComplaintGUI = FormController.<SelectOrderForComplaintGUI, AnchorPane>loadFXML(getClass().getResource("/order/SelectOrderForComplaintGUI.fxml"), this);
+    }
+  //===============================================================================================================
+    /*
+     * return a local view of the store table
+     */
+    private ArrayList<Store> getCurrentStores()
+    {
+    	Client.client.handleMessageFromClientUI(new GetRequest("Store"));
+    	waitForServerResponse();
+    	if(response.getType().name().equals("SUCCESS"))
+    	{
+    		return ( ArrayList<Store>)response.getMessage();
+    	}
+    	else return null;
+    }
+    //===============================================================================================================
+    /*
+     * search the local table of stores to get the store address of a given storeID
+     */
+    private String getStoreName(long storeID)
+    {
+    	for(Store storeElement : currentStores)
+    	{
+    		if (storeElement.getStoreID() == storeID)
+    		{
+    			return storeElement.getStoreAddress();
+    		}
+    	}
+    	return "";
     }
   //===============================================================================================================
     @FXML
@@ -144,6 +181,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     //===============================================================================================================
   	public void display(Object message) {
   		
+
       	System.out.println(message.toString());
       	System.out.println(message.getClass().toString());
   		
@@ -170,6 +208,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 	    {
 	    	
 	    	CustomerViewButton src = (CustomerViewButton)e.getSource();
+	    	CustomerView customerView = src.getOrigin();
 			Customer customer = src.getOrigin();
 			
 			if (selectOrderForComplaintGUI != null)
@@ -183,13 +222,15 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 //				newWindow.setScene(selectOrderForComplaintGUI.getScene());
 //				newWindow.showAndWait();
 //				getClient().setUI(SelectOrderInterface);
+				Client.client.setUI(selectOrderForComplaintGUI);
+
 				selectOrderForComplaintGUI.setCustomer(customer);
+				
 				selectOrderForComplaintGUI.setUser(user);
-				selectOrderForComplaintGUI.setClinet(client);
-				getClient().setUI(selectOrderForComplaintGUI);
-				//getClient().setUI(SelectOrderInterface);
-				selectOrderForComplaintGUI.setClinet(client);
+				selectOrderForComplaintGUI.setStoreAddress(customerView.getStoreAddress());
 				selectOrderForComplaintGUI.doInit();
+				selectOrderForComplaintGUI.setClinet(client);
+				
 				FormController.primaryStage.setScene(selectOrderForComplaintGUI.getScene());
 			}
 	    }
@@ -247,9 +288,12 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 	    	for(Customer customer : customerList)
 	    	{
 	    		CustomerView view = null;
-				try {
+				try 
+				{
 					view = new CustomerView(customer);
-				} catch (CustomerException e) {
+					view.setStoreAddress(getStoreName(view.getStoreID()));
+				} catch (CustomerException e) 
+				{
 					e.printStackTrace();
 				}
 	    		//add function for the button:

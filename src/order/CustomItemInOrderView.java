@@ -13,7 +13,14 @@ import javafx.stage.Stage;
 import product.Product;
 import prototype.FormController;
 
-public class CustomItemInOrderView extends CustomItemInOrder {
+
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the customItems TableView  
+	*/
+//*************************************************************************************************
+public class CustomItemInOrderView extends CustomItemInOrder 
+{
 
 	private static final long serialVersionUID = -4482492688342154169L;
 	private Button viewBtn;

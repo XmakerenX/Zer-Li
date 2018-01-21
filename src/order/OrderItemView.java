@@ -23,6 +23,11 @@ import product.Product;
 import product.CatalogItem.ImageInfo;
 import prototype.FormController;
 
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the items to order TableView  
+	*/
+//*************************************************************************************************
 public class OrderItemView extends CatalogItem {
 
 	//private final String 

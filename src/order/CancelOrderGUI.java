@@ -152,7 +152,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 						OrderRow newO = new OrderRow(o);
 						observableOrders.add(newO);
 						newO.getObservableCancelButton().addObserver(this);
-						newO.getObservableViewProductsButton().addObserver(this);
+						//newO.getObservableViewProductsButton().addObserver(this);
 					} catch (OrderException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

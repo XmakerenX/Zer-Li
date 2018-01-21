@@ -28,14 +28,11 @@ import product.*;
 import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 
+/*
+ * Provides a gui for the creation of a new product
+ */
 public class NewProductCreationGUI extends  FormController implements ClientInterface
 {
-	/*
-	public NewProductCreationGUI()
-	{
-		
-		
-	}*/
 
 	public Response response;
 	ChangeListener idFieldChangeListener;

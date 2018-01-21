@@ -5,6 +5,12 @@ import java.time.LocalDate;
 import javafx.scene.control.Button;
 import order.OrderView.OrderViewButton;
 
+
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the order complaint TableView  
+	*/
+//*************************************************************************************************
 public class OrderComplaintView extends OrderComplaint{
 
 	//===========================================================================================================
@@ -41,4 +47,11 @@ public class OrderComplaintView extends OrderComplaint{
 			this.selectButton = button;
 		}
 		//===========================================================================================================
+		public OrderComplaint getOrderComplaint() 
+		{
+			OrderComplaint complaint = new OrderComplaint(getComplaintID(), getCustomerID(), getCustomerName(), getCustomerPhoneNum(), getStoreID(), 
+					getComplaintDescription(), getComplaintDate(), getComplaintTime(), getComplaintCompensation(), 
+					getMaxCompensationAmount(), getComplaintStatus());
+			return complaint;
+		}
 }

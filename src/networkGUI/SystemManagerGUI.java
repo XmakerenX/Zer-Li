@@ -30,6 +30,13 @@ import user.UserController;
 
 
 
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle System Manager actions : removal and setting of users
+	*/
+//*************************************************************************************************
+
+
 public class SystemManagerGUI extends FormController implements ClientInterface {
 	
 	// holds the last replay we got from server
