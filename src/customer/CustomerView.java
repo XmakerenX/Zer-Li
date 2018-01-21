@@ -1,7 +1,11 @@
 package customer;
 
+import java.util.ArrayList;
+
+import client.Client;
 import javafx.scene.control.Button;
 import product.EditableProductView;
+import serverAPI.GetRequestByKey;
 
 
 //*************************************************************************************************
@@ -12,6 +16,7 @@ import product.EditableProductView;
 
 public class CustomerView extends Customer
 {
+	String StoreAddress;
 	//===========================================================================================================
 	public class CustomerViewButton extends Button
 	{
@@ -49,6 +54,16 @@ public class CustomerView extends Customer
 	//===========================================================================================================
 	public String toString()
 	{
-		return "CustomerView: name: "+this.getName()+" ,phone: "+this.getPhoneNumber()+" ,store: "+this.getStoreID();
+		return "CustomerView: name: "+this.getName()+" ,phone: "+
+				this.getPhoneNumber()+" ,store: "+this.getStoreID()+
+				"Store address: "+getStoreAddress();
+	}
+	//===========================================================================================================
+	public String getStoreAddress() {
+		return StoreAddress;
+	}
+	public void setStoreAddress(String storeAddress) 
+	{
+		StoreAddress = storeAddress;
 	}
 }
