@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
@@ -42,9 +43,12 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	ClientInterface SelectOrderInterface = this;
 	ObservableList<OrderRow> orderList; //table's data
 	NewComplaintCreationGUI newComplaintCreationGUI;
-	
+	String StoreAddress;
 	//==============================================================================================================
- 	@FXML
+
+   @FXML
+    private Label storeLabel;
+	@FXML
     private TableColumn<?, ?> selectCulomn;
     @FXML
     private TableView<OrderRow> orderTable;
@@ -56,14 +60,15 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     private TableColumn<?, ?> priceColumn;
     @FXML
     private Button backButton;
-    @FXML
-    private TableColumn<?, String> storeColumn;
+   // @FXML
+   // private TableColumn<?, String> storeColumn;
     @FXML
     private TableColumn<OrderRow, OrderItemViewButton> orderColumn;
     //==============================================================================================================
     public void doInit()
     {
-    	storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
+    	storeLabel.setText("Store Address: "+getStoreAddress()+"\nstoreID: "+customer.getStoreID());
+    	//storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
     	deliveryDateColumn.setCellValueFactory(new PropertyValueFactory<OrderRow,LocalDate>("CreationDateTime"));
     	orderColumn.setCellValueFactory( new PropertyValueFactory<OrderRow,OrderItemViewButton>("viewProductsButton"));
     	priceColumn.setCellValueFactory(new PropertyValueFactory("Price"));
@@ -72,7 +77,13 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	newComplaintCreationGUI = FormController.<NewComplaintCreationGUI, AnchorPane>loadFXML(getClass().getResource("/order/NewComplaintCreationGUI.fxml"), this);
     	initOrderTableContent(Long.toString(customer.getID()));
     }
-  //==============================================================================================================
+  public String getStoreAddress() {
+		return StoreAddress;
+	}
+	public void setStoreAddress(String storeAddress) {
+		StoreAddress = storeAddress;
+	}
+	//==============================================================================================================
     @FXML
     void onTestCustomer(ActionEvent event) {
     	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer+" Store id: "+customer.getStoreID(), ButtonType.OK);

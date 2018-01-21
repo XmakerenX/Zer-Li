@@ -208,6 +208,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 	    {
 	    	
 	    	CustomerViewButton src = (CustomerViewButton)e.getSource();
+	    	CustomerView customerView = src.getOrigin();
 			Customer customer = src.getOrigin();
 			
 			if (selectOrderForComplaintGUI != null)
@@ -226,6 +227,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 				selectOrderForComplaintGUI.setCustomer(customer);
 				
 				selectOrderForComplaintGUI.setUser(user);
+				selectOrderForComplaintGUI.setStoreAddress(customerView.getStoreAddress());
 				selectOrderForComplaintGUI.doInit();
 				selectOrderForComplaintGUI.setClinet(client);
 				
