@@ -22,7 +22,6 @@
             <TableColumn fx:id="selectCulomn" prefWidth="93.0" text="Select" />
         </columns>
       </TableView>
-      <Button fx:id="testCustomer" layoutX="256.0" layoutY="392.0" mnemonicParsing="false" onAction="#onTestCustomer" text="Button" />
       <Label fx:id="storeLabel" layoutX="17.0" layoutY="9.0" text="Store:">
          <font>
             <Font size="14.0" />
