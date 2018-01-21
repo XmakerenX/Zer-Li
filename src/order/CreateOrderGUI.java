@@ -1,5 +1,8 @@
 package order;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 import catalog.CatalogGUI;
@@ -30,6 +33,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
+import javafx.scene.web.WebView;
 import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
@@ -67,7 +71,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private TableColumn<OrderItemView, String> colorCol;
 
     @FXML
-    private TableColumn<OrderItemView, Number> priceCol;
+    private TableColumn<OrderItemView, WebView> priceCol;
 
     @FXML
     private TableColumn<OrderItemView, TextArea> greetingCardCol;
@@ -208,7 +212,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	typeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,String>("Type"));
     	colorCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,String>("Color"));
     	
-    	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,Number>("Price"));
+    	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,WebView>("SalePriceView"));
     	greetingCardCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
     	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemViewButton>("removeBtn"));
     	viewCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,Button>("viewBtn"));
@@ -386,7 +390,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	this.receiverNameTxt.setDisable(false);
     	this.receiverPhoneTxt.setDisable(false);
     	orderTotalPrice += Order.deliveryCost;
-    	this.totalPrice.setText(""+orderTotalPrice);
+    	this.totalPrice.setText(""+orderTotalPrice+"₪");
     }
 
     //*************************************************************************************************
@@ -401,7 +405,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	this.receiverNameTxt.setDisable(true);
     	this.receiverPhoneTxt.setDisable(true);
     	orderTotalPrice -= Order.deliveryCost;
-    	this.totalPrice.setText(""+orderTotalPrice);
+    	this.totalPrice.setText(""+orderTotalPrice+"₪");
     }
     
     //*************************************************************************************************
@@ -425,13 +429,32 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	}
     	
     	this.orderTable.setItems(orderItems);
-    	totalPrice.setText(""+orderTotalPrice);
+    	totalPrice.setText(""+orderTotalPrice+"₪");
     	selfPickupRadio.setSelected(true);
     	this.addressTxt.setDisable(true);
     	this.receiverNameTxt.setDisable(true);
     	this.receiverPhoneTxt.setDisable(true);
     	creditCardRadio.setSelected(true);
     	customOrder = false;
+    	this.date.setValue(null);
+    	
+    	// 22/01/2018
+    	Calendar currentTime = Calendar.getInstance();
+		if (currentTime.get(Calendar.HOUR_OF_DAY) < 12)
+			currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10800000);
+		else
+			currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 54000000);
+		
+    	//currentTime.add(Calendar.HOUR_OF_DAY, 3);
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+		//String time = sdf.format(currentTime.getTime());
+		String[] times = sdf.format(currentTime.getTime()).split(":"); 
+		//String[] times = time.split(":");
+		hourTxt.setText(times[0]);
+		minsTxt.setText(times[1]);
+				
+		LocalDate currentDate = currentTime.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		this.date.setValue(currentDate);
     }
 
     //*************************************************************************************************
@@ -452,7 +475,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	
     	this.orderTable.setItems(orderItems);
     	orderTotalPrice = customItem.getPrice();
-    	totalPrice.setText(""+customItem.getPrice());
+    	totalPrice.setText(""+customItem.getPrice()+"₪");
     	selfPickupRadio.setSelected(true);
     	this.addressTxt.setDisable(true);
     	this.receiverNameTxt.setDisable(true);
@@ -509,7 +532,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		{
 			OrderItemView orderItem = (OrderItemView)arg;
 			this.orderTotalPrice -= orderItem.getPrice();
-			this.totalPrice.setText(""+orderTotalPrice);
+			this.totalPrice.setText(""+orderTotalPrice+"₪");
 			this.orderTable.getItems().remove(arg);
 			if (this.orderTable.getItems().size() == 0)
 				returnToParent();

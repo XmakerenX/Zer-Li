@@ -33,6 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 import order.CreateOrderGUI;
@@ -73,7 +74,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     private TableColumn<CatalogItemView, String> colorCol;
 
     @FXML
-    private TableColumn<CatalogItemView, Number> priceCol;
+    private TableColumn<CatalogItemView, WebView> priceCol;
 	
     @FXML
     private TableColumn<CatalogItemView, Boolean> checkboxCol;
@@ -112,58 +113,10 @@ public class CatalogGUI extends FormController implements ClientInterface {
     private void InitTableView()
     {
     	imageCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView, ImageView>("image"));
-    	
     	nameCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,String>("Name"));
-    	nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-    	nameCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItemView, String>>() {
-    				@Override
-    				public void handle(CellEditEvent<CatalogItemView, String> t) {
-    					((CatalogItem) t.getTableView().getItems().get(
-    							t.getTablePosition().getRow())
-    							).setName(t.getNewValue());
-    				}
-    			}
-    			);
-    	
     	typeCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView,String>("Type"));
-    	typeCol.setCellFactory(TextFieldTableCell.forTableColumn());
-    	typeCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItemView, String>>() {
-    				@Override
-    				public void handle(CellEditEvent<CatalogItemView, String> t) {
-    					((CatalogItem) t.getTableView().getItems().get(
-    							t.getTablePosition().getRow())
-    							).setType(t.getNewValue());
-    				}
-    			}
-    			);
-    	
-    	colorCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView,String>("Color"));
-    	colorCol.setCellFactory(TextFieldTableCell.forTableColumn());
-    	colorCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItemView, String>>() {
-    				@Override
-    				public void handle(CellEditEvent<CatalogItemView, String> t) {
-    					((CatalogItem) t.getTableView().getItems().get(
-    							t.getTablePosition().getRow())
-    							).setColor(t.getNewValue());
-    				}
-    			}
-    			);
-    	
-    	priceCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,Number>("Price"));
-    	priceCol.setCellFactory(TextFieldTableCell.<CatalogItemView, Number>forTableColumn(new NumberStringConverter()));
-    	priceCol.setOnEditCommit(
-    			new EventHandler<CellEditEvent<CatalogItemView, Number>>() {
-    				@Override
-    				public void handle(CellEditEvent<CatalogItemView, Number> t) {   					
-    					((CatalogItem) t.getTableView().getItems().get(
-    							t.getTablePosition().getRow())
-    							).setPrice((float)t.getNewValue());
-    				}
-    			}
-    			);
+    	colorCol.setCellValueFactory(new PropertyValueFactory<CatalogItemView,String>("Color"));    	
+    	priceCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,WebView>("SalePriceView"));
     	
     	checkboxCol.setCellValueFactory( new PropertyValueFactory<CatalogItemView,Boolean>("CheckBox"));
     	checkboxCol.setCellValueFactory(
