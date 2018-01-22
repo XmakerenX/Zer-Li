@@ -62,7 +62,6 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
-    //	userCreationGUI = FormController.<NewUserCreationGUI, AnchorPane>loadFXML(getClass().getResource("/user/NewUserCreationGUI.fxml"), this);
     	updateUserGUI = FormController.<UpdateUsersInfoGUI, AnchorPane>loadFXML(getClass().getResource("/user/UpdateUsersInfoGUI.fxml"), this);
     }
    
@@ -82,6 +81,10 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	
     }
     
+    /**
+     * Updates user's info. If the user has customers, it updates customer's info too
+     * @param event - "Update" button is pressed
+     */
     @SuppressWarnings("unchecked")
 	@FXML
     void onUpdateUser(ActionEvent event) {
@@ -131,6 +134,10 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
 		}
     }
     
+    /**
+     * Removes requested user
+     * @param event - "Remove user" button is pressed
+     */
     @FXML
     void onRemoveUser(ActionEvent event) 
     {
@@ -139,40 +146,44 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	getInputDialog.showAndWait();
     	String username = getInputDialog.getResult();
     	
-    	UserController.getUser(username, client);
-    	
-     	try
+    	if	(username != null)
     	{
-    		synchronized(this)
-    		{
-    			// wait for server response
-    			this.wait();
-    		}
-    	
-    		if (replay == null)
-    			return;
-    		
-    	// show success 
-    	if (replay.getType() == Response.Type.SUCCESS)
-    	{
-        	Alert alert = new Alert(AlertType.INFORMATION);
-        	alert.setTitle("User deletion");
-        	alert.setHeaderText(username + " is successfully deleted");
-        	alert.showAndWait();
-        	UserController.RemoveUser(username, client);
+	    	UserController.getUser(username, client);
+	    	
+	     	try
+	    	{
+	    		synchronized(this)
+	    		{
+	    			// wait for server response
+	    			this.wait();
+	    		}
+	    	
+	    		if (replay == null)
+	    			return;
+	    		
+	    	// show success 
+	    	if (replay.getType() == Response.Type.SUCCESS)
+	    	{
+	        	Alert alert = new Alert(AlertType.INFORMATION);
+	        	alert.setTitle("User deletion");
+	        	alert.setHeaderText(username + " is successfully deleted");
+	        	alert.showAndWait();
+	        	UserController.RemoveUser(username, client);
+	    	}
+	    	else
+	    	{
+	        	// show failure  
+	    		Alert alert = new Alert(AlertType.ERROR, username + " doesn't exists", ButtonType.OK);
+	        	alert.setTitle("User deletion");
+	    		alert.showAndWait();
+	    		// clear replay
+	    	}
+	    	
+			replay = null;
+			
+	    	}catch(InterruptedException e) {}
+     	
     	}
-    	else
-    	{
-        	// show failure  
-    		Alert alert = new Alert(AlertType.ERROR, username + " doesn't exists", ButtonType.OK);
-        	alert.setTitle("User deletion");
-    		alert.showAndWait();
-    		// clear replay
-    	}
-    	
-		replay = null;
-		
-    	}catch(InterruptedException e) {}
     	
     }
     

@@ -5,15 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerGUI">
    <children>
       <Button fx:id="backBtn" layoutX="14.0" layoutY="294.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <Label fx:id="welcomeLbl" layoutX="73.0" layoutY="28.0" text="Welcome, customer!" />
-      <Button fx:id="viewCatalogBtn" layoutX="68.0" layoutY="128.0" mnemonicParsing="false" onAction="#onViewCatalog" prefHeight="26.0" prefWidth="143.0" text="View Catalog" />
-      <ComboBox fx:id="storeCombo" layoutX="103.0" layoutY="78.0" onAction="#onStoreChanged" prefWidth="150.0" />
-      <Label layoutX="15.0" layoutY="83.0" text="Pick Store" />
-      <Button fx:id="orderCustomItemBtn" layoutX="70.0" layoutY="167.0" mnemonicParsing="false" onAction="#onOrderCustomItem" text="Order Custom Item" />
-      <Button fx:id="viewOrdersBtn" layoutX="69.0" layoutY="247.0" mnemonicParsing="false" onAction="#onViewOrders" prefHeight="26.0" prefWidth="143.0" text="View Orders" />
-      <Button fx:id="orderBySearch" layoutX="71.0" layoutY="205.0" mnemonicParsing="false" onAction="#onOrderBySearch" prefHeight="26.0" prefWidth="143.0" text="Order by search" />
+      <Label fx:id="welcomeLbl" layoutX="84.0" layoutY="27.0" text="Welcome, customer!" />
+      <Button fx:id="viewCatalogBtn" layoutX="71.0" layoutY="128.0" mnemonicParsing="false" onAction="#onViewCatalog" prefHeight="25.0" prefWidth="140.0" text="View catalog" />
+      <ComboBox fx:id="storeCombo" layoutX="93.0" layoutY="79.0" onAction="#onStoreChanged" prefWidth="150.0" promptText="[Select store]" />
+      <Label layoutX="15.0" layoutY="83.0" text="Pick store:" />
+      <Button fx:id="orderCustomItemBtn" layoutX="71.0" layoutY="163.0" mnemonicParsing="false" onAction="#onOrderCustomItem" prefWidth="140.0" text="Order custom item" />
+      <Button fx:id="viewOrdersBtn" layoutX="71.0" layoutY="232.0" mnemonicParsing="false" onAction="#onViewOrders" prefHeight="25.0" prefWidth="140.0" text="View orders" />
+      <Button fx:id="orderBySearch" layoutX="71.0" layoutY="198.0" mnemonicParsing="false" onAction="#onOrderBySearch" prefHeight="25.0" prefWidth="140.0" text="Order by search" />
    </children>
 </AnchorPane>

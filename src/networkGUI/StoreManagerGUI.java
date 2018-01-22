@@ -56,7 +56,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     }
     
     /**
-     * Displays reports menu GUI
+     * Displays reports' menu GUI
      * @param event - "View reports" button is pressed
      */
 

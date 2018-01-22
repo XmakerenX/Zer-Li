@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import networkGUI.CustomerServiceExpertGUI;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.CustomerServiceWorkerGUI;
+import networkGUI.NetworkManagerGUI;
 import networkGUI.NetworkWorkerGUI;
 import networkGUI.StoreManagerGUI;
 import networkGUI.StoreWorkerGUI;
@@ -52,6 +53,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	CustomerGUI customerGUI;
 	SystemManagerGUI sysManagerGUI;
 	NetworkWorkerGUI networkWorkerGui;
+	NetworkManagerGUI networkManagerGui;
 	StoreWorkerGUI storeWorkerGUI;
 	CustomerServiceExpertGUI customerServiceExpertGUI;
 	StoreManagerGUI storeManagerGUI;
@@ -87,6 +89,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
     	sysManagerGUI = FormController.<SystemManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/SystemManagerGUI.fxml"), this);
     	networkWorkerGui = FormController.<NetworkWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkWorkerGUI.fxml"), this);
+    	networkManagerGui = FormController.<NetworkManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/NetworkManagerGUI.fxml"), this);
     	storeWorkerGUI = FormController.<StoreWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreWorkerGUI.fxml"), this);
     	customerServiceExpertGUI = FormController.<CustomerServiceExpertGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceExpertGUI.fxml"), this);
     	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
@@ -243,6 +246,18 @@ public class LoginGUI extends FormController implements ClientInterface  {
 						networkWorkerGui.setUser(user);
 						client.setUI(networkWorkerGui);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
+	        		}
+	    			break;
+	    		}
+	    		
+	    		case "NETWORK_MANAGER":
+	    		{
+	    			if (networkManagerGui != null)
+	        		{
+	    				networkManagerGui.setClinet(Client.client);
+	    				networkManagerGui.setUser(user);
+						client.setUI(networkManagerGui);
+	        			FormController.primaryStage.setScene(networkManagerGui.getScene());
 	        		}
 	    			break;
 	    		}

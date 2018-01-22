@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="564.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.ViewDifferentReportsGUI">
+   <children>
+      <Label fx:id="windowTitleLbl" layoutX="326.0" layoutY="15.0" text="View Different Reports Menu">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="instructionLbl" layoutX="278.0" layoutY="65.0" text="Select required report type:" />
+      <ComboBox fx:id="firstQuarterlyComboBox" layoutX="179.0" layoutY="177.0" prefWidth="150.0" promptText="[Select quarterly]" />
+      <Label fx:id="firstQuarterlyLbl" layoutX="108.0" layoutY="180.0" text="Quarterly:" />
+      <Label fx:id="firstYearLbl" layoutX="134.0" layoutY="220.0" text="Year:" />
+      <ComboBox fx:id="firstYearComboBox" layoutX="179.0" layoutY="217.0" prefWidth="150.0" promptText="[Select year]" />
+      <TextArea fx:id="firstReportViaTextArea" editable="false" layoutX="29.0" layoutY="253.0" prefHeight="230.0" prefWidth="379.0" visible="false" />
+      <Button fx:id="viewReportBtn" layoutX="383.0" layoutY="492.0" mnemonicParsing="false" onAction="#onViewReport" prefHeight="40.0" prefWidth="100.0" text="View report" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="525.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <ComboBox fx:id="reportTypeComboBox" layoutX="439.0" layoutY="62.0" onAction="#onReportTypeSelection" prefWidth="150.0" promptText="[Select report]" />
+      <BarChart fx:id="firstComplaintReportBarChart" alternativeColumnFillVisible="true" barGap="3.0" layoutX="15.0" layoutY="253.0" prefHeight="230.0" prefWidth="408.0" title="Complaint report" visible="false">
+        <xAxis>
+          <CategoryAxis label="Month" prefHeight="41.0" prefWidth="330.0" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="# of complaints" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Separator fx:id="horizontalSeparator" layoutX="5.0" layoutY="98.0" prefWidth="860.0" />
+      <Separator fx:id="verticalSeparator" layoutX="433.0" layoutY="99.0" orientation="VERTICAL" prefHeight="384.0" prefWidth="0.0" />
+      <Label fx:id="firstSelectionLbl" layoutX="20.0" layoutY="110.0" text="Select first report's quarterly and year:" />
+      <Label fx:id="secondSelectionLbl" layoutX="453.0" layoutY="110.0" text="Select second report's quarterly and year:" />
+      <Label fx:id="secondQuarterlyLbl" layoutX="542.0" layoutY="180.0" text="Quarterly:" />
+      <Label fx:id="secondYearLbl" layoutX="568.0" layoutY="220.0" text="Year:" />
+      <ComboBox fx:id="secondQuarterlyComboBox" layoutX="613.0" layoutY="177.0" prefWidth="150.0" promptText="[Select quarterly]" />
+      <ComboBox fx:id="secondYearComboBox" layoutX="613.0" layoutY="217.0" prefWidth="150.0" promptText="[Select year]" />
+      <TextArea fx:id="secondReportViaTextArea" editable="false" layoutX="462.0" layoutY="253.0" prefHeight="230.0" prefWidth="379.0" visible="false" />
+      <BarChart fx:id="secondComplaintReportBarChart" alternativeColumnFillVisible="true" barGap="3.0" layoutX="448.0" layoutY="253.0" prefHeight="230.0" prefWidth="408.0" title="Complaint report" visible="false">
+        <xAxis>
+          <CategoryAxis label="Month" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="# of complaints" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Label fx:id="firstStoreLbl" layoutX="120.0" layoutY="140.0" text="Store:" />
+      <Label fx:id="secondStoreLbl" layoutX="554.0" layoutY="140.0" text="Store:" />
+      <ComboBox fx:id="firstStoreComboBox" layoutX="179.0" layoutY="137.0" prefWidth="150.0" promptText="[Select store]" />
+      <ComboBox fx:id="secondStoreComboBox" layoutX="613.0" layoutY="137.0" prefWidth="150.0" promptText="[Select store]" />
+   </children>
+</AnchorPane>

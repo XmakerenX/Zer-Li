@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="240.0" prefWidth="280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="networkGUI.NetworkManagerGUI">
+   <children>
+      <Label fx:id="welcomeLbl" layoutX="64.0" layoutY="15.0" text="Welcome, network manager!" />
+      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="200.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
+      <Button fx:id="viewDifferentReportsBtn" layoutX="75.0" layoutY="90.0" mnemonicParsing="false" onAction="#onViewDifferentReports" text="View different reports" />
+   </children>
+</AnchorPane>

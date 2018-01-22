@@ -97,7 +97,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
     }
     
 	/**
-	 * Displays report in GUI's text area
+	 * Displays income, order or survey report in text area or complaint report in graph
 	 * @param event - "View report" button is pressed
 	 */
 
@@ -107,6 +107,9 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 		
 		String quarterly = quarterlyComboBox.getValue();
 		String year = yearComboBox.getValue();
+		reportViaTextArea.setText("");
+		complaintReportBarChart.getData().clear();
+		complaintReportBarChart.layout();
 		
 		switch (reportTypeComboBox.getValue())
 		{
@@ -253,10 +256,11 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 		    	// show success 
 		    	if (replay.getType() == Response.Type.SUCCESS)
 		    	{
+
 		    		ComplaintReport complaintReport = (ComplaintReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    	    final String first = "1";
-		    	    final String second = "2";
-		    	    final String third = "3";
+		    	    final String first = "1st";
+		    	    final String second = "2nd";
+		    	    final String third = "3rd";
 		    		
 		    		long firstMonthHandledComplaintsAmount = complaintReport.getFirstMonthHandledComplaintsAmount();
 		    		long firstMonthPendingComplaintsAmount = complaintReport.getFirstMonthPendingComplaintsAmount();
@@ -283,7 +287,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 		    	else
 		    	{
 		        	// show failure  
-		    		Alert alert = new Alert(AlertType.ERROR, "Such surveys' report doesn't exists!", ButtonType.OK);
+		    		Alert alert = new Alert(AlertType.ERROR, "Such complaints' report doesn't exists!", ButtonType.OK);
 		    		alert.showAndWait();
 		    	}
 		    	
@@ -295,9 +299,19 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 		}
 	}
 
+	/**
+	 * Clears all the fields and returns to previous GUI window
+	 * @param event - "Back" button is pressed
+	 */
 	@FXML
 	void onBack(ActionEvent event) {
-
+		
+		complaintReportBarChart.getData().clear();
+		reportViaTextArea.setText("");
+		yearComboBox.setValue(null);
+		reportTypeComboBox.setValue(null);
+		quarterlyComboBox.setValue(null);
+		
 		StoreManagerGUI storeManageGui = (StoreManagerGUI) parent;
 		client.setUI(storeManageGui);
 		FormController.primaryStage.setScene(parent.getScene());
@@ -351,30 +365,6 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 
 	public void setManagersStoreID(long managersStoreID) {
 		this.managersStoreID = managersStoreID;
-	}
-	
-	/**
-	 * Receives message that will be splitted by " " symbol and transformed to data base view.
-	 * For example: "Credit card" is transformed to "CREDIT_CARD"
-	 * @param stringToSplit - message to be splitted by specific symbol
-	 * @return
-	 */
-	
-	public String handleSplittedStringFromGUI(String stringToSplit)
-	{
-		String [] splittedString;
-		splittedString = stringToSplit.split(" ");
-		
-		String tempString = "";
-		
-		for(String splitted : splittedString )
-			{
-		   		if( !tempString.equals(""))
-		   			tempString = tempString + "_";
-		   		tempString = tempString + splitted.toUpperCase();
-		   	}
-		
-		return tempString;
 	}
 	
 	/**
@@ -452,7 +442,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 								+ "- The amount of ordered bride bouquets: " + brideBouquetAmount + ".\n"
 								+ "- The amount of ordered flower pots: " + flowerPotAmount + ".\n"
 								+ "- The amount of ordered plants: " + plantAmount + ".\n"
-								+ "- The amount of ordered customed flowers: " + flowerAmount + ".";
+								+ "- The amount of ordered customed items: " + flowerAmount + ".";
 		
 		reportViaTextArea.setText(messageToDisplay);
 	}
