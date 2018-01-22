@@ -58,6 +58,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	CustomerServiceWorkerGUI customerServiceWorkerGUI;
 	CustomerServiceGUI customerServiceGUI;
 	
+	int releventStoreOfUserEmployee = 0; // stores the relevent store to the user in case he is an employee.
 	/* For fast login only, edit user.properties:
 	 * 
 	 */
@@ -127,11 +128,12 @@ public class LoginGUI extends FormController implements ClientInterface  {
     
     @FXML
     void onLogin(ActionEvent event) 
-    {
+    {   
     	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), Client.client);
     	
-    	//UserController.getStoreOfEmployee(this.usernameTxt.getText(), client);
-    	try
+    	
+		
+		try
     	{
     		synchronized(this)
     		{
@@ -149,9 +151,31 @@ public class LoginGUI extends FormController implements ClientInterface  {
     			return;
     		}
     	
+    	//UserController.getStoreOfEmployee(this.usernameTxt.getText(), client);
+    	
+    	
     	// show success 
     	if (replay.getType() == Response.Type.SUCCESS)
     	{
+    		User user = (User)replay.getMessage();
+    		String permission = ""+user.getUserPermission();
+    		// clear replay
+    		replay = null;
+    		//store the relevent store of the user( in case he is an employee)
+    		
+    		UserController.getStoreOfEmployee(usernameTxt.getText(), Client.client);
+        	try
+        	{
+        		synchronized(this) {this.wait();}
+        	}
+        	catch(Exception e) {}
+        	
+        	if (replay.getType() == Response.Type.SUCCESS)
+        		releventStoreOfUserEmployee = (int)(replay.getMessage());
+        	else
+        		releventStoreOfUserEmployee = 0;
+        	
+        	
     		if(rememberMeBtn.isSelected())
     		{
     			rememberSelect = true;
@@ -162,10 +186,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     			rememberSelect = false;
     			updateUserConfigFile("user.properties", "", "","FALSE");
     		}
-    		User user = (User)replay.getMessage();
-    		String permission = ""+user.getUserPermission();
-    		// clear replay
-    		replay = null;
+    	
     		
     		switch (permission)
     		{
@@ -242,6 +263,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				networkWorkerGui.setClinet(Client.client);
 						networkWorkerGui.setUser(user);
+						networkWorkerGui.setStoreID(releventStoreOfUserEmployee);
 						client.setUI(networkWorkerGui);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
@@ -254,8 +276,11 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (storeWorkerGUI != null)
 	        		{
 	    				storeWorkerGUI.setUser(user);
+	    				storeWorkerGUI.setStoreID(releventStoreOfUserEmployee);
 	    				storeWorkerGUI.setClinet(Client.client);
+	    				storeWorkerGUI.setFormParent(this);
 	    				client.setUI(storeWorkerGUI);
+	    				
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
 	    			break;
@@ -303,7 +328,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 				  break;
     		}
 
-
+    		//reset login text boxes:
     		usernameTxt.setText("");;
     	    passwordTxt.setText("");;
     	}

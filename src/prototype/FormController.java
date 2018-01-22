@@ -14,11 +14,14 @@ public abstract class FormController {
 
 	protected static Stage primaryStage;
 	protected Scene thisScene;
-	protected FormController parent;
+	protected static FormController parent;
 	protected Client client;
 	
 	public abstract void onSwitch(Client newClient);
-			
+	
+	
+	
+	
 	public static void setPrimaryStage(Stage newPrimaryStage)
 	{
 		primaryStage = newPrimaryStage;
