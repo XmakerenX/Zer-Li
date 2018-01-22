@@ -14,7 +14,7 @@ public abstract class FormController {
 
 	protected static Stage primaryStage;
 	protected Scene thisScene;
-	protected static FormController parent;
+	protected FormController parent;
 	protected Client client;
 	
 	public abstract void onSwitch(Client newClient);
