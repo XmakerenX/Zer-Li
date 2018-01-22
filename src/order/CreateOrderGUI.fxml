@@ -36,7 +36,7 @@
          <toggleGroup>
             <ToggleGroup fx:id="pickupMethod" />
          </toggleGroup></RadioButton>
-      <RadioButton layoutX="202.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivery" text="Delivery(shippment price is 10 ₪)" toggleGroup="$pickupMethod" />
+      <RadioButton layoutX="202.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivery" text="Delivery(shippment price is 10 €)" toggleGroup="$pickupMethod" />
       <Label layoutX="23.0" layoutY="435.0" text="Delivary Adress" />
       <TextField fx:id="addressTxt" layoutX="197.0" layoutY="430.0" />
       <Label layoutX="307.0" layoutY="61.0" text="Items in Order">
@@ -45,12 +45,12 @@
          </font>
       </Label>
       <Label layoutX="25.0" layoutY="555.0" text="Pay Method" />
-      <RadioButton fx:id="cashRadio" layoutX="23.0" layoutY="587.0" mnemonicParsing="false" text="Cash">
+      <RadioButton fx:id="cashRadio" layoutX="23.0" layoutY="587.0" mnemonicParsing="false" onAction="#onCash" text="Cash">
          <toggleGroup>
             <ToggleGroup fx:id="payMethod" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="creditCardRadio" layoutX="112.0" layoutY="587.0" mnemonicParsing="false" text="CreditCard" toggleGroup="$payMethod" />
-      <RadioButton fx:id="subscriptonRadio" layoutX="228.0" layoutY="587.0" mnemonicParsing="false" text="Subscription" toggleGroup="$payMethod" />
+      <RadioButton fx:id="creditCardRadio" layoutX="112.0" layoutY="587.0" mnemonicParsing="false" onAction="#onCreditCard" text="CreditCard" toggleGroup="$payMethod" />
+      <RadioButton fx:id="subscriptonRadio" layoutX="228.0" layoutY="587.0" mnemonicParsing="false" onAction="#onSubscription" text="Subscription" toggleGroup="$payMethod" />
       <Label layoutX="404.0" layoutY="533.0" text="Pick up Time" />
       <TextField fx:id="hourTxt" layoutX="503.0" layoutY="528.0" prefHeight="26.0" prefWidth="35.0" />
       <TextField fx:id="minsTxt" layoutX="546.0" layoutY="528.0" prefHeight="26.0" prefWidth="35.0" />

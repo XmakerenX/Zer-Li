@@ -19,6 +19,7 @@ public class Customer implements Serializable {
 		}
 	}
 	
+	//					   0%				10%						25%
 	public enum PayType {CREDIT_CARD, MONTHLY_SUBSCRIPTION, YEARLY_SUBSCRIPTION}
 	
 	private long ID;

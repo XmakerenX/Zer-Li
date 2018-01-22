@@ -94,14 +94,14 @@ public class OrderItemView extends CatalogItem {
 			float precntage = ((productPrice - getSalePrice()) / productPrice)*100;
 			DecimalFormat df = new DecimalFormat();
 			df.setMaximumFractionDigits(2);
-			engine.loadContent("<font size=\"2\"><del>"+productPrice+"₪</del></font>" 
-			+ " <font size=\"4\">" + getSalePrice() + "₪</font>"
+			engine.loadContent("<font size=\"2\"><del>"+productPrice+"€</del></font>" 
+			+ " <font size=\"4\">" + getSalePrice() + "€</font>"
 			+ " <font color=\"green\" ,size=\"4\">"+ "(-" + df.format(precntage)+"%)" + "</font>");
 		}
 		else
 		{
 			WebEngine engine = salePriceView.getEngine();
-			engine.loadContent("<font size=\"4\">"+productPrice+"₪</font>");
+			engine.loadContent("<font size=\"4\">"+productPrice+"€</font>");
 		}
 	}
 	
