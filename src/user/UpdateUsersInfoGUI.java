@@ -71,7 +71,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	ObservableList<String> storesNamesList = FXCollections.observableArrayList();
 	
 	//Hash map for stores: key - store ID, value - store name
-	private HashMap<Long, String> stores;
+	private HashMap<Long, String> stores = new HashMap<Long, String>();
 
 
 
@@ -257,7 +257,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	setComboBoxes();
     	setArrayListsOfFields();
     	setListenersForTextFields();
-    	stores = new HashMap<Long, String>();
     	
     }
     

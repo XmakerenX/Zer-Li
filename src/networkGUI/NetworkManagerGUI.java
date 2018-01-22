@@ -68,7 +68,8 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
      * Displays different reports' menu GUI
      * @param event - "View different reports" button is pressed
      */
-    @FXML
+    @SuppressWarnings("unchecked")
+	@FXML
     void onViewDifferentReports(ActionEvent event) {
 		
     	if(viewDifferentReportsGUI != null)
@@ -93,9 +94,11 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 	    		storesList = (ArrayList<Store>) replay.getMessage();
 	    		
 	    		for(Store store : storesList)
-	    			tempHashMap.put(store.getStoreAddress(), store.getStoreID());
-	    			
+	    			if(!store.getStoreAddress().equals("Base"))
+	    				tempHashMap.put(store.getStoreAddress(), store.getStoreID());
+
 	    		viewDifferentReportsGUI.setStores(tempHashMap);
+	    		viewDifferentReportsGUI.setComboBoxes();
 	    	}
 	    	else
 	    	{

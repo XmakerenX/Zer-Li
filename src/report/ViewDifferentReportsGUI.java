@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
+import networkGUI.NetworkManagerGUI;
 import networkGUI.StoreManagerGUI;
 import prototype.FormController;
 import report.OrderReport.Quarterly;
@@ -50,7 +51,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 	ObservableList<String> storesNamesList = FXCollections.observableArrayList();
 	
 	//Hash map for stores: key - store ID, value - store name
-	private HashMap<String, Long> stores;
+	private HashMap<String, Long> stores = new HashMap<String, Long>();;
 
 	@FXML
     private ComboBox<String> firstQuarterlyComboBox;
@@ -135,8 +136,6 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     //Will be called by FXMLLoader
     public void initialize(){
     	
-    	stores = new HashMap<String, Long>();
-    	setComboBoxes();
     	firstReportViaTextArea.setEditable(false);
     	secondReportViaTextArea.setEditable(false);
 
@@ -149,364 +148,380 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 
 	@FXML
 	void onViewReport(ActionEvent event) {
-		
-		long firstStore = Long.parseLong(firstStoreComboBox.getValue());
-		long secondStore = Long.parseLong(secondStoreComboBox.getValue());
-		String firstQuarterly = firstQuarterlyComboBox.getValue();
-		String secondQuarterly = secondQuarterlyComboBox.getValue();
-		String firstYear = firstYearComboBox.getValue();
-		String secondYear = secondYearComboBox.getValue();
-		String reportMessage;
-		
-		firstReportViaTextArea.setText("");
-		secondReportViaTextArea.setText("");
-		firstComplaintReportBarChart.getData().clear();
-		firstComplaintReportBarChart.layout();
-		secondComplaintReportBarChart.getData().clear();
-		secondComplaintReportBarChart.layout();
-		
-		IncomeReport incomeReport;
-		OrderReport orderReport;
-		SurveyReport surveyReport;
-		ComplaintReport complaintReport;
-		
-		
-		switch (reportTypeComboBox.getValue())
+
+		if(firstStoreComboBox.getValue() != null && secondStoreComboBox.getValue() != null && firstQuarterlyComboBox.getValue() != null
+				&& secondQuarterlyComboBox.getValue() != null && firstYearComboBox.getValue() != null
+				&& secondYearComboBox.getValue() != null && reportTypeComboBox.getValue() != null)
 		{
-			case "Income":
-			{
+			long firstStore = stores.get(firstStoreComboBox.getValue());
+			String firstStoreName = firstStoreComboBox.getValue();
+			long secondStore = stores.get(secondStoreComboBox.getValue());
+			String secondStoreName = secondStoreComboBox.getValue();
+			String firstQuarterly = firstQuarterlyComboBox.getValue();
+			String secondQuarterly = secondQuarterlyComboBox.getValue();
+			String firstYear = firstYearComboBox.getValue();
+			String secondYear = secondYearComboBox.getValue();
+			String reportMessage;
 
-				ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-		    		incomeReport = (IncomeReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    		
-		    		reportMessage = buildIncomeReportsTextAreaMessage(""+incomeReport.getQuarterly(),""+incomeReport.getYear(),incomeReport.getIncomeAmount());
-		    		firstReportViaTextArea.setText(reportMessage);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+firstStore+ " store such income's report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
-				
-				ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-		    		incomeReport = (IncomeReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    		
-		    		reportMessage = buildIncomeReportsTextAreaMessage(""+incomeReport.getQuarterly(),""+incomeReport.getYear(),incomeReport.getIncomeAmount());
-		    		secondReportViaTextArea.setText(reportMessage);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+secondStore+ " store such income's report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
-			}
-			break;
+			firstReportViaTextArea.setText("");
+			secondReportViaTextArea.setText("");
+			firstComplaintReportBarChart.getData().clear();
+			firstComplaintReportBarChart.layout();
+			secondComplaintReportBarChart.getData().clear();
+			secondComplaintReportBarChart.layout();
 			
-			case "Order":
-			{
-				ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-		    		orderReport = (OrderReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    		
-		    		long totalOrdersAmount = orderReport.getTotalOrdersAmount();
-		    		long bouquetAmount = orderReport.getBouquetAmount();
-		    		long brideBouquetAmount = orderReport.getBrideBouquetAmount();
-		    		long flowerPotAmount = orderReport.getFlowerPotAmount();
-		    		long flowerAmount = orderReport.getFlowerAmount();		//Maybe need to be removed
-		    		long plantAmount = orderReport.getPlantAmount();
-
-		    		reportMessage = buildOrderReportsTextAreaMessage(""+orderReport.getQuarterly(), ""+orderReport.getYear(), totalOrdersAmount, bouquetAmount, brideBouquetAmount,
-		    				flowerPotAmount, flowerAmount, plantAmount);
-		    		firstReportViaTextArea.setText(reportMessage);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+firstStore+ " store such orders' report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
-				
-				ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-		    		orderReport = (OrderReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    		
-		    		long totalOrdersAmount = orderReport.getTotalOrdersAmount();
-		    		long bouquetAmount = orderReport.getBouquetAmount();
-		    		long brideBouquetAmount = orderReport.getBrideBouquetAmount();
-		    		long flowerPotAmount = orderReport.getFlowerPotAmount();
-		    		long flowerAmount = orderReport.getFlowerAmount();		//Maybe need to be removed
-		    		long plantAmount = orderReport.getPlantAmount();
-
-		    		reportMessage = buildOrderReportsTextAreaMessage(""+orderReport.getQuarterly(), ""+orderReport.getYear(), totalOrdersAmount, bouquetAmount, brideBouquetAmount,
-		    				flowerPotAmount, flowerAmount, plantAmount);
-		    		secondReportViaTextArea.setText(reportMessage);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+secondStore+ " store such orders' report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
-			}
-			break;
+			IncomeReport incomeReport;
+			OrderReport orderReport;
+			SurveyReport surveyReport;
+			ComplaintReport complaintReport;
 			
-			case "Survey":
+			switch (reportTypeComboBox.getValue())
 			{
-				ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+				case "Income":
+				{
+	
+					ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    		incomeReport = (IncomeReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    		
+			    		reportMessage = buildIncomeReportsTextAreaMessage(""+incomeReport.getQuarterly(),""+incomeReport.getYear(),firstStoreName,
+			    				incomeReport.getIncomeAmount());
+			    		firstReportViaTextArea.setText(reportMessage);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+firstStore+ " store such income's report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+					
+					ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    		incomeReport = (IncomeReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    		
+			    		reportMessage = buildIncomeReportsTextAreaMessage(""+incomeReport.getQuarterly(),""+incomeReport.getYear(), secondStoreName,
+			    				incomeReport.getIncomeAmount());
+			    		secondReportViaTextArea.setText(reportMessage);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+secondStore+ " store such income's report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+				}
+				break;
 				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-		    		surveyReport = (SurveyReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    		
-		    		long firstSurveyAverageResult = surveyReport.getFirstSurveyAverageResult();
-		    		long secondSurveyAverageResult = surveyReport.getSecondSurveyAverageResult();
-		    		long thirdSurveyAverageResult = surveyReport.getThirdSurveyAverageResult();
-		    		long fourthSurveyAverageResult = surveyReport.getFourthSurveyAverageResult();
-		    		long fifthSurveyAverageResult = surveyReport.getFifthSurveyAverageResult();
-		    		long sixthSurveyAverageResult = surveyReport.getSixthSurveyAverageResult();
-		    		
-		    		reportMessage = buildSurveyReportsTextAreaMessage(""+surveyReport.getQuarterly(), surveyReport.getYear(), firstSurveyAverageResult, secondSurveyAverageResult,
-		    				thirdSurveyAverageResult, fourthSurveyAverageResult, fifthSurveyAverageResult, sixthSurveyAverageResult);
-		    		firstReportViaTextArea.setText(reportMessage);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+firstStore+ " store such surveys' report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
+				case "Order":
+				{
+					ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    		orderReport = (OrderReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    		
+			    		long totalOrdersAmount = orderReport.getTotalOrdersAmount();
+			    		long bouquetAmount = orderReport.getBouquetAmount();
+			    		long brideBouquetAmount = orderReport.getBrideBouquetAmount();
+			    		long flowerPotAmount = orderReport.getFlowerPotAmount();
+			    		long flowerAmount = orderReport.getFlowerAmount();		//Maybe need to be removed
+			    		long plantAmount = orderReport.getPlantAmount();
+	
+			    		reportMessage = buildOrderReportsTextAreaMessage(""+orderReport.getQuarterly(), ""+orderReport.getYear(),firstStoreName,
+			    				totalOrdersAmount, bouquetAmount, brideBouquetAmount, flowerPotAmount, flowerAmount, plantAmount);
+			    		firstReportViaTextArea.setText(reportMessage);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+firstStore+ " store such orders' report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+					
+					ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    		orderReport = (OrderReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    		
+			    		long totalOrdersAmount = orderReport.getTotalOrdersAmount();
+			    		long bouquetAmount = orderReport.getBouquetAmount();
+			    		long brideBouquetAmount = orderReport.getBrideBouquetAmount();
+			    		long flowerPotAmount = orderReport.getFlowerPotAmount();
+			    		long flowerAmount = orderReport.getFlowerAmount();		//Maybe need to be removed
+			    		long plantAmount = orderReport.getPlantAmount();
+	
+			    		reportMessage = buildOrderReportsTextAreaMessage(""+orderReport.getQuarterly(), ""+orderReport.getYear(),secondStoreName,
+			    				totalOrdersAmount, bouquetAmount, brideBouquetAmount, flowerPotAmount, flowerAmount, plantAmount);
+			    		secondReportViaTextArea.setText(reportMessage);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+secondStore+ " store such orders' report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+				}
+				break;
 				
-				replay = null;
+				case "Survey":
+				{
+					ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    		surveyReport = (SurveyReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    		
+			    		long firstSurveyAverageResult = surveyReport.getFirstSurveyAverageResult();
+			    		long secondSurveyAverageResult = surveyReport.getSecondSurveyAverageResult();
+			    		long thirdSurveyAverageResult = surveyReport.getThirdSurveyAverageResult();
+			    		long fourthSurveyAverageResult = surveyReport.getFourthSurveyAverageResult();
+			    		long fifthSurveyAverageResult = surveyReport.getFifthSurveyAverageResult();
+			    		long sixthSurveyAverageResult = surveyReport.getSixthSurveyAverageResult();
+			    		
+			    		reportMessage = buildSurveyReportsTextAreaMessage(""+surveyReport.getQuarterly(), surveyReport.getYear(),firstStoreName,
+			    				firstSurveyAverageResult, secondSurveyAverageResult,
+			    				thirdSurveyAverageResult, fourthSurveyAverageResult, fifthSurveyAverageResult, sixthSurveyAverageResult);
+			    		firstReportViaTextArea.setText(reportMessage);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+firstStore+ " store such surveys' report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+					
+					ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    		surveyReport = (SurveyReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    		
+			    		long firstSurveyAverageResult = surveyReport.getFirstSurveyAverageResult();
+			    		long secondSurveyAverageResult = surveyReport.getSecondSurveyAverageResult();
+			    		long thirdSurveyAverageResult = surveyReport.getThirdSurveyAverageResult();
+			    		long fourthSurveyAverageResult = surveyReport.getFourthSurveyAverageResult();
+			    		long fifthSurveyAverageResult = surveyReport.getFifthSurveyAverageResult();
+			    		long sixthSurveyAverageResult = surveyReport.getSixthSurveyAverageResult();
+			    		
+			    		reportMessage = buildSurveyReportsTextAreaMessage(""+surveyReport.getQuarterly(), surveyReport.getYear(),
+			    				""+secondStore,firstSurveyAverageResult, secondSurveyAverageResult,
+			    				thirdSurveyAverageResult, fourthSurveyAverageResult, fifthSurveyAverageResult, sixthSurveyAverageResult);
+			    		secondReportViaTextArea.setText(reportMessage);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+secondStore+ " store such surveys' report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+				}
+				break;
 				
-				ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-		    		surveyReport = (SurveyReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    		
-		    		long firstSurveyAverageResult = surveyReport.getFirstSurveyAverageResult();
-		    		long secondSurveyAverageResult = surveyReport.getSecondSurveyAverageResult();
-		    		long thirdSurveyAverageResult = surveyReport.getThirdSurveyAverageResult();
-		    		long fourthSurveyAverageResult = surveyReport.getFourthSurveyAverageResult();
-		    		long fifthSurveyAverageResult = surveyReport.getFifthSurveyAverageResult();
-		    		long sixthSurveyAverageResult = surveyReport.getSixthSurveyAverageResult();
-		    		
-		    		reportMessage = buildSurveyReportsTextAreaMessage(""+surveyReport.getQuarterly(), surveyReport.getYear(), firstSurveyAverageResult, secondSurveyAverageResult,
-		    				thirdSurveyAverageResult, fourthSurveyAverageResult, fifthSurveyAverageResult, sixthSurveyAverageResult);
-		    		secondReportViaTextArea.setText(reportMessage);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+secondStore+ " store such surveys' report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
+				case "Complaint":
+				{
+					ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+	
+			    	    complaintReport = (ComplaintReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    	    final String first = "1st";
+			    	    final String second = "2nd";
+			    	    final String third = "3rd";
+			    		
+			    		long firstMonthHandledComplaintsAmount = complaintReport.getFirstMonthHandledComplaintsAmount();
+			    		long firstMonthPendingComplaintsAmount = complaintReport.getFirstMonthPendingComplaintsAmount();
+			    		long secondMonthHandledComplaintsAmount = complaintReport.getSecondMonthHandledComplaintsAmount();
+			    		long secondMonthPendingComplaintsAmount = complaintReport.getSecondMonthPendingComplaintsAmount();
+			    		long thirdMonthHandledComplaintsAmount = complaintReport.getThirdMonthHandledComplaintsAmount();
+			    		long thirdMonthPendingComplaintsAmount = complaintReport.getThirdMonthPendingComplaintsAmount();
+			    	 
+			    	    XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
+			    	    series1.setName("Handled");       
+			    	    series1.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthHandledComplaintsAmount));
+			    	    series1.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthHandledComplaintsAmount));
+			    	    series1.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthHandledComplaintsAmount));
+	  
+			    	      
+			    	    XYChart.Series<String, Number> series2 = new XYChart.Series<String, Number>();
+			    	    series2.setName("Pending");
+			    	    series2.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthPendingComplaintsAmount));
+			    	    series2.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthPendingComplaintsAmount));
+			    	    series2.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthPendingComplaintsAmount));
+			    	    
+			    	    firstComplaintReportBarChart.getData().addAll(series1, series2);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+firstStore+ " store such complaints' report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+					
+					ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					
+					try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+	
+			    	    complaintReport = (ComplaintReport)((ArrayList<?>) replay.getMessage()).get(0);
+			    	    final String first = "1st";
+			    	    final String second = "2nd";
+			    	    final String third = "3rd";
+			    		
+			    		long firstMonthHandledComplaintsAmount = complaintReport.getFirstMonthHandledComplaintsAmount();
+			    		long firstMonthPendingComplaintsAmount = complaintReport.getFirstMonthPendingComplaintsAmount();
+			    		long secondMonthHandledComplaintsAmount = complaintReport.getSecondMonthHandledComplaintsAmount();
+			    		long secondMonthPendingComplaintsAmount = complaintReport.getSecondMonthPendingComplaintsAmount();
+			    		long thirdMonthHandledComplaintsAmount = complaintReport.getThirdMonthHandledComplaintsAmount();
+			    		long thirdMonthPendingComplaintsAmount = complaintReport.getThirdMonthPendingComplaintsAmount();
+			    	 
+			    	    XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
+			    	    series1.setName("Handled");       
+			    	    series1.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthHandledComplaintsAmount));
+			    	    series1.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthHandledComplaintsAmount));
+			    	    series1.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthHandledComplaintsAmount));
+	  
+			    	      
+			    	    XYChart.Series<String, Number> series2 = new XYChart.Series<String, Number>();
+			    	    series2.setName("Pending");
+			    	    series2.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthPendingComplaintsAmount));
+			    	    series2.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthPendingComplaintsAmount));
+			    	    series2.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthPendingComplaintsAmount));
+			    	    
+			    	    secondComplaintReportBarChart.getData().addAll(series1, series2);
+			    	}
+			    	else
+			    	{
+			    		showErrorMessage("In "+secondStore+ " store such complaints' report doesn't exists!");
+			    	}
+			    	
+			    	}catch(InterruptedException e) {}
+					
+					replay = null;
+				}
+				break;
 			}
-			break;
-			
-			case "Complaint":
-			{
-				ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-
-		    	    complaintReport = (ComplaintReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    	    final String first = "1st";
-		    	    final String second = "2nd";
-		    	    final String third = "3rd";
-		    		
-		    		long firstMonthHandledComplaintsAmount = complaintReport.getFirstMonthHandledComplaintsAmount();
-		    		long firstMonthPendingComplaintsAmount = complaintReport.getFirstMonthPendingComplaintsAmount();
-		    		long secondMonthHandledComplaintsAmount = complaintReport.getSecondMonthHandledComplaintsAmount();
-		    		long secondMonthPendingComplaintsAmount = complaintReport.getSecondMonthPendingComplaintsAmount();
-		    		long thirdMonthHandledComplaintsAmount = complaintReport.getThirdMonthHandledComplaintsAmount();
-		    		long thirdMonthPendingComplaintsAmount = complaintReport.getThirdMonthPendingComplaintsAmount();
-		    	 
-		    	    XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
-		    	    series1.setName("Handled");       
-		    	    series1.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthHandledComplaintsAmount));
-		    	    series1.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthHandledComplaintsAmount));
-		    	    series1.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthHandledComplaintsAmount));
-  
-		    	      
-		    	    XYChart.Series<String, Number> series2 = new XYChart.Series<String, Number>();
-		    	    series2.setName("Pending");
-		    	    series2.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthPendingComplaintsAmount));
-		    	    series2.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthPendingComplaintsAmount));
-		    	    series2.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthPendingComplaintsAmount));
-		    	    
-		    	    firstComplaintReportBarChart.getData().addAll(series1, series2);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+firstStore+ " store such complaints' report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
-				
-				ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
-				
-				try
-		    	{
-		    		synchronized(this)
-		    		{
-		    			// wait for server response
-		    			this.wait();
-		    		}
-		    	
-		    		if (replay == null)
-		    			return;
-		    		
-		    	// show success 
-		    	if (replay.getType() == Response.Type.SUCCESS)
-		    	{
-
-		    	    complaintReport = (ComplaintReport)((ArrayList<?>) replay.getMessage()).get(0);
-		    	    final String first = "1st";
-		    	    final String second = "2nd";
-		    	    final String third = "3rd";
-		    		
-		    		long firstMonthHandledComplaintsAmount = complaintReport.getFirstMonthHandledComplaintsAmount();
-		    		long firstMonthPendingComplaintsAmount = complaintReport.getFirstMonthPendingComplaintsAmount();
-		    		long secondMonthHandledComplaintsAmount = complaintReport.getSecondMonthHandledComplaintsAmount();
-		    		long secondMonthPendingComplaintsAmount = complaintReport.getSecondMonthPendingComplaintsAmount();
-		    		long thirdMonthHandledComplaintsAmount = complaintReport.getThirdMonthHandledComplaintsAmount();
-		    		long thirdMonthPendingComplaintsAmount = complaintReport.getThirdMonthPendingComplaintsAmount();
-		    	 
-		    	    XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
-		    	    series1.setName("Handled");       
-		    	    series1.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthHandledComplaintsAmount));
-		    	    series1.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthHandledComplaintsAmount));
-		    	    series1.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthHandledComplaintsAmount));
-  
-		    	      
-		    	    XYChart.Series<String, Number> series2 = new XYChart.Series<String, Number>();
-		    	    series2.setName("Pending");
-		    	    series2.getData().add(new XYChart.Data<String, Number>(first, (Number)firstMonthPendingComplaintsAmount));
-		    	    series2.getData().add(new XYChart.Data<String, Number>(second, (Number)secondMonthPendingComplaintsAmount));
-		    	    series2.getData().add(new XYChart.Data<String, Number>(third, (Number)thirdMonthPendingComplaintsAmount));
-		    	    
-		    	    secondComplaintReportBarChart.getData().addAll(series1, series2);
-		    	}
-		    	else
-		    	{
-		    		showErrorMessage("In "+secondStore+ " store such complaints' report doesn't exists!");
-		    	}
-		    	
-		    	}catch(InterruptedException e) {}
-				
-				replay = null;
-			}
-			break;
+		}
+		else
+		{
+	    	// show warning  
+			Alert alert = new Alert(AlertType.WARNING, "Please select all attributes (store, quarterly and year) for both reports.", ButtonType.OK);
+			alert.showAndWait();
 		}
 		
 	}
@@ -518,14 +533,11 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 	@FXML
 	void onBack(ActionEvent event) {
 		
-//		complaintReportBarChart.getData().clear();
-//		reportViaTextArea.setText("");
-//		yearComboBox.setValue(null);
-//		reportTypeComboBox.setValue(null);
-//		quarterlyComboBox.setValue(null);
+		reportTypeComboBox.setValue(null);
+		clearFieldsMethod();
 		
-		StoreManagerGUI storeManageGui = (StoreManagerGUI) parent;
-		client.setUI(storeManageGui);
+		NetworkManagerGUI networkManagerGUI = (NetworkManagerGUI) parent;
+		client.setUI(networkManagerGUI);
 		FormController.primaryStage.setScene(parent.getScene());
 
 	}
@@ -553,18 +565,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     		secondReportViaTextArea.setVisible(true);
     	}
     	
-    	firstReportViaTextArea.setText("");
-    	secondReportViaTextArea.setText("");
-    	firstComplaintReportBarChart.getData().clear();
-    	secondComplaintReportBarChart.getData().clear();
-
-    	firstQuarterlyComboBox.setValue(null);
-    	secondQuarterlyComboBox.setValue(null);
-    	firstYearComboBox.setValue(null);
-    	secondYearComboBox.setValue(null);
-    	firstStoreComboBox.setValue(null);
-    	secondStoreComboBox.setValue(null);
-
+    	clearFieldsMethod();
     }
 
 	@Override
@@ -624,13 +625,16 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 	 * Filling combo boxes according to enum declarations
 	 */
 	
-	private void setComboBoxes()
+	public void setComboBoxes()
 	{
 		String temporaryString = "";
 
     	ArrayList<String> quarterlies = new ArrayList<String>();
+    	ArrayList<String> storeNameList = new ArrayList<String>();
+    	
+    	for(String storeName : stores.keySet())
+    		storeNameList.add(storeName);
 
-    	storesNamesList.addAll(stores.keySet());
 
     	for(IncomeReport.Quarterly quarterly : IncomeReport.Quarterly.values())
     	{
@@ -638,8 +642,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     		quarterlies.add(""+temporaryString);
     	}
     	
-    	
+    	storesNamesList.addAll(stores.keySet());
     	quarterliesList.addAll(quarterlies);
+    	
     	firstQuarterlyComboBox.setItems(quarterliesList);
     	secondQuarterlyComboBox.setItems(quarterliesList);
     	
@@ -650,9 +655,6 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     	secondStoreComboBox.setItems(storesNamesList);
     	
     	reportTypeComboBox.setItems(reportTypesList);
-    	
-    	
-
 	}
 	
 	private void showErrorMessage(String message)
@@ -662,20 +664,20 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 		alert.showAndWait();
 	}
 	
-	private String buildIncomeReportsTextAreaMessage(String quarterly, String year, float incomeAmount)
+	private String buildIncomeReportsTextAreaMessage(String quarterly, String year, String storeName, float incomeAmount)
 	{
 		String messageToDisplay = "          *****INCOME REPORT*****\n\n"
-				+ "This is the income report from " + quarterly.toLowerCase() + " quarterly of a year " + year + ":\n"
+				+ "This is "+storeName+" store's income report from " + quarterly.toLowerCase() + " quarterly of a year " + year + ":\n"
 						+ "- The income amount is: " + incomeAmount + ".";
 		
 		return messageToDisplay;
 	}
 	
-	private String buildOrderReportsTextAreaMessage(String quarterly, String year, long totalOrdersAmount, long bouquetAmount,
+	private String buildOrderReportsTextAreaMessage(String quarterly, String year, String storeName, long totalOrdersAmount, long bouquetAmount,
 			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount)
 	{
 		String messageToDisplay = "          *****ORDER REPORT*****\n\n"
-				+ "This is the order report from " + quarterly.toLowerCase() + " quarterly of a year " + year + ":\n"
+				+ "This is "+storeName+" store's order report from " + quarterly.toLowerCase() + " quarterly of a year " + year + ":\n"
 						+ "- Total amount of ordered products: " + totalOrdersAmount + ".\n"
 								+ "In more details:\n"
 								+ "- The amount of ordered bouquets: " + bouquetAmount + ".\n"
@@ -687,12 +689,12 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 		return messageToDisplay;
 	}
 	
-	private String buildSurveyReportsTextAreaMessage(String quarterly, String year, long firstSurveyAverageResult,
+	private String buildSurveyReportsTextAreaMessage(String quarterly, String year, String storeName, long firstSurveyAverageResult,
 			long secondSurveyAverageResult, long thirdSurveyAverageResult, long fourthSurveyAverageResult,
 			long fifthSurveyAverageResult, long sixthSurveyAverageResult)
 	{
 		String messageToDisplay = "          *****SURVEY REPORT*****\n\n"
-				+ "This is the survey report from " + quarterly.toLowerCase() + " quarterly of a year" + year + ".\n"
+				+ "This is "+storeName+" store's survey report from " + quarterly.toLowerCase() + " quarterly of a year" + year + ".\n"
 						+ "This report contains average results for every question:\n"
 						+ "- Average result of the first question: " + firstSurveyAverageResult + ".\n"
 						+ "- Average result of the second question: " + secondSurveyAverageResult + ".\n"
@@ -702,5 +704,20 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 						+ "- Average result of the sixth question: " + sixthSurveyAverageResult + ".";
 		
 		return messageToDisplay;
+	}
+	
+	private void clearFieldsMethod()
+	{
+    	firstReportViaTextArea.setText("");
+    	secondReportViaTextArea.setText("");
+    	firstComplaintReportBarChart.getData().clear();
+    	secondComplaintReportBarChart.getData().clear();
+
+    	firstQuarterlyComboBox.setValue(null);
+    	secondQuarterlyComboBox.setValue(null);
+    	firstYearComboBox.setValue(null);
+    	secondYearComboBox.setValue(null);
+    	firstStoreComboBox.setValue(null);
+    	secondStoreComboBox.setValue(null);
 	}
 }

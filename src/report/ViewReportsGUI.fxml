@@ -27,7 +27,7 @@
       <Label fx:id="quarterlyLbl" layoutX="40.0" layoutY="135.0" text="Quarterly:" />
       <Label fx:id="yearLbl" layoutX="66.0" layoutY="175.0" text="Year:" />
       <ComboBox fx:id="yearComboBox" layoutX="111.0" layoutY="173.0" prefWidth="150.0" promptText="[Select year]" />
-      <TextArea fx:id="reportViaTextArea" editable="false" layoutX="29.0" layoutY="213.0" prefHeight="240.0" prefWidth="379.0" visible="false" />
+      <TextArea fx:id="reportViaTextArea" editable="false" layoutX="19.0" layoutY="213.0" prefHeight="240.0" prefWidth="399.0" visible="false" />
       <Button fx:id="viewReportBtn" layoutX="289.0" layoutY="126.0" mnemonicParsing="false" onAction="#onViewReport" prefHeight="40.0" text="View report" />
       <Button fx:id="backBtn" layoutX="15.0" layoutY="485.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
       <Label fx:id="reportTypeLbl" layoutX="27.0" layoutY="95.0" text="Report type:" />
