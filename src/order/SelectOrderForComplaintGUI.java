@@ -8,8 +8,6 @@ import java.util.Observer;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
-import customer.CustomerController;
-import customer.Customer.CustomerException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
@@ -28,10 +27,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import networkGUI.CustomerServiceWorkerGUI;
 import order.OrderRow.OrderViewButton;
+import order.OrderRow.orderRowButton;
 import prototype.FormController;
 import serverAPI.Response;
 import user.User;
-
+/**
+ * In this GUI we select an order of a specific user, to complain about
+ * @author dk198
+ *
+ */
 public class SelectOrderForComplaintGUI extends FormController implements ClientInterface, Observer{
 
 	User user;
@@ -40,9 +44,12 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	ClientInterface SelectOrderInterface = this;
 	ObservableList<OrderRow> orderList; //table's data
 	NewComplaintCreationGUI newComplaintCreationGUI;
-	
+	String StoreAddress;
 	//==============================================================================================================
- 	@FXML
+
+   @FXML
+    private Label storeLabel;
+	@FXML
     private TableColumn<?, ?> selectCulomn;
     @FXML
     private TableView<OrderRow> orderTable;
@@ -54,26 +61,33 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     private TableColumn<?, ?> priceColumn;
     @FXML
     private Button backButton;
+   // @FXML
+   // private TableColumn<?, String> storeColumn;
     @FXML
-    private TableColumn<?, String> storeColumn;
-    @FXML
-    private TableColumn<OrderRow, Button> orderColumn;
+    private TableColumn<OrderRow, OrderItemViewButton> orderColumn;
     //==============================================================================================================
     public void doInit()
     {
-    	storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
+    	storeLabel.setText("Store Address: "+getStoreAddress()+"\nStore ID: "+customer.getStoreID());
+    	//storeColumn.setCellValueFactory(new PropertyValueFactory("orderOriginStore"));
     	deliveryDateColumn.setCellValueFactory(new PropertyValueFactory<OrderRow,LocalDate>("CreationDateTime"));
-    	orderColumn.setCellValueFactory( new PropertyValueFactory<OrderRow,Button>("viewProductsButton"));
+    	orderColumn.setCellValueFactory( new PropertyValueFactory<OrderRow,OrderItemViewButton>("viewProductsButton"));
     	priceColumn.setCellValueFactory(new PropertyValueFactory("Price"));
     	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
     	
     	newComplaintCreationGUI = FormController.<NewComplaintCreationGUI, AnchorPane>loadFXML(getClass().getResource("/order/NewComplaintCreationGUI.fxml"), this);
     	initOrderTableContent(Long.toString(customer.getID()));
     }
-  //==============================================================================================================
+  public String getStoreAddress() {
+		return StoreAddress;
+	}
+	public void setStoreAddress(String storeAddress) {
+		StoreAddress = storeAddress;
+	}
+	//==============================================================================================================
     @FXML
     void onTestCustomer(ActionEvent event) {
-    	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer, ButtonType.OK);
+    	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer+" Store id: "+customer.getStoreID(), ButtonType.OK);
 		alert.showAndWait();
 
     }
@@ -132,16 +146,20 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	    	ArrayList<Order> orderList = (ArrayList<Order>)response.getMessage();
 	    	for(Order order : orderList)
 	    	{
-	    		System.out.println(order);
-	    		OrderRow view = null;
-				try {
-					view = new OrderRow(order);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		//add function for the button:
-	    		view.getSelectButton().setOnAction(selectOrder);
-	    		orderViewList.add(view);
+	    		if(order.getOrderOriginStore()==customer.getStoreID())
+	    		{
+		    		System.out.println(order);
+		    		OrderRow view = null;
+					try {
+						view = new OrderRow(order);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		    		//add function for the button:
+		    		view.getSelectButton().setOnAction(selectOrder);
+		    		view.getViewProductsButton().setOnAction(showOrder);
+		    		orderViewList.add(view);
+	    		}
 	    	}
 	    	System.out.println(orderViewList);
 	    	//clearing response
@@ -169,27 +187,117 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   			Order order = src.getOrigin();
   			if (newComplaintCreationGUI != null)
   			{
-//  				Stage newWindow = new Stage();
-//  				getClient().setUI(selectOrderForComplaintGUI);
-//  				selectOrderForComplaintGUI.setClinet(client);
-//  				selectOrderForComplaintGUI.setCustomer(customer);
-//  				newWindow.initOwner(FormController.primaryStage);
-//  		    	newWindow.initModality(Modality.WINDOW_MODAL);  
-//  				newWindow.setScene(selectOrderForComplaintGUI.getScene());
-//  				newWindow.showAndWait();
-//  				getClient().setUI(SelectOrderInterface);
+//  				newComplaintCreationGUI.setCustomer(customer);
+//  				newComplaintCreationGUI.setOrder(order);
+//  				newComplaintCreationGUI.setUser(user);
+//  				newComplaintCreationGUI.setClinet(client);
+//  				getClient().setUI(newComplaintCreationGUI);
+//  				//getClient().setUI(SelectOrderInterface);
+//  				newComplaintCreationGUI.setClinet(client);
+//  				newComplaintCreationGUI.doInit();
+//  				FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				
   				newComplaintCreationGUI.setCustomer(customer);
   				newComplaintCreationGUI.setOrder(order);
+  				
+  				
   				newComplaintCreationGUI.setUser(user);
-  				newComplaintCreationGUI.setClinet(client);
   				getClient().setUI(newComplaintCreationGUI);
-  				//getClient().setUI(SelectOrderInterface);
-  				newComplaintCreationGUI.setClinet(client);
-  				newComplaintCreationGUI.doInit();
-  				FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				newComplaintCreationGUI.setClinet(Client.client);
+  				
+    			FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
+  				
+  				
+  				
   			}
   	    }
   	};	
+  	 //===============================================================================================================
+  	//show order button event handler:
+  	EventHandler<ActionEvent> showOrder  = new EventHandler<ActionEvent>() 
+  	{
+  	    @Override public void handle(ActionEvent e) 
+  	    {
+  	    	
+  	    	orderRowButton src = (orderRowButton)e.getSource();
+  			Order order = src.origin;
+  			onViewProducts((OrderRow)order);
+  	    }
+  	};	
+  	//===============================================================================================================
+  	private void onViewProducts(OrderRow orderItem)
+	{
+		OrderController.getOrderProducts(orderItem.getID());
+		
+		// wait for response
+		synchronized(this)
+		{
+			// wait for server response
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (response != null)
+		{
+			if (response.getType() == Response.Type.SUCCESS)
+			{
+				ArrayList<ProductInOrder> prodcutsInOrder = (ArrayList<ProductInOrder>)response.getMessage();
+				
+				Stage newWindow = new Stage();
+				ViewProductInOrder viewProductsInOrder = FormController.<ViewProductInOrder, AnchorPane>loadFXML(getClass().getResource("/order/ViewProductsInOrder.fxml"), null);
+
+				newWindow.initOwner(FormController.getPrimaryStage());
+				newWindow.initModality(Modality.WINDOW_MODAL);  
+				newWindow.setScene(viewProductsInOrder.getScene());
+				viewProductsInOrder.loadProducts(prodcutsInOrder);
+				viewProductsInOrder.setWindowStage(newWindow);
+				newWindow.requestFocus();     
+				newWindow.showAndWait();
+				
+			}
+			else
+			{
+				response = null;
+				OrderController.getOrderCustomProducts(orderItem.getID());
+				
+				// wait for response
+				synchronized(this)
+				{
+					// wait for server response
+					try {
+						this.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				if (response != null)
+				{
+					if (response.getType() == Response.Type.SUCCESS)
+					{
+						ArrayList<CustomItemInOrder> customItems = (ArrayList<CustomItemInOrder>)response.getMessage();
+						
+						Stage newWindow = new Stage();
+						ViewCustomProductsInOrder viewProductsInOrder = FormController.<ViewCustomProductsInOrder, AnchorPane>loadFXML(getClass().getResource("/order/ViewCustomProductsInOrder.fxml"), null);
+
+						newWindow.initOwner(FormController.getPrimaryStage());
+						newWindow.initModality(Modality.WINDOW_MODAL);  
+						newWindow.setScene(viewProductsInOrder.getScene());
+						viewProductsInOrder.loadCustomProducts( customItems);
+						viewProductsInOrder.setWindowStage(newWindow);
+						newWindow.requestFocus();     
+						newWindow.showAndWait();
+						
+					}
+				}				
+			}
+		}
+	}
   	//===============================================================================================================
     //allows us to hand over the client in event handlers
     private Client getClient()

@@ -1,5 +1,8 @@
 package order;
 
+import java.util.ArrayList;
+
+import client.Client;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,34 +14,33 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import product.Product;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import client.Client;
 import prototype.FormController;
 
-public class ViewProductInOrder extends FormController {
+public class ViewCustomProductsInOrder extends FormController {
 
 	private Stage windowStage;
 	
     @FXML
-    private TableView<OrderItemView> productsTable;
+    private TableView<CustomItemInOrderView> productsTable;
 
     @FXML
-    private TableColumn<OrderItemView, TextArea> nameCol;
+    private TableColumn<CustomItemInOrderView, TextArea> nameCol;
 
     @FXML
-    private TableColumn<OrderItemView, String> typeCol;
+    private TableColumn<CustomItemInOrderView, String> typeCol;
 
     @FXML
-    private TableColumn<OrderItemView, String> colorCol;
+    private TableColumn<CustomItemInOrderView, String> colorCol;
 
     @FXML
-    private TableColumn<OrderItemView, TextArea> greetingCardCol;
+    private TableColumn<CustomItemInOrderView, TextArea> greetingCardCol;
 
+    @FXML
+    private TableColumn<CustomItemInOrderView, Button> viewCol;
+    
     @FXML
     private Button closeBtn;
+    
 
 //*************************************************************************************************
     /**
@@ -58,10 +60,11 @@ public class ViewProductInOrder extends FormController {
 //*************************************************************************************************
     protected void InitTableView()
     {
-    	nameCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,TextArea>("nameArea"));
-    	typeCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,String>("Type"));
-    	colorCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,String>("Color"));
-    	greetingCardCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
+    	nameCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,TextArea>("nameArea"));
+    	typeCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,String>("Type"));
+    	colorCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,String>("Color"));
+    	greetingCardCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,TextArea>("GreetingCardText"));
+    	viewCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,Button>("viewBtn"));
     }
     
     @FXML
@@ -69,27 +72,24 @@ public class ViewProductInOrder extends FormController {
     	windowStage.hide();
     }
 	
-    public void loadProducts(ArrayList<ProductInOrder> productsInOrder)
+    public void loadCustomProducts(ArrayList<CustomItemInOrder> customInOrder)
     {
-    	final ObservableList<OrderItemView> observableProducts = FXCollections.observableArrayList();
-    	for (ProductInOrder pInOrder : productsInOrder)
+    	final ObservableList<CustomItemInOrderView> observableProducts = FXCollections.observableArrayList();
+    	for (CustomItemInOrder cInOrder : customInOrder)
     	{
-    		OrderItemView o = new OrderItemView( (Product)pInOrder, null, null );
-    		o.setGreetingCardText(pInOrder.getGreetingCard());
-    		observableProducts.add(o);
+    		observableProducts.add(new CustomItemInOrderView(cInOrder));
     	}
     	
     	this.productsTable.setItems(observableProducts);
     }
+	    
+	public void setWindowStage(Stage windowStage) {
+		this.windowStage = windowStage;
+	}
     
 	@Override
 	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
-
+		
 	}
-	
-	public void setWindowStage(Stage windowStage) {
-		this.windowStage = windowStage;
-	}
-
 }

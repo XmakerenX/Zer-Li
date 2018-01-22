@@ -16,7 +16,11 @@ import user.LoginGUI;
 import user.NewUserCreationGUI;
 import user.User;
 import user.UserController;
-
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle simple network worker gui (handle base catalog and products)
+	*/
+//*************************************************************************************************
 public class NetworkWorkerGUI extends  FormController  implements ClientInterface
 {
     @FXML
@@ -29,13 +33,24 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     private Label welcomeLbl;
 
     User user;
+    int storeID;
     
-    @FXML
+    public int getStoreID() 
+    {
+		return storeID;
+	}
+
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
+
+	@FXML
     void manageCatalog(ActionEvent event)
     {
     	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     	client.setUI(manCatGui);
     	manCatGui.setClinet(client);
+    	manCatGui.setEmployeeStoreID(storeID);
     	manCatGui.doInit(user);  
     	FormController.primaryStage.setScene(manCatGui.getScene());
     	

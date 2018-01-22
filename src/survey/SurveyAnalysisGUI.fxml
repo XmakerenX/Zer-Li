@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="395.0" prefWidth="311.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyAnalysisGUI">
+<AnchorPane prefHeight="357.0" prefWidth="311.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyAnalysisGUI">
    <children>
-      <Button fx:id="prevButton" layoutX="14.0" layoutY="319.0" mnemonicParsing="false" onAction="#onPrevButton" prefHeight="25.0" prefWidth="59.0" text="Prev" />
-      <Button fx:id="cancelButton" layoutX="14.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCancelButton" prefHeight="25.0" prefWidth="59.0" text="Cancel" />
+      <Button fx:id="prevButton" layoutX="168.0" layoutY="319.0" mnemonicParsing="false" onAction="#onPrevButton" prefHeight="25.0" prefWidth="59.0" text="Prev" />
+      <Button fx:id="cancelButton" layoutX="15.0" layoutY="319.0" mnemonicParsing="false" onAction="#onCancelButton" prefHeight="25.0" prefWidth="59.0" text="Cancel" />
       <Label layoutX="14.0" layoutY="48.0" text="Result number:" />
-      <Label layoutX="15.0" layoutY="80.0" text="Questions:" />
+      <Label layoutX="15.0" layoutY="80.0" text="Criterias:" />
       <Label layoutX="20.0" layoutY="111.0" text="1:" />
       <Label layoutX="20.0" layoutY="209.0" text="4:" />
       <Label layoutX="20.0" layoutY="144.0" text="2:" />
@@ -24,7 +24,7 @@
       <TextField fx:id="resultField4" editable="false" layoutX="255.0" layoutY="205.0" prefHeight="25.0" prefWidth="46.0" />
       <TextField fx:id="resultField5" editable="false" layoutX="255.0" layoutY="238.0" prefHeight="25.0" prefWidth="46.0" />
       <TextField fx:id="resultField6" editable="false" layoutX="255.0" layoutY="272.0" prefHeight="25.0" prefWidth="46.0" />
-      <Separator layoutX="245.0" layoutY="82.0" orientation="VERTICAL" prefHeight="222.0" prefWidth="10.0" />
+      <Separator layoutX="245.0" layoutY="76.0" orientation="VERTICAL" prefHeight="229.0" prefWidth="10.0" />
       <Button fx:id="nextButton" layoutX="239.0" layoutY="319.0" mnemonicParsing="false" onAction="#onNextButton" prefHeight="25.0" prefWidth="59.0" text="Next" />
       <TextField fx:id="resultIDField" editable="false" layoutX="109.0" layoutY="44.0" prefHeight="25.0" prefWidth="59.0" />
       <Label layoutX="255.0" layoutY="80.0" text="Results:" />
@@ -34,6 +34,8 @@
       <TextField fx:id="questionField4" editable="false" layoutX="37.0" layoutY="205.0" prefHeight="25.0" prefWidth="202.0" />
       <TextField fx:id="questionField5" editable="false" layoutX="37.0" layoutY="238.0" prefHeight="25.0" prefWidth="202.0" />
       <TextField fx:id="questionField6" editable="false" layoutX="37.0" layoutY="272.0" prefHeight="25.0" prefWidth="202.0" />
-      <Label layoutX="15.0" layoutY="14.0" text="Customer satisfaction survey results" />
+      <Label layoutX="15.0" layoutY="14.0" text="Customer satisfaction survey results with no analysis:" />
+      <Separator layoutY="76.0" prefHeight="0.0" prefWidth="311.0" />
+      <Separator layoutY="303.0" prefHeight="3.0" prefWidth="311.0" />
    </children>
 </AnchorPane>

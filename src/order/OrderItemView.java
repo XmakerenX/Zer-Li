@@ -1,6 +1,7 @@
 package order;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.Observable;
 
 import catalog.CatalogItemView;
@@ -12,6 +13,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import product.EditProductGUI;
@@ -20,6 +23,11 @@ import product.Product;
 import product.CatalogItem.ImageInfo;
 import prototype.FormController;
 
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the items to order TableView  
+	*/
+//*************************************************************************************************
 public class OrderItemView extends CatalogItem {
 
 	//private final String 
@@ -28,6 +36,7 @@ public class OrderItemView extends CatalogItem {
 	protected OrderItemViewButton removeBtn;
 	protected Button viewBtn;
 	private TextArea greetingCard;
+	private WebView salePriceView;
 		
 	EventHandler<ActionEvent> viewProductAction  = new EventHandler<ActionEvent>() 
 	{
@@ -74,6 +83,26 @@ public class OrderItemView extends CatalogItem {
 			image.setFitWidth(64);
 			image.setFitHeight(64);
 		}
+		
+		salePriceView = new WebView();
+		salePriceView.setPrefSize(75, 75);
+		if (getSalePrice() > 0)
+		{
+			WebEngine engine = salePriceView.getEngine();
+			//  <font size="6">This is some text!</font> 
+			// <font color="red">This is some text!</font> getSalePrice()
+			float precntage = ((productPrice - getSalePrice()) / productPrice)*100;
+			DecimalFormat df = new DecimalFormat();
+			df.setMaximumFractionDigits(2);
+			engine.loadContent("<font size=\"2\"><del>"+productPrice+"€</del></font>" 
+			+ " <font size=\"4\">" + getSalePrice() + "€</font>"
+			+ " <font color=\"green\" ,size=\"4\">"+ "(-" + df.format(precntage)+"%)" + "</font>");
+		}
+		else
+		{
+			WebEngine engine = salePriceView.getEngine();
+			engine.loadContent("<font size=\"4\">"+productPrice+"€</font>");
+		}
 	}
 	
 	public OrderItemView(CatalogItemView catalogItemView)
@@ -92,7 +121,7 @@ public class OrderItemView extends CatalogItem {
 	public OrderItemView(Product customItem, String imageName , byte[] imageCheckSum)
 	{
 		this(customItem.getID(), customItem.getName(), customItem.getType(), customItem.getPrice(),
-				customItem.getAmount(), customItem.getColor(), customItem.getPrice(), imageName, imageCheckSum);
+				customItem.getAmount(), customItem.getColor(), 0, imageName, imageCheckSum);
 	}
 	
 	public ImageView getImage() {
@@ -142,6 +171,14 @@ public class OrderItemView extends CatalogItem {
 
 	public void setNameArea(TextArea nameArea) {
 		this.nameArea = nameArea;
+	}
+
+	public WebView getSalePriceView() {
+		return salePriceView;
+	}
+
+	public void setSalePriceView(WebView salePriceView) {
+		this.salePriceView = salePriceView;
 	}
 	
 	

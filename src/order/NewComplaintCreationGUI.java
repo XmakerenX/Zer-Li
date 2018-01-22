@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -27,7 +28,14 @@ import prototype.FormController;
 import serverAPI.Response;
 import user.User;
 
-public class NewComplaintCreationGUI extends FormController implements ClientInterface{
+
+//*************************************************************************************************
+	/**
+	*  Provides a gui to enable the creation of a new complaint
+	*/
+//*************************************************************************************************
+public class NewComplaintCreationGUI extends FormController implements ClientInterface
+{
 	
 	Customer customer;
 	Order order;
@@ -55,8 +63,31 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 
     @FXML
     private TextArea complaintBodyTextField;
-
-  //===============================================================================================================
+    @FXML
+    private Label lengthField;
+	    //===============================================================================================================
+	 public void initialize(){
+		 complaintBodyTextField.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) 
+		    {
+		    int inputLength = newValue.length();
+		    	if(inputLength<=500) 
+		    	{
+		    		if(inputLength<=9)
+		    			lengthField.setText("  " + inputLength + "/500");
+		    		else if(inputLength<=99)
+		    			lengthField.setText(" " + inputLength + "/500");
+		    		else 
+		    			lengthField.setText("" + inputLength + "/500");
+		    	}
+		    	else
+		    		complaintBodyTextField.setText(oldValue);
+		    }
+		});
+	 }
+	  //===============================================================================================================
     @FXML
     void onCancelButton(ActionEvent event) {
     	complaintBodyTextField.clear();
@@ -67,6 +98,7 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
     //===============================================================================================================
     @FXML
     void onCreateButton(ActionEvent event) {
+    	System.out.println(customer.getStoreID());
     	String complaint = complaintBodyTextField.getText();
     	if(!complaint.isEmpty()) 
     	{
@@ -110,12 +142,20 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 
     }	
 	//===============================================================================================================
-
-	@Override
-	public void display(Object message) {
-		// TODO Auto-generated method stub
-		
-	}
+  	public void display(Object message) {
+  		
+      	System.out.println(message.toString());
+      	System.out.println(message.getClass().toString());
+  		
+  		Response response = (Response)message;
+  		this.response = response;
+  		
+  		synchronized(this)
+  		{
+  			this.notify();
+  		}
+  	}
+  	//===============================================================================================================
 
 	@Override
 	public void onSwitch(Client newClient) {

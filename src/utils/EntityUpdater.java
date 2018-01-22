@@ -102,7 +102,7 @@ public class EntityUpdater {
 	private static void setOrderComplaint(String oldKey, OrderComplaint order, DBConnector db) throws SQLException
 	{
 		String compensationValue = "givenCompensationAmount= "+order.getComplaintCompensation();
-		String status = "status = 'Closed'";
+		String status = "status = 'CLOSED'";
 		String condition = "id=" + order.getComplaintID();
 		db.executeUpdate("orderComplaint", compensationValue + "," + status, condition);
 	}

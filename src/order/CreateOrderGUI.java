@@ -1,5 +1,9 @@
 package order;
 
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 import catalog.CatalogGUI;
@@ -30,6 +34,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
+import javafx.scene.web.WebView;
 import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
@@ -48,6 +53,9 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 	private long currentStoreID = 0;
 	protected float orderTotalPrice;
 	protected boolean customOrder = false;
+	private boolean subsOrder = false;
+	private float subsAmount = 0;
+	private float deliveryAmount = 0;
 	 // holds the last replay we got from server
  	private Response replay = null;
 	
@@ -67,7 +75,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     private TableColumn<OrderItemView, String> colorCol;
 
     @FXML
-    private TableColumn<OrderItemView, Number> priceCol;
+    private TableColumn<OrderItemView, WebView> priceCol;
 
     @FXML
     private TableColumn<OrderItemView, TextArea> greetingCardCol;
@@ -208,7 +216,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	typeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,String>("Type"));
     	colorCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,String>("Color"));
     	
-    	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,Number>("Price"));
+    	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,WebView>("SalePriceView"));
     	greetingCardCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
     	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemViewButton>("removeBtn"));
     	viewCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,Button>("viewBtn"));
@@ -385,8 +393,23 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	this.addressTxt.setDisable(false);
     	this.receiverNameTxt.setDisable(false);
     	this.receiverPhoneTxt.setDisable(false);
-    	orderTotalPrice += Order.deliveryCost;
-    	this.totalPrice.setText(""+orderTotalPrice);
+    	
+    	if (this.subscriptonRadio.isSelected())
+    	{
+    		float discountRate;
+    		if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION)
+    			discountRate = 0.1f;
+    		else
+    			discountRate = 0.25f;
+    		
+    		float priceWithoutDiscount = this.subsAmount / discountRate;
+    		float newPrice = priceWithoutDiscount + Order.deliveryCost;
+    		this.subsAmount = newPrice * discountRate;
+    		newPrice = newPrice - subsAmount;
+    		this.setTotalPriceText(newPrice - this.orderTotalPrice);
+    	}
+    	else
+    		this.setTotalPriceText(Order.deliveryCost);
     }
 
     //*************************************************************************************************
@@ -400,8 +423,58 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	this.addressTxt.setDisable(true);
     	this.receiverNameTxt.setDisable(true);
     	this.receiverPhoneTxt.setDisable(true);
-    	orderTotalPrice -= Order.deliveryCost;
-    	this.totalPrice.setText(""+orderTotalPrice);
+    	
+    	if (this.subscriptonRadio.isSelected())
+    	{
+    		float discountRate;
+    		if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION)
+    			discountRate = 0.1f;
+    		else
+    			discountRate = 0.25f;
+    		
+    		float priceWithoutDiscount = this.subsAmount / discountRate;
+    		float newPrice = priceWithoutDiscount - Order.deliveryCost;
+    		this.subsAmount = newPrice * discountRate;
+    		newPrice = newPrice - this.subsAmount;
+    		this.setTotalPriceText(newPrice - this.orderTotalPrice);
+    	}
+    	else
+    		this.setTotalPriceText(-Order.deliveryCost);
+    }
+    
+
+    @FXML
+    void onCash(ActionEvent event) {
+    	if (subsOrder)
+    	{
+    		subsOrder = false;
+    		this.setTotalPriceText(subsAmount);
+    	}
+    }
+    
+
+    @FXML
+    void onCreditCard(ActionEvent event) {
+    	if (subsOrder)
+    	{
+    		subsOrder = false;
+    		this.setTotalPriceText(subsAmount);
+    	}
+    }
+    
+    @FXML
+    void onSubscription(ActionEvent event) {
+    	subsOrder = true;
+    	if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION)
+    	{
+    		subsAmount = (orderTotalPrice * 0.1f);
+    		this.setTotalPriceText(-subsAmount);
+    	}
+    	else
+    	{
+    		subsAmount = (orderTotalPrice * 0.25f);
+    		this.setTotalPriceText(-subsAmount);
+    	}
     }
     
     //*************************************************************************************************
@@ -417,7 +490,10 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	
     	for (CatalogItemView item : orderCatalogItems)
     	{
-    		orderTotalPrice += item.getPrice();
+    		if (item.getSalePrice() > 0)
+    			orderTotalPrice += item.getSalePrice();
+    		else
+    			orderTotalPrice += item.getPrice();
     		OrderItemView itemView = new OrderItemView(item);
     		itemView.getObservableRemoveButton().addObserver(this);
     		itemView.getRemoveBtn().setOnAction(orderItemRemoveAction);
@@ -425,13 +501,30 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	}
     	
     	this.orderTable.setItems(orderItems);
-    	totalPrice.setText(""+orderTotalPrice);
+    	totalPrice.setText(""+orderTotalPrice+"€");
     	selfPickupRadio.setSelected(true);
     	this.addressTxt.setDisable(true);
     	this.receiverNameTxt.setDisable(true);
     	this.receiverPhoneTxt.setDisable(true);
     	creditCardRadio.setSelected(true);
     	customOrder = false;
+    	this.date.setValue(null);
+    	
+    	Calendar currentTime = Calendar.getInstance();
+    	// Add 3 hours to current time
+		if (currentTime.get(Calendar.HOUR_OF_DAY) < 12)
+			currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10800000);
+		else
+			currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 54000000);
+		
+		// set hour and mins textFields to 3 hours from now
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+		String[] times = sdf.format(currentTime.getTime()).split(":"); 
+		hourTxt.setText(times[0]);
+		minsTxt.setText(times[1]);
+		// set the date picker to current Date + 3 hours
+		LocalDate currentDate = currentTime.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		this.date.setValue(currentDate);
     }
 
     //*************************************************************************************************
@@ -452,7 +545,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	
     	this.orderTable.setItems(orderItems);
     	orderTotalPrice = customItem.getPrice();
-    	totalPrice.setText(""+customItem.getPrice());
+    	totalPrice.setText(""+customItem.getPrice()+"€");
     	selfPickupRadio.setSelected(true);
     	this.addressTxt.setDisable(true);
     	this.receiverNameTxt.setDisable(true);
@@ -508,8 +601,18 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		if (result == ButtonType.YES)
 		{
 			OrderItemView orderItem = (OrderItemView)arg;
-			this.orderTotalPrice -= orderItem.getPrice();
-			this.totalPrice.setText(""+orderTotalPrice);
+			if (orderItem.getSalePrice() > 0)
+				this.setTotalPriceText(-orderItem.getSalePrice());
+			else
+				this.setTotalPriceText(-orderItem.getPrice());
+			
+			// a beautiful hack
+			// updates to the new price
+			this.onCreditCard(null);
+			this.onSubscription(null);
+			//this.totalPrice.setText(""+orderTotalPrice+"₪");
+			
+			// remove item form items list
 			this.orderTable.getItems().remove(arg);
 			if (this.orderTable.getItems().size() == 0)
 				returnToParent();
@@ -524,6 +627,19 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {
 		this.currentCustomer = currentCustomer;
+		if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION ||
+				currentCustomer.getPayMethod() == Customer.PayType.YEARLY_SUBSCRIPTION)
+		{
+			//Subscription
+			if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION)
+				subscriptonRadio.setText("Subscription(-10%)");
+			else
+				subscriptonRadio.setText("Subscription(-25%)");
+			
+			subscriptonRadio.setDisable(false);
+		}
+		else
+			subscriptonRadio.setDisable(true);
 	}
 
     //*************************************************************************************************
@@ -534,6 +650,22 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     //*************************************************************************************************
 	public void setCurrentStore(long currentStore) {
 		this.currentStoreID = currentStore;
+	}
+	
+    //*************************************************************************************************
+    /**
+    *  Sets the total price in the label
+  	*  @param amount how much to add to orderTotalPrice
+  	*/
+    //*************************************************************************************************
+	private void setTotalPriceText(float amount)
+	{
+		System.out.println("-------------------------------------");
+		System.out.println(amount);
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(2);
+		orderTotalPrice += amount;
+		this.totalPrice.setText(""+df.format(orderTotalPrice)+"€");
 	}
 	
 	@Override

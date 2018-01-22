@@ -61,6 +61,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
+    	// a listener which makes sure that the only values that could be entered are 1-10
     	answerTxtFld1.textProperty().addListener(new ChangeListener<String>() {
 	    @Override
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -72,7 +73,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	    		answerTxtFld1.setText(oldValue);
 	    }
 	});
-
+    	// a listener which makes sure that the only values that could be entered are 1-10
     	answerTxtFld2.textProperty().addListener(new ChangeListener<String>() {
 	    @Override
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -84,6 +85,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	    		answerTxtFld2.setText(oldValue);
 	    }
 	});
+    	// a listener which makes sure that the only values that could be entered are 1-10
     	answerTxtFld3.textProperty().addListener(new ChangeListener<String>() {
     	    @Override
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -95,6 +97,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    		answerTxtFld3.setText(oldValue);
     	    }
     	});
+    	// a listener which makes sure that the only values that could be entered are 1-10
     	answerTxtFld4.textProperty().addListener(new ChangeListener<String>() {
     	    @Override
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -106,6 +109,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    		answerTxtFld4.setText(oldValue);
     	    }
     	});
+    	// a listener which makes sure that the only values that could be entered are 1-10
     	answerTxtFld5.textProperty().addListener(new ChangeListener<String>() {
     	    @Override
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -117,6 +121,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     	    		answerTxtFld5.setText(oldValue);
     	    }
     	});
+    	// a listener which makes sure that the only values that could be entered are 1-10
     	answerTxtFld6.textProperty().addListener(new ChangeListener<String>() {
     	    @Override
     	    public void changed(ObservableValue<? extends String> observable, String oldValue, 

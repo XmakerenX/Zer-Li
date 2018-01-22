@@ -1,10 +1,13 @@
 package catalog;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import product.CatalogItem;
 
 //*************************************************************************************************
@@ -20,6 +23,7 @@ public class CatalogItemView extends CatalogItem
 	private static final long serialVersionUID = -9177300290774001001L;
 	private BooleanProperty selected;
 	private ImageView image;
+	private WebView salePriceView;
 	
 	//*************************************************************************************************
 		/**
@@ -41,8 +45,23 @@ public class CatalogItemView extends CatalogItem
 		super(productID, productName, productType, productPrice, productAmount, productColor, salesPrice, imageName, imageCheckSum,0);
 		selected = new SimpleBooleanProperty();
 		
+		salePriceView = new WebView();
+		salePriceView.setPrefSize(75, 75);
 		if (getSalePrice() > 0)
-			this.setPrice(getSalePrice());
+		{
+			WebEngine engine = salePriceView.getEngine();
+			float precntage = ((productPrice - getSalePrice()) / productPrice) * 100;
+			DecimalFormat df = new DecimalFormat();
+			df.setMaximumFractionDigits(2);
+			engine.loadContent("<font size=\"2\"><del>"+productPrice+"€</del></font>" 
+			+ " <font size=\"4\">" + getSalePrice() + "€</font>"
+			+ " <font color=\"green\" ,size=\"4\">"+ "(-" + df.format(precntage)+"%)" + "</font>");
+		}
+		else
+		{
+			WebEngine engine = salePriceView.getEngine();
+			engine.loadContent("<font size=\"4\">"+productPrice+"€</font>");
+		}
 		
 		if (imageName != null)
 		{
@@ -68,8 +87,25 @@ public class CatalogItemView extends CatalogItem
 		
 		selected = new SimpleBooleanProperty();
 
+		salePriceView = new WebView();
+		salePriceView.setPrefSize(75, 75);
 		if (getSalePrice() > 0)
-			this.setPrice(getSalePrice());
+		{
+			WebEngine engine = salePriceView.getEngine();
+			//  <font size="6">This is some text!</font> 
+			// <font color="red">This is some text!</font> getSalePrice()
+			float precntage = ((catalogItem.getPrice() - getSalePrice()) / catalogItem.getPrice())*100;
+			DecimalFormat df = new DecimalFormat();
+			df.setMaximumFractionDigits(2);
+			engine.loadContent("<font size=\"2\"><del>"+catalogItem.getPrice()+"€</del></font>" 
+			+ " <font size=\"4\">" + getSalePrice() + "€</font>"
+			+ " <font color=\"green\" ,size=\"4\">"+ "(-" + df.format(precntage)+"%)" + "</font>");
+		}
+		else
+		{
+			WebEngine engine = salePriceView.getEngine();
+			engine.loadContent("<font size=\"4\">"+catalogItem.getPrice()+"€</font>");
+		}
 		
 		if (catalogItem.getImageName() != null)
 		{
@@ -126,6 +162,14 @@ public class CatalogItemView extends CatalogItem
 	//*************************************************************************************************
 	public void setImage(ImageView image) {
 		this.image = image;
+	}
+	
+	public WebView getSalePriceView() {
+		return salePriceView;
+	}
+
+	public void setSalePriceView(WebView salePriceView) {
+		this.salePriceView = salePriceView;
 	}
 
 	//*************************************************************************************************

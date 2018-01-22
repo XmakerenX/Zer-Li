@@ -7,10 +7,8 @@ import java.time.LocalDate;
  * @author dk198
  *
  */
-public class OrderComplaint implements Serializable {
-
-	private static final long serialVersionUID = 65L;
-
+public class OrderComplaint implements Serializable 
+{
 	private long complaintID;
 	private long customerID;
 	private String complaintDescription;
@@ -141,6 +139,14 @@ public class OrderComplaint implements Serializable {
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+	
+	public OrderComplaint getOrderComplaint() 
+	{
+		OrderComplaint complaint = new OrderComplaint(getComplaintID(), getCustomerID(), getCustomerName(), getCustomerPhoneNum(), getStoreID(), 
+				getComplaintDescription(), getComplaintDate(), getComplaintTime(), getComplaintCompensation(), 
+				getMaxCompensationAmount(), getComplaintStatus());
+		return complaint;
 	}
 	
 }

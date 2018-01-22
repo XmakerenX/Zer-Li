@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="404.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.ViewCustomProductsInOrder">
+   <children>
+      <DialogPane prefHeight="56.0" prefWidth="328.0" />
+      <Label layoutX="237.0" layoutY="15.0" text="Custom Product in Order">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TableView fx:id="productsTable" layoutX="14.0" layoutY="56.0" prefHeight="288.0" prefWidth="718.0">
+        <columns>
+          <TableColumn fx:id="nameCol" prefWidth="193.0" text="Name" />
+            <TableColumn fx:id="typeCol" prefWidth="105.0" text="Type" />
+            <TableColumn fx:id="colorCol" prefWidth="124.0" text="Color" />
+            <TableColumn fx:id="greetingCardCol" prefWidth="215.0" text="Greeting Card" />
+            <TableColumn fx:id="viewCol" text="View" />
+        </columns>
+      </TableView>
+      <Button fx:id="closeBtn" layoutX="346.0" layoutY="358.0" mnemonicParsing="false" onAction="#onClose" text="Close" />
+   </children>
+</AnchorPane>

@@ -152,7 +152,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 						OrderRow newO = new OrderRow(o);
 						observableOrders.add(newO);
 						newO.getObservableCancelButton().addObserver(this);
-						newO.getObservableViewProductsButton().addObserver(this);
+						//newO.getObservableViewProductsButton().addObserver(this);
 					} catch (OrderException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -197,6 +197,133 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 		this.currentCustomer = currentCustomer;
 	}
 	
+    //*************************************************************************************************
+    /**
+    *  Handles the cancellation of the given OrderITem
+  	*  @param orderItem The order to cancel
+  	*/
+    //*************************************************************************************************
+	private void onCancelOrder(OrderRow orderItem)
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
+		alert.setHeaderText("About to cancel order");
+		alert.setContentText("Are you sure you want to cancel the order?");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		ButtonType result = alert.showAndWait().get();
+		if (result == ButtonType.YES)
+		{
+			//OrderRow orderItem = (OrderRow)arg;
+			OrderController.cancelOrder(orderItem.getID());
+
+			// wait for response
+			synchronized(this)
+			{
+				// wait for server response
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if (replay != null)
+			{
+				if (replay.getType() == Response.Type.SUCCESS)
+				{
+					alert = new Alert(AlertType.INFORMATION);
+					alert.setHeaderText("Sucesss");
+					alert.setContentText("Order canceled successfully");
+					alert.showAndWait();
+					this.orderTable.getItems().remove(orderItem);
+				}
+				else
+				{
+					alert = new Alert(AlertType.ERROR);
+					alert.setHeaderText("Failure");
+					alert.setContentText("Order was not canceled");
+					alert.showAndWait();
+				}
+
+			}
+
+		}
+	}
+	
+	private void onViewProducts(OrderRow orderItem)
+	{
+		OrderController.getOrderProducts(orderItem.getID());
+		
+		// wait for response
+		synchronized(this)
+		{
+			// wait for server response
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (replay != null)
+		{
+			if (replay.getType() == Response.Type.SUCCESS)
+			{
+				ArrayList<ProductInOrder> prodcutsInOrder = (ArrayList<ProductInOrder>)replay.getMessage();
+				
+				Stage newWindow = new Stage();
+				ViewProductInOrder viewProductsInOrder = FormController.<ViewProductInOrder, AnchorPane>loadFXML(getClass().getResource("/order/ViewProductsInOrder.fxml"), null);
+
+				newWindow.initOwner(FormController.getPrimaryStage());
+				newWindow.initModality(Modality.WINDOW_MODAL);  
+				newWindow.setScene(viewProductsInOrder.getScene());
+				viewProductsInOrder.loadProducts(prodcutsInOrder);
+				viewProductsInOrder.setWindowStage(newWindow);
+				newWindow.requestFocus();     
+				newWindow.showAndWait();
+				
+			}
+			else
+			{
+				replay = null;
+				OrderController.getOrderCustomProducts(orderItem.getID());
+				
+				// wait for response
+				synchronized(this)
+				{
+					// wait for server response
+					try {
+						this.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				if (replay != null)
+				{
+					if (replay.getType() == Response.Type.SUCCESS)
+					{
+						ArrayList<CustomItemInOrder> customItems = (ArrayList<CustomItemInOrder>)replay.getMessage();
+						
+						Stage newWindow = new Stage();
+						ViewCustomProductsInOrder viewProductsInOrder = FormController.<ViewCustomProductsInOrder, AnchorPane>loadFXML(getClass().getResource("/order/ViewCustomProductsInOrder.fxml"), null);
+
+						newWindow.initOwner(FormController.getPrimaryStage());
+						newWindow.initModality(Modality.WINDOW_MODAL);  
+						newWindow.setScene(viewProductsInOrder.getScene());
+						viewProductsInOrder.loadCustomProducts( customItems);
+						viewProductsInOrder.setWindowStage(newWindow);
+						newWindow.requestFocus();     
+						newWindow.showAndWait();
+						
+					}
+				}				
+			}
+		}
+	}
+	
 	//*************************************************************************************************
     /**
   	*  Triggered by the observable cancel button in the table to indicate what order to cancel form
@@ -211,88 +338,12 @@ public class CancelOrderGUI extends FormController implements ClientInterface, O
 		OrderItemViewButton b = (OrderItemViewButton)o;
 		if (b.getButtonText().equals("Cancel"))
 		{
-			Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
-			alert.setHeaderText("About to cancel order");
-			alert.setContentText("Are you sure you want to cancel the order?");
-			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-			ButtonType result = alert.showAndWait().get();
-			if (result == ButtonType.YES)
-			{
-				OrderRow orderItem = (OrderRow)arg;
-				OrderController.cancelOrder(orderItem.getID());
-
-				// wait for response
-				synchronized(this)
-				{
-					// wait for server response
-					try {
-						this.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				if (replay != null)
-				{
-					if (replay.getType() == Response.Type.SUCCESS)
-					{
-						alert = new Alert(AlertType.INFORMATION);
-						alert.setHeaderText("Sucesss");
-						alert.setContentText("Order canceled successfully");
-						alert.showAndWait();
-						this.orderTable.getItems().remove(orderItem);
-					}
-					else
-					{
-						alert = new Alert(AlertType.ERROR);
-						alert.setHeaderText("Failure");
-						alert.setContentText("Order was not canceled");
-						alert.showAndWait();
-					}
-
-				}
-
-			}
+			onCancelOrder( (OrderRow)arg);
 		}
 		
 		if (b.getButtonText().equals("View Products"))
 		{
-			OrderRow orderItem = (OrderRow)arg;
-			OrderController.getOrderProducts(orderItem.getID());
-			
-			// wait for response
-			synchronized(this)
-			{
-				// wait for server response
-				try {
-					this.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			if (replay != null)
-			{
-				if (replay.getType() == Response.Type.SUCCESS)
-				{
-					ArrayList<ProductInOrder> prodcutsInOrder = (ArrayList<ProductInOrder>)replay.getMessage();
-					
-					Stage newWindow = new Stage();
-					ViewProductInOrder viewProductsInOrder = FormController.<ViewProductInOrder, AnchorPane>loadFXML(getClass().getResource("/order/ViewProductsInOrder.fxml"), null);
-
-					newWindow.initOwner(FormController.getPrimaryStage());
-					newWindow.initModality(Modality.WINDOW_MODAL);  
-					newWindow.setScene(viewProductsInOrder.getScene());
-					viewProductsInOrder.loadProducts(prodcutsInOrder);
-					viewProductsInOrder.setWindowStage(newWindow);
-					newWindow.requestFocus();     
-					newWindow.showAndWait();
-					
-				}
-			}
-
+			onViewProducts((OrderRow)arg);
 		}
 	}
 	

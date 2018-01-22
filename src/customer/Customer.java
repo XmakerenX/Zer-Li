@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import user.User.UserException;
 
+//*************************************************************************************************
+	/**
+	*  A class to holds customer's data
+	*/
+//*************************************************************************************************
 public class Customer implements Serializable {
 	
 	public class  CustomerException extends Exception {
@@ -14,6 +19,7 @@ public class Customer implements Serializable {
 		}
 	}
 	
+	//					   0%				10%						25%
 	public enum PayType {CREDIT_CARD, MONTHLY_SUBSCRIPTION, YEARLY_SUBSCRIPTION}
 	
 	private long ID;

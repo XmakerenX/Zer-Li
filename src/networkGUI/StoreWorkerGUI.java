@@ -1,5 +1,6 @@
 package networkGUI;
 
+import catalog.ManageCatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import prototype.FormController;
@@ -14,14 +15,44 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
+//*************************************************************************************************
+	/**
+	*  Provides a gui to handle store worker actions : input surveys results
+	*/
+//*************************************************************************************************
+
 public class StoreWorkerGUI extends FormController implements ClientInterface{
 	
 	//Current user's name
 	private User user;
+	private int storeID;
+	FormController thisParent;
 	
+	public FormController getThisParent() 
+	{
+		return thisParent;
+	}
+	public void setFormParent(FormController thisParent) 
+	{
+		this.thisParent = thisParent;
+	}
+	public int getStoreID() 
+	{
+		return storeID;
+	}
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
 	private ResultInputGUI resultInputGUI;
-	private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
+	private ManageCatalogGUI manCatGui;
+
+	//private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
+	 @FXML
+	    private Button manageCatalogButton;
+
+	 
+
     @FXML
     private Button inputSurveyAnalysis;
     
@@ -46,33 +77,49 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
-    	addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
+    	//addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
     	resultInputGUI = FormController.<ResultInputGUI, AnchorPane>loadFXML(getClass().getResource("/survey/ResultInputGUI.fxml"), this);
+        manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     }
   //===============================================================================================================
     @FXML
-    void onInputSurvey(ActionEvent event) {
-    	if ( resultInputGUI != null)
+    void onInputSurvey(ActionEvent event) 
+    {
+    	if (resultInputGUI != null)
 		{
     		resultInputGUI.setClinet(client);
 			client.setUI(resultInputGUI);
 			resultInputGUI.initComboBox();
 			resultInputGUI.setUser(user);
+			this.parent = this;
 			FormController.primaryStage.setScene(resultInputGUI.getScene());
 		}
-
     }
     //===============================================================================================================
     @FXML
-    void onInputSurveyAnalysis(ActionEvent event) {
-    	if ( resultInputGUI != null)
+    void onManageCatalog(ActionEvent event) 
+    {
+    	if (manCatGui != null)
 		{
-	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
-			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
-			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
-			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
+	    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
+	    	client.setUI(manCatGui);
+	    	manCatGui.setClinet(client);
+	    	manCatGui.setEmployeeStoreID(storeID);
+	    	manCatGui.doInit(user);  
+	    	this.parent = this; 
+	    	FormController.primaryStage.setScene(manCatGui.getScene());
 		}
     }
+//    @FXML
+//    void onInputSurveyAnalysis(ActionEvent event) {
+//    	if ( addSurveyAnalysisToExistingSurveyGUI != null)
+//		{
+//	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
+//			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
+//			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
+//			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
+//		}
+//    }
     
   //===============================================================================================================
     /**
@@ -80,13 +127,12 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
      * @param event - "Log out" button is pressed
      */
     @FXML
-    void onLogOut(ActionEvent event) {
-    	user.setUserStatus(User.Status.valueOf("REGULAR"));
+    void onLogOut(ActionEvent event) 
+    {
     	UserController.requestLogout(user, client);
-    	
-    	LoginGUI loginGUi = (LoginGUI)parent;
+    	LoginGUI loginGUi = (LoginGUI)thisParent;
     	client.setUI(loginGUi);
-    	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.setScene(thisParent.getScene());
 
     }
     //===============================================================================================================

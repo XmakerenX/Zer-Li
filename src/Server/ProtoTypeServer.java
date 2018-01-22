@@ -11,9 +11,12 @@ import customer.Customer;
 import customer.CustomerController;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import order.CustomItemInOrder;
 import order.Order;
+import product.Product;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
+import serverAPI.GetCustomItemRequest;
 import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.GetJoinedTablesWhereRequest;
@@ -205,6 +208,60 @@ public class ProtoTypeServer extends AbstractServer {
 		  
 	  }
 	  
+	  private ArrayList<?>  handleGetJoinedRequest(Request getJoinRequest)
+	  {
+		  String table = "";
+		  String joinTable = "";
+		  String condition = "";
+		  String fields = "*";
+		  
+		  switch (getJoinRequest.getType())
+		  {
+		  
+		  case "GetJoinedTablesRequest":
+		  {
+			  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)getJoinRequest;
+			  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
+			  ArrayList<String> joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
+			  // make the join on the primary key between the tables who should be the same for this to work
+			  // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
+			  condition = joinedTablesRequest.getTable()+"."+tableKeyName.get(0)+"="
+					  			+joinedTablesRequest.getJoinedTable()+"."+joinedTableKeyName.get(joinedTablesRequest.getKeyIndex());
+			  table = joinedTablesRequest.getTable();
+			  joinTable = joinedTablesRequest.getJoinedTable();
+			  
+		  }break;
+		  
+		  case "GetJoinedTablesWhereRequest":
+		  {
+			  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)getJoinRequest;
+			  
+			  if (!getJoinedTablesWhereRequest.getCheckColomn().equals("OrderID"))
+				  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
+			  else
+				  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + getJoinedTablesWhereRequest.getCondition();
+			  
+			  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)getJoinRequest;
+			  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
+			  ArrayList<String> joinedTableKeyName = db.getTableKeyName(joinedTablesRequest.getJoinedTable());
+			  // make the join on the primary key between the tables who should be the same for this to work
+			  // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
+			  condition = joinedTablesRequest.getTable()+"."+tableKeyName.get(0)+"="+ 
+					  	  joinedTablesRequest.getJoinedTable()+"."+ joinedTableKeyName.get(joinedTablesRequest.getKeyIndex())
+					  	  + " AND " + condition;
+			  table = joinedTablesRequest.getTable();
+			  joinTable = joinedTablesRequest.getJoinedTable();
+			  
+			  
+		  }break;
+		  
+		  }
+		  
+		  ResultSet rs = db.selectJoinTablesData(fields, table, joinTable, condition);
+		  System.out.println(joinTable);
+		  return EntityFactory.loadEntity(joinTable, rs);
+	  }
+	  
 	  private void sentGetReqeustResultToClient(ArrayList<?> entityArray, ConnectionToClient client)
 	  {
 		  if (entityArray != null)
@@ -385,8 +442,29 @@ public class ProtoTypeServer extends AbstractServer {
 				  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
 			  }
 			  
-			  
 			  }break;
+			  
+		  case "GetCustomItemRequest":
+		  {
+			  System.out.println("-----------------------------------");
+			  GetCustomItemRequest getCustomItemRequest = (GetCustomItemRequest)request;
+			  
+			  ArrayList<CustomItemInOrder> customItems = (ArrayList<CustomItemInOrder>)handleGetRequest(new GetRequestWhere("CustomItem",
+					  "CustomItemOrderID", ""+getCustomItemRequest.getOrderID()));
+			  
+			  System.out.println("getCustomItemRequest");
+			  for (CustomItemInOrder customItem : customItems)
+			  {
+				  ArrayList<Product> components = (ArrayList<Product>)handleGetJoinedRequest(
+						  new GetJoinedTablesWhereRequest("Product","CustomItemProduct", 1, "CustomItemID",
+								  ""+customItem.getCustomItemID()));
+				  
+				  customItem.setComponents(components);
+			  }
+			  			  
+			  sentGetReqeustResultToClient(customItems, client);
+			  
+		  }break;
 			  
 			  case "UpdateRequest":
 			  {

@@ -18,7 +18,10 @@ public abstract class FormController {
 	protected Client client;
 	
 	public abstract void onSwitch(Client newClient);
-			
+	
+	
+	
+	
 	public static void setPrimaryStage(Stage newPrimaryStage)
 	{
 		primaryStage = newPrimaryStage;
