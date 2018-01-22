@@ -91,6 +91,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 			client.setUI(resultInputGUI);
 			resultInputGUI.initComboBox();
 			resultInputGUI.setUser(user);
+			FormController.parent = this;
 			FormController.primaryStage.setScene(resultInputGUI.getScene());
 		}
     }
@@ -98,13 +99,16 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     @FXML
     void onManageCatalog(ActionEvent event) 
     {
-    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
-    	client.setUI(manCatGui);
-    	manCatGui.setClinet(client);
-    	manCatGui.setEmployeeStoreID(storeID);
-    	manCatGui.doInit(user);  
-    	FormController.parent = this; 
-    	FormController.primaryStage.setScene(manCatGui.getScene());
+    	if (manCatGui != null)
+		{
+	    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
+	    	client.setUI(manCatGui);
+	    	manCatGui.setClinet(client);
+	    	manCatGui.setEmployeeStoreID(storeID);
+	    	manCatGui.doInit(user);  
+	    	FormController.parent = this; 
+	    	FormController.primaryStage.setScene(manCatGui.getScene());
+		}
     }
 //    @FXML
 //    void onInputSurveyAnalysis(ActionEvent event) {
