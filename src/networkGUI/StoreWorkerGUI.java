@@ -1,5 +1,6 @@
 package networkGUI;
 
+import catalog.ManageCatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import prototype.FormController;
@@ -24,10 +25,22 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	
 	//Current user's name
 	private User user;
-	
+	private int storeID;
+	public int getStoreID() {
+		return storeID;
+	}
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
 	private ResultInputGUI resultInputGUI;
 	//private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
+	 @FXML
+	    private Button manageCatalogButton;
+
+	  
+	 
+
     @FXML
     private Button inputSurveyAnalysis;
     
@@ -57,7 +70,8 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     }
   //===============================================================================================================
     @FXML
-    void onInputSurvey(ActionEvent event) {
+    void onInputSurvey(ActionEvent event) 
+    {
     	if ( resultInputGUI != null)
 		{
     		resultInputGUI.setClinet(client);
@@ -66,9 +80,19 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 			resultInputGUI.setUser(user);
 			FormController.primaryStage.setScene(resultInputGUI.getScene());
 		}
-
     }
     //===============================================================================================================
+    @FXML
+    void onManageCatalog(ActionEvent event) 
+    {
+    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
+    	client.setUI(manCatGui);
+    	manCatGui.setClinet(client);
+    	manCatGui.setEmployeeStoreID(storeID);
+    	manCatGui.doInit(user);  
+    	FormController.parent = this; 
+    	FormController.primaryStage.setScene(manCatGui.getScene());
+    }
 //    @FXML
 //    void onInputSurveyAnalysis(ActionEvent event) {
 //    	if ( addSurveyAnalysisToExistingSurveyGUI != null)

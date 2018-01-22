@@ -33,13 +33,24 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     private Label welcomeLbl;
 
     User user;
+    int storeID;
     
-    @FXML
+    public int getStoreID() 
+    {
+		return storeID;
+	}
+
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
+
+	@FXML
     void manageCatalog(ActionEvent event)
     {
     	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     	client.setUI(manCatGui);
     	manCatGui.setClinet(client);
+    	manCatGui.setEmployeeStoreID(storeID);
     	manCatGui.doInit(user);  
     	FormController.primaryStage.setScene(manCatGui.getScene());
     	

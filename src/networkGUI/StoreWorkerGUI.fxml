@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="240.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.StoreWorkerGUI">
+<AnchorPane prefHeight="330.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.StoreWorkerGUI">
    <children>
       <Label layoutX="15.0" layoutY="14.0" text="Welcome, store worker!" />
-      <Button fx:id="inputSurveyBtn" layoutX="40.0" layoutY="60.0" mnemonicParsing="false" onAction="#onInputSurvey" prefHeight="60.0" prefWidth="150.0" text="Input survey results" />
-      <Button fx:id="logOutBtn" layoutX="14.0" layoutY="201.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
-      <Separator layoutY="185.0" prefHeight="3.0" prefWidth="229.0" />
+      <Button fx:id="inputSurveyBtn" layoutX="77.0" layoutY="75.0" mnemonicParsing="false" onAction="#onInputSurvey" prefHeight="60.0" prefWidth="150.0" text="Input survey results" />
+      <Button fx:id="logOutBtn" layoutX="11.0" layoutY="297.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
+      <Separator layoutX="6.0" layoutY="287.0" prefHeight="3.0" prefWidth="298.0" />
+      <Button fx:id="manageCatalogButton" layoutX="76.0" layoutY="172.0" mnemonicParsing="false" onAction="#onManageCatalog" prefHeight="60.0" prefWidth="150.0" text="Manage catalog" />
    </children>
 </AnchorPane>

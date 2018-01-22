@@ -54,7 +54,15 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		Client myClient;
 		User myUser;
 		int storeID;
+		int employeeStoreID;
 		
+		public int getEmployeeStoreID() {
+			return employeeStoreID;
+		}
+		public void setEmployeeStoreID(int storeID) {
+			this.employeeStoreID = storeID;
+		}
+
 		//Gui:
 		EditProductGUI editProdGUI;
 		AddToCatalogGUI addToCatGUI;
@@ -118,6 +126,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    {
 		    this.client.setUI((NetworkWorkerGUI)this.parent);
 	    	FormController.primaryStage.setScene(this.parent.getScene());
+	    	
 	    }
 		/**
 		 * Opens a new product creation window								    
@@ -373,24 +382,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			   return output;
 		}
 //---------------------------------------------------------------------------------------
-		
-	/*
-	 * 
-	 */
- private int getStoreIdOfWorker(User thisUser)
- {
-		//get storeID;
-		UserController.getStoreOfEmployee(thisUser.getUserName(), this.client);
-		waitForResponse();
-		
-		if(response.getType().name().equals("SUCCESS"))
-		{
-			return(int)response.getMessage();
-		}
-		else
-			return 0;
- }
-//---------------------------------------------------------------------------------------
 		public void doInit(User user)
 	    {
 		
@@ -451,9 +442,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				
 			}
 	    	
-			Client.client.handleMessageFromClientUI(new GetEmployeeStoreRequest(myUser.getUserName())); 
-			waitForResponse();
-			storeID = Integer.parseInt((String)response.getMessage());
+			
 			
 			try 
 			{
@@ -524,7 +513,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	for(CatalogItem catItem : catalogProducts)
 	    	{
 	    		int catalogProductStoreID = catItem.getStoreID();
-	    		if(( catalogProductStoreID == 0 ) || (catalogProductStoreID==this.storeID))
+	    		if(( catalogProductStoreID == 0 ) || (catalogProductStoreID==this.employeeStoreID))
 	    		{
 	    			EditableCatalogItemView eCatProd =new EditableCatalogItemView(catItem);
 		    		
