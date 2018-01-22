@@ -135,11 +135,11 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     //Will be called by FXMLLoader
     public void initialize(){
     	
+    	stores = new HashMap<String, Long>();
     	setComboBoxes();
     	firstReportViaTextArea.setEditable(false);
     	secondReportViaTextArea.setEditable(false);
-    	stores = new HashMap<String, Long>();
-    	
+
     }
     
 	/**
