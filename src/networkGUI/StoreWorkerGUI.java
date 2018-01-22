@@ -26,19 +26,31 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	//Current user's name
 	private User user;
 	private int storeID;
-	public int getStoreID() {
+	FormController thisParent;
+	
+	public FormController getThisParent() 
+	{
+		return thisParent;
+	}
+	public void setFormParent(FormController thisParent) 
+	{
+		this.thisParent = thisParent;
+	}
+	public int getStoreID() 
+	{
 		return storeID;
 	}
 	public void setStoreID(int storeID) {
 		this.storeID = storeID;
 	}
 	private ResultInputGUI resultInputGUI;
+	private ManageCatalogGUI manCatGui;
+
 	//private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
 	 @FXML
 	    private Button manageCatalogButton;
 
-	  
 	 
 
     @FXML
@@ -67,12 +79,13 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     public void initialize(){
     	//addSurveyAnalysisToExistingSurveyGUI = FormController.<AddSurveyAnalysisToExistingSurveyGUI, AnchorPane>loadFXML(getClass().getResource("/survey/AddSurveyAnalysisToExistingSurveyGUI.fxml"), this);
     	resultInputGUI = FormController.<ResultInputGUI, AnchorPane>loadFXML(getClass().getResource("/survey/ResultInputGUI.fxml"), this);
+        manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     }
   //===============================================================================================================
     @FXML
     void onInputSurvey(ActionEvent event) 
     {
-    	if ( resultInputGUI != null)
+    	if (resultInputGUI != null)
 		{
     		resultInputGUI.setClinet(client);
 			client.setUI(resultInputGUI);
@@ -110,13 +123,12 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
      * @param event - "Log out" button is pressed
      */
     @FXML
-    void onLogOut(ActionEvent event) {
-    	user.setUserStatus(User.Status.valueOf("REGULAR"));
+    void onLogOut(ActionEvent event) 
+    {
     	UserController.requestLogout(user, client);
-    	
-    	LoginGUI loginGUi = (LoginGUI)parent;
+    	LoginGUI loginGUi = (LoginGUI)thisParent;
     	client.setUI(loginGUi);
-    	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.setScene(thisParent.getScene());
 
     }
     //===============================================================================================================

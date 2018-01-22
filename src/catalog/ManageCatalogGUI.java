@@ -124,7 +124,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	   @FXML
 	    void onBackBTN(ActionEvent event) 
 	    {
-		    this.client.setUI((NetworkWorkerGUI)this.parent);
+		    this.client.setUI((ClientInterface)this.parent);
 	    	FormController.primaryStage.setScene(this.parent.getScene());
 	    	
 	    }

@@ -278,7 +278,9 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    				storeWorkerGUI.setUser(user);
 	    				storeWorkerGUI.setStoreID(releventStoreOfUserEmployee);
 	    				storeWorkerGUI.setClinet(Client.client);
+	    				storeWorkerGUI.setFormParent(this);
 	    				client.setUI(storeWorkerGUI);
+	    				
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
 	    			break;
