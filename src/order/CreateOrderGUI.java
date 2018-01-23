@@ -237,9 +237,43 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 	    @Override public void handle(ActionEvent e) 
 	    {
 	    	Button b = (Button)e.getSource();
-	    	OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
-	    	obsButton.change();
-	    	obsButton.notifyObservers(obsButton.getOrderItem());
+	    	//OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
+	    	
+	    	Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
+	    	if (orderTable.getItems().size() > 1)
+	    	{
+				alert.setHeaderText("About to remove item from order");
+				alert.setContentText("Are you sure you want to remove item from order?");
+	    	}
+	    	else
+	    	{
+	    		alert.setHeaderText("About cancel order");
+				alert.setContentText("Are you sure you want to remove item from order? this will cancel the order!");
+				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+	    	}
+			ButtonType result = alert.showAndWait().get();
+			if (result == ButtonType.YES)
+			{
+				//OrderItemView orderItem = (OrderItemView)obsButton.getOrderItem();
+				OrderItemView orderItem = (OrderItemView)b.getUserData();
+				if (orderItem.getSalePrice() > 0)
+					setTotalPriceText(-orderItem.getSalePrice());
+				else
+					setTotalPriceText(-orderItem.getPrice());
+				
+				// a beautiful hack
+				// updates to the new price
+				onCreditCard(null);
+				onSubscription(null);
+				//this.totalPrice.setText(""+orderTotalPrice+"₪");
+				
+				// remove item form items list
+				orderTable.getItems().remove(orderItem);
+				if (orderTable.getItems().size() == 0)
+					returnToParent();
+			}
+	    	
+	    	
 	    }
 	};
 	    
@@ -495,7 +529,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     		else
     			orderTotalPrice += item.getPrice();
     		OrderItemView itemView = new OrderItemView(item);
-    		itemView.getObservableRemoveButton().addObserver(this);
+    		//itemView.getObservableRemoveButton().addObserver(this);
     		itemView.getRemoveBtn().setOnAction(orderItemRemoveAction);
     		orderItems.add(itemView);
     	}
@@ -540,7 +574,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
     	ObservableList<OrderItemView> orderItems = FXCollections.observableArrayList();
     	orderItems.add(customItem);
     	
-    	customItem.getObservableRemoveButton().addObserver(this);
+    	//customItem.getObservableRemoveButton().addObserver(this);
     	customItem.getRemoveBtn().setOnAction(orderItemRemoveAction);
     	
     	this.orderTable.setItems(orderItems);

@@ -231,7 +231,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    	{
 	    		orderTotalPrice += item.getPrice();
 	    		OrderItemView itemView = new OrderItemView(item);
-	    		itemView.getObservableRemoveButton().addObserver(this);
+	    		//itemView.getObservableRemoveButton().addObserver(this);
 	    		itemView.getRemoveBtn().setOnAction(orderItemRemoveAction);
 	    		orderItems.add(itemView);
 	    	}
