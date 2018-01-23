@@ -16,9 +16,13 @@ import serverAPI.RemoveOrderRequest;
 //*************************************************************************************************
 public class OrderController
 {
-    /*
-     * A function to add new order entry in the database
-     */
+	//*************************************************************************************************
+	/**
+	*  Adds the orderItems to the order and requests to add a new order entry in the database
+	*  @param order the order to add to the database
+	*  @param orderItems the Items to add to the order
+	*/
+	//*************************************************************************************************
 	public static void CreateNewOrder(Order order, ObservableList<OrderItemView> orderItems)
 	{
     		for (OrderItemView item : orderItems)
@@ -28,63 +32,74 @@ public class OrderController
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
-	//==============================================================================================================
 	
-	/*
-     * A function to add new custom order entry in the database
-     */
+	//*************************************************************************************************
+	/**
+	*  Adds custom orderItems to the order and requests to add a new order entry in the database
+	*  @param order the order to add to the database
+	*  @param orderItems the custom Items to add to the order
+	*/
+	//*************************************************************************************************
 	public static void CreateNewCustomOrder(Order order, ObservableList<OrderItemView> orderItems)
 	{
     		for (OrderItemView item : orderItems)
     		{
     			order.addCustomItemToOrder((CustomItemView)item, item.getGreetingCard().getText());
-    			//order.addItemToOrder(item.getID(), item.getGreetingCard().getText());
     		}
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
-	//==============================================================================================================
-	/* This function gets all orders of a given customer
-     * input: String customerID
-     * output: server sends all of the orders that belong to this user
-     */
+	
+	//*************************************************************************************************
+	/**
+	*  This function requests from the server to get all the orders of a given customer
+	*  @param customerID  The customer ID to return his orders
+	*/
+	//*************************************************************************************************
 	public static void getOrdersOfaUser(String customerID)
 	{
 		Client.client.handleMessageFromClientUI((new GetRequestWhere("Order", "OrderCustomerID", customerID)));
 	}
-	//==============================================================================================================
-	/*
-	 * This function removes given order entry from database
-	 *  input: String orderID
-     *   output: server responses with either success or error as for if he succeed to remove the entry
-	 */
+	
+	//*************************************************************************************************
+	/**
+	*  This function requests from the server to cancel a Order with a given orderID 
+	*  @param orderID The ID of the order to cancel
+	*/
+	//*************************************************************************************************
 	public static void cancelOrder(long orderID)
 	{
 		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(orderID));
 	}
-	//==============================================================================================================
-	/* This function gets all orders of a given customer
-     * input: long customerID
-     * output: server sends all of the orders that belong to this user
-     */
+	
+	//*************************************************************************************************
+	/**
+	*  This function requests from the server to get all the orders of a given customer
+	*  @param customerID  The customer ID to return his orders
+	*/
+	//*************************************************************************************************
 	public static void requestCustomerOrders(long customerID)
 	{
 		Client.client.handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
 	}
-	//==============================================================================================================
-	/*This functions return all the products that were orderd in the order
-	 * input: long orderID
-     * output: server sends all of the products that exists in the given order 
-	 */
+	
+	//*************************************************************************************************
+	/**
+	*  This function requests from the server to get all the products that were ordered in an order
+	*  @param orderID  The order ID to the order required order
+	*/
+	//*************************************************************************************************
 	public static void getOrderProducts(long orderID)
 	{
 		Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "ProductInOrder", 0,"OrderID", ""+orderID));
 	}
-	//==============================================================================================================
-	/*This functions return all the custom products that were orderd in the order
-	 * input: long orderID
-     * output: server sends all of the custom products that exists in the given order 
-	 */
+	
+	//*************************************************************************************************
+	/**
+	*  This function requests from the server to get all the custom products that were ordered in an order
+	*  @param orderID  The order ID to the order required order
+	*/
+	//*************************************************************************************************
 	public static void getOrderCustomProducts(long orderID)
 	{
 		Client.client.handleMessageFromClientUI(new GetCustomItemRequest(orderID));

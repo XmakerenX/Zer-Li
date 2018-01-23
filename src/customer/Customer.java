@@ -31,6 +31,19 @@ public class Customer implements Serializable {
 	private String creditCardNumber;
 	private boolean accountStatus;
 	
+	//*****************************************************************************************
+	/**
+	* Creates a new Customer with the following parameters
+	* @param ID the customer ID
+	* @param storeID the store that the customer belongs to
+	* @param name  the customer name
+	* @param phoneNumber  the customer phone-number
+	* @param payMethod credit card or by subscription
+	* @param accountBalance the customer account balance
+	* @param creditCardNumber the customer credit card number
+	* @param accountStatus the customer account status
+	*/
+	//*****************************************************************************************
 	public Customer(long ID, long storeID,String name, String phoneNumber, PayType payMethod, float accountBalance,
 							String creditCardNumber, boolean accountStatus) throws CustomerException
 	{
@@ -44,10 +57,22 @@ public class Customer implements Serializable {
 		setAccountStatus(accountStatus);
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer ID
+  	*  @return the customer ID
+  	*/
+    //*************************************************************************************************
 	public long getID() {
 		return ID;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer ID
+  	*  @param ID the customer ID to be set
+  	*/
+    //*************************************************************************************************
 	public void setID(long iD) throws CustomerException  {
 		if(iD > 0)
 		{	
@@ -57,58 +82,142 @@ public class Customer implements Serializable {
 			throw new CustomerException("Person ID is invalid!");
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer name
+  	*  @return the customer name
+  	*/
+    //*************************************************************************************************
 	public String getName() {
 		return name;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer name
+  	*  @param name the customer name to be set
+  	*/
+    //*************************************************************************************************
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer phone number
+  	*  @return the customer phone number
+  	*/
+    //*************************************************************************************************
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer phone number
+  	*  @param phone the customer phone number to be set
+  	*/
+    //*************************************************************************************************
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer payMethod
+  	*  @return the customer payMethod
+  	*/
+    //*************************************************************************************************
 	public PayType getPayMethod() {
 		return payMethod;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer payMethod
+  	*  @param payMethod the customer payMethod to be set
+  	*/
+    //*************************************************************************************************
 	public void setPayMethod(PayType payMethod) {
 		this.payMethod = payMethod;
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer account balance
+  	*  @return the customer account balance
+  	*/
+    //*************************************************************************************************
 	public float getAccountBalance() {
 		return accountBalance;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer account balance
+  	*  @param accountBalance the customer account balance to be set
+  	*/
+    //*************************************************************************************************
 	public void setAccountBalance(float accountBalance) {
 		this.accountBalance = accountBalance;
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer CreditCard number
+  	*  @return the customer CreditCard number
+  	*/
+    //*************************************************************************************************
 	public String getCreditCardNumber() {
 		return creditCardNumber;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer CreditCard number
+  	*  @param creditCardNumber the customer CreditCard number to be set
+  	*/
+    //*************************************************************************************************
 	public void setCreditCardNumber(String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer CreditCard number
+  	*  @return the customer CreditCard number
+  	*/
+    //*************************************************************************************************
 	public boolean getAccountStatus() {
 		return accountStatus;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer CreditCard number
+  	*  @param accountStatus the customer CreditCard number to be set
+  	*/
+    //*************************************************************************************************
 	public void setAccountStatus(boolean accountStatus) {
 		this.accountStatus = accountStatus;
 	}
 
+	//*************************************************************************************************
+    /**
+     * Returns the customer storeID
+  	*  @return the customer storeID
+  	*/
+    //*************************************************************************************************
 	public long getStoreID() {
 		return storeID;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the customer storeID
+  	*  @param storeID the customer storeID to be set
+  	*/
+    //*************************************************************************************************
 	public void setStoreID(long storeID) throws CustomerException {
 		if (storeID > 0)
 			this.storeID = storeID;

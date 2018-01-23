@@ -11,6 +11,11 @@ import product.EditProductGUI;
 import product.Product;
 import prototype.FormController;
 
+//*************************************************************************************************
+	/**
+	*  The class that holds the data to be shown in the cancelOrder TableView  
+	*/
+//*************************************************************************************************
 public class OrderRow extends Order {
 
 	private Button viewInfoButton;

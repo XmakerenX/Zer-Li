@@ -148,6 +148,7 @@ public class CatalogItemView extends CatalogItem
 	//*************************************************************************************************
 	/**
 	*  Return this Item image  
+	*  @return the catalog item image 
 	*/
 	//*************************************************************************************************
 	public ImageView getImage() {
@@ -164,10 +165,22 @@ public class CatalogItemView extends CatalogItem
 		this.image = image;
 	}
 	
+	//*************************************************************************************************
+	/**
+	*  Return this Item webView for the sale price  
+	*  @return this Item webView for the sale price
+	*/
+	//*************************************************************************************************
 	public WebView getSalePriceView() {
 		return salePriceView;
 	}
 
+	//*************************************************************************************************
+	/**
+	*  sets This item webView for the sale price
+	*  @param the new webView for the sale price to set  
+	*/
+	//*************************************************************************************************
 	public void setSalePriceView(WebView salePriceView) {
 		this.salePriceView = salePriceView;
 	}

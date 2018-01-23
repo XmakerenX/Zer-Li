@@ -4,11 +4,23 @@ import java.util.Observable;
 
 import javafx.scene.control.Button;
 
+//*************************************************************************************************
+	/**
+	*  This class creates an observable button
+	*/
+//*************************************************************************************************
 public class OrderItemViewButton extends Observable {
 	private Button button;
 	private Object orderItem;
 	private OrderView origin;
-	
+
+	//*************************************************************************************************
+	/**
+	*  Creates a new OrderItemViewButton with the following parameters
+	*  @param orderItem the item this button is connected to
+	*  @param buttonText the button text
+	*/
+	//*************************************************************************************************
 	public OrderItemViewButton(Object orderItem, String buttonText)
 	{
 		this.button = new Button(buttonText);

@@ -44,7 +44,7 @@ import serverAPI.Response;
 	*  Provides a GUI that allow the customer to finalize his order
 	*/
 //*************************************************************************************************
-public class CreateOrderGUI extends FormController implements ClientInterface, Observer {
+public class CreateOrderGUI extends FormController implements ClientInterface {
 
 	//*********************************************************************************************
 	// class instance variables
@@ -605,51 +605,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface, O
 		synchronized(this)
 		{
 			this.notify();
-		}
-	}
-
-	//*************************************************************************************************
-    /**
-  	*  Triggered by the observable remove button in the table to indicate what item to remove form
-  	*  the table
-  	*  @param o the Observable button triggering this method
-  	*  @param arg the item to remove from the table
-  	*/
-	//*************************************************************************************************
-	@Override
-	public void update(Observable o, Object arg)
-	{
-    	Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
-    	if (this.orderTable.getItems().size() > 1)
-    	{
-			alert.setHeaderText("About to remove item from order");
-			alert.setContentText("Are you sure you want to remove item from order?");
-    	}
-    	else
-    	{
-    		alert.setHeaderText("About cancel order");
-			alert.setContentText("Are you sure you want to remove item from order? this will cancel the order!");
-			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-    	}
-		ButtonType result = alert.showAndWait().get();
-		if (result == ButtonType.YES)
-		{
-			OrderItemView orderItem = (OrderItemView)arg;
-			if (orderItem.getSalePrice() > 0)
-				this.setTotalPriceText(-orderItem.getSalePrice());
-			else
-				this.setTotalPriceText(-orderItem.getPrice());
-			
-			// a beautiful hack
-			// updates to the new price
-			this.onCreditCard(null);
-			this.onSubscription(null);
-			//this.totalPrice.setText(""+orderTotalPrice+"₪");
-			
-			// remove item form items list
-			this.orderTable.getItems().remove(arg);
-			if (this.orderTable.getItems().size() == 0)
-				returnToParent();
 		}
 	}
 
