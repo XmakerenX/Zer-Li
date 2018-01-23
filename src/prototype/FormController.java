@@ -6,6 +6,9 @@ import client.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -74,5 +77,38 @@ public abstract class FormController {
     		e.printStackTrace();
     		return null;
 		}
+	}
+	
+	/**
+	 * An method to display error message to user
+	 * @param message - specific message to display
+	 */
+	public void showErrorMessage(String message)
+	{
+    	// show failure  
+		Alert alert = new Alert(AlertType.ERROR, message, ButtonType.OK);
+		alert.showAndWait();
+	}
+	
+	/**
+	 * An method to display information message to user
+	 * @param message - specific message to display
+	 */
+	public void showInformationMessage(String message)
+	{
+    	// show success  
+		Alert alert = new Alert(AlertType.INFORMATION, message , ButtonType.OK);
+		alert.showAndWait();
+	}
+	
+	/**
+	 * An method to display warning message to user
+	 * @param message - specific message to display
+	 */
+	public void showWarningMessage(String message)
+	{
+    	// show warning  
+		Alert alert = new Alert(AlertType.WARNING, message , ButtonType.OK);
+		alert.showAndWait();
 	}
 }

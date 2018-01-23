@@ -35,6 +35,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	
 	private Response replay = null;
 	private boolean toClearFlag = false;
+	private boolean toUpdateFlag = false;
 	
 	//List of text fields to clear them later
 	ArrayList<TextField> allTextFields = new ArrayList<TextField>();
@@ -297,12 +298,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 
     	}
     	else
-    	{
-        	// show failure  
-    		Alert alert = new Alert(AlertType.ERROR, "User doesn't exists!", ButtonType.OK);
-    		alert.showAndWait();
-
-    	}
+    		showWarningMessage("User doesn't exists!");
     	
     	}catch(InterruptedException e) {}
      	
@@ -340,21 +336,12 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    	    storeNameComboBox.setItems(storesNamesList);
 	    	}
 	    	else
-	    	{
-	        	// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "Failed to get response from data base!", ButtonType.OK);
-	    		alert.showAndWait();
-	
-	    	}
+	    		showErrorMessage("Failed to get response from data base!");
 	    	
 	    	}catch(InterruptedException e) {}
     	}
      	else
-     	{
-        	// show warning  
-    		Alert alert = new Alert(AlertType.WARNING, "This user has no customers!", ButtonType.OK);
-    		alert.showAndWait();
-     	}
+    		showWarningMessage("This user has no customers!");
     	
      	// clear replay
      	replay = null;
@@ -372,13 +359,45 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	String temporaryString = "";
     	
     	//Updates user only if at least one field of new fields' attributes were filled
-    	if( !newUsernameTxtField.getText().equals("") ||  !newPasswordTxtField.getText().equals("") || newPermissionComboBox.getValue() != null
-    			|| !newPersonIDTxtField.getText().equals("") || newUsersStatusComboBox.getValue() != null || clearTriesCheckBox.isSelected())
+    	if( !newUsernameTxtField.getText().equals("") || !newUsernameTxtField.getText().equals(userToUpdate.getUserName()) || !newPasswordTxtField.getText().equals("")
+    			|| newPermissionComboBox.getValue() != null || !newPersonIDTxtField.getText().equals("") || newUsersStatusComboBox.getValue() != null
+    			|| clearTriesCheckBox.isSelected())
     	{
     		
 			try {
-		   		if(!newUsernameTxtField.getText().equals(""))
-		   			userToUpdate.setUserName(""+newUsernameTxtField.getText());
+		   		if(!newUsernameTxtField.getText().equals("") && !newUsernameTxtField.getText().equals(userToUpdate.getUserName()))
+		   		{
+					UserController.getUser(""+newUsernameTxtField.getText(), client);
+			    	
+			     	try
+			    	{
+			    		synchronized(this)
+			    		{
+			    			// wait for server response
+			    			this.wait();
+			    		}
+			    	
+			    		if (replay == null)
+			    			return;
+			    		
+			    	// show success 
+			    	if (replay.getType() == Response.Type.SUCCESS)
+			    	{
+			    	    showWarningMessage("Such user name is already exists!");
+			    	    newUsernameTxtField.setText("");
+			    	    toUpdateFlag = false;
+			    	}
+			    	else
+			    		toUpdateFlag = true;
+			    	
+			    	}catch(InterruptedException e) {}
+			     	
+			     	// clear replay
+			     	replay = null;
+			     	
+			     	if(toUpdateFlag)
+			     		userToUpdate.setUserName(""+newUsernameTxtField.getText());
+		   		}
 		   		
 		   		if(!newPasswordTxtField.getText().equals(""))
 		   			userToUpdate.setUserPassword(""+newPasswordTxtField.getText());
@@ -404,44 +423,36 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		   			
 			} catch (UserException ue) {
 				ue.printStackTrace();
-	        	// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "One of the fields' input is invalid!", ButtonType.OK);
-	    		alert.showAndWait();
+	    		showErrorMessage("One of the fields' input is invalid!");
 	    		return;
 			}
-    			
-	    	UserController.updateUserDetails(userToUpdate, formerUsername, client);
-	    	
-	     	try
-	    	{
-	    		synchronized(this)
-	    		{
-	    			// wait for server response
-	    			this.wait();
-	    		}
-	    	
-	    		if (replay == null)
-	    			return;
-	    		
-	    	if (replay.getType() == Response.Type.SUCCESS)
-	    	{
-	        	// show success  
-	    		Alert alert = new Alert(AlertType.INFORMATION, "User's info is successfully updated!", ButtonType.OK);
-	    		alert.showAndWait();
-	    		toClearFlag = true;
-	    		fillUsersCurrentInfoFields();
-
-	    	}
-	    	else
-	    	{
-	        	// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "The update is failed!", ButtonType.OK);
-	    		alert.showAndWait();
-
-	    	}
-	    	
-	    	}catch(InterruptedException e) {}
-	     	  		
+			
+			if(toUpdateFlag)
+			{
+				UserController.updateUserDetails(userToUpdate, formerUsername, client);
+		    	
+		     	try
+		    	{
+		    		synchronized(this)
+		    		{
+		    			// wait for server response
+		    			this.wait();
+		    		}
+		    	
+		    		if (replay == null)
+		    			return;
+		    		
+		    	if (replay.getType() == Response.Type.SUCCESS)
+		    	{
+		    		showInformationMessage("User's info is successfully updated!");
+		    		toClearFlag = true;
+		    		fillUsersCurrentInfoFields();
+		    	}
+		    	else
+		    		showErrorMessage("The update is failed!");		    	
+		    	
+		    	}catch(InterruptedException e) {}
+			}
     	}
     	
     	//Updates customer only if at least one field of new fields' attributes were filled
@@ -482,9 +493,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 				
 			} catch (CustomerException ce) {
 				ce.printStackTrace();
-	        	// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "One of the fields' input is invalid!", ButtonType.OK);
-	    		alert.showAndWait();
+	    		showErrorMessage("One of the fields' input is invalid!");
 	    		return;
 			}
 
@@ -503,19 +512,13 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    		
 	    	if (replay.getType() == Response.Type.SUCCESS)
 	    	{
-	        	// show success  
-	    		Alert alert = new Alert(AlertType.INFORMATION, "Customer's info is successfully updated!", ButtonType.OK);
-	    		alert.showAndWait();
+	    		showInformationMessage("Customer's info is successfully updated!");
 	    		toClearFlag = true;
 	    		fillCustomersCurrentInfoFields();
 	    	}
 	    	else
-	    	{
-	        	// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "The update is failed!", ButtonType.OK);
-	    		alert.showAndWait();
-	
-	    	}
+	    		showErrorMessage("The update is failed!");	
+	    	
 	    	
 	    	}catch(InterruptedException e) {}
     	}
@@ -619,7 +622,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	 * Receives message that will be splitted by "_" symbol and transformed to user friendly view.
 	 * For example: "CREDIT_CARD" is transformed to "Credit card"
 	 * @param stringToSplit - message to be splitted by specific symbol
-	 * @return
+	 * @return transformed string
 	 */
 	
 	public String handleSplittedStringFromDataBase(String stringToSplit)
@@ -649,7 +652,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	 * Receives message that will be splitted by " " symbol and transformed to data base view.
 	 * For example: "Credit card" is transformed to "CREDIT_CARD"
 	 * @param stringToSplit - message to be splitted by specific symbol
-	 * @return
+	 * @return transformed string
 	 */
 	
 	public String handleSplittedStringFromGUI(String stringToSplit)
@@ -826,6 +829,9 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	newAccountStatusComboBox.setItems(accountStatusesList);
 	}
 	
+	/**
+	 * Fills user's current info in the GUI
+	 */
 	private void fillUsersCurrentInfoFields()
 	{
 		String temporaryString = "";
@@ -844,6 +850,9 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		unsuccessfulTriesTxtField.setText(""+userToUpdate.getUnsuccessfulTries());
 	}
 	
+	/**
+	 * Fills customer's current info in the GUI
+	 */
 	private void fillCustomersCurrentInfoFields()
 	{
 		String temporaryString = "";

@@ -50,7 +50,7 @@
       <TextArea fx:id="secondReportViaTextArea" editable="false" layoutX="452.0" layoutY="253.0" prefHeight="230.0" prefWidth="399.0" visible="false" />
       <BarChart fx:id="secondComplaintReportBarChart" alternativeColumnFillVisible="true" barGap="3.0" layoutX="448.0" layoutY="253.0" prefHeight="230.0" prefWidth="408.0" title="Complaint report" visible="false">
         <xAxis>
-          <CategoryAxis label="Month" side="BOTTOM" />
+          <CategoryAxis label="Month" prefHeight="41.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis label="# of complaints" side="LEFT" />

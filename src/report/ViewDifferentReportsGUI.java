@@ -657,13 +657,6 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     	reportTypeComboBox.setItems(reportTypesList);
 	}
 	
-	private void showErrorMessage(String message)
-	{
-    	// show failure  
-		Alert alert = new Alert(AlertType.ERROR, message, ButtonType.OK);
-		alert.showAndWait();
-	}
-	
 	private String buildIncomeReportsTextAreaMessage(String quarterly, String year, String storeName, float incomeAmount)
 	{
 		String messageToDisplay = "          *****INCOME REPORT*****\n\n"
