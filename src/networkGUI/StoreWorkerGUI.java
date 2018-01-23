@@ -91,7 +91,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 			client.setUI(resultInputGUI);
 			resultInputGUI.initComboBox();
 			resultInputGUI.setUser(user);
-			this.parent = this;
+			resultInputGUI.setParent(this);
 			FormController.primaryStage.setScene(resultInputGUI.getScene());
 		}
     }
@@ -106,7 +106,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	    	manCatGui.setClinet(client);
 	    	manCatGui.setEmployeeStoreID(storeID);
 	    	manCatGui.doInit(user);  
-	    	this.parent = this; 
+	    	manCatGui.setParent(this);
 	    	FormController.primaryStage.setScene(manCatGui.getScene());
 		}
     }
