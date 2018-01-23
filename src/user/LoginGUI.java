@@ -332,9 +332,10 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (storeManagerGUI != null)
 	        		{
 	    				storeManagerGUI.setUser(user);
-	    				storeManagerGUI.setClinet(Client.client);
-	    				client.setUI(storeManagerGUI);
-	        			FormController.primaryStage.setScene(storeManagerGUI.getScene());
+		    			storeManagerGUI.setClinet(Client.client);
+		    			client.setUI(storeManagerGUI);
+		        		FormController.primaryStage.setScene(storeManagerGUI.getScene());
+
 	        		}
 	    			break;
 	    		}

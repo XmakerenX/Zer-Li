@@ -32,9 +32,11 @@ import java.util.HashMap;
 
 public class UpdateUsersInfoGUI extends FormController implements ClientInterface {
 
-	
+	// holds the last replay we got from server
 	private Response replay = null;
+	// A flag symbolizes affirmation whether to clear all the fields or not
 	private boolean toClearFlag = false;
+	// A flag symbolizes affirmation whether to update user's info or not
 	private boolean toUpdateFlag = false;
 	
 	//List of text fields to clear them later

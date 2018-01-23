@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import client.Client;
 import client.ClientInterface;
+import customer.NewCustomerCreationGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -40,6 +41,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 	private User user;
 	
 	ViewReportsGUI viewReportsGUI;
+	NewCustomerCreationGUI customerCreationGUI;
 	
     @FXML // fx:id="welcomeLbl"
     private Label welcomeLbl; 
@@ -58,6 +60,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     public void initialize(){
     	
     	viewReportsGUI = FormController.<ViewReportsGUI, AnchorPane>loadFXML(getClass().getResource("/report/ViewReportsGUI.fxml"), this);
+    	customerCreationGUI = FormController.<NewCustomerCreationGUI, AnchorPane>loadFXML(getClass().getResource("/customer/NewCustomerCreationGUI.fxml"), this);
     	
     }
     
@@ -68,9 +71,9 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 
 	@FXML
 	void onViewReports(ActionEvent event) {
-
+		
 		if (viewReportsGUI != null) {
-			
+
 			client.handleMessageFromClientUI(new GetEmployeeStoreRequest(user.getUserName()));
 
 			try {
@@ -88,24 +91,18 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 					Integer storeID = (Integer) replay.getMessage();
 					viewReportsGUI.setManagersStoreID((long)storeID);
 					
-				} else {
-					// show failure
-					Alert alert = new Alert(AlertType.ERROR, "\"Store\" table is empty!", ButtonType.OK);
-					alert.showAndWait();
-					// clear replay
-				}
+					viewReportsGUI.setClinet(client);
+					client.setUI(viewReportsGUI);
+					FormController.primaryStage.setScene(viewReportsGUI.getScene());
+					
+				} else
+					showErrorMessage("\"Store\" table is empty!");
 
 			} catch (InterruptedException e) {
 			}
 			
 			replay = null;
-			
-			viewReportsGUI.setClinet(client);
-			client.setUI(viewReportsGUI);
-			FormController.primaryStage.setScene(viewReportsGUI.getScene());
-			
 		}
-
 	}
 
     /**
@@ -115,7 +112,37 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     
     @FXML
     void onCreateCustomer(ActionEvent event) {
+		
+		if (customerCreationGUI != null) {
 
+			client.handleMessageFromClientUI(new GetEmployeeStoreRequest(user.getUserName()));
+
+			try {
+				synchronized (this) {
+					// wait for server response
+					this.wait();
+				}
+
+				if (replay == null)
+					return;
+
+				// show success
+				if (replay.getType() == Response.Type.SUCCESS) {
+
+					Integer storeID = (Integer) replay.getMessage();
+					customerCreationGUI.setManagersStoreID((long)storeID);
+					customerCreationGUI.setClinet(client);
+					client.setUI(customerCreationGUI);
+					FormController.primaryStage.setScene(customerCreationGUI.getScene());
+					
+				} else
+					showErrorMessage("\"Store\" table is empty!");
+
+			} catch (InterruptedException e) {
+			}
+			
+			replay = null;
+		}
     }
 
     /**
