@@ -32,6 +32,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	{
 		return thisParent;
 	}
+	
 	public void setFormParent(FormController thisParent) 
 	{
 		this.thisParent = thisParent;

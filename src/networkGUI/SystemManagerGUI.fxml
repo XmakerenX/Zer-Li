@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.SystemManagerGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="286.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.SystemManagerGUI">
    <children>
-      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="200.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
-      <Label fx:id="welcomeLbl" layoutX="67.0" layoutY="30.0" text="Welcome, system manager!" />
-      <Button fx:id="removeUserBtn" layoutX="78.0" layoutY="130.0" mnemonicParsing="false" onAction="#onRemoveUser" prefHeight="25.0" prefWidth="125.0" text="Remove User" />
-      <Button fx:id="updateUserBtn" layoutX="78.0" layoutY="95.0" mnemonicParsing="false" onAction="#onUpdateUser" prefHeight="25.0" prefWidth="125.0" text="Update user's info" />
+      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="220.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
+      <Label fx:id="welcomeLbl" layoutX="55.0" layoutY="30.0" text="Welcome, system manager!" />
+      <Button fx:id="removeUserBtn" layoutX="72.0" layoutY="132.0" mnemonicParsing="false" onAction="#onRemoveUser" prefHeight="41.0" prefWidth="150.0" text="Remove User" />
+      <Button fx:id="updateUserBtn" layoutX="73.0" layoutY="73.0" mnemonicParsing="false" onAction="#onUpdateUser" prefHeight="41.0" prefWidth="150.0" text="Update user's info" />
+      <Separator layoutX="5.0" layoutY="198.0" prefHeight="4.0" prefWidth="278.0" />
    </children>
 </AnchorPane>

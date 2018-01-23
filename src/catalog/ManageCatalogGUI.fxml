@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.ManageCatalogGUI">
   <children>
-      <Label layoutX="278.0" layoutY="38.0" text="Catalog:">
+      <Label layoutX="278.0" layoutY="33.0" text="Catalog:">
          <font>
             <Font size="35.0" />
          </font>
