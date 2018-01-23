@@ -36,11 +36,18 @@ import user.User;
 //*************************************************************************************************
 public class ComplaintManageGUI extends FormController implements ClientInterface{
 
+	public Boolean getComplaintFound() {
+			return complaintFound;
+		}
+		public void setComplaintFound(Boolean complaintFound) {
+			this.complaintFound = complaintFound;
+		}
 	Response response = null;
 	HandleComplaintGUI handleComplaintGUI = null;
 	User user;
 	ClientInterface ManageCatInterface = this;
 	Client myClient;
+	Boolean complaintFound = false;
 	ObservableList<OrderComplaintView> complaintList; //table's data
 	
     @FXML
@@ -65,7 +72,8 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
     private TableColumn<OrderComplaintView, ?> selectColumn;
 
     @FXML
-    void onBackButton(ActionEvent event) {
+    void onBackButton(ActionEvent event) 
+    {
     	complaintTable.getItems().clear();
     	CustomerServiceWorkerGUI customerServiceWorkerGUI = (CustomerServiceWorkerGUI)parent;
     	client.setUI(customerServiceWorkerGUI);
@@ -74,6 +82,7 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
   //===============================================================================================================
  	public void doInit()
  	{
+ 		complaintFound = false;
  		customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
  		storeIDComlumn.setCellValueFactory(new PropertyValueFactory<>("StoreID"));
  		complaintTimeColumn.setCellValueFactory(new PropertyValueFactory<>("ComplaintTime"));
@@ -178,6 +187,7 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 	    	waitForServerResponse();
 	    	if(response.getType() == Response.Type.SUCCESS)
 	    	{
+	    		complaintFound = true;
 		    	ArrayList<OrderComplaintView> customerViewList = new ArrayList<OrderComplaintView>();
 		    	ArrayList<OrderComplaint> complaintsList = (ArrayList<OrderComplaint>)response.getMessage();
 		    	for(OrderComplaint complaint : complaintsList)
@@ -199,7 +209,11 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 	    	}
 	    	else if(response.getType() == Response.Type.ERROR)
 	    	{
-	    		Alert alert = new Alert(AlertType.ERROR, "No active complaints found!", ButtonType.OK);
+	    		complaintFound = false;
+	        	client.setUI((ClientInterface)parent);
+	        	FormController.primaryStage.setScene(parent.getScene());
+	        	
+	    		Alert alert = new Alert(AlertType.INFORMATION, "No active complaints found!", ButtonType.OK);
 	    		alert.showAndWait();
 	    		//clearing response
 	    		response = null;
