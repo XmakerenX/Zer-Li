@@ -36,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import product.CatalogItem;
+import product.ProdcutController;
 import product.Product;
 import prototype.FormController;
 import serverAPI.GetJoinedTablesWhereRequest;
@@ -140,7 +141,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    	// get Base catalog items
 	    	addStoreProductsToSet(0, catalogItemsSet);
 	    	
-	    	downloadMissingCatalogImages(catalogItemsSet);
+	    	//downloadMissingCatalogImages(catalogItemsSet);
 	    	
 	    	for (CatalogItem item : catalogItemsSet)
 	    	{
@@ -249,7 +250,9 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
 	    {
 	    	res = null;
-	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
+	    	ProdcutController.requestProducts(Client.client);
+	    	
+	    	//Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
 	    	
 	    	// wait for response
 			synchronized(this)
@@ -267,7 +270,17 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			{
 				if (res.getType() == Response.Type.SUCCESS)
 				{
-					ArrayList<CatalogItem> catalogItems = (ArrayList<CatalogItem>)res.getMessage();
+					ArrayList<Product> resArray = (ArrayList<Product>)res.getMessage();
+					ArrayList<CatalogItem> catalogItems  = new ArrayList<CatalogItem>();
+					
+					for(Product prod : resArray)
+					{
+					
+						CatalogItem catItem = new CatalogItem(prod, 1, "", null, 0);
+						
+						catalogItems.add(catItem);
+					}
+					
 					for (CatalogItem item : catalogItems)
 					{
 						catalogItemsSet.add(item);
