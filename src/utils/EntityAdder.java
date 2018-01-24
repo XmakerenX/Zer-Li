@@ -3,6 +3,7 @@ package utils;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -256,7 +257,9 @@ public class EntityAdder {
 			String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
 			String accountStatus = ""+customer.getAccountStatus();
 			String storeID = "" + customer.getStoreID();
-			String expirationDate = "'" + customer.getExpirationDate()+"'";
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			String expirationDate = "'" + formatter.format(customer.getExpirationDate().getTime()) +"'";
+			//String expirationDate = "'" + customer.getExpirationDate()+"'";
 			
 			try
 			{

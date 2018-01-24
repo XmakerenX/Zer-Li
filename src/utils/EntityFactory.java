@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -224,16 +226,24 @@ public class EntityFactory {
 		  {
 			  while (rs.next())
 			  {
+				  SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				  Calendar expirationDate;
+				  String expirationString = rs.getString("ExpirationDate");
+				  if (expirationString != null && !expirationString.trim().equals(""))
+				  {
+					  expirationDate = new GregorianCalendar();
+					  expirationDate.setTime(formatter.parse(expirationString));
+				  }
+				  else
+					  expirationDate = null;
+				  
 				  customers.add(new Customer(rs.getInt("personID") , rs.getInt("StoreID"), rs.getString("fullname"),
 						  rs.getString("phoneNumber"), Customer.PayType.valueOf(rs.getString("payMethod")),
 						  rs.getFloat("accountBalance"), rs.getString("creditCardNumber"), rs.getBoolean("AccountStatus"),
-						  rs.getString("ExpirationDate")));
-//				  customers.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3),
-//						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6), rs.getBoolean(7)));
-				  
+						  expirationDate));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
-		  catch (Customer.CustomerException ce ) {
+		  catch (Customer.CustomerException | ParseException ce) {
 			  System.out.println("Invalid customer data received from database");
 			  ce.printStackTrace();
 		  }
