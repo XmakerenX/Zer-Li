@@ -222,14 +222,17 @@ public class CustomerGUI extends FormController implements ClientInterface {
 			if (replay.getType() == Response.Type.SUCCESS)
 			{
 				ArrayList<Customer> customer = (ArrayList<Customer>)replay.getMessage();
-				orderCustomItemBtn.setDisable(false);
-				return customer.get(0);
+				if (customer.get(0).getAccountStatus())
+				{
+					orderCustomItemBtn.setDisable(false);
+					orderBySearch.setDisable(false);
+					return customer.get(0);
+				}
 			}
-			else
-			{
-				orderCustomItemBtn.setDisable(true);
-				return null;
-			}
+			// disable the button if there was no valid customer
+			orderCustomItemBtn.setDisable(true);
+			orderBySearch.setDisable(true);
+			return null;
 		}
 		else
 		{
