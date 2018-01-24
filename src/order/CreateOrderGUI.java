@@ -55,7 +55,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 	protected boolean customOrder = false;
 	private boolean subsOrder = false;
 	private float subsAmount = 0;
-	private float deliveryAmount = 0;
 	 // holds the last replay we got from server
  	private Response replay = null;
 	
@@ -237,7 +236,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 	    @Override public void handle(ActionEvent e) 
 	    {
 	    	Button b = (Button)e.getSource();
-	    	//OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
 	    	
 	    	Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
 	    	if (orderTable.getItems().size() > 1)
@@ -346,9 +344,29 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	
     	if ( ((RadioButton)pickupMethod.getSelectedToggle()).getText().contains("Delivery") )
     	{
-    		deliveryAddress= this.addressTxt.getText();
-    		receiverName = this.receiverNameTxt.getText();
-    		receiverPhoneNumber = this.receiverPhoneTxt.getText();
+    		if (!addressTxt.getText().trim().equals(""))
+    			deliveryAddress= this.addressTxt.getText();
+    		else
+    		{
+    			showErrorMessage("Please fill the Delivery Adress textfield");
+    			return;
+    		}
+    		
+    		if (!receiverNameTxt.getText().trim().equals(""))
+    			receiverName = this.receiverNameTxt.getText();
+    		else
+    		{
+    			showErrorMessage("Please fill the Receiver Name textfield");
+    			return;
+    		}
+    		
+    		if (!receiverPhoneTxt.getText().trim().equals(""))
+    			receiverPhoneNumber = this.receiverPhoneTxt.getText();
+    		else
+    		{
+    			showErrorMessage("Please fill the Receiver phone textfield");
+    			return;
+    		}
     	}
     	
     	String orderTime = this.hourTxt.getText() + ":" + this.minsTxt.getText();
@@ -534,15 +552,15 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     		orderItems.add(itemView);
     	}
     	
-    	this.orderTable.setItems(orderItems);
+    	orderTable.setItems(orderItems);
     	totalPrice.setText(""+orderTotalPrice+"€");
     	selfPickupRadio.setSelected(true);
-    	this.addressTxt.setDisable(true);
-    	this.receiverNameTxt.setDisable(true);
-    	this.receiverPhoneTxt.setDisable(true);
+    	addressTxt.setDisable(true);
+    	receiverNameTxt.setDisable(true);
+    	receiverPhoneTxt.setDisable(true);
     	creditCardRadio.setSelected(true);
     	customOrder = false;
-    	this.date.setValue(null);
+    	date.setValue(null);
     	
     	Calendar currentTime = Calendar.getInstance();
     	// Add 3 hours to current time
