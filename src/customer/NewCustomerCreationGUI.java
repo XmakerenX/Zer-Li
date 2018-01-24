@@ -1,20 +1,28 @@
 package customer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 import client.Client;
 import client.ClientInterface;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import networkGUI.StoreManagerGUI;
 import prototype.FormController;
 import serverAPI.Response;
+import user.UserController;
 
 /**
  * A GUI for store manager to create new customer in his/her store. 
@@ -42,8 +50,8 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
     @FXML // fx:id="creditCardNumberLbl"
     private Label creditCardNumberLbl;
 
-    @FXML // fx:id="createBtn"
-    private Button createBtn;
+    @FXML // fx:id="createCustomerBtn"
+    private Button createCustomerBtn;
 
     @FXML // fx:id="lastNameTxtField"
     private TextField lastNameTxtField;
@@ -96,15 +104,108 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
     	
     	paymentMethodList.addAll(paymentMethods);
     	paymentMethodComboBox.setItems(paymentMethodList);
+    	
+    	setListenersForTextFields();
     }
     
     /**
      * Creates new customer and adds him/her to data base
-     * @param event - "Create" button is pressed
+     * @param event - "Create customer" button is pressed
      */
     @FXML
-    void onCreate(ActionEvent event) {
+    void onCreateCustomer(ActionEvent event) {
+    	
+		//User must fill all fields, otherwise new customer cannot be created
+    	if(!personIDTxtField.getText().equals("") && !firstNameTxtField.getText().equals("")
+				&& !lastNameTxtField.getText().equals("") && !phoneNumberTxtField.getText().equals("")
+				&& paymentMethodComboBox.getValue() != null && !creditCardNumberTxtField.getText().equals(""))
+    	{
+	    	String personID = personIDTxtField.getText();
+	    	
+	    	CustomerController.getCustomer(personID, ""+managersStoreID, client);
+	    	
+	     	try
+	    	{
+	    		synchronized(this)
+	    		{
+	    			// wait for server response
+	    			this.wait();
+	    		}
+	    	
+	    		if (replay == null)
+	    			return;
+	    		
+	    	// show success 
+	    	if (replay.getType() == Response.Type.SUCCESS)
+	    		showWarningMessage("Customer already exists in this store");
+	
+	    	else
+	    	{
+	    		// clear replay
+	    		replay = null;
+	    		
+	    		//Attains info from the GUI and sends request to server to create new customer
 
+	    		String firstName;
+	    		String lastName;
+	    		String fullName;
+	    		String phoneNumber;
+	    		String paymentMethod;
+	    		String creditCardNumber;
+	    		Calendar expirationDate = Calendar.getInstance();
+	    		Date date = null;
+	    		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+	    		
+	    		firstName = firstNameTxtField.getText();
+	    		lastName = lastNameTxtField.getText();
+	    		fullName = firstName + " " + lastName;
+	    		phoneNumber = phoneNumberTxtField.getText();
+	    		paymentMethod = handleSplittedStringFromGUI(paymentMethodComboBox.getValue());
+	    		creditCardNumber = creditCardNumberTxtField.getText();
+
+	    		if(paymentMethod.equals("MONTHLY_SUBSCRIPTION"))
+	    		{
+	    			expirationDate.add(Calendar.MONTH, 1);
+	    		}
+	    		else if(paymentMethod.equals("YEARLY_SUBSCRIPTION"))
+	    		{
+	    			expirationDate.add(Calendar.YEAR, 1);
+	    		}
+	    		else
+	    			expirationDate = null;
+	    		
+	    		if(expirationDate != null)
+	    			date = expirationDate.getTime();
+	    		
+
+	    		CustomerController.createNewCustomer(Long.parseLong(personID), managersStoreID, fullName, phoneNumber,
+	    				Customer.PayType.valueOf(paymentMethod), 0, creditCardNumber, true, formatter.format(date), client);
+	    		
+	    		try
+		    	{
+		    		synchronized(this)
+		    		{
+		    			// wait for server response
+		    			this.wait();
+		    		}
+		    	
+		    		if (replay == null)
+		    			return;
+		    		
+		    	// show success 
+		    	if (replay.getType() == Response.Type.SUCCESS)
+		    		showInformationMessage("New customer has been created!");
+		    	else
+		    		showErrorMessage("Failed to send data to server!");
+		    	
+		    	}catch(InterruptedException e) {}
+	    		
+	    	}
+	    	
+	    	}catch(InterruptedException e) {}
+    	}
+    	else
+    		showWarningMessage("All fields must be filled!");
     }
     
     /**
@@ -113,6 +214,13 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
      */
     @FXML
     void onBack(ActionEvent event) {
+    	
+    	personIDTxtField.setText("");
+    	firstNameTxtField.setText("");
+		lastNameTxtField.setText("");
+		phoneNumberTxtField.setText("");
+		paymentMethodComboBox.setValue(null);
+		creditCardNumberTxtField.setText("");
     	
     	StoreManagerGUI storeManagerGUI = (StoreManagerGUI)parent;
     	client.setUI(storeManagerGUI);
@@ -170,6 +278,94 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 		}
 		
 		return tempString;
+	}
+	
+	/**
+	 * Receives message that will be splitted by " " symbol and transformed to data base view.
+	 * For example: "Credit card" is transformed to "CREDIT_CARD"
+	 * @param stringToSplit - message to be splitted by specific symbol
+	 * @return transformed string
+	 */
+	
+	public String handleSplittedStringFromGUI(String stringToSplit)
+	{
+		String [] splittedString;
+		splittedString = stringToSplit.split(" ");
+		
+		String tempString = "";
+		
+		for(String splitted : splittedString )
+			{
+		   		if( !tempString.equals(""))
+		   			tempString = tempString + "_";
+		   		tempString = tempString + splitted.toUpperCase();
+		   	}
+		
+		return tempString;
+	}
+	
+	private void setListenersForTextFields()
+	{
+    	personIDTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("([0-9]*)") && newValue.length() <= 9) 
+                {
+                	personIDTxtField.setText(newValue);
+                }
+                else
+                	personIDTxtField.setText(oldValue);
+            }
+        });
+    	
+    	phoneNumberTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("([0-9]*)") && newValue.length() <= 16) 
+                {
+                	phoneNumberTxtField.setText(newValue);
+                }
+                else
+                	phoneNumberTxtField.setText(oldValue);
+            }
+        });
+
+    	creditCardNumberTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("([0-9]*)") && newValue.length() <= 16) 
+                {
+                	creditCardNumberTxtField.setText(newValue);
+                }
+                else
+                	creditCardNumberTxtField.setText(oldValue);
+            }
+        });
+    	
+    	firstNameTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("([a-zA-Z]*)") && newValue.length() <= 30) 
+                {
+                	firstNameTxtField.setText(newValue);
+                }
+                else
+                	firstNameTxtField.setText(oldValue);
+            }
+        });
+    	
+    	lastNameTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("([a-zA-Z]*)") && newValue.length() <= 30) 
+                {
+                	lastNameTxtField.setText(newValue);
+                }
+                else
+                	lastNameTxtField.setText(oldValue);
+            }
+        });
+
 	}
 	
 	public void setManagersStoreID(long managersStoreID) {

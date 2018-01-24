@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="340.0" prefWidth="370.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="customer.NewCustomerCreationGUI">
+<AnchorPane prefHeight="340.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.NewCustomerCreationGUI">
    <children>
       <Label fx:id="windowTitleLbl" layoutX="72.0" layoutY="14.0" text="New Customer Creation Menu">
          <font>
@@ -28,6 +27,6 @@
       <TextField fx:id="creditCardNumberTxtField" layoutX="142.0" layoutY="242.0" prefWidth="150.0" />
       <ComboBox fx:id="paymentMethodComboBox" layoutX="142.0" layoutY="212.0" prefWidth="150.0" promptText="[Select method]" />
       <Button fx:id="backBtn" layoutX="15.0" layoutY="301.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <Button fx:id="createBtn" layoutX="305.0" layoutY="301.0" mnemonicParsing="false" onAction="#onCreate" text="Create" />
+      <Button fx:id="createCustomerBtn" layoutX="253.0" layoutY="301.0" mnemonicParsing="false" onAction="#onCreateCustomer" text="Create customer" />
    </children>
 </AnchorPane>

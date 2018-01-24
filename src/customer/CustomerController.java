@@ -2,6 +2,7 @@ package customer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import client.Client;
 import customer.Customer.CustomerException;
@@ -32,11 +33,12 @@ public class CustomerController {
 	 */
 	//*************************************************************************************************
 	public static void createNewCustomer(long personID, long storeID ,String fullName, String phoneNumber, PayType payMethod, float accountBalance,
-									String creditCardNumber,boolean accountStatus, Client client)
+									String creditCardNumber,boolean accountStatus, String expirationDate, Client client)
 	{
 		Customer newCustomer;
 		try {
-			newCustomer = new Customer(personID, storeID, fullName, phoneNumber, payMethod, accountBalance, creditCardNumber, accountStatus);
+			newCustomer = new Customer(personID, storeID, fullName, phoneNumber, payMethod, accountBalance,
+					creditCardNumber, accountStatus, expirationDate);
 			client.handleMessageFromClientUI(new AddRequest("Customers", newCustomer));
 		} catch (CustomerException e) {
 			System.out.println(e.getMessage());

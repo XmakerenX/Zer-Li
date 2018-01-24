@@ -256,11 +256,12 @@ public class EntityAdder {
 			String creditCardNumber = "'"+customer.getCreditCardNumber()+"'";
 			String accountStatus = ""+customer.getAccountStatus();
 			String storeID = "" + customer.getStoreID();
+			String expirationDate = "'" + customer.getExpirationDate()+"'";
 			
 			try
 			{
 			db.insertData("Customers", personID + "," + fullName + "," + phoneNumber + "," + payMethod + "," + accountBalance + ","
-					+ creditCardNumber + "," + accountStatus + "," + storeID);
+					+ creditCardNumber + "," + accountStatus + "," + storeID + "," + expirationDate);
 				return true;
 			}
 			catch(Exception e)

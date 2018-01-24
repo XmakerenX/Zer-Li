@@ -137,13 +137,13 @@ INSERT INTO `CustomItemProduct` VALUES (1,7,4,'36.0'),(1,8,3,'30.0'),(1,10,11,'1
 UNLOCK TABLES;
 
 --
--- Table structure for table `Customers`
+-- Table structure for table `customers`
 --
 
-DROP TABLE IF EXISTS `Customers`;
+DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Customers` (
+CREATE TABLE `customers` (
   `personID` int(11) NOT NULL,
   `fullName` varchar(45) DEFAULT NULL,
   `phoneNumber` varchar(45) DEFAULT NULL,
@@ -152,20 +152,21 @@ CREATE TABLE `Customers` (
   `creditCardNumber` varchar(45) DEFAULT NULL,
   `AccountStatus` tinyint(4) DEFAULT NULL,
   `StoreID` int(11) NOT NULL,
+  `ExpirationDate` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`personID`,`StoreID`),
   KEY `fk_Customers_1_idx` (`StoreID`),
-  CONSTRAINT `fk_Customers_1` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_Customers_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Customers`
+-- Dumping data for table `customers`
 --
 
-LOCK TABLES `Customers` WRITE;
-/*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1234,'mk','452','CREDIT_CARD',0,'3423',0,2),(12345,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',NULL,1),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3);
-/*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
+LOCK TABLES `customers` WRITE;
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES (1234,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1,NULL),(1234,'mk','452','CREDIT_CARD',0,'3423',0,2,NULL),(2344354,'Mark Twain','3435678','YEARLY_SUBSCRIPTION',0,'5454645757',1,2,'24-Jan-2019'),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',NULL,1,NULL),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3,NULL);
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -285,13 +286,13 @@ INSERT INTO `Store` VALUES (0,'Base'),(1,'Haifa'),(2,'Karmiel'),(3,'Qiryat Biyal
 UNLOCK TABLES;
 
 --
--- Table structure for table `User`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `User` (
+CREATE TABLE `user` (
   `UserName` varchar(45) NOT NULL,
   `UserPassword` varchar(45) DEFAULT NULL,
   `UserPermission` varchar(45) DEFAULT NULL,
@@ -303,13 +304,13 @@ CREATE TABLE `User` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `User`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0);
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',351,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -347,13 +348,13 @@ INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'2018-01-03',2,2,2,2,2
 UNLOCK TABLES;
 
 --
--- Table structure for table `storeEmployees`
+-- Table structure for table `storeemployees`
 --
 
-DROP TABLE IF EXISTS `storeEmployees`;
+DROP TABLE IF EXISTS `storeemployees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `storeEmployees` (
+CREATE TABLE `storeemployees` (
   `username` varchar(45) NOT NULL,
   `storeID` int(11) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
@@ -362,13 +363,13 @@ CREATE TABLE `storeEmployees` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `storeEmployees`
+-- Dumping data for table `storeemployees`
 --
 
-LOCK TABLES `storeEmployees` WRITE;
-/*!40000 ALTER TABLE `storeEmployees` DISABLE KEYS */;
-INSERT INTO `storeEmployees` VALUES ('matan',1,'STORE_WORKER');
-/*!40000 ALTER TABLE `storeEmployees` ENABLE KEYS */;
+LOCK TABLES `storeemployees` WRITE;
+/*!40000 ALTER TABLE `storeemployees` DISABLE KEYS */;
+INSERT INTO `storeemployees` VALUES ('deckard',2,'STORE_MANAGER'),('matan',1,'STORE_WORKER');
+/*!40000 ALTER TABLE `storeemployees` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -39,7 +39,7 @@ public class CustomerView extends Customer
 	{
 		super(customer.getID(), customer.getStoreID(), customer.getName(), customer.getPhoneNumber(), 
 				customer.getPayMethod(), customer.getAccountBalance(), customer.getCreditCardNumber(), 
-				customer.getAccountStatus());
+				customer.getAccountStatus(), customer.getExpirationDate());
 		this.selectButton = new CustomerViewButton(this, "Select");
 	}
 	//===========================================================================================================

@@ -226,7 +226,8 @@ public class EntityFactory {
 			  {
 				  customers.add(new Customer(rs.getInt("personID") , rs.getInt("StoreID"), rs.getString("fullname"),
 						  rs.getString("phoneNumber"), Customer.PayType.valueOf(rs.getString("payMethod")),
-						  rs.getFloat("accountBalance"), rs.getString("creditCardNumber"), rs.getBoolean("AccountStatus")));
+						  rs.getFloat("accountBalance"), rs.getString("creditCardNumber"), rs.getBoolean("AccountStatus"),
+						  rs.getString("ExpirationDate")));
 //				  customers.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3),
 //						  Customer.PayType.valueOf(rs.getString(4)), rs.getFloat(5), rs.getString(6), rs.getBoolean(7)));
 				  

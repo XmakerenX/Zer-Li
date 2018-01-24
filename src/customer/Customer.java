@@ -1,6 +1,7 @@
 package customer;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import user.User.UserException;
 
@@ -30,7 +31,8 @@ public class Customer implements Serializable {
 	private float accountBalance;
 	private String creditCardNumber;
 	private boolean accountStatus;
-	
+	private String expirationDate;
+
 	//*****************************************************************************************
 	/**
 	* Creates a new Customer with the following parameters
@@ -45,7 +47,7 @@ public class Customer implements Serializable {
 	*/
 	//*****************************************************************************************
 	public Customer(long ID, long storeID,String name, String phoneNumber, PayType payMethod, float accountBalance,
-							String creditCardNumber, boolean accountStatus) throws CustomerException
+							String creditCardNumber, boolean accountStatus,  String expirationDate) throws CustomerException
 	{
 		setID(ID);
 		setStoreID(storeID);
@@ -55,6 +57,7 @@ public class Customer implements Serializable {
 		setAccountBalance(accountBalance);
 		setCreditCardNumber(creditCardNumber);
 		setAccountStatus(accountStatus);
+		setExpirationDate(expirationDate);
 	}
 
 	//*************************************************************************************************
@@ -223,6 +226,22 @@ public class Customer implements Serializable {
 			this.storeID = storeID;
 		else
 			throw new CustomerException(storeID+" is an invalid StoreID");
+	}
+	
+	/**
+	 * Returns customer's subscription expiration date
+	 * @return expiration date
+	 */
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+
+	/**
+	 * Sets customer's subscription expiration date
+	 * @param expirationDate - subscription expiration date
+	 */
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 	
 	
