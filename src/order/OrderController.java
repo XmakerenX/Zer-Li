@@ -8,6 +8,7 @@ import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.GetRequest;
 import serverAPI.GetRequestWhere;
 import serverAPI.RemoveOrderRequest;
+import serverAPI.UpdateRequest;
 
 //*************************************************************************************************
 	/**
@@ -32,7 +33,12 @@ public class OrderController
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
-	
+	//*************************************************************************************************
+		public static void updateOrder(int orderID, Order order)
+		{
+	    		String key = Integer.toString(orderID);
+	    		Client.client.handleMessageFromClientUI(new UpdateRequest("Order", key, order));
+		}
 	//*************************************************************************************************
 	/**
 	*  Adds custom orderItems to the order and requests to add a new order entry in the database
@@ -67,9 +73,9 @@ public class OrderController
 	*  @param orderID The ID of the order to cancel
 	*/
 	//*************************************************************************************************
-	public static void cancelOrder(long orderID)
-	{
-		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(orderID));
+	public static void cancelOrder(Order order)
+	{	
+		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(order));
 	}
 	
 	//*************************************************************************************************

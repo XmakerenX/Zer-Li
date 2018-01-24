@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import Server.DBConnector;
 import customer.Customer;
 import customer.Customer.PayType;
+import order.Order;
 import order.OrderComplaint;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
@@ -38,8 +39,10 @@ public class EntityUpdater {
 				
 			case "orderComplaint":
 				setOrderComplaint(oldKey, (OrderComplaint)entity, db);
-			}
-			
+				
+			case "Order":
+				setOrder(oldKey, (Order)entity, db);
+			}		
 			return true;
 		}
 		catch(SQLException ex)
@@ -47,6 +50,19 @@ public class EntityUpdater {
 		return false;
 		}
 	}
+	
+	
+	
+	private static void setOrder(String oldKey, Order order, DBConnector db) throws SQLException
+	{
+		  
+		  String OrderStatus = "OrderStatus=\""+order.getStatus()+"\"";
+		  String OrderRefund = "OrderRefund=\""+order.getRefund();
+
+		  String condition = "OrderID="+oldKey; 
+		  db.executeUpdate("Order", OrderRefund + "," + OrderStatus + "," , condition);
+	}
+	
 	
 	private static void setProdcut(String oldKey, Product product, DBConnector db) throws SQLException
 	{

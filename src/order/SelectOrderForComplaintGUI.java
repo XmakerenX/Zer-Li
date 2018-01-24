@@ -348,7 +348,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 			if (result == ButtonType.YES)
 			{
 				OrderRow orderItem = (OrderRow)arg;
-				OrderController.cancelOrder(orderItem.getID());
+				OrderController.cancelOrder(orderItem);
 
 				// wait for response
 				synchronized(this)

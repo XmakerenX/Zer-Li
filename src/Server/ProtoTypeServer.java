@@ -613,7 +613,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  float refundAmount = 0;
 				  
 				  ArrayList<String> key = new ArrayList<String>();
-				  key.add(""+removeOrderRequest.getOrderID());
+				  key.add(""+removeOrderRequest.getReqOrder().getID());
 				  
 				  ArrayList<Order> order = (ArrayList<Order>)handleGetRequest(new GetRequestByKey("Order", key));
 				  if (order.size() > 0)
@@ -630,6 +630,8 @@ public class ProtoTypeServer extends AbstractServer {
 							  customerKeys.add(""+order.get(0).getOrderOriginStore());
 							  try {
 								  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
+								  order.get(0).setRefund(refundAmount);
+								  order.get(0).setStatus(Order.Status.CANCELED);
 							  } catch (SQLException e) {
 								  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
 								  e.printStackTrace();
@@ -637,8 +639,8 @@ public class ProtoTypeServer extends AbstractServer {
 							  }
 						  }
 					  }
-					// Cancel order
-					if (EntityRemover.removeEntity("Order", key, db))
+					// Cancel order(update its status and refund ammount)
+					if (EntityUpdater.setEntity("Order", Integer.toString(order.get(0).getID()), order.get(0), db))
 						sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+refundAmount));
 					else
 						sendToClient(client, new Response(Response.Type.ERROR, "Failed to cancel the order"));

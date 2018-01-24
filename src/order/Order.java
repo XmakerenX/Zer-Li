@@ -17,6 +17,8 @@ import product.Product;
 //*************************************************************************************************
 public class Order implements Serializable 
 {	
+	float refund = 0;
+
 	//*********************************************************************************************
 	// Order nested classes
 	//*********************************************************************************************
@@ -32,7 +34,8 @@ public class Order implements Serializable
 		String deliveryAddress;
 		String receiverName;
 		String receiverPhoneNumber;
-
+		float refund = 0;
+		
 		//*****************************************************************************************
 		/**
 		* Creates a new DeliveryInfo with the following parameters
@@ -100,7 +103,7 @@ public class Order implements Serializable
 	//*********************************************************************************************
 	private static final long serialVersionUID = -4572335109967371787L;
 	public final static float deliveryCost = 10;
-	public enum Status{NEW, READLY, DELIVERED}
+	public enum Status{NEW, READLY, DELIVERED,CANCELED}
 	public enum PayMethod {CASH, CREDITCARD, SUBSCRIPTION, SUBSCRIPTION_PAID}
 
 	int orderID;
@@ -140,7 +143,7 @@ public class Order implements Serializable
 	{
 		itemsInOrder = new ArrayList<ItemInOrder>();
 		customItemInOrder = new ArrayList<CustomItemInOrder>();
-		
+		this.refund = 0;
 		setID(id);
 		setStatus(status);
 		setPrice(price);
@@ -508,6 +511,14 @@ public class Order implements Serializable
 	public String getDeliverAddress()
 	{
 		return this.getDeliveryInfo().getDeliveryAddress();
+	}
+    //*************************************************************************************************
+	public float getRefund() {
+		return refund;
+	}
+
+	public void setRefund(float refund) {
+		this.refund = refund;
 	}
 
 }
