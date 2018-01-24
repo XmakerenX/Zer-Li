@@ -55,12 +55,21 @@ public class EntityUpdater {
 	
 	private static void setOrder(String oldKey, Order order, DBConnector db) throws SQLException
 	{
-		  
-		  String OrderStatus = "OrderStatus=\""+order.getStatus()+"\"";
-		  String OrderRefund = "OrderRefund=\""+order.getRefund();
+		 // String OrderID = "OrderID=\""+order.getID();
+		  //String OrderPrice ="OrderPrice=\""+order.getPrice();
+		  //String OrderCreationDateTime ="OrderCreationDateTime=\""+order.getCreationDateTime();
+		  //String OrderRequiredDate = "OrderRequiredDate=\""+order.getRequiredDateTime();
+		  //String OrderRequiredTime = "OrderRequiredTime=\""+order.getRequiredDateTime();
+		  //String OrderShipmentAddress = "OrderShipmentAddress=\""+order.getDeliveryInfo().getDeliveryAddress();
+		  //String OrderReceiverName = "OrderReceiverName=\"" + order.getDeliveryInfo().getReceiverName();
+          
+		  String OrderStatus = "OrderStatus=\""+order.getStatus().toString()+"\"";
 
+		  String OrderRefund = "OrderRefund="+order.getRefund();
+		  System.out.println(OrderStatus);
+		  System.out.println(OrderRefund);
 		  String condition = "OrderID="+oldKey; 
-		  db.executeUpdate("Order", OrderRefund + "," + OrderStatus + "," , condition);
+		  db.executeUpdate("prototype.Order", OrderRefund + "," + OrderStatus , condition);
 	}
 	
 	

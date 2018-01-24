@@ -263,6 +263,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
 
     		for (Order o : orders)
     		{
+    			if(o.getStatus().equals(Order.Status.CANCELED)) continue;
     			try {
     				OrderRow newOrderRow = new OrderRow(o);
     				observableOrders.add(newOrderRow);

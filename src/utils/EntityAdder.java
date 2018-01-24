@@ -241,6 +241,13 @@ public class EntityAdder {
 				}										
 			}
 			
+			if (order.getOrderPaymentMethod() == Order.PayMethod.STORE_ACCOUNT)
+			{
+				String personID = "personID="+order.getCustomerID();
+				String storeID = "StoreID="+order.getOrderOriginStore();
+				db.executeUpdate("Customers", "accountBalance=accountBalance - "+order.getPrice(), personID + " AND " + storeID);
+			}
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("Exception: " + e.getMessage());

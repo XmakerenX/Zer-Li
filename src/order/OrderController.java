@@ -75,7 +75,7 @@ public class OrderController
 	//*************************************************************************************************
 	public static void cancelOrder(Order order)
 	{	
-		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(order));
+		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(order.getID()));
 	}
 	
 	//*************************************************************************************************
