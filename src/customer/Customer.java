@@ -1,6 +1,7 @@
 package customer;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import user.User.UserException;
@@ -31,7 +32,7 @@ public class Customer implements Serializable {
 	private float accountBalance;
 	private String creditCardNumber;
 	private boolean accountStatus;
-	private String expirationDate;
+	private Calendar expirationDate;
 
 	//*****************************************************************************************
 	/**
@@ -47,7 +48,7 @@ public class Customer implements Serializable {
 	*/
 	//*****************************************************************************************
 	public Customer(long ID, long storeID,String name, String phoneNumber, PayType payMethod, float accountBalance,
-							String creditCardNumber, boolean accountStatus,  String expirationDate) throws CustomerException
+							String creditCardNumber, boolean accountStatus,  Calendar expirationDate) throws CustomerException
 	{
 		setID(ID);
 		setStoreID(storeID);
@@ -228,19 +229,23 @@ public class Customer implements Serializable {
 			throw new CustomerException(storeID+" is an invalid StoreID");
 	}
 	
+	//*************************************************************************************************
 	/**
 	 * Returns customer's subscription expiration date
 	 * @return expiration date
 	 */
-	public String getExpirationDate() {
+	//*************************************************************************************************
+	public Calendar getExpirationDate() {
 		return expirationDate;
 	}
 
+	//*************************************************************************************************
 	/**
 	 * Sets customer's subscription expiration date
 	 * @param expirationDate - subscription expiration date
 	 */
-	public void setExpirationDate(String expirationDate) {
+	//*************************************************************************************************
+	public void setExpirationDate(Calendar expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 	

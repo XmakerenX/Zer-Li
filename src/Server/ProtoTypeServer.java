@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 import customer.Customer;
 import customer.CustomerController;
@@ -32,6 +34,8 @@ import serverAPI.Request;
 import serverAPI.Response;
 import serverAPI.UpdateRequest;
 import serverAPI.UploadImageRequest;
+import timed.QuarterlyReportCreation;
+import timed.SubscriptionPayment;
 import user.LoginException;
 import user.User;
 import user.UserController;
@@ -606,6 +610,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  case "RemoveOrderRequest":
 			  {
 				  RemoveOrderRequest removeOrderRequest = (RemoveOrderRequest)request;
+				  float refundAmount = 0;
 				  
 				  ArrayList<String> key = new ArrayList<String>();
 				  key.add(""+removeOrderRequest.getOrderID());
@@ -614,27 +619,29 @@ public class ProtoTypeServer extends AbstractServer {
 				  if (order.size() > 0)
 				  {
 					  Calendar requiredDate = order.get(0).getOrderRequiredDateTime();
-					  float refundRate = CustomerController.calcCustomerRefund(requiredDate);
-					  
-					  if (refundRate != 0)
+					  if (order.get(0).getOrderPaymentMethod() != Order.PayMethod.SUBSCRIPTION)
 					  {
-						  ArrayList<String> customerKeys = new ArrayList<String>();
-						  customerKeys.add(""+order.get(0).getCustomerID());
-						  customerKeys.add(""+order.get(0).getOrderOriginStore());
-						  try {
-							  refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
-						  } catch (SQLException e) {
-							  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
-							  e.printStackTrace();
-							  break;
+						  float refundRate = CustomerController.calcCustomerRefund(requiredDate);
+
+						  if (refundRate != 0)
+						  {
+							  ArrayList<String> customerKeys = new ArrayList<String>();
+							  customerKeys.add(""+order.get(0).getCustomerID());
+							  customerKeys.add(""+order.get(0).getOrderOriginStore());
+							  try {
+								  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
+							  } catch (SQLException e) {
+								  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
+								  e.printStackTrace();
+								  break;
+							  }
 						  }
 					  }
-					  
 					// Cancel order
 					if (EntityRemover.removeEntity("Order", key, db))
-						sendToClient(client, new Response(Response.Type.SUCCESS, "Order removed Successfully"));
+						sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+refundAmount));
 					else
-						sendToClient(client, new Response(Response.Type.ERROR, "Failed to remove the order"));
+						sendToClient(client, new Response(Response.Type.ERROR, "Failed to cancel the order"));
 				  }
 				  else
 				  {
@@ -650,13 +657,15 @@ public class ProtoTypeServer extends AbstractServer {
 		  }	//end of switch  
 	  }
 	  
-	  private void refundCustomer(ArrayList<String> customerKeys, float refundRate, float refundAmount) throws SQLException
+	  private float refundCustomer(ArrayList<String> customerKeys, float refundRate, float refundAmount) throws SQLException
 	  {
 		  ArrayList<Customer> customer = (ArrayList<Customer>)handleGetRequest(new GetRequestByKey("Customers", customerKeys));
 		  
 		  customer.get(0).setAccountBalance(customer.get(0).getAccountBalance() + refundAmount * refundRate);
 		db.executeUpdate("Customers", "accountBalance="+customer.get(0).getAccountBalance(), 
 					  "PersonID="+customer.get(0).getID()+" AND StoreID="+customer.get(0).getStoreID() );
+		
+		return refundAmount * refundRate;
 	
 	  }
 	  
@@ -752,10 +761,55 @@ public class ProtoTypeServer extends AbstractServer {
 		  {
 			  //Start listening for connections
 			  sv.listen();
+			  runTimedTasks(sv.db);
 		  } 
 		  catch (IOException ex) 
 		  {
 			  System.out.println("ERROR - Could not listen for clients!");
 		  }
 	  }
+	  
+	  public static void runTimedTasks(DBConnector db){
+
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.set(
+	           Calendar.DAY_OF_WEEK,
+	           Calendar.MONDAY
+	        );
+	        calendar.set(Calendar.HOUR_OF_DAY, 0);
+	        calendar.set(Calendar.MINUTE, 0);
+	        calendar.set(Calendar.SECOND, 0);
+	        calendar.set(Calendar.MILLISECOND, 0);
+
+
+
+	        Timer time = new Timer(); // Instantiate Timer Object
+	        
+	        Calendar now = Calendar.getInstance();
+	        //getting the quarter: 1/1, 1/4, 1/7, 1/
+	        int quarterForReports;
+	        int month = now.get(Calendar.MONTH);
+	        if (month == 0 || month ==1 || month== 2)
+	        {
+	        	quarterForReports = 4;
+	        }
+	        else if (month == 3 || month == 4 || month== 5)
+	        {
+	        	quarterForReports = 1;
+	        }
+	        else if (month == 6 || month == 7 || month== 8)
+	        {
+	        	quarterForReports = 2;
+	        }
+	        else
+	        	quarterForReports = 3;
+	        
+	        //getting current year:
+	        int year = now.get(Calendar.YEAR);
+	        String yearInString = String.valueOf(year);
+	        // Start running the task on Monday at 15:40:00, period is set to 8 hours
+	        // if you want to run the task immediately, set the 2nd parameter to 0
+	        time.schedule(new QuarterlyReportCreation(quarterForReports, yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));
+	        time.schedule(new SubscriptionPayment(yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));
+	}
 }

@@ -33,7 +33,7 @@ public class CustomerController {
 	 */
 	//*************************************************************************************************
 	public static void createNewCustomer(long personID, long storeID ,String fullName, String phoneNumber, PayType payMethod, float accountBalance,
-									String creditCardNumber,boolean accountStatus, String expirationDate, Client client)
+									String creditCardNumber,boolean accountStatus, Calendar expirationDate, Client client)
 	{
 		Customer newCustomer;
 		try {
@@ -90,6 +90,12 @@ public class CustomerController {
 		client.handleMessageFromClientUI(new GetRequestWhere("Customers", column, condition));
 	}
 
+	public static boolean isSubscriptonisValid(Customer Customer)
+	{
+		Calendar currentTime = Calendar.getInstance();
+		return currentTime.before(Customer.getExpirationDate());
+	}
+	
 	//*************************************************************************************************
 	/**
 	 * Calculates how much to refund the customer for his canceled order
@@ -100,7 +106,7 @@ public class CustomerController {
 	public static float calcCustomerRefund(Calendar requiredDate)
 	{
 		  Calendar currentTime = Calendar.getInstance();
-
+		  
 		  float refundRate = 0.0f;
 		  long requiredDateTimestamp = requiredDate.getTimeInMillis();
 		  long currentTimestamp = currentTime.getTimeInMillis();

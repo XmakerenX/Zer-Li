@@ -226,18 +226,18 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     /*
      * This function waits for the server response by putting the caller in sleep
      */
-    private void waitForResponse()
-    {
-    	synchronized(this)
-    	{
-    		try {
-				this.wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    }
+//    private void waitForResponse()
+//    {
+//    	synchronized(this)
+//    	{
+//    		try {
+//				this.wait();
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//    	}
+//    }
     //----------------------------------------
     /*
      * prints which fields are missing in the gui form
