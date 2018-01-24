@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -16,6 +17,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.converter.NumberStringConverter;
 import product.Product;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import client.Client;
@@ -73,8 +76,14 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     private TableColumn<Product, Number> amountCol;
 
     @FXML
+    private Label totalPrice;
+    
+    @FXML
     private Button orderCustomItemBtn;
 
+    @FXML
+    private Button backBtn;
+    
     private String toStringType(Product.Type t)
     {
     	String typeName = t.toString();
@@ -128,6 +137,19 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
+  	*  Called when the back button is pressed
+  	*  Goes back to the parent GUI
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
+    @FXML
+    void onBack(ActionEvent event) {
+    	Client.client.setUI((ClientInterface)parent);
+    	FormController.primaryStage.setScene(parent.getScene());
+    }
+    
+    //*************************************************************************************************
+    /**
   	*  Called when the Create Custom Item button is pressed
   	*  Generates a custom Item based on customer entered preferences
   	*  @param event the event that triggered this function
@@ -137,6 +159,9 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     void onCreateCustomItem(ActionEvent event) 
     {
     	ArrayList<Product> flowers = getFlowers();
+    	ArrayList<Float> prices = new ArrayList<Float>();
+    	int min;
+    	
     	if (flowers != null)
     	{
     		Product mainFlower = null;
@@ -160,7 +185,12 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     					break;
     			}
     		}
-
+    		
+    		for (Product flower : customFlowers)
+    		{
+    			prices.add(flower.getPrice());
+    		}
+    		
     		float maxPrice = Float.parseFloat(rangeMax.getText());
     		final ObservableList<Product> customProducts = FXCollections.observableArrayList();
     		
@@ -187,23 +217,32 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     		}
     		
     		Product minFlower = customFlowers.get(0);
+    		min = 0;
+    		
     		for (int i = 1; i < customFlowers.size(); i++)
     		{
     			if (customFlowers.get(i).getPrice() < minFlower.getPrice())
+    			{
+    				min = i;
     				minFlower = customFlowers.get(i);
+    			}
     		}
     		
     		float priceLeft = maxPrice - currentPrice;
-
-    		float originalPrice = minFlower.getPrice() / minFlower.getAmount();
-    		int flowerNum = (int)(priceLeft / originalPrice);
+    		float originalPrice = prices.get(min);
+    		
+    		int	flowerNum = (int)(priceLeft / originalPrice);
     		minFlower.setPrice(minFlower.getPrice() + flowerNum * originalPrice);
     		currentPrice += flowerNum * originalPrice;
     		minFlower.setAmount(minFlower.getAmount() + flowerNum);
     		
     		itemTotalPrice = currentPrice;
-    		customTable.setItems(customProducts);
     		
+    		DecimalFormat df = new DecimalFormat();
+    		df.setMaximumFractionDigits(2);
+    		totalPrice.setText(df.format(itemTotalPrice)+"€");
+    		
+    		customTable.setItems(customProducts);
     		orderCustomItemBtn.setDisable(false);
     	}
     }
@@ -289,17 +328,27 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
-    *  Initialize the dominateColorCbx with all the flowers item dominate colors
+    *  Clear and reset the GUI fields
   	*/
     //*************************************************************************************************
-    public void loadDominateColors()
+    private void clearFields()
     {
     	dominateColorCbx.getSelectionModel().clearSelection();
     	itemTypeCbx.getSelectionModel().clearSelection();
     	rangeMin.clear();
     	rangeMax.clear();
     	customTable.getItems().clear();
-    	
+    	totalPrice.setText("");
+    }
+    
+    //*************************************************************************************************
+    /**
+    *  Initialize the dominateColorCbx with all the flowers item dominate colors
+  	*/
+    //*************************************************************************************************
+    public void loadDominateColors()
+    {
+    	clearFields();
     	createOrderGUI.setParent(parent);
     	orderCustomItemBtn.setDisable(true);
     	
