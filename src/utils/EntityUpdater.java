@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import Server.DBConnector;
 import customer.Customer;
 import customer.Customer.PayType;
+import order.Order;
 import order.OrderComplaint;
 import product.Product;
 import survey.CustomerSatisfactionSurvey;
@@ -38,8 +39,10 @@ public class EntityUpdater {
 				
 			case "orderComplaint":
 				setOrderComplaint(oldKey, (OrderComplaint)entity, db);
-			}
-			
+				
+			case "Order":
+				setOrder(oldKey, (Order)entity, db);
+			}		
 			return true;
 		}
 		catch(SQLException ex)
@@ -47,6 +50,28 @@ public class EntityUpdater {
 		return false;
 		}
 	}
+	
+	
+	
+	private static void setOrder(String oldKey, Order order, DBConnector db) throws SQLException
+	{
+		 // String OrderID = "OrderID=\""+order.getID();
+		  //String OrderPrice ="OrderPrice=\""+order.getPrice();
+		  //String OrderCreationDateTime ="OrderCreationDateTime=\""+order.getCreationDateTime();
+		  //String OrderRequiredDate = "OrderRequiredDate=\""+order.getRequiredDateTime();
+		  //String OrderRequiredTime = "OrderRequiredTime=\""+order.getRequiredDateTime();
+		  //String OrderShipmentAddress = "OrderShipmentAddress=\""+order.getDeliveryInfo().getDeliveryAddress();
+		  //String OrderReceiverName = "OrderReceiverName=\"" + order.getDeliveryInfo().getReceiverName();
+          
+		  String OrderStatus = "OrderStatus=\""+order.getStatus().toString()+"\"";
+
+		  String OrderRefund = "OrderRefund="+order.getRefund();
+		  System.out.println(OrderStatus);
+		  System.out.println(OrderRefund);
+		  String condition = "OrderID="+oldKey; 
+		  db.executeUpdate("prototype.Order", OrderRefund + "," + OrderStatus , condition);
+	}
+	
 	
 	private static void setProdcut(String oldKey, Product product, DBConnector db) throws SQLException
 	{

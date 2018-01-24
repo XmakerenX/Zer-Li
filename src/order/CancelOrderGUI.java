@@ -136,7 +136,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
 					"Are you sure you want to cancel the order?");
 			if (result == ButtonType.YES)
 			{
-				OrderController.cancelOrder(orderItem.getID());
+				OrderController.cancelOrder((Order)orderItem);
 
 				// wait for response
 				waitForResponse();
@@ -263,6 +263,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
 
     		for (Order o : orders)
     		{
+    			if(o.getStatus().equals(Order.Status.CANCELED)) continue;
     			try {
     				OrderRow newOrderRow = new OrderRow(o);
     				observableOrders.add(newOrderRow);

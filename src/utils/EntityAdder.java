@@ -157,6 +157,7 @@ public class EntityAdder {
 		String orderAddress = null;
 		String receiverName = null;
 		String receiverPhoneNumber = null;
+		String orderRefund = Float.toString(order.getRefund());
 		
 		if (order.getDeliveryInfo() != null)
 		{
@@ -208,7 +209,7 @@ public class EntityAdder {
 			db.insertData("prototype.Order", "null" + "," + orderStatus + "," + orderPrice + "," + 
 					"'" + currentTimeString + "'" + "," + "'" + orderRequiredDate + "'" +
 					"," + "''" + "," + orderAddress + "," + receiverName + "," + receiverPhoneNumber + ","
-					+ paymentMethod + "," + originStore + "," + customerID);
+					+ paymentMethod + "," + originStore + "," + customerID+","+orderRefund);
 							
 			// get the orderID from database
 			ResultSet rs = db.selectLastInsertID();
