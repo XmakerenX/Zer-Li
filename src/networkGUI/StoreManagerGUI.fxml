@@ -4,13 +4,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="240.0" prefWidth="271.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.StoreManagerGUI">
+<AnchorPane prefHeight="255.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.StoreManagerGUI">
    <children>
-      <Label fx:id="welcomeLbl" layoutX="55.0" layoutY="17.0" text="Welcome, Store manager" />
-      <Button fx:id="viewReportsBtn" layoutX="54.0" layoutY="56.0" mnemonicParsing="false" onAction="#onViewReports" prefHeight="51.0" prefWidth="170.0" text="View store's reports" />
-      <Button fx:id="createCustomerBtn" layoutX="55.0" layoutY="123.0" mnemonicParsing="false" onAction="#onCreateCustomer" prefHeight="51.0" prefWidth="170.0" text="Create new customer" />
-      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="205.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
-      <Separator layoutX="3.0" layoutY="198.0" prefHeight="4.0" prefWidth="278.0" />
+      <Label fx:id="welcomeLbl" layoutX="45.0" layoutY="15.0" text="Welcome, store manager!">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Button fx:id="viewReportsBtn" layoutX="46.0" layoutY="80.0" mnemonicParsing="false" onAction="#onViewReports" prefHeight="35.0" prefWidth="180.0" text="View store's reports" />
+      <Button fx:id="createCustomerBtn" layoutX="46.0" layoutY="125.0" mnemonicParsing="false" onAction="#onCreateCustomer" prefHeight="35.0" prefWidth="180.0" text="Create new customer" />
+      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="215.0" mnemonicParsing="false" onAction="#onLogOut" prefWidth="60.0" text="Log out" />
+      <Separator layoutX="5.0" layoutY="195.0" prefHeight="4.0" prefWidth="260.0" />
    </children>
 </AnchorPane>

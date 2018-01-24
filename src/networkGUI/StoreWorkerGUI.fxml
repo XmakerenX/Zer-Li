@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="330.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.StoreWorkerGUI">
+<AnchorPane prefHeight="255.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.StoreWorkerGUI">
    <children>
-      <Label layoutX="15.0" layoutY="14.0" text="Welcome, store worker!" />
-      <Button fx:id="inputSurveyBtn" layoutX="77.0" layoutY="75.0" mnemonicParsing="false" onAction="#onInputSurvey" prefHeight="60.0" prefWidth="150.0" text="Input survey results" />
-      <Button fx:id="logOutBtn" layoutX="11.0" layoutY="297.0" mnemonicParsing="false" onAction="#onLogOut" text="Log out" />
-      <Separator layoutX="6.0" layoutY="287.0" prefHeight="3.0" prefWidth="298.0" />
-      <Button fx:id="manageCatalogButton" layoutX="76.0" layoutY="172.0" mnemonicParsing="false" onAction="#onManageCatalog" prefHeight="60.0" prefWidth="150.0" text="Manage catalog" />
+      <Label layoutX="52.0" layoutY="15.0" text="Welcome, store worker!">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Button fx:id="inputSurveyBtn" layoutX="46.0" layoutY="80.0" mnemonicParsing="false" onAction="#onInputSurvey" prefHeight="35.0" prefWidth="180.0" text="Input survey results" />
+      <Button fx:id="logOutBtn" layoutX="15.0" layoutY="215.0" mnemonicParsing="false" onAction="#onLogOut" prefWidth="60.0" text="Log out" />
+      <Separator layoutX="5.0" layoutY="195.0" prefHeight="3.0" prefWidth="260.0" />
+      <Button fx:id="manageCatalogButton" layoutX="46.0" layoutY="125.0" mnemonicParsing="false" onAction="#onManageCatalog" prefHeight="35.0" prefWidth="180.0" text="Manage catalog" />
    </children>
 </AnchorPane>

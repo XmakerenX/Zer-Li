@@ -47,7 +47,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     private Label welcomeLbl;
     
     @FXML
-    private Button backBtn;
+    private Button logOutBtn;
     
     @FXML
     private Button viewCatalogBtn;
@@ -88,7 +88,8 @@ public class CustomerGUI extends FormController implements ClientInterface {
   	*/
     //*************************************************************************************************
     @FXML
-    void onBack(ActionEvent event) {
+    void onLogOut(ActionEvent event) {
+    	
     	UserController.requestLogout(currentUser, client);
     	LoginGUI loginGUi = (LoginGUI)parent;
     	client.setUI(loginGUi);

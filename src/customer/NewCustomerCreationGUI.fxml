@@ -14,19 +14,20 @@
          </font>
       </Label>
       <Label fx:id="instructionLbl" layoutX="15.0" layoutY="60.0" text="Fill all the customer's info fields:" />
-      <Label fx:id="personIDLbl" layoutX="72.0" layoutY="95.0" text="Person ID:" />
-      <Label fx:id="firstNameLbl" layoutX="68.0" layoutY="125.0" text="First name:" />
-      <Label fx:id="lastNameLbl" layoutX="69.0" layoutY="155.0" text="Last name:" />
-      <Label fx:id="phoneNumberLbl" layoutX="45.0" layoutY="185.0" text="Phone number:" />
-      <Label fx:id="paymentMethodLbl" layoutX="32.0" layoutY="215.0" text="Payment method:" />
-      <Label fx:id="creditCardNumberLbl" layoutX="20.0" layoutY="245.0" text="Credit card number:" />
-      <TextField fx:id="personIDTxtField" layoutX="142.0" layoutY="92.0" prefWidth="150.0" />
-      <TextField fx:id="firstNameTxtField" layoutX="142.0" layoutY="122.0" prefWidth="150.0" />
-      <TextField fx:id="lastNameTxtField" layoutX="142.0" layoutY="152.0" prefWidth="150.0" />
-      <TextField fx:id="phoneNumberTxtField" layoutX="142.0" layoutY="182.0" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="creditCardNumberTxtField" layoutX="142.0" layoutY="242.0" prefWidth="150.0" />
-      <ComboBox fx:id="paymentMethodComboBox" layoutX="142.0" layoutY="212.0" prefWidth="150.0" promptText="[Select method]" />
+      <Label fx:id="personIDLbl" layoutX="77.0" layoutY="95.0" text="Person ID:" />
+      <Label fx:id="firstNameLbl" layoutX="73.0" layoutY="125.0" text="First name:" />
+      <Label fx:id="lastNameLbl" layoutX="74.0" layoutY="155.0" text="Last name:" />
+      <Label fx:id="phoneNumberLbl" layoutX="50.0" layoutY="185.0" text="Phone number:" />
+      <Label fx:id="paymentMethodLbl" layoutX="37.0" layoutY="215.0" text="Payment method:" />
+      <Label fx:id="creditCardNumberLbl" layoutX="25.0" layoutY="245.0" text="Credit card number:" />
+      <TextField fx:id="personIDTxtField" layoutX="147.0" layoutY="92.0" prefWidth="150.0" />
+      <TextField fx:id="firstNameTxtField" layoutX="147.0" layoutY="122.0" prefWidth="150.0" />
+      <TextField fx:id="lastNameTxtField" layoutX="147.0" layoutY="152.0" prefWidth="150.0" />
+      <TextField fx:id="phoneNumberTxtField" layoutX="147.0" layoutY="182.0" prefHeight="25.0" prefWidth="150.0" />
+      <TextField fx:id="creditCardNumberTxtField" layoutX="147.0" layoutY="242.0" prefWidth="150.0" />
+      <ComboBox fx:id="paymentMethodComboBox" layoutX="147.0" layoutY="212.0" prefWidth="150.0" promptText="[Select method]" />
       <Button fx:id="backBtn" layoutX="15.0" layoutY="301.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
       <Button fx:id="createCustomerBtn" layoutX="253.0" layoutY="301.0" mnemonicParsing="false" onAction="#onCreateCustomer" text="Create customer" />
+      <Separator layoutX="5.0" layoutY="284.0" prefWidth="360.0" />
    </children>
 </AnchorPane>
