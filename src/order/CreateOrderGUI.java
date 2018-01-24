@@ -146,6 +146,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	this.creditCardRadio.setUserData(Order.PayMethod.CREDITCARD);
     	this.subscriptonRadio.setUserData(Order.PayMethod.SUBSCRIPTION);
     	
+    	// set hourTxt changed Listener
     	hourTxt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -167,6 +168,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
             }
         });
     	
+    	// set minsTxt changed Listener
     	minsTxt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -188,6 +190,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
             }
         });
     	
+    	// set receiverPhoneTxt changed Listener
     	receiverPhoneTxt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -237,19 +240,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 	    {
 	    	Button b = (Button)e.getSource();
 	    	
-	    	Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
-	    	if (orderTable.getItems().size() > 1)
-	    	{
-				alert.setHeaderText("About to remove item from order");
-				alert.setContentText("Are you sure you want to remove item from order?");
-	    	}
+	    	ButtonType result;
+	    	if (orderTable.getItems().size() > 1)	    
+	    		result = showConfirmationDialog("About to remove item from order",
+	    				"Are you sure you want to remove item from order?");
 	    	else
-	    	{
-	    		alert.setHeaderText("About cancel order");
-				alert.setContentText("Are you sure you want to remove item from order? this will cancel the order!");
-				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-	    	}
-			ButtonType result = alert.showAndWait().get();
+	    		result = showConfirmationDialog("About cancel order",
+	    				"Are you sure you want to remove this item from order? this will cancel the order!");
+
 			if (result == ButtonType.YES)
 			{
 				OrderItemView orderItem = (OrderItemView)b.getUserData();
@@ -268,8 +266,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 				if (orderTable.getItems().size() == 0)
 					returnToParent();
 			}
-	    	
-	    	
 	    }
 	};
 
@@ -316,19 +312,17 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 			CatalogGUI catalogGUI = (CatalogGUI)parent;
 	    	Client.client.setUI(catalogGUI);
 	    	catalogGUI.onRefresh(null);
-	    	FormController.primaryStage.setScene(parent.getScene());
-	    	FormController.primaryStage.hide();
-	    	FormController.primaryStage.show();
 		}
 		else
 		{
 			CustomerGUI customerGUI = (CustomerGUI)parent;
 			Client.client.setUI(customerGUI);
 			customerGUI.loadStores();
-	    	FormController.primaryStage.setScene(parent.getScene());
-	    	FormController.primaryStage.hide();
-	    	FormController.primaryStage.show();
 		}
+		
+    	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.hide();
+    	FormController.primaryStage.show();
 	}
 
 	//*************************************************************************************************
@@ -362,17 +356,41 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     @FXML
     void OnCancel(ActionEvent event) 
     {
-    	Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
-		alert.setHeaderText("About to cancel order");
-		alert.setContentText("Are you sure you want to cancel the order?");
-
-		ButtonType result = alert.showAndWait().get();
-		if (result == ButtonType.YES)
-		{
+		ButtonType result = showConfirmationDialog("About to cancel order", "Are you sure you want to cancel the order?");
+		if (result == ButtonType.YES)		
 			returnToParent();
-		}
     }
 
+	//*************************************************************************************************
+    /**
+  	*  Verify that the Delivery information is entered correctly
+  	*  @return true for everything is entered OK.
+  	*  		   false for there is an error in one of the fields
+  	*/
+	//*************************************************************************************************
+    private boolean verifyDeliveryInformation()
+    {
+		if (addressTxt.getText().trim().equals(""))
+		{
+			showErrorMessage("Please fill the Delivery Adress textfield");
+			return false;
+		}
+		
+		if (receiverNameTxt.getText().trim().equals(""))
+		{
+			showErrorMessage("Please fill the Receiver Name textfield");
+			return false;
+		}
+		
+		if (receiverPhoneTxt.getText().trim().equals(""))
+		{
+			showErrorMessage("Please fill the Receiver phone textfield");
+			return false;
+		}
+		
+		return true;
+    }
+    
     //*************************************************************************************************
     /**
   	*  Creates a new Order
@@ -388,29 +406,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	
     	if ( ((RadioButton)pickupMethod.getSelectedToggle()).getText().contains("Delivery") )
     	{
-    		if (!addressTxt.getText().trim().equals(""))
+    		if (verifyDeliveryInformation())
+    		{
     			deliveryAddress= this.addressTxt.getText();
-    		else
-    		{
-    			showErrorMessage("Please fill the Delivery Adress textfield");
-    			return;
-    		}
-    		
-    		if (!receiverNameTxt.getText().trim().equals(""))
     			receiverName = this.receiverNameTxt.getText();
-    		else
-    		{
-    			showErrorMessage("Please fill the Receiver Name textfield");
-    			return;
-    		}
-    		
-    		if (!receiverPhoneTxt.getText().trim().equals(""))
     			receiverPhoneNumber = this.receiverPhoneTxt.getText();
-    		else
-    		{
-    			showErrorMessage("Please fill the Receiver phone textfield");
-    			return;
     		}
+    		else
+    			return;
     	}
     	
     	String orderTime = this.hourTxt.getText() + ":" + this.minsTxt.getText();
@@ -429,6 +432,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     			System.out.println("currentStoreID is not set aborting!!!!");
     			return;
     		}
+    		
         	// create our order
         	// we don't give the order ID , the database(on the server side) will do it for us :)
     		Order order = new Order(0, Order.Status.NEW, orderTotalPrice, null,this.date.getValue(), orderTime,
@@ -440,37 +444,22 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     		else
     			OrderController.CreateNewCustomOrder(order, orderTable.getItems());
     		
-    		synchronized(this)
+    		waitForResponse();
+
+    		if (replay == null)
+    			return;
+
+    		if (replay.getType() == Response.Type.SUCCESS)
     		{
-    			try {
-					this.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+    			showInformationMessage("Order was added");
+    			returnToParent();
+    			replay = null;
     		}
-
-    		if (replay != null)
+    		else
     		{
-    			if (replay.getType() == Response.Type.SUCCESS)
-    			{
-    				Alert alert = new Alert(AlertType.INFORMATION);
-    				alert.setHeaderText("Order success");
-    				alert.setContentText("Order was added");
-    				alert.showAndWait();
-
-    				returnToParent();
-    				replay = null;
-    			}
-    			else
-    			{
-    				Alert alert = new Alert(AlertType.ERROR);
-    				alert.setHeaderText("Order Failure");
-    				alert.setContentText("Failed to create new order");
-    				alert.showAndWait();
-    				replay = null;
-    			}
-    		}	
+    			showErrorMessage("Failed to create new order");
+    			replay = null;
+    		}
     	}
     	catch (OrderException e) {
     		System.out.println(e.getMessage());
@@ -539,6 +528,12 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     }
     
 
+    //*************************************************************************************************
+    /**
+  	*  removes the discount received from subscription
+  	*  @param e the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onCash(ActionEvent event) {
     	if (subsOrder)
@@ -548,7 +543,12 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	}
     }
     
-
+    //*************************************************************************************************
+    /**
+  	*  removes the discount received from subscription
+  	*  @param e the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onCreditCard(ActionEvent event) {
     	if (subsOrder)
@@ -558,6 +558,12 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	}
     }
     
+    //*************************************************************************************************
+    /**
+  	*  adds the discount received from subscription
+  	*  @param e the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onSubscription(ActionEvent event) {
     	subsOrder = true;
@@ -697,8 +703,8 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
 	private void setTotalPriceText(float amount)
 	{
-		System.out.println("-------------------------------------");
-		System.out.println(amount);
+//		System.out.println("-------------------------------------");
+//		System.out.println(amount);
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
 		orderTotalPrice += amount;

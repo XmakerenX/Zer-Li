@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="509.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
+<AnchorPane prefHeight="536.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
    <children>
       <Label layoutX="128.0" layoutY="14.0" text="Create Custom Item">
          <font>
@@ -34,6 +34,17 @@
             <TableColumn fx:id="amountCol" prefWidth="91.0" text="Amount" />
         </columns>
       </TableView>
-      <Button fx:id="orderCustomItemBtn" layoutX="165.0" layoutY="456.0" mnemonicParsing="false" onAction="#onOrderCustomItem" text="Order Custom Item" />
+      <Button fx:id="orderCustomItemBtn" layoutX="165.0" layoutY="489.0" mnemonicParsing="false" onAction="#onOrderCustomItem" text="Order Custom Item" />
+      <Button fx:id="backBtn" layoutX="16.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
+      <Label layoutX="14.0" layoutY="453.0" text="Custom Item Price :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalPrice" layoutX="194.0" layoutY="453.0" prefHeight="21.0" prefWidth="262.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
