@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public abstract class FormController {
@@ -79,36 +80,81 @@ public abstract class FormController {
 		}
 	}
 	
+    //*************************************************************************************************
 	/**
 	 * An method to display error message to user
 	 * @param message - specific message to display
 	 */
+    //*************************************************************************************************
 	public void showErrorMessage(String message)
 	{
     	// show failure  
 		Alert alert = new Alert(AlertType.ERROR, message, ButtonType.OK);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
 	
+    //*************************************************************************************************
 	/**
 	 * An method to display information message to user
 	 * @param message - specific message to display
 	 */
+    //*************************************************************************************************
 	public void showInformationMessage(String message)
 	{
     	// show success  
 		Alert alert = new Alert(AlertType.INFORMATION, message , ButtonType.OK);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
 	
+    //*************************************************************************************************
 	/**
-	 * An method to display warning message to user
+	 * A method to display warning message to user
 	 * @param message - specific message to display
 	 */
+    //*************************************************************************************************
 	public void showWarningMessage(String message)
 	{
     	// show warning  
 		Alert alert = new Alert(AlertType.WARNING, message , ButtonType.OK);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
+	
+    //*************************************************************************************************
+	/**
+	 * A method to display Confirmation dialog to user
+	 * @param message - specific message to display
+	 */
+    //*************************************************************************************************
+	public ButtonType showConfirmationDialog(String title, String message)
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION, "",ButtonType.YES, ButtonType.NO);
+		alert.setHeaderText(title);
+		alert.setContentText(message);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		return alert.showAndWait().get();
+	}
+	
+    //*************************************************************************************************
+	/**
+	* As said, this functions wait for the server's reply to continue.
+	*/
+    //*************************************************************************************************
+	    protected void waitForResponse()
+	 {
+		 synchronized(this) 
+	    	{
+	    		try 
+	    		{
+	    			this.wait();
+	    		}
+	    		
+	    		catch (InterruptedException e) 
+	    		{
+	    			e.printStackTrace();
+	    		}
+	    	} 
+	 }
 }
