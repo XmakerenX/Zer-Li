@@ -69,8 +69,9 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    private User currentUser;
 	    //local list of all items in the specific store catalog
 	    final ObservableList<CatalogItemView> itemData = FXCollections.observableArrayList();
-    	TreeSet<CatalogItem> catalogItemsSet = new TreeSet<CatalogItem>();
-    	
+    	TreeSet<CatalogItem> productItemSet = new TreeSet<CatalogItem>();
+    	TreeSet<CatalogItem> CatalogItemSet = new TreeSet<CatalogItem>();
+
     	
 	    Response res;
 	   
@@ -81,6 +82,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    	this.orderTable.getItems().clear();
 	    	this.orderTable.getColumns().remove(removeCol);
 	    	this.orderTable.getColumns().remove(viewCol);
+	    	this.orderTable.getColumns().remove(imageCol);
 
 	    }
 	    @FXML
@@ -119,6 +121,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    public void setCurrentCustomer(Customer currentCustomer)
 	    {
 	    	super.setCurrentCustomer(currentCustomer);
+
 	    }
 //----------------------------------------------------------------
 	    public void setCurrentUser(User user)
@@ -130,23 +133,19 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    {
 	    	
 	    	this.currentStoreID = storeID;
+	    	super.setCurrentStore(storeID);
+	    	addStoreProductsToSet(productItemSet);
 	    	
+	    	// get Base catalog items
+	    	addStoreCatalogToSet(0, CatalogItemSet);
 	    	
 	    	// get currentStore catalog items
 	    	if (currentStoreID != 0)
 	    	{
-	    		addStoreProductsToSet(currentStoreID, catalogItemsSet);
+	    		addStoreCatalogToSet(currentStoreID, CatalogItemSet);
 	    	}
-
-	    	// get Base catalog items
-	    	addStoreProductsToSet(0, catalogItemsSet);
 	    	
-	    	//downloadMissingCatalogImages(catalogItemsSet);
 	    	
-	    	for (CatalogItem item : catalogItemsSet)
-	    	{
-	    		itemData.add(new CatalogItemView(item, ImageData.ClientImagesDirectory));
-	    	}
 	    	
 	    }
 //------------------------------------------------------------------------
@@ -159,62 +158,91 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    	//Check which conditions to check:
 	    	Boolean searchByName = !nameFIeld.getText().equals("");
 	        Boolean searchByID = !idField.getText().equals("");
-	        long ProductIDToSearch = -1;//it must be initialized or else the code wont compile, even 
+	        CatalogItem foundItem = null;
+	        long ProductIDToSearch = -1;//it must be initialized. 
 	        
+	        CatalogItem[] reference = new CatalogItem[1];
+	        reference[0] = null;
 	        if((!searchByName) && (!searchByID))
 	        {
 	        	return;
-	        }
-	        
-	    	//Get search condition: 
-	    	String nameToSearch = nameFIeld.getText();
-	    	if(searchByID)
-	    	{
-	    	 ProductIDToSearch = Long.parseLong(idField.getText());
-	    	}
-	    	
-	    	
-	        
-	        
-	        
-	        Boolean suitableCatalogItem;
-	        Boolean catalogProductWasFound = false;
-	        
-	        for(CatalogItem catItem: catalogItemsSet)
-	    	{
-	        	suitableCatalogItem = true;
-	        	
-	    		if(searchByName)
-	    		{
-	    			suitableCatalogItem  = catItem.getName().equals(nameToSearch);
-	    		}
-	    		
-	    		if(searchByID)
-	    		{
-	    			suitableCatalogItem  = catItem.getID() == ProductIDToSearch;
-	    		}
-	    		
-	    		if(!suitableCatalogItem) continue;
-	    		else
-	    		{	
-	    			ObservableList<CatalogItemView> newTableData = FXCollections.observableArrayList();
-	    			CatalogItemView catItemView = new CatalogItemView(catItem,catItem.getImageName());
-	    			newTableData.add(catItemView);
-	    			
-	    			loadItemsInOrder(FXCollections.observableArrayList(newTableData));
-	    			
-	    			catalogProductWasFound = true;
-	    		}
-	    		
-	    	}
-	        
-	        if(catalogProductWasFound == false)
+	       }
+	        Boolean foundInCatalog = SearchItemIn(CatalogItemSet,reference);
+
+
+	        if(!foundInCatalog)
 	        {
-	        	informAlert("Sorry, product was not found");
+	        	Boolean foundInProducts = SearchItemIn(productItemSet,reference);
+	        	if(!foundInProducts)
+	        	{
+	        		informAlert("Sorry,Item was not found");
+	        		return;
+	        	}
 	        }
-	    	
-	    
+	        foundItem = reference[0];
+	        
+	        if(foundItem!=null)
+	        {
+	        	loadItem(foundItem); //loads to table;
+	        }
+	        
 	    }
+//------------------------------------------------------------------------
+private Boolean SearchItemIn(TreeSet<CatalogItem> set,CatalogItem[] catItem)
+{
+	Boolean searchByName = !nameFIeld.getText().equals("");
+    Boolean searchByID = !idField.getText().equals("");
+	long ProductIDToSearch =-1; 
+    //Get search condition: 
+	String nameToSearch = nameFIeld.getText();
+	if(searchByID)
+	{
+		ProductIDToSearch = Long.parseLong(idField.getText());
+	}
+	Boolean suitable = false;
+
+    Boolean itemWasFound = false;
+    
+    for(CatalogItem element: set)
+	{
+    	suitable = true;
+		if(searchByName)
+		{
+			suitable  = element.getName().equals(nameToSearch);
+		}
+		
+		if(searchByID)
+		{
+			suitable  = element.getID() == ProductIDToSearch;
+		}
+		
+		if(!suitable) continue;
+		else
+		{	
+			catItem[0] = element;
+		
+			itemWasFound = true;
+			break;
+		}
+		
+	}
+    
+    	return itemWasFound;
+}
+//------------------------------------------------------------------------
+
+private void loadItem(CatalogItem catItem)
+{
+
+	ObservableList<CatalogItemView> newTableData = FXCollections.observableArrayList();
+	CatalogItemView catItemView = new CatalogItemView(catItem,catItem.getImageName());
+	newTableData.add(catItemView);
+	
+	loadItemsInOrder(FXCollections.observableArrayList(newTableData));
+}
+
+
+
 //------------------------------------------------------------------------
     	private void informAlert(String informMessege)
 	    {
@@ -247,7 +275,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    	customOrder = false;
 	    }
 //------------------------------------------------------------------------
-	    private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
+	    private void addStoreProductsToSet(TreeSet<CatalogItem> productItemSet)
 	    {
 	    	res = null;
 	    	ProdcutController.requestProducts(Client.client);
@@ -275,23 +303,58 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 					
 					for(Product prod : resArray)
 					{
-					
-						CatalogItem catItem = new CatalogItem(prod, 1, "", null, 0);
-						
-						catalogItems.add(catItem);
+						if(!prod.getType().equals("FLOWER"))
+						{
+							CatalogItem catItem = new CatalogItem(prod, -1, null, null, this.currentStoreID);
+							catalogItems.add(catItem);
+						}
 					}
 					
 					for (CatalogItem item : catalogItems)
 					{
-						catalogItemsSet.add(item);
+						productItemSet.add(item);
 					}
 				}
 			}
 	    }
-//------------------------------------------------------------------------	    
-	    public void downloadMissingCatalogImages(TreeSet<CatalogItem> catalogItemsSet)
+//------------------------------------------------------------------------	  
+	    private void addStoreCatalogToSet(int storeID, TreeSet<CatalogItem> set)
 	    {
-	    	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItemsSet);
+	    	res = null;
+	    
+	    	
+	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
+	    	
+	    	// wait for response
+			synchronized(this)
+			{
+				// wait for server response
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if (res != null)
+			{
+				if (res.getType() == Response.Type.SUCCESS)
+				{
+					ArrayList<CatalogItem> resArray = (ArrayList<CatalogItem>)res.getMessage();
+			
+					
+					for (CatalogItem item : resArray)
+					{
+						set.add(item);
+					}
+				}
+			}
+	    }
+	    //-------------------------------------------------------------------------
+	    public void downloadMissingCatalogImages(TreeSet<CatalogItem> productItemSet)
+	    {
+	    	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(productItemSet);
 			if (missingImages.size() > 0)
 			{
 				System.out.println("Missing images "+ missingImages);
@@ -314,11 +377,19 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			}
 	    }
 
-		
+	    @FXML
+	    void onConfirmOrder(ActionEvent event) 
+	    {
+	    	super.onConfirmOrder(event);	    	
+	    		
+	    	
+	    	
+	    }
 	    @Override
 	    public void display(Object message) 
 	    {
-	    	this.res = (Response)message;
+	    	super.replay = (Response)message;
+	    	res = super.replay;
 
 	    	synchronized(this)
 	    	{

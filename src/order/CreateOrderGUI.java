@@ -57,13 +57,13 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 	private float subsAmount = 0;
 	private float deliveryAmount = 0;
 	 // holds the last replay we got from server
- 	private Response replay = null;
+ 	public Response replay = null;
 	
     @FXML
 	protected TableView<OrderItemView> orderTable;
 
     @FXML
-    private TableColumn<OrderItemView, ImageView> imageCol;
+	protected TableColumn<OrderItemView, ImageView> imageCol;
 
     @FXML
     private TableColumn<OrderItemView, TextArea> nameCol;
