@@ -101,7 +101,7 @@ public class Order implements Serializable
 	private static final long serialVersionUID = -4572335109967371787L;
 	public final static float deliveryCost = 10;
 	public enum Status{NEW, READLY, DELIVERED}
-	public enum PayMethod {CASH, CREDITCARD, SUBSCRIPTION, SUBSCRIPTION_PAID}
+	public enum PayMethod {CASH, CREDITCARD, SUBSCRIPTION, SUBSCRIPTION_PAID, STORE_ACCOUNT}
 
 	int orderID;
 	Status orderStatus;

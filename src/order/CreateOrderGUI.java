@@ -104,6 +104,9 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     protected RadioButton cashRadio;
     
     @FXML
+    protected RadioButton StoreAccountRadio;
+    
+    @FXML
     protected ToggleGroup payMethod;
 
     @FXML
@@ -142,9 +145,10 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	InitTableView();
     	
     	// Set the radio button userData to be the corresponding enum to be retrieved later
-    	this.cashRadio.setUserData(Order.PayMethod.CASH);
-    	this.creditCardRadio.setUserData(Order.PayMethod.CREDITCARD);
-    	this.subscriptonRadio.setUserData(Order.PayMethod.SUBSCRIPTION);
+    	cashRadio.setUserData(Order.PayMethod.CASH);
+    	creditCardRadio.setUserData(Order.PayMethod.CREDITCARD);
+    	subscriptonRadio.setUserData(Order.PayMethod.SUBSCRIPTION);
+    	StoreAccountRadio.setUserData(Order.PayMethod.STORE_ACCOUNT);
     	
     	// set hourTxt changed Listener
     	hourTxt.textProperty().addListener(new ChangeListener<String>() {
@@ -256,15 +260,25 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 				else
 					setTotalPriceText(-orderItem.getPrice());
 				
-				// a beautiful hack
-				// updates to the new price
-				onCreditCard(null);
-				onSubscription(null);
+				if (subscriptonRadio.isSelected())
+				{
+					// a beautiful hack
+					// updates to the new price
+					onCreditCard(null);
+					onSubscription(null);
+				}
 				
 				// remove item form items list
 				orderTable.getItems().remove(orderItem);
 				if (orderTable.getItems().size() == 0)
 					returnToParent();
+				
+		    	if (orderTotalPrice < currentCustomer.getAccountBalance())
+		    	{
+		    		StoreAccountRadio.setDisable(false);
+		    	}
+		    	else
+		    		StoreAccountRadio.setDisable(true);
 			}
 	    }
 	};
@@ -495,6 +509,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	}
     	else
     		this.setTotalPriceText(Order.deliveryCost);
+    	
+    	if (orderTotalPrice < currentCustomer.getAccountBalance())
+    	{
+    		this.StoreAccountRadio.setDisable(false);
+    		creditCardRadio.setSelected(true);
+    	}
+    	else
+    		this.StoreAccountRadio.setDisable(true);
     }
 
     //*************************************************************************************************
@@ -525,6 +547,11 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	}
     	else
     		this.setTotalPriceText(-Order.deliveryCost);
+    	
+    	if (orderTotalPrice < currentCustomer.getAccountBalance())
+    		this.StoreAccountRadio.setDisable(false);
+    	else
+    		this.StoreAccountRadio.setDisable(true);
     }
     
 
@@ -581,6 +608,21 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
+  	*  removes the discount received from subscription
+  	*  @param e the event that triggered this function
+  	*/
+    //*************************************************************************************************
+    @FXML
+    void OnStoreAccount(ActionEvent event) {
+    	if (subsOrder)
+    	{
+    		subsOrder = false;
+    		setTotalPriceText(subsAmount);
+    	}
+    }
+    
+    //*************************************************************************************************
+    /**
   	*  loads the given orderCatalogItems to orderTable
   	*  @param orderCatalogItems an Arraylist of the items to load in this order
   	*/
@@ -602,8 +644,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	}
     	
     	orderTable.setItems(orderItems);
+    	if (orderTotalPrice < currentCustomer.getAccountBalance())
+    		this.StoreAccountRadio.setDisable(false);
+    	else
+    		this.StoreAccountRadio.setDisable(true);
+    	
     	totalPrice.setText(""+orderTotalPrice+"€");
     	customOrder = false;
+    	
     	resetControls();
     	setCurrentTime();
     }
@@ -703,8 +751,8 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
 	private void setTotalPriceText(float amount)
 	{
-//		System.out.println("-------------------------------------");
-//		System.out.println(amount);
+		System.out.println("-------------------------------------");
+		System.out.println(amount);
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
 		orderTotalPrice += amount;
