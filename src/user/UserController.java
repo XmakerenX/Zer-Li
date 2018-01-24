@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import client.Client;
 import client.ClientInterface;
 import serverAPI.AddRequest;
+import serverAPI.CheckExistsRequest;
 import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.GetRequestByKey;
 import serverAPI.GetRequestWhere;
@@ -164,6 +165,16 @@ public class UserController implements ClientInterface
 		ArrayList<String> userPrimaryKey = new ArrayList<String>();
 		userPrimaryKey.add(userName);
     	client.handleMessageFromClientUI(new RemoveRequest("User", userPrimaryKey));
+	}
+	
+	/**
+	 * Gets user by specific key
+	 * @param condition - is a specific key
+	 * @param client - currently running client
+	 */
+	public static void GetUserByCertainCondition(String condition, String column, Client client)
+	{
+		client.handleMessageFromClientUI(new GetRequestWhere("User", column,condition));
 	}
 
 	@Override
