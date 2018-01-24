@@ -38,7 +38,7 @@ public class QuarterlyReportCreation extends TimerTask
 		   SimpleDateFormat formatter = new SimpleDateFormat("dd-MM");
 		   String date = formatter.format(cal.getTime());
 		   //Checks if the date is right for creating new reports
-		   if(date.equals("24-01") || date.equals("24-01") || date.equals("24-01") || date.equals("24-01")  || date.equals(formatter.format(cal.getTime())))
+		   if(date.equals("01-01") || date.equals("01-03") || date.equals("01-07") || date.equals("01-10") /* || date.equals(formatter.format(cal.getTime()))*/ )
 		   {
 			   String yearForReports=""+year;;
 			   report.IncomeReport.Quarterly incomeQ = report.IncomeReport.Quarterly.FIRST;
@@ -130,6 +130,10 @@ public class QuarterlyReportCreation extends TimerTask
 				 }
 		   }
 		   }
+		   else
+		   {
+			   System.out.println("We dont need to create reports right now!");
+		   }
 	   }
 	 //===============================================================================================================
 	   /**
@@ -181,16 +185,15 @@ public class QuarterlyReportCreation extends TimerTask
 		   surveyResultData.add((long) 0);
 		   String condition;
 		   if(quarter == report.SurveyReport.Quarterly.FIRST) 
-			   condition = "date is between '" + year + "-01-01' and '" + year + "-03-31'";
+			   condition = "date >= CAST('"+year+"-01-01' AS DATE) and date<= CAST('"+year+"-13-31' AS DATE)";
 		   else if(quarter == report.SurveyReport.Quarterly.SECOND)
-			   condition = "date is between '" + year + "-04-01' and '" + year + "-06-30'";
+			   condition = "date >= CAST('"+year+"-04-01' AS DATE) and date<= CAST('"+year+"-06-31' AS DATE)";
 		   else if(quarter == report.SurveyReport.Quarterly.THIRD)
-			   condition = "date is between '" + year + "-07-01' and '" + year + "-09-30'";
+			   condition = "date >= CAST('"+year+"-07-01' AS DATE) and date<= CAST('"+year+"-09-31' AS DATE)";
 		   else
-			   condition = "date is between '" + year + "-10-01' and '" + year + "-03-31'";
+			   condition = "date >= CAST('"+year+"-10-01' AS DATE) and date<= CAST('"+year+"-12-31' AS DATE)";
 		  
-		   System.out.println("Between the dates of: " + condition);
-		   ResultSet rs = conn.selectTableData("*", "customersatisfactoinsurveyresults", condition);
+		   ResultSet rs = conn.selectTableData("*", "customersatisfactionsurveyresults", condition);
 		   int numberOfResults=0;
 		   try
 			  {
@@ -205,13 +208,15 @@ public class QuarterlyReportCreation extends TimerTask
 					  numberOfResults++;
 				  }
 			  }catch (SQLException e) {e.printStackTrace();}
-		   
-		   surveyResultData.set(0, surveyResultData.get(0)/numberOfResults);
-		   surveyResultData.set(1, surveyResultData.get(1)/numberOfResults);
-		   surveyResultData.set(2, surveyResultData.get(2)/numberOfResults);
-		   surveyResultData.set(3, surveyResultData.get(3)/numberOfResults);
-		   surveyResultData.set(4, surveyResultData.get(4)/numberOfResults);
-		   surveyResultData.set(5, surveyResultData.get(5)/numberOfResults);
+		   if(numberOfResults!=0)
+		   {
+			   surveyResultData.set(0, surveyResultData.get(0)/numberOfResults);
+			   surveyResultData.set(1, surveyResultData.get(1)/numberOfResults);
+			   surveyResultData.set(2, surveyResultData.get(2)/numberOfResults);
+			   surveyResultData.set(3, surveyResultData.get(3)/numberOfResults);
+			   surveyResultData.set(4, surveyResultData.get(4)/numberOfResults);
+			   surveyResultData.set(5, surveyResultData.get(5)/numberOfResults);
+		   }
 		   
 		   return surveyResultData;
 	   }
