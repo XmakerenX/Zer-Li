@@ -86,7 +86,6 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
 		return this.imageInfo.imageCheckSum;
 	}
 	
-	
 	public int compareTo(CatalogItem o)
 	{
 		if (this.getID() == o.getID())

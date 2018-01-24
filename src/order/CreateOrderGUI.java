@@ -252,7 +252,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 			ButtonType result = alert.showAndWait().get();
 			if (result == ButtonType.YES)
 			{
-				//OrderItemView orderItem = (OrderItemView)obsButton.getOrderItem();
 				OrderItemView orderItem = (OrderItemView)b.getUserData();
 				if (orderItem.getSalePrice() > 0)
 					setTotalPriceText(-orderItem.getSalePrice());
@@ -263,7 +262,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 				// updates to the new price
 				onCreditCard(null);
 				onSubscription(null);
-				//this.totalPrice.setText(""+orderTotalPrice+"₪");
 				
 				// remove item form items list
 				orderTable.getItems().remove(orderItem);
@@ -274,22 +272,46 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 	    	
 	    }
 	};
-	    
+
+	//*************************************************************************************************
+    /**
+  	*  Clears the GUI text fields
+  	*/
+	//*************************************************************************************************
+	private void clearFields()
+	{
+		addressTxt.clear();
+		hourTxt.clear();
+		minsTxt.clear();
+		receiverNameTxt.clear();
+		receiverPhoneTxt.clear();
+		date.getEditor().clear();
+	}
+	
+	//*************************************************************************************************
+    /**
+  	*  Reset the GUI controls to their default status
+  	*/
+	//*************************************************************************************************
+	private void resetControls()
+	{
+    	selfPickupRadio.setSelected(true);
+    	addressTxt.setDisable(true);
+    	receiverNameTxt.setDisable(true);
+    	receiverPhoneTxt.setDisable(true);
+    	creditCardRadio.setSelected(true);
+	}
+	
 	//*************************************************************************************************
     /**
   	*  Switches to this GUI parent
   	*/
 	//*************************************************************************************************
-	void returnToParent()
+	private void returnToParent()
 	{
-		this.addressTxt.clear();
-		this.hourTxt.clear();
-		this.minsTxt.clear();
-		this.receiverNameTxt.clear();
-		this.receiverPhoneTxt.clear();
-		this.date.getEditor().clear();
+		clearFields();
 		
-		if (!this.customOrder)
+		if (!customOrder)
 		{
 			CatalogGUI catalogGUI = (CatalogGUI)parent;
 	    	Client.client.setUI(catalogGUI);
@@ -309,6 +331,28 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 		}
 	}
 
+	//*************************************************************************************************
+    /**
+  	*  Sets the current time in date field and hour and mins text fields
+  	*/
+	//*************************************************************************************************
+	private void setCurrentTime()
+	{
+		date.setValue(null);
+    	Calendar currentTime = Calendar.getInstance();
+    	// Add 3 hours to current time
+    	currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10800000);
+    	
+		// set hour and mins textFields to 3 hours from now
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+		String[] times = sdf.format(currentTime.getTime()).split(":"); 
+		hourTxt.setText(times[0]);
+		minsTxt.setText(times[1]);
+		// set the date picker to current Date + 3 hours
+		LocalDate currentDate = currentTime.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		this.date.setValue(currentDate);
+	}
+	
 	//*************************************************************************************************
     /**
   	*  Cancels this order and Switches to this GUI parent
@@ -547,36 +591,15 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     		else
     			orderTotalPrice += item.getPrice();
     		OrderItemView itemView = new OrderItemView(item);
-    		//itemView.getObservableRemoveButton().addObserver(this);
     		itemView.getRemoveBtn().setOnAction(orderItemRemoveAction);
     		orderItems.add(itemView);
     	}
     	
     	orderTable.setItems(orderItems);
     	totalPrice.setText(""+orderTotalPrice+"€");
-    	selfPickupRadio.setSelected(true);
-    	addressTxt.setDisable(true);
-    	receiverNameTxt.setDisable(true);
-    	receiverPhoneTxt.setDisable(true);
-    	creditCardRadio.setSelected(true);
     	customOrder = false;
-    	date.setValue(null);
-    	
-    	Calendar currentTime = Calendar.getInstance();
-    	// Add 3 hours to current time
-		if (currentTime.get(Calendar.HOUR_OF_DAY) < 12)
-			currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10800000);
-		else
-			currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 54000000);
-		
-		// set hour and mins textFields to 3 hours from now
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
-		String[] times = sdf.format(currentTime.getTime()).split(":"); 
-		hourTxt.setText(times[0]);
-		minsTxt.setText(times[1]);
-		// set the date picker to current Date + 3 hours
-		LocalDate currentDate = currentTime.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		this.date.setValue(currentDate);
+    	resetControls();
+    	setCurrentTime();
     }
 
     //*************************************************************************************************
@@ -592,18 +615,14 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	ObservableList<OrderItemView> orderItems = FXCollections.observableArrayList();
     	orderItems.add(customItem);
     	
-    	//customItem.getObservableRemoveButton().addObserver(this);
     	customItem.getRemoveBtn().setOnAction(orderItemRemoveAction);
     	
-    	this.orderTable.setItems(orderItems);
+    	orderTable.setItems(orderItems);
     	orderTotalPrice = customItem.getPrice();
     	totalPrice.setText(""+customItem.getPrice()+"€");
-    	selfPickupRadio.setSelected(true);
-    	this.addressTxt.setDisable(true);
-    	this.receiverNameTxt.setDisable(true);
-    	this.receiverPhoneTxt.setDisable(true);
-    	creditCardRadio.setSelected(true);
     	customOrder = true;
+    	resetControls();
+    	setCurrentTime();
     }
     
     //*************************************************************************************************
@@ -633,9 +652,17 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
   	*/
     //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {
+		Calendar currentTime = Calendar.getInstance();
 		this.currentCustomer = currentCustomer;
-		if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION ||
-				currentCustomer.getPayMethod() == Customer.PayType.YEARLY_SUBSCRIPTION)
+		
+//		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		System.out.println(sdf.format(currentTime.getTime()));
+//		System.out.println(sdf.format(currentCustomer.getExpirationDate().getTime()));
+//		System.out.println(currentCustomer.getAccountStatus());
+		
+		if ( (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION ||
+				currentCustomer.getPayMethod() == Customer.PayType.YEARLY_SUBSCRIPTION) &&
+				(currentTime.before(currentCustomer.getExpirationDate())))
 		{
 			//Subscription
 			if (currentCustomer.getPayMethod() == Customer.PayType.MONTHLY_SUBSCRIPTION)
@@ -646,7 +673,10 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 			subscriptonRadio.setDisable(false);
 		}
 		else
+		{
 			subscriptonRadio.setDisable(true);
+			subscriptonRadio.setText("Subscription");
+		}
 	}
 
     //*************************************************************************************************

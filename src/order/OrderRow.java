@@ -1,5 +1,7 @@
 package order;
 
+import java.util.Calendar;
+
 import client.Client;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import product.CatalogItem;
 import product.EditProductGUI;
 import product.Product;
 import prototype.FormController;
@@ -16,11 +19,12 @@ import prototype.FormController;
 	*  The class that holds the data to be shown in the cancelOrder TableView  
 	*/
 //*************************************************************************************************
-public class OrderRow extends Order {
+public class OrderRow extends Order  implements Comparable<OrderRow>{
 
+	private static final long serialVersionUID = 920338174354531395L;
 	private Button viewInfoButton;
-	private orderRowButton viewProductsButton;
-	private OrderItemViewButton cancelButton;
+	private Button viewProductsButton;
+	private Button cancelButton;
 	private OrderViewButton selectButton;
 	
 	public class orderRowButton extends Button
@@ -32,16 +36,6 @@ public class OrderRow extends Order {
 			this.origin = org;
 		}
 	}
-	EventHandler<ActionEvent> cancelAction  = new EventHandler<ActionEvent>() 
-	{
-	    @Override public void handle(ActionEvent e) 
-	    {	    	
-	    	Button b = (Button)e.getSource();
-	    	OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
-	    	obsButton.change();
-	    	obsButton.notifyObservers(obsButton.getOrderItem());
-	    }
-	};
 
 	EventHandler<ActionEvent> onDeliveryAction  = new EventHandler<ActionEvent>() 
 	{
@@ -62,18 +56,7 @@ public class OrderRow extends Order {
 			newWindow.showAndWait();
 		}
 	};
-	
-	EventHandler<ActionEvent> selectAction  = new EventHandler<ActionEvent>() 
-	{
-	    @Override public void handle(ActionEvent e) 
-	    {	    	
-	    	Button b = (Button)e.getSource();
-	    	OrderItemViewButton obsButton = (OrderItemViewButton)b.getUserData();
-	    	obsButton.change();
-	    	obsButton.notifyObservers(obsButton.getOrderItem());
-	    }
-	};
-	
+		
 	public OrderRow(Order order) throws OrderException
 	{
 		super(order.getID(), order.getStatus(), order.getPrice(), order.getOrderCreationDateTime(),order.getOrderRequiredDateTime(),
@@ -86,11 +69,15 @@ public class OrderRow extends Order {
 		else
 			viewInfoButton.setUserData(this);
 		
-		viewProductsButton = new orderRowButton(this, "View Products");
-		viewProductsButton.setOnAction(cancelAction);
+		viewProductsButton = new Button("View Products");
+		viewProductsButton.setUserData(this);
 		
-		cancelButton = new OrderItemViewButton(this, "Cancel");
-		cancelButton.getButton().setOnAction(cancelAction);
+		cancelButton = new Button("Cancel");
+		cancelButton.setUserData(this);
+		
+		Calendar currentTime = Calendar.getInstance();
+		if (currentTime.after(order.getOrderRequiredDateTime()))
+			cancelButton.setDisable(true);
 		
 		selectButton = new OrderViewButton(this, "Select");
 	}
@@ -103,19 +90,13 @@ public class OrderRow extends Order {
 		this.viewInfoButton = viewInfoButton;
 	}
 
-	public orderRowButton getViewProductsButton() {
+	public Button getViewProductsButton() {
 		return viewProductsButton;
 	}
 
-	
-
-	public orderRowButton getObservableViewProductsButton()
-	{
-		return this.viewProductsButton;
-	}
-	
+		
 	public Button getCancelButton() {
-		return cancelButton.getButton();
+		return cancelButton;
 	}
 	
 	public OrderViewButton getSelectButton() {
@@ -123,13 +104,9 @@ public class OrderRow extends Order {
 	}
 
 	public void setCancelButton(Button cancelButton) {
-		this.cancelButton.setButton(cancelButton);
+		this.cancelButton = cancelButton;
 	}
 	
-	public OrderItemViewButton getObservableCancelButton()
-	{
-		return this.cancelButton;
-	}
 	//===========================================================================================================
 		public class OrderViewButton extends Button
 		{
@@ -147,4 +124,18 @@ public class OrderRow extends Order {
 		}
 		//===========================================================================================================
 	
+	public int compareTo(OrderRow o)
+	{
+		if (this.orderRequiredDateTime.equals(o.getOrderRequiredDateTime()))
+			return 0;
+			
+		if (this.orderRequiredDateTime.after(o.getOrderRequiredDateTime()))
+			return -1;
+			
+		if (this.orderRequiredDateTime.before(o.getOrderRequiredDateTime()))
+			return 1;
+			
+		return -1; 
+	}
+		
 }
