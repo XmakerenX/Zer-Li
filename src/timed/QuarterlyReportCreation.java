@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimerTask;
 
-import com.sun.jdi.connect.Connector;
+//import com.sun.jdi.connect.Connector;
 
 import Server.DBConnector;
 import client.Client;
@@ -241,7 +241,6 @@ public class QuarterlyReportCreation extends TimerTask
 		   orderData.add(0);
 		   orderData.add(0);
 		   orderData.add(0);
-		   
 		   
 		   return orderData;
 	   }
