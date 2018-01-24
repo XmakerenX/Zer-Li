@@ -1,25 +1,20 @@
 package serverAPI;
 
-import order.Order;
+public class RemoveOrderRequest extends Request {
 
-public class RemoveOrderRequest extends Request 
-{
-	private Order reqOrder;
+	private long orderID;
 	
-	public RemoveOrderRequest(Order order)
+	public RemoveOrderRequest(long orderID)
 	{
 		super("RemoveOrderRequest");
-		this.reqOrder = order;
+		this.orderID = orderID;
 	}
 
-	public Order getReqOrder() 
-	{
-		return reqOrder;
+	public long getOrderID() {
+		return orderID;
 	}
 
-	public void setReqOrder(Order reqOrder) 
-	{
-		this.reqOrder = reqOrder;
-	}
-	
+	public void setOrderID(long orderID) {
+		this.orderID = orderID;
+	}	
 }

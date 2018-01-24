@@ -613,7 +613,7 @@ public class ProtoTypeServer extends AbstractServer {
 				  float refundAmount = 0;
 				  
 				  ArrayList<String> key = new ArrayList<String>();
-				  key.add(""+removeOrderRequest.getReqOrder().getID());
+				  key.add(""+removeOrderRequest.getOrderID());
 				  
 				  ArrayList<Order> order = (ArrayList<Order>)handleGetRequest(new GetRequestByKey("Order", key));
 				  if (order.size() > 0)
