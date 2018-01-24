@@ -45,6 +45,39 @@ INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.j
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ComplaintReport`
+--
+
+DROP TABLE IF EXISTS `ComplaintReport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ComplaintReport` (
+  `Quarterly` varchar(45) NOT NULL,
+  `Year` varchar(45) NOT NULL,
+  `StoreID` int(11) NOT NULL,
+  `FirstMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
+  `FirstMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
+  `SecondMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
+  `SecondMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
+  `ThirdMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
+  `ThirdMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Quarterly`,`Year`,`StoreID`),
+  KEY `fk_ComplaintReport_1_idx` (`StoreID`),
+  CONSTRAINT `fk_ComplaintReport_1` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ComplaintReport`
+--
+
+LOCK TABLES `ComplaintReport` WRITE;
+/*!40000 ALTER TABLE `ComplaintReport` DISABLE KEYS */;
+INSERT INTO `ComplaintReport` VALUES ('FIRST','2017',2,13,14,15,16,17,18);
+/*!40000 ALTER TABLE `ComplaintReport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `CustomItem`
 --
 
@@ -61,7 +94,7 @@ CREATE TABLE `CustomItem` (
   PRIMARY KEY (`CustomItemID`),
   KEY `fk_CustomItem_1_idx` (`CustomItemOrderID`),
   CONSTRAINT `fk_CustomItem_1` FOREIGN KEY (`CustomItemOrderID`) REFERENCES `Order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,41 +103,7 @@ CREATE TABLE `CustomItem` (
 
 LOCK TABLES `CustomItem` WRITE;
 /*!40000 ALTER TABLE `CustomItem` DISABLE KEYS */;
-INSERT INTO `CustomItem` VALUES (1,'BOUQUET',198,'Red','',67);
 /*!40000 ALTER TABLE `CustomItem` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `ordercomplaint`
---
-
-DROP TABLE IF EXISTS `ordercomplaint`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ordercomplaint` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customerID` int(11) DEFAULT NULL,
-  `customerName` varchar(100) DEFAULT NULL,
-  `customerPhoneNumber` varchar(100) DEFAULT NULL,
-  `storeID` int(11) DEFAULT NULL,
-  `complaintDescription` varchar(500) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `time` varchar(45) DEFAULT NULL,
-  `givenCompensationAmount` float DEFAULT NULL,
-  `maxCompensationAmount` float DEFAULT NULL,
-  `status` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ordercomplaint`
---
-
-LOCK TABLES `ordercomplaint` WRITE;
-/*!40000 ALTER TABLE `ordercomplaint` DISABLE KEYS */;
-INSERT INTO `ordercomplaint` VALUES (1,305022949,'matan k','0507788765',1,'asdsadasdas','2018-01-18','14:19',0,100,'CLOSED'),(2,305022949,'Son Goku','0507788765',1,'asdsadasdas','2018-01-18','14:19',NULL,10.2,'NEW'),(3,305022949,'Ali baba','0507788765',1,'asdsadasdas','2018-01-18','14:19',0,519.3,'NEW'),(5,305022949,'matan k','0507788765',1,'new complaint.','2018-01-19','18:36',NULL,198,'NEW'),(6,305022949,'matan k','0507788765',1,'New complaint, store 1','2018-01-19','18:49',NULL,100,'NEW'),(7,305022949,'matan k','0507788765',1,'complaint!!!!!','2018-01-19','19:17',NULL,233,'NEW');
-/*!40000 ALTER TABLE `ordercomplaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -115,15 +114,16 @@ DROP TABLE IF EXISTS `CustomItemProduct`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CustomItemProduct` (
-  `CustomItemID` int(11) NOT NULL,
+  `CustomItemID` int(11) NOT NULL AUTO_INCREMENT,
   `ProductID` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
   `Price` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`CustomItemID`,`ProductID`),
-  KEY `fk_CustomItemProduct_2_idx` (`ProductID`),
+  KEY `fk_CustomItemProduct_2_idx` (`CustomItemID`),
+  KEY `fk_CustomItemProduct_2_idx1` (`ProductID`),
   CONSTRAINT `fk_CustomItemProduct_1` FOREIGN KEY (`CustomItemID`) REFERENCES `CustomItem` (`CustomItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_CustomItemProduct_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,18 +132,17 @@ CREATE TABLE `CustomItemProduct` (
 
 LOCK TABLES `CustomItemProduct` WRITE;
 /*!40000 ALTER TABLE `CustomItemProduct` DISABLE KEYS */;
-INSERT INTO `CustomItemProduct` VALUES (1,7,4,'36.0'),(1,8,3,'30.0'),(1,10,11,'132.0');
 /*!40000 ALTER TABLE `CustomItemProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `customers`
+-- Table structure for table `Customers`
 --
 
-DROP TABLE IF EXISTS `customers`;
+DROP TABLE IF EXISTS `Customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `customers` (
+CREATE TABLE `Customers` (
   `personID` int(11) NOT NULL,
   `fullName` varchar(45) DEFAULT NULL,
   `phoneNumber` varchar(45) DEFAULT NULL,
@@ -155,18 +154,18 @@ CREATE TABLE `customers` (
   `ExpirationDate` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`personID`,`StoreID`),
   KEY `fk_Customers_1_idx` (`StoreID`),
-  CONSTRAINT `fk_Customers_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_Customers_1` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `customers`
+-- Dumping data for table `Customers`
 --
 
-LOCK TABLES `customers` WRITE;
-/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1234,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1,NULL),(1234,'mk','452','CREDIT_CARD',0,'3423',0,2,NULL),(2344354,'Mark Twain','3435678','YEARLY_SUBSCRIPTION',0,'5454645757',1,2,'24-Jan-2019'),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',NULL,1,NULL),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3,NULL);
-/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
+LOCK TABLES `Customers` WRITE;
+/*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
+INSERT INTO `Customers` VALUES (1234,'mk','546','YEARLY_SUBSCRIPTION',723,'1111-2222-3333-4444',1,1,'23-01-2018'),(1234,'mk','452','MONTHLY_SUBSCRIPTION',100.35,'3423',1,2,'30-01-2018'),(12345,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1,NULL),(2344354,'Mark Twain','3435678','YEARLY_SUBSCRIPTION',0,'5454645757',1,2,'24-01-2019'),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',1,1,''),(305022949,'Matan Keren','3523523','MONTHLY_SUBSCRIPTION',0,'2314123',1,2,'24-02-2018'),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3,NULL);
+/*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -191,8 +190,8 @@ CREATE TABLE `Order` (
   `OrderCustomerID` int(11) DEFAULT NULL,
   PRIMARY KEY (`OrderID`),
   KEY `fk_Order_1_idx` (`OrderCustomerID`),
-  CONSTRAINT `fk_Order_1` FOREIGN KEY (`OrderCustomerID`) REFERENCES `Customers` (`personID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_Order_1` FOREIGN KEY (`OrderCustomerID`) REFERENCES `Customers` (`personID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +200,7 @@ CREATE TABLE `Order` (
 
 LOCK TABLES `Order` WRITE;
 /*!40000 ALTER TABLE `Order` DISABLE KEYS */;
-INSERT INTO `Order` VALUES (60,'NEW',233,'2018-01-17 12:53:59','2018-01-18 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(61,'NEW',110,'2018-01-17 12:58:28','2018-01-17 20:20:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(62,'NEW',110,'2018-01-17 13:00:43','2018-01-17 20:20:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(64,'NEW',110,'2018-01-17 13:03:20','2018-01-17 16:16:00','','24242','34234','2342342','CREDITCARD',1,305022949),(65,'NEW',100,'2018-01-17 13:40:44','2018-01-17 20:20:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(66,'NEW',100,'2018-01-18 01:16:32','2018-01-18 04:16:32','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(67,'NEW',198,'2018-01-18 01:16:53','2018-01-18 06:50:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949);
+INSERT INTO `Order` VALUES (77,'NEW',90,'2018-01-22 09:03:54','2018-01-22 12:03:54','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345),(78,'NEW',82.5,'2018-01-22 09:04:06','2018-01-22 12:04:06','',NULL,NULL,NULL,'SUBSCRIPTION',3,12345),(79,'NEW',174.6,'2018-01-22 09:45:58','2018-01-22 12:45:58','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345),(80,'NEW',183.6,'2018-01-22 12:16:44','2018-01-23 03:16:00','','','','','SUBSCRIPTION',2,12345),(81,'NEW',151,'2018-01-22 20:47:50','2018-01-23 11:47:00','',NULL,NULL,NULL,'CREDITCARD',3,12345),(82,'NEW',174.6,'2018-01-22 21:52:24','2018-01-23 12:51:00','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345),(83,'NEW',233,'2018-01-24 10:43:58','2018-01-24 13:43:58','','werwe','345345','455464','CREDITCARD',1,12345),(88,'NEW',327,'2018-01-24 13:07:38','2018-01-25 04:07:00','','asfa','sdfsdf','232342','CREDITCARD',1,1234),(94,'NEW',223,'2018-01-24 14:56:12','2018-01-24 17:56:12','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(95,'NEW',294.3,'2018-01-24 14:56:30','2018-01-24 17:56:30','','2342','42342','42342','SUBSCRIPTION',2,305022949),(96,'NEW',217,'2018-01-24 14:56:51','2018-01-24 17:56:51','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(97,'NEW',223,'2018-01-24 14:57:02','2018-01-24 20:50:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(98,'NEW',223,'2018-01-24 14:58:08','2018-01-26 17:58:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(99,'NEW',94,'2018-01-24 14:58:36','2018-01-30 17:58:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949),(100,'NEW',217,'2018-01-24 14:59:36','2018-01-24 17:59:36','',NULL,NULL,NULL,'CREDITCARD',1,305022949);
 /*!40000 ALTER TABLE `Order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +256,7 @@ CREATE TABLE `ProductInOrder` (
 
 LOCK TABLES `ProductInOrder` WRITE;
 /*!40000 ALTER TABLE `ProductInOrder` DISABLE KEYS */;
-INSERT INTO `ProductInOrder` VALUES (4,60,''),(4,61,''),(4,62,''),(4,64,''),(4,65,'23423'),(4,66,''),(6,60,'');
+INSERT INTO `ProductInOrder` VALUES (4,77,''),(4,78,''),(4,79,''),(4,80,''),(4,81,'fgjgfj'),(4,82,''),(4,83,''),(4,88,''),(4,94,''),(4,95,''),(4,97,''),(4,98,''),(5,79,''),(5,80,''),(5,82,''),(5,88,''),(5,95,''),(5,96,''),(5,99,''),(5,100,''),(6,78,''),(6,83,''),(6,88,''),(6,94,''),(6,95,''),(6,96,''),(6,97,''),(6,98,''),(6,100,'');
 /*!40000 ALTER TABLE `ProductInOrder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,13 +285,13 @@ INSERT INTO `Store` VALUES (0,'Base'),(1,'Haifa'),(2,'Karmiel'),(3,'Qiryat Biyal
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `User`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `User` (
   `UserName` varchar(45) NOT NULL,
   `UserPassword` varchar(45) DEFAULT NULL,
   `UserPermission` varchar(45) DEFAULT NULL,
@@ -304,13 +303,13 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `User`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',351,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `User` WRITE;
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0);
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -334,7 +333,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   PRIMARY KEY (`id`),
   KEY `fk_customersatisfactionsurveyresults_1_idx` (`storeID`),
   CONSTRAINT `fk_customersatisfactionsurveyresults_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,94 +344,6 @@ LOCK TABLES `customersatisfactionsurveyresults` WRITE;
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` DISABLE KEYS */;
 INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'2018-01-03',2,2,2,2,2,2,1,'Sample Survey Analysis'),(2,'2018-01-03',5,5,5,5,5,5,1,''),(3,'2018-01-03',5,5,5,5,5,5,1,''),(4,'2018-01-14',5,6,9,8,7,4,1,''),(6,'2018-01-15',9,9,9,9,9,9,1,'');
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `storeemployees`
---
-
-DROP TABLE IF EXISTS `storeemployees`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `storeemployees` (
-  `username` varchar(45) NOT NULL,
-  `storeID` int(11) DEFAULT NULL,
-  `type` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `storeemployees`
---
-
-LOCK TABLES `storeemployees` WRITE;
-/*!40000 ALTER TABLE `storeemployees` DISABLE KEYS */;
-INSERT INTO `storeemployees` VALUES ('deckard',2,'STORE_MANAGER'),('matan',1,'STORE_WORKER');
-/*!40000 ALTER TABLE `storeemployees` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `surveys`
---
-
-DROP TABLE IF EXISTS `surveys`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `surveys` (
-  `surveyName` varchar(200) NOT NULL,
-  `question1` varchar(200) DEFAULT NULL,
-  `question2` varchar(200) DEFAULT NULL,
-  `question3` varchar(200) DEFAULT NULL,
-  `question4` varchar(200) DEFAULT NULL,
-  `question5` varchar(200) DEFAULT NULL,
-  `question6` varchar(200) DEFAULT NULL,
-  `analysis` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`surveyName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `surveys`
---
-
-LOCK TABLES `surveys` WRITE;
-/*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES ('12','1','1','1','1','1','1','1'),('123','Question','Question','Question','Question','Question','Question','Bla bla'),('12355','1','1','1','1','1','1',NULL),('new survey','1','1','1','1','1','1',NULL);
-/*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `ComplaintReport`
---
-
-DROP TABLE IF EXISTS `ComplaintReport`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ComplaintReport` (
-  `Quarterly` varchar(45) NOT NULL,
-  `Year` varchar(45) NOT NULL,
-  `StoreID` int(11) NOT NULL,
-  `FirstMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
-  `FirstMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
-  `SecondMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
-  `SecondMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
-  `ThirdMonthHandledComplaintsAmount` int(11) DEFAULT NULL,
-  `ThirdMonthPendingComplaintsAmount` int(11) DEFAULT NULL,
-   PRIMARY KEY (`Quarterly`, `Year` ,`StoreID`),
-  KEY `fk_ComplaintReport_1_idx` (`StoreID`),
-  CONSTRAINT `fk_ComplaintReport_1` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ComplaintReport`
---
-
-LOCK TABLES `ComplaintReport` WRITE;
-/*!40000 ALTER TABLE `ComplaintReport` DISABLE KEYS */;
-INSERT INTO `ComplaintReport` VALUES ('FIRST','2017', 2, 13, 14, 15, 16, 17, 18);
-/*!40000 ALTER TABLE `ComplaintReport` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -461,6 +372,39 @@ LOCK TABLES `incomereport` WRITE;
 /*!40000 ALTER TABLE `incomereport` DISABLE KEYS */;
 INSERT INTO `incomereport` VALUES ('SECOND','2017',2,1290);
 /*!40000 ALTER TABLE `incomereport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ordercomplaint`
+--
+
+DROP TABLE IF EXISTS `ordercomplaint`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ordercomplaint` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customerID` int(11) DEFAULT NULL,
+  `customerName` varchar(100) DEFAULT NULL,
+  `customerPhoneNumber` varchar(100) DEFAULT NULL,
+  `storeID` int(11) DEFAULT NULL,
+  `complaintDescription` varchar(500) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `time` varchar(45) DEFAULT NULL,
+  `givenCompensationAmount` float DEFAULT NULL,
+  `maxCompensationAmount` float DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ordercomplaint`
+--
+
+LOCK TABLES `ordercomplaint` WRITE;
+/*!40000 ALTER TABLE `ordercomplaint` DISABLE KEYS */;
+INSERT INTO `ordercomplaint` VALUES (1,305022949,'matan k','0507788765',1,'asdsadasdas','2018-01-18','14:19',0,100,'CLOSED'),(2,305022949,'Son Goku','0507788765',1,'asdsadasdas','2018-01-18','14:19',NULL,10.2,'NEW'),(3,305022949,'Ali baba','0507788765',1,'asdsadasdas','2018-01-18','14:19',0,519.3,'NEW'),(5,305022949,'matan k','0507788765',1,'new complaint.','2018-01-19','18:36',NULL,198,'NEW'),(6,305022949,'matan k','0507788765',1,'New complaint, store 1','2018-01-19','18:49',NULL,100,'NEW'),(7,305022949,'matan k','0507788765',1,'complaint!!!!!','2018-01-19','19:17',NULL,233,'NEW');
+/*!40000 ALTER TABLE `ordercomplaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -497,6 +441,31 @@ INSERT INTO `orderreport` VALUES ('THIRD','2017',2,265,51,52,53,54,55);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `storeEmployees`
+--
+
+DROP TABLE IF EXISTS `storeEmployees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `storeEmployees` (
+  `username` varchar(45) NOT NULL,
+  `storeID` int(11) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `storeEmployees`
+--
+
+LOCK TABLES `storeEmployees` WRITE;
+/*!40000 ALTER TABLE `storeEmployees` DISABLE KEYS */;
+INSERT INTO `storeEmployees` VALUES ('deckard',2,'STORE_MANAGER'),('matan',1,'STORE_WORKER');
+/*!40000 ALTER TABLE `storeEmployees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `surveyreport`
 --
 
@@ -529,6 +498,35 @@ INSERT INTO `surveyreport` VALUES ('FOURTH','2018',1,1,3,5,7,9,4);
 /*!40000 ALTER TABLE `surveyreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `surveys`
+--
+
+DROP TABLE IF EXISTS `surveys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `surveys` (
+  `surveyName` varchar(200) NOT NULL,
+  `question1` varchar(200) DEFAULT NULL,
+  `question2` varchar(200) DEFAULT NULL,
+  `question3` varchar(200) DEFAULT NULL,
+  `question4` varchar(200) DEFAULT NULL,
+  `question5` varchar(200) DEFAULT NULL,
+  `question6` varchar(200) DEFAULT NULL,
+  `analysis` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`surveyName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `surveys`
+--
+
+LOCK TABLES `surveys` WRITE;
+/*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
+INSERT INTO `surveys` VALUES ('12','1','1','1','1','1','1','1'),('123','Question','Question','Question','Question','Question','Question','Bla bla'),('12355','1','1','1','1','1','1',NULL),('new survey','1','1','1','1','1','1',NULL);
+/*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -539,4 +537,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-18  1:22:55
+-- Dump completed on 2018-01-24 15:04:10
