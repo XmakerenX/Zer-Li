@@ -39,9 +39,11 @@ public class EntityUpdater {
 				
 			case "ordercomplaint":
 				setOrderComplaint(oldKey, (OrderComplaint)entity, db);
+				break;
 				
 			case "Order":
 				setOrder(oldKey, (Order)entity, db);
+				break;
 			}		
 			return true;
 		}
