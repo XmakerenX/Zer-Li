@@ -94,7 +94,7 @@ CREATE TABLE `CustomItem` (
   PRIMARY KEY (`CustomItemID`),
   KEY `fk_CustomItem_1_idx` (`CustomItemOrderID`),
   CONSTRAINT `fk_CustomItem_1` FOREIGN KEY (`CustomItemOrderID`) REFERENCES `Order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `CustomItemProduct` (
   KEY `fk_CustomItemProduct_2_idx1` (`ProductID`),
   CONSTRAINT `fk_CustomItemProduct_1` FOREIGN KEY (`CustomItemID`) REFERENCES `CustomItem` (`CustomItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_CustomItemProduct_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,7 +309,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'LOGGED_IN',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -394,8 +394,9 @@ CREATE TABLE `ordercomplaint` (
   `givenCompensationAmount` float DEFAULT NULL,
   `maxCompensationAmount` float DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
+  `orderID` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +405,7 @@ CREATE TABLE `ordercomplaint` (
 
 LOCK TABLES `ordercomplaint` WRITE;
 /*!40000 ALTER TABLE `ordercomplaint` DISABLE KEYS */;
-INSERT INTO `ordercomplaint` VALUES (1,305022949,'matan k','0507788765',1,'asdsadasdas','2018-01-18','14:19',0,100,'CLOSED'),(2,305022949,'Son Goku','0507788765',1,'asdsadasdas','2018-01-18','14:19',NULL,10.2,'NEW'),(3,305022949,'Ali baba','0507788765',1,'asdsadasdas','2018-01-18','14:19',0,519.3,'NEW'),(5,305022949,'matan k','0507788765',1,'new complaint.','2018-01-19','18:36',NULL,198,'NEW'),(6,305022949,'matan k','0507788765',1,'New complaint, store 1','2018-01-19','18:49',NULL,100,'NEW'),(7,305022949,'matan k','0507788765',1,'complaint!!!!!','2018-01-19','19:17',NULL,233,'NEW');
+INSERT INTO `ordercomplaint` VALUES (8,305022949,'matan k','0507788765',1,'sdsddssd','2018-01-25','12:51',10,223,'CLOSED',94),(9,305022949,'matan k','0507788765',1,'I orderd hamburger, WTF?!','2018-01-25','12:51',30,217,'CLOSED',96),(10,305022949,'matan k','0507788765',1,'dsdsds','2018-01-25','13:43',22,217,'CLOSED',96),(11,305022949,'matan k','0507788765',1,'dssd','2018-01-25','13:48',20,94,'CLOSED',99),(12,305022949,'matan k','0507788765',1,'wtfff','2018-01-25','13:53',10,223,'CLOSED',97),(13,305022949,'matan k','0507788765',1,'dsdsgdsg','2018-01-25','13:55',20,223,'CLOSED',94),(14,305022949,'matan k','0507788765',1,'safdfdaf','2018-01-25','14:01',200,223,'CLOSED',94),(15,305022949,'Matan Keren','3523523',2,'dsvgdssdg','2018-01-25','14:02',20,294.3,'CLOSED',95),(16,305022949,'Matan Keren','3523523',2,'gsgdf','2018-01-25','14:04',2,294.3,'CLOSED',95),(17,305022949,'Matan Keren','3523523',2,'sfddsgdgss','2018-01-25','14:05',200,294.3,'CLOSED',95),(18,305022949,'matan k','0507788765',1,'dvfds','2018-01-25','14:07',2,94,'CLOSED',99),(19,305022949,'matan k','0507788765',1,'dsfad','2018-01-25','14:11',20,217,'CLOSED',96),(20,305022949,'Matan Keren','3523523',2,'sdfdssf','2018-01-25','14:11',222,294.3,'CLOSED',95),(21,305022949,'Matan Keren','3523523',2,'sssf','2018-01-25','14:13',NULL,294.3,'NEW',95);
 /*!40000 ALTER TABLE `ordercomplaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -538,4 +539,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-24 19:14:28
+-- Dump completed on 2018-01-25 14:25:42
