@@ -1,9 +1,5 @@
 package order;
 
-import java.time.LocalDate;
-
-import customer.CustomerView;
-import customer.CustomerView.CustomerViewButton;
 import javafx.scene.control.Button;
 
 public class OrderView extends Order{

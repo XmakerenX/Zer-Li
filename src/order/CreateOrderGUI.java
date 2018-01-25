@@ -465,6 +465,9 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 
     		if (replay.getType() == Response.Type.SUCCESS)
     		{
+    			// update our customer locally , no need to reload it from database for a change we know
+    			if (order.getOrderPaymentMethod() == Order.PayMethod.STORE_ACCOUNT)
+    				currentCustomer.setAccountBalance(currentCustomer.getAccountBalance() - order.orderPrice);
     			showInformationMessage("Order was added");
     			returnToParent();
     			replay = null;
