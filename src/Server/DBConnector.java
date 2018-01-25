@@ -110,6 +110,38 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  public int countSelectTableData(String field, String table, String condition)
+	  {
+		  Statement stmt;
+
+		  try {
+			  stmt = conn.createStatement();
+			  ResultSet rs;
+			  if (condition.length() == 0)
+			  {
+				  System.out.println("SELECT COUNT("+field+") FROM "+DBName+"."+table+";");
+				  rs = stmt.executeQuery("SELECT COUNT("+field+") FROM "+DBName+"."+table+";");
+			  }
+			  else
+			  {
+				  System.out.println("SELECT COUNT("+field+") FROM "+DBName+"."+table+" Where "+condition+";");
+				  rs = stmt.executeQuery("SELECT COUNT("+field+") FROM "+DBName+"."+table+" Where "+condition+";");
+			  }
+			  
+			  if (rs.next())
+				  return rs.getInt(0);
+			  else
+				  return -1;
+			  
+		  }catch (SQLException ex) {
+			  System.out.println("SQLException: " + ex.getMessage());
+			  System.out.println("SQLState: " + ex.getSQLState());
+			  System.out.println("VendorError: " + ex.getErrorCode());
+			  ex.printStackTrace();
+			  return -1;
+		  }
+	  }
+	  
 	  public ResultSet selectLastInsertID()
 	  {
 		  Statement stmt;

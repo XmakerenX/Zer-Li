@@ -17,6 +17,7 @@ import client.ClientInterface;
 import product.Product;
 import report.IncomeReport;
 import report.ReportController;
+import serverAPI.GetJoinedTablesRequest;
 import serverAPI.Response;
 
 public class QuarterlyReportCreation extends TimerTask
@@ -105,7 +106,7 @@ public class QuarterlyReportCreation extends TimerTask
 				 {
 					 reportData = calculateComplaintReportData(yearForReports, incomeQ);
 					 surveyResultData = calculateSurveyResultData(yearForReports, surveyQ);
-					 orderData = calculateOrderData(yearForReports, orderQ);
+					 orderData = calculateOrderData(yearForReports, orderQ, stores.get(i));
 					 
 								   try {
 									   ReportController.createNewComplaintReport(complaintQ, yearForReports, stores.get(i), 
@@ -230,6 +231,7 @@ public class QuarterlyReportCreation extends TimerTask
 		   
 		   return surveyResultData;
 	   }
+	   
 	 //===============================================================================================================
 	   /**
 	    * 
@@ -240,17 +242,98 @@ public class QuarterlyReportCreation extends TimerTask
 	    * 						orderData(2) - bridal bouquets ordered
 	    * 						orderData(3) - flower pots ordered
 	    * 						orderData(4) - flowers ordered
-	    * 						orderData(5) - plants ordered
+	    * 						orderData(5) - custom ordered
 	    */
-	   ArrayList<Integer> calculateOrderData(String year, report.OrderReport.Quarterly quarter)
+	   ArrayList<Integer> calculateOrderData(String year, report.OrderReport.Quarterly quarter, int storeID)
 	   {
 		   ArrayList<Integer> orderData =  new ArrayList<Integer>();
-		   orderData.add(0);
-		   orderData.add(0);
-		   orderData.add(0);
-		   orderData.add(0);
-		   orderData.add(0);
-		   orderData.add(0);
+		   ArrayList<Integer> orderInStore = new ArrayList<Integer>();
+		   int totalOrdersNum = 0;
+		   int numBouquetsOrdered  = 0;
+		   int numBridalOrdered  = 0;
+		   int numFlowerPotsOrdered = 0;
+		   int numFlowersOrdered = 0;
+		   int numCustomOrdered = 0;
+		   
+		   String condition;
+		   if(quarter == report.OrderReport.Quarterly.FIRST) 
+			   condition = "date >= CAST('"+year+"-01-01' AS DATE) AND date<= CAST('"+year+"-03-31' AS DATE)";
+		   else if(quarter == report.OrderReport.Quarterly.SECOND)
+			   condition = "date >= CAST('"+year+"-04-01' AS DATE) AND date<= CAST('"+year+"-06-31' AS DATE)";
+		   else if(quarter == report.OrderReport.Quarterly.THIRD)
+			   condition = "date >= CAST('"+year+"-07-01' AS DATE) AND date<= CAST('"+year+"-09-31' AS DATE)";
+		   else
+			   condition = "date >= CAST('"+year+"-10-01' AS DATE) AND date<= CAST('"+year+"-12-31' AS DATE)";
+		  
+		   
+		   ResultSet orderRS = conn.selectTableData("OrderID", "Order", "OrderOriginStore="+storeID+" AND "+condition);
+		   try 
+		   {
+			   while (orderRS.next())
+			   {
+				   orderInStore.add(orderRS.getInt("OrderID"));
+			   }
+			   orderRS.close();
+		   }catch (SQLException e) 
+		   {
+			   System.out.println("Failed to get orders for store "+storeID);
+			   e.printStackTrace();
+		   }
+		   
+		   for (Integer orderID : orderInStore)
+		   {
+			   totalOrdersNum++;
+			   condition = "OrderID" + " = " + orderID;
+
+			   ArrayList<String> tableKeyName = conn.getTableKeyName("Product");
+			   ArrayList<String> joinedTableKeyName = conn.getTableKeyName("ProdcutInOrder");
+			   // make the join on the primary key between the tables who should be the same for this to work
+			   // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
+			   condition = "Product"+"."+tableKeyName.get(0)+"="
+					   +"ProdcutInOrder"+"."+joinedTableKeyName.get(0) +" AND " + condition;
+			   ResultSet productRS = conn.selectJoinTablesData("*", "Product", "ProdcutInOrder", condition);
+			   
+			   try 
+			   {
+				   while (productRS.next())
+				   {
+					   String productType = productRS.getString("ProductType".toLowerCase());
+					   
+					   switch(productType)
+					   {
+					   
+					   case "bonquet":
+						   numBouquetsOrdered++;
+						   break;
+						   
+					   case "bridal bouquet":
+						   numBridalOrdered++;
+						   break;
+						   
+					   case "pot":
+					   		numFlowerPotsOrdered++;
+					   		break;
+					   }
+				   }
+				   productRS.close();
+				   
+				   int ret = conn.countSelectTableData("CustomItemID", "CustomItem", "CustomItemOrderID="+orderID);
+				   if (ret != -1)
+					   numCustomOrdered += ret;
+				   
+			   } catch (SQLException e) 
+			   {
+				   // TODO Auto-generated catch block
+				   e.printStackTrace();
+			   }
+		   }
+
+		   orderData.add(totalOrdersNum);
+		   orderData.add(numBouquetsOrdered);
+		   orderData.add(numBridalOrdered);
+		   orderData.add(numFlowerPotsOrdered);
+		   orderData.add(numFlowersOrdered);
+		   orderData.add(numCustomOrdered);
 		   
 		   return orderData;
 	   }

@@ -47,7 +47,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 	 {
 				 typeComboBox.getItems().addAll(
 										"Bouquet",
-										"Flower",
+										"Bridal Bouquet",
 										"Pot");
 				typeComboBox.getSelectionModel().selectFirst();
 
