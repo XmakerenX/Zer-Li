@@ -2,15 +2,12 @@ package order;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.Observable;
-
 import catalog.CatalogItemView;
 import client.Client;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -20,7 +17,6 @@ import javafx.stage.Stage;
 import product.EditProductGUI;
 import product.CatalogItem;
 import product.Product;
-import product.CatalogItem.ImageInfo;
 import prototype.FormController;
 
 //*************************************************************************************************
@@ -33,6 +29,7 @@ public class OrderItemView extends CatalogItem {
 	//*********************************************************************************************
 	// class instance variables
 	//*********************************************************************************************
+	private static final long serialVersionUID = 759292362526572518L;
 	private ImageView image;
 	private TextArea nameArea;
 	protected Button removeBtn;

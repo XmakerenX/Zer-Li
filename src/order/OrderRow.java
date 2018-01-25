@@ -2,21 +2,18 @@ package order;
 
 import java.util.Calendar;
 
-import client.Client;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import product.CatalogItem;
-import product.EditProductGUI;
-import product.Product;
 import prototype.FormController;
 
 //*************************************************************************************************
 	/**
 	*  The class that holds the data to be shown in the cancelOrder TableView  
+	*  It is the order class with buttons added for showing in a TableView
 	*/
 //*************************************************************************************************
 public class OrderRow extends Order  implements Comparable<OrderRow>{
@@ -36,7 +33,28 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 			this.origin = org;
 		}
 	}
+	
+	public class OrderViewButton extends Button
+	{
+		OrderRow origin;
+		public OrderViewButton(OrderRow origin, String name)
+		{
+			super(name);
+			this.origin = origin;
+		}
+		
+		public OrderRow getOrigin()
+		{
+			return this.origin;
+		}
+	}
 
+	//*************************************************************************************************
+	/**
+	*  Handles the button press of the view Delivery inside the orderItemView
+	*  shows the current Delivery Information  
+	*/
+	//*************************************************************************************************
 	EventHandler<ActionEvent> onDeliveryAction  = new EventHandler<ActionEvent>() 
 	{
 		@Override public void handle(ActionEvent e) 
@@ -57,6 +75,12 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 		}
 	};
 		
+	//*************************************************************************************************
+	/**
+	*  Creates a new OrderRow with the following parameters
+	*  @param OrderRow The order form which to init the orderRow
+	*/
+	//*************************************************************************************************
 	public OrderRow(Order order) throws OrderException
 	{
 		super(order.getID(), order.getStatus(), order.getPrice(), order.getOrderCreationDateTime(),order.getOrderRequiredDateTime(),
@@ -82,48 +106,73 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 		selectButton = new OrderViewButton(this, "Select");
 	}
 
+	//*************************************************************************************************
+	/**
+	*  Return the View Info Button
+	*  @return the View Info Button 
+	*/
+	//*************************************************************************************************
 	public Button getViewInfoButton() {
 		return viewInfoButton;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  sets the View Info Button
+	 *  @param the new View Info Button to set  
+	 */
+	//*************************************************************************************************
 	public void setViewInfoButton(Button viewInfoButton) {
 		this.viewInfoButton = viewInfoButton;
 	}
 
+	//*************************************************************************************************
+	/**
+	*  Return the View Products Button
+	*  @return the View Products Button 
+	*/
+	//*************************************************************************************************
 	public Button getViewProductsButton() {
 		return viewProductsButton;
 	}
 
-		
+	//*************************************************************************************************
+	/**
+	*  Return the Cancel Button
+	*  @return the Cancel Button 
+	*/
+	//*************************************************************************************************
 	public Button getCancelButton() {
 		return cancelButton;
 	}
 	
+	//*************************************************************************************************
+	/**
+	*  Return the Select Button
+	*  @return the Select Button 
+	*/
+	//*************************************************************************************************
 	public OrderViewButton getSelectButton() {
 		return selectButton;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  sets the Cancel Button
+	 *  @param cancelButton the new Cancel Button to set  
+	 */
+	//*************************************************************************************************
 	public void setCancelButton(Button cancelButton) {
 		this.cancelButton = cancelButton;
 	}
 	
-	//===========================================================================================================
-		public class OrderViewButton extends Button
-		{
-			OrderRow origin;
-			public OrderViewButton(OrderRow origin, String name)
-			{
-				super(name);
-				this.origin = origin;
-			}
-			
-			public OrderRow getOrigin()
-			{
-				return this.origin;
-			}
-		}
-		//===========================================================================================================
-	
+	//*************************************************************************************************
+	/**
+	 *  Compares OrderRows by their order Required DateTime
+	 *  @param o the order to Compare with
+	 *  @see java.lang.Comparable
+	 */
+	//*************************************************************************************************
 	public int compareTo(OrderRow o)
 	{
 		if (this.orderRequiredDateTime.equals(o.getOrderRequiredDateTime()))

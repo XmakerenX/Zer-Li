@@ -33,12 +33,20 @@ public class OrderController
 
     		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
 	}
+
 	//*************************************************************************************************
-		public static void updateOrder(int orderID, Order order)
-		{
-	    		String key = Integer.toString(orderID);
-	    		Client.client.handleMessageFromClientUI(new UpdateRequest("Order", key, order));
-		}
+	/**
+	 *  send an Update request to the server to update an order
+	 *  @param orderID The ID of the order to update 
+	 *  @param order The updated order
+	 */
+	//*************************************************************************************************
+	public static void updateOrder(int orderID, Order order)
+	{
+		String key = Integer.toString(orderID);
+		Client.client.handleMessageFromClientUI(new UpdateRequest("Order", key, order));
+	}
+	
 	//*************************************************************************************************
 	/**
 	*  Adds custom orderItems to the order and requests to add a new order entry in the database

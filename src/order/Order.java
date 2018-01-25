@@ -1,6 +1,7 @@
 package order;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -472,7 +473,7 @@ public class Order implements Serializable
   	*/
     //*************************************************************************************************
 	public String getRequiredDateTime() {
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
 		return sdf.format(orderRequiredDateTime.getTime());
 	}
 	
@@ -511,11 +512,23 @@ public class Order implements Serializable
 	{
 		return this.getDeliveryInfo().getDeliveryAddress();
 	}
+	
+	//*************************************************************************************************
+    /**
+     * Returns the order Refund
+  	*  @return the order Refund
+  	*/
     //*************************************************************************************************
 	public float getRefund() {
 		return refund;
 	}
 
+    //*************************************************************************************************
+    /**
+     * Sets the order refund
+  	*  @param refund the order refund value
+  	*/
+    //*************************************************************************************************
 	public void setRefund(float refund) {
 		this.refund = refund;
 	}
