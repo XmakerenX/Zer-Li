@@ -23,7 +23,7 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 
 	private static final long serialVersionUID = 920338174354531395L;
 	private Button viewInfoButton;
-	private Button viewProductsButton;
+	private orderRowButton viewProductsButton;
 	private Button cancelButton;
 	private OrderViewButton selectButton;
 	
@@ -69,7 +69,7 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 		else
 			viewInfoButton.setUserData(this);
 		
-		viewProductsButton = new Button("View Products");
+		viewProductsButton = new orderRowButton(this,"View Products");
 		viewProductsButton.setUserData(this);
 		
 		cancelButton = new Button("Cancel");

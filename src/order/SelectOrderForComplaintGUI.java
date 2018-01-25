@@ -220,8 +220,8 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   	    {
   	    	
   	    	orderRowButton src = (orderRowButton)e.getSource();
-  			Order order = src.origin;
-  			onViewProducts((OrderRow)order);
+  			OrderRow order = src.origin;
+  			onViewProducts(order);
   	    }
   	};	
   	//===============================================================================================================
