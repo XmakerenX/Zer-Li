@@ -27,7 +27,7 @@ public class SubscriptionPayment extends TimerTask
 		   SimpleDateFormat formatter = new SimpleDateFormat("dd");
 		   String date = formatter.format(cal.getTime());
 		   //Checks if the date is right for creating new reports
-		   if(date.equals("01") /* || date.equals(formatter.format(cal.getTime()))*/ )		//checks whether the it's the first of a month 
+		   if(date.equals("01") /* || date.equals(formatter.format(cal.getTime())) */)		//checks whether the it's the first of a month 
 		   {
 			   formatter = new SimpleDateFormat("MM");
 			   String monthOfPayment = formatter.format(cal.getTime());
@@ -62,6 +62,7 @@ public class SubscriptionPayment extends TimerTask
 			   to.set(Calendar.YEAR, Integer.valueOf(year));
 			   ArrayList<String> customerIDs = new ArrayList<String>();
 			   ArrayList<Float> spendings = new ArrayList<Float>();
+			   ArrayList<Integer> orderIDs = new ArrayList<Integer>(); //this way we save all of the orders we need to update to 'SUBSCRIPTION_PAID'
 			   
 			   //all the customers who have bought anything during this month
 			   ResultSet rs = conn.selectTableData("*", "order", "OrderPaymentMethod = 'SUBSCRIPTION' AND "
@@ -74,17 +75,18 @@ public class SubscriptionPayment extends TimerTask
 						  if(!customerIDs.contains(toAdd))
 						  {
 							  customerIDs.add(toAdd);
+							  orderIDs.add(rs.getInt("ORderID"));
 						  }
 						  
 					  }
 				  }catch (SQLException e) {e.printStackTrace();}
 			   
-			   System.out.println(customerIDs);
 			   int customerNumber = customerIDs.size();
-			   System.out.println("we have "+ customerNumber + " customers.");
-			   
+			   if(customerNumber==0) System.out.println("No subscription payments to update!");
 			   //for each customer who used subscription, we are updating how much they have spent
 			   if(customerNumber!=0) {
+				   System.out.println(customerIDs);
+				   System.out.println("we have "+ customerNumber + " customers.");	
 				   for(int i=0; i<customerNumber; i++)
 				   {
 					   String customerANdStore = customerIDs.get(i);
@@ -119,20 +121,24 @@ public class SubscriptionPayment extends TimerTask
 				   rs = conn.selectTableData("accountBalance", "customers", "personID ="+customerID+" and StoreID="+storeID);
 				   try
 					  {
-						  while (rs.next())
+						  while (rs.next())		//update user's balance
 						  {
-							  Float updateTo = rs.getFloat("accountBalance") + spendings.get(i);
+							  Float updateTo = rs.getFloat("accountBalance") - spendings.get(i);
 							  System.out.println("Updating customer Balance! from "+rs.getFloat("accountBalance")+" to: "+updateTo);
 							  conn.executeUpdate("customers", "accountBalance="+updateTo, "personID="+customerID+" and StoreID ="+storeID);
-//----------->>>>>UPDATE TO SUBSCRIPTION PAYED	  //conn.executeUpdate("orders", "OrderPaymentMethod=", "personID="+customerID+" and StoreID ="+storeID);
 						  }
 					  }
 				   catch (SQLException e) {e.printStackTrace();}
-//				   try 
-//				   {
-//					conn.executeUpdate("customers", "accountBalance=", "personID="+customerIDs.get(i));
-//					} 
-//				   catch (SQLException e) {e.printStackTrace();}
+			   }
+			   int numberOfOrdersToUpdate = orderIDs.size();
+			   for(int i=0; i<numberOfOrdersToUpdate; i++)				//updating the status of each order to 'SUBSCRIPTION_PAID'
+			   {
+				   try {
+					conn.executeUpdate("prototype.order", "OrderPaymentMethod = 'SUBSCRIPTION_PAID'", "OrderID = "+orderIDs.get(i));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			   }
 			   
 		   }

@@ -164,8 +164,10 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     		//we have BOTH fields filled
     		else
     		{
-	    		System.out.println("searching by id, SHOULD SEARCH BY BOTH");
-	    		initCustomerTableContent("personID",idTextField.getText());
+	    		System.out.println("searching by id and a phone number");
+	    		String conditionForSearch = idTextField.getText()+"--"+phoneNumberTextField.getText();
+	    		System.out.println(conditionForSearch);
+	    		initCustomerTableContent("personID",conditionForSearch);
     		}
     	}
     	else
@@ -279,40 +281,77 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
      */
     private ObservableList<CustomerView> getCustomerList(String column, String condition)
     {
-    	CustomerController.getCertainCustomers(column, condition, client);
-    	waitForServerResponse();
-    	if(response.getType() == Response.Type.SUCCESS)
+    	String newCondition = condition;
+    	if(condition.contains("--"))
     	{
-	    	ArrayList<CustomerView> customerViewList = new ArrayList<CustomerView>();
-	    	ArrayList<Customer> customerList = (ArrayList<Customer>)response.getMessage();
-	    	for(Customer customer : customerList)
+    		String customerANdPhone = condition;
+			String[] parts = customerANdPhone.split("--");
+			String customerID = parts[0];
+			String phoneNumber = parts[1];
+			newCondition = customerID;
+    	}
+	    	CustomerController.getCertainCustomers(column, newCondition, client);
+	    	waitForServerResponse();
+	    	if(response.getType() == Response.Type.SUCCESS)
 	    	{
-	    		CustomerView view = null;
-				try 
-				{
-					view = new CustomerView(customer);
-					view.setStoreAddress(getStoreName(view.getStoreID()));
-				} catch (CustomerException e) 
-				{
-					e.printStackTrace();
-				}
-	    		//add function for the button:
-	    		view.getSelectButton().setOnAction(selectUser);
-	    		customerViewList.add(view);
+		    	ArrayList<CustomerView> customerViewList = new ArrayList<CustomerView>();
+		    	ArrayList<Customer> customerList = (ArrayList<Customer>)response.getMessage();
+		    	for(Customer customer : customerList)
+		    	{
+		    		if(condition.contains("--"))
+		    		{
+		    			System.out.println("By phone and number.");
+		    			String customerANdPhone2 = condition;
+						String[] parts = customerANdPhone2.split("--");
+						String customerID = parts[0];
+						String phoneNumber = parts[1];
+						newCondition = customerID;
+						System.out.println("customer phone: "+customer.getPhoneNumber()+" given phone num: "+phoneNumber);
+		    			if(customer.getPhoneNumber().equals(phoneNumber))
+		    			{
+			    			CustomerView view = null;
+			    			try 
+							{
+								view = new CustomerView(customer);
+								view.setStoreAddress(getStoreName(view.getStoreID()));
+							} catch (CustomerException e) 
+							{
+								e.printStackTrace();
+							}
+				    		//add function for the button:
+				    		view.getSelectButton().setOnAction(selectUser);
+				    		customerViewList.add(view);
+		    			}
+		    		}
+		    		else
+		    		{
+			    		CustomerView view = null;
+						try 
+						{
+							view = new CustomerView(customer);
+							view.setStoreAddress(getStoreName(view.getStoreID()));
+						} catch (CustomerException e) 
+						{
+							e.printStackTrace();
+						}
+			    		//add function for the button:
+			    		view.getSelectButton().setOnAction(selectUser);
+			    		customerViewList.add(view);
+		    		}
+		    	}
+		    	System.out.println(customerViewList);
+		    	//clearing response
+	    		response = null;
+		    	return FXCollections.observableArrayList(customerViewList);
 	    	}
-	    	System.out.println(customerViewList);
-	    	//clearing response
-    		response = null;
-	    	return FXCollections.observableArrayList(customerViewList);
-    	}
-    	else if(response.getType() == Response.Type.ERROR)
-    	{
-    		Alert alert = new Alert(AlertType.ERROR, "No customers found!", ButtonType.OK);
-    		alert.showAndWait();
-    		//clearing response
-    		response = null;
-    		return null;
-    	}
+	    	else if(response.getType() == Response.Type.ERROR)
+	    	{
+	    		Alert alert = new Alert(AlertType.ERROR, "No customers found!", ButtonType.OK);
+	    		alert.showAndWait();
+	    		//clearing response
+	    		response = null;
+	    		return null;
+	    	}
     	return null;
     }
   //===============================================================================================================
