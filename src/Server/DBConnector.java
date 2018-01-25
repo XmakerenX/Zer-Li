@@ -128,8 +128,11 @@ public class DBConnector {
 				  rs = stmt.executeQuery("SELECT COUNT("+field+") FROM "+DBName+"."+table+" Where "+condition+";");
 			  }
 			  
-			  if (rs.next())
-				  return rs.getInt(0);
+			  if (rs.isBeforeFirst())
+			  {
+				  rs.next();
+				  return rs.getInt(1);
+			  }
 			  else
 				  return -1;
 			  
