@@ -784,8 +784,6 @@ public class ProtoTypeServer extends AbstractServer {
 	        calendar.set(Calendar.SECOND, 0);
 	        calendar.set(Calendar.MILLISECOND, 0);
 
-
-
 	        Timer time = new Timer(); // Instantiate Timer Object
 	        
 	        Calendar now = Calendar.getInstance();
@@ -806,7 +804,6 @@ public class ProtoTypeServer extends AbstractServer {
 	        }
 	        else
 	        	quarterForReports = 3;
-	        
 	        
 	        //getting current year:
 	        int year = now.get(Calendar.YEAR);
