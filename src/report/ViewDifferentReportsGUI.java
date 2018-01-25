@@ -180,7 +180,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				case "Income":
 				{
 	
-					ReportController.getReport("IncomeReport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("incomereport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
 					
 					try
 			    	{
@@ -211,7 +211,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("IncomeReport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("incomereport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
 					
 					try
 			    	{
@@ -246,7 +246,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Order":
 				{
-					ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("orderreport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
 					
 					try
 			    	{
@@ -284,7 +284,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("orderreport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
 					
 					try
 			    	{
@@ -326,7 +326,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Survey":
 				{
-					ReportController.getReport("SurveyReport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("surveyreport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
 					
 					try
 			    	{
@@ -365,7 +365,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("SurveyReport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("surveyreport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
 					
 					try
 			    	{

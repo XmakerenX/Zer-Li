@@ -112,13 +112,12 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 			reportViaTextArea.setText("");
 			complaintReportBarChart.getData().clear();
 			complaintReportBarChart.layout();
-			
 			switch (reportTypeComboBox.getValue())
 			{
 				case "Income":
 				{
 	
-					ReportController.getReport("IncomeReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("incomereport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{
@@ -154,7 +153,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Order":
 				{
-					ReportController.getReport("OrderReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("orderreport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{
@@ -198,7 +197,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Survey":
 				{
-					ReportController.getReport("SurveyReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("surveyreport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{

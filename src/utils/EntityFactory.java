@@ -65,13 +65,13 @@ public class EntityFactory {
 		  case "ComplaintReport":
 			  return loadComplaintReports(rs);
 			
-		  case "IncomeReport":
+		  case "incomereport":
 			  return loadIncomeReports(rs);
 		
-		  case "OrderReport":
+		  case "orderreport":
 			  return loadOrderReports(rs);
 			  
-		  case "SurveyReport":
+		  case "surveyreport":
 			  return loadSurveyReports(rs);
 			  
 		  case "CustomItem":
