@@ -113,7 +113,7 @@ public class QuarterlyReportCreation extends TimerTask
 											   reportData.get(4), reportData.get(5), Client.client);
 									   
 									   ReportController.createNewIncomeReport(incomeQ, yearForReports, stores.get(i), 
-											   calculateIncomeAmount(yearForReports, incomeQ), Client.client);	
+											   calculateIncomeAmount(yearForReports, incomeQ, stores.get(i)), Client.client);	
 									   
 									   ReportController.createNewOrderReport(orderQ, yearForReports, stores.get(i), orderData.get(0), 
 											   orderData.get(1), orderData.get(2), orderData.get(3), orderData.get(4), 
@@ -155,10 +155,20 @@ public class QuarterlyReportCreation extends TimerTask
 		   return reportData;
 	   }
 	 //===============================================================================================================
-	   long calculateIncomeAmount(String year, report.IncomeReport.Quarterly quarter)
+	   long calculateIncomeAmount(String year, report.IncomeReport.Quarterly quarter, Integer store)
 	   {
 		   long income = 0;
-		   ResultSet storeRS = conn.selectTableData("StoreID", "store", "");
+		   String condition;
+		   if(quarter == report.IncomeReport.Quarterly.FIRST) 
+			   condition = "date >= CAST('"+year+"-01-01' AS DATE) and date<= CAST('"+year+"-13-31' AS DATE)";
+		   else if(quarter == report.IncomeReport.Quarterly.SECOND)
+			   condition = "date >= CAST('"+year+"-04-01' AS DATE) and date<= CAST('"+year+"-06-31' AS DATE)";
+		   else if(quarter == report.IncomeReport.Quarterly.THIRD)
+			   condition = "date >= CAST('"+year+"-07-01' AS DATE) and date<= CAST('"+year+"-09-31' AS DATE)";
+		   else
+			   condition = "date >= CAST('"+year+"-10-01' AS DATE) and date<= CAST('"+year+"-12-31' AS DATE)";
+		  
+		   ResultSet rs = conn.selectTableData("*", "order", "OrderStoreID ="+store + condition);
 		   
 		   return income;
 	   }
