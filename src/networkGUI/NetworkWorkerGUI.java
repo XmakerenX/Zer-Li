@@ -13,7 +13,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import prototype.FormController;
 import user.LoginGUI;
-import user.NewUserCreationGUI;
 import user.User;
 import user.UserController;
 //*************************************************************************************************

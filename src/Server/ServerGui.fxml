@@ -8,30 +8,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerGUI">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="142.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="112.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../zerLi%20logo%20.png" />
          </image>
       </ImageView>
-      <Label layoutX="358.0" layoutY="42.0" prefHeight="48.0" prefWidth="117.0" text="Server">
+      <Label layoutX="329.0" layoutY="35.0" prefHeight="48.0" prefWidth="117.0" text="Server">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Button fx:id="startBtn" layoutX="34.0" layoutY="139.0" mnemonicParsing="false" onAction="#onStartBtn" prefHeight="48.0" prefWidth="90.0" text="Start" />
-      <Button fx:id="Stop" layoutX="34.0" layoutY="226.0" mnemonicParsing="false" onAction="#onStopBtn" prefHeight="48.0" prefWidth="90.0" text="Stop" />
-      <Label layoutX="309.0" layoutY="164.0" text="Port:" />
+      <Button fx:id="startBtn" layoutX="356.0" layoutY="148.0" mnemonicParsing="false" onAction="#onStartBtn" prefHeight="48.0" prefWidth="90.0" text="Start" />
+      <Button fx:id="Stop" layoutX="356.0" layoutY="203.0" mnemonicParsing="false" onAction="#onStopBtn" prefHeight="48.0" prefWidth="90.0" text="Stop" />
+      <Label layoutX="51.0" layoutY="155.0" text="Port:" />
       <Label layoutX="264.0" layoutY="218.0" />
-      <Label layoutX="273.0" layoutY="196.0" text="Username:" />
-      <Label layoutX="275.0" layoutY="227.0" text="Password:" />
-      <TextField fx:id="portField" layoutX="351.0" layoutY="159.0" prefHeight="26.0" prefWidth="90.0" />
-      <TextField fx:id="usernameField" layoutX="351.0" layoutY="191.0" />
-      <Label layoutX="374.0" layoutY="132.0" text="config:" />
-      <TextField fx:id="passwordField" layoutX="351.0" layoutY="222.0" />
-      <Button fx:id="saveBtn" layoutX="374.0" layoutY="261.0" mnemonicParsing="false" onAction="#onSaveBtn" text="save" />
-      <Label fx:id="statusLabel" layoutX="34.0" layoutY="95.0" text="Status:" />
+      <Label layoutX="20.0" layoutY="185.0" text="Username:" />
+      <Label layoutX="23.0" layoutY="215.0" text="Password:" />
+      <TextField fx:id="portField" layoutX="95.0" layoutY="153.0" prefHeight="26.0" prefWidth="50.0" />
+      <TextField fx:id="usernameField" layoutX="95.0" layoutY="183.0" />
+      <Label layoutX="20.0" layoutY="120.0" text="Config:" />
+      <TextField fx:id="passwordField" layoutX="95.0" layoutY="213.0" />
+      <Button fx:id="saveBtn" layoutX="110.0" layoutY="250.0" mnemonicParsing="false" onAction="#onSaveBtn" prefWidth="60.0" text="Save" />
+      <Label fx:id="statusLabel" layoutX="338.0" layoutY="120.0" text="Status:" />
    </children>
 </AnchorPane>

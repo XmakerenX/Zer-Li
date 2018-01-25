@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="406.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.AddSurveyAnalysisToExistingSurveyGUI">
+<AnchorPane prefHeight="406.0" prefWidth="290.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.AddSurveyAnalysisToExistingSurveyGUI">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" text="Adding a result analysis to a specific result" />
-      <Label layoutX="14.0" layoutY="44.0" text="Enter result number:" />
-      <TextField fx:id="resultNumberField" layoutX="126.0" layoutY="40.0" prefHeight="25.0" prefWidth="72.0" />
-      <Button fx:id="searchButton" layoutX="212.0" layoutY="40.0" mnemonicParsing="false" onAction="#onSeachButton" text="Search" />
-      <Button fx:id="cancelButton" layoutX="12.0" layoutY="365.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" />
-      <Button fx:id="addButton" layoutX="212.0" layoutY="365.0" mnemonicParsing="false" onAction="#onAddButton" prefHeight="25.0" prefWidth="52.0" text="Add" />
-      <TextArea fx:id="analysisField" layoutX="12.0" layoutY="118.0" prefHeight="219.0" prefWidth="251.0" />
-      <Label layoutX="14.0" layoutY="92.0" text="Add an analysis:" />
-      <Separator layoutX="-5.0" layoutY="73.0" prefHeight="11.0" prefWidth="280.0" />
-      <Label fx:id="lengthField" layoutX="219.0" layoutY="337.0" text="  0/500" />
+      <Label layoutX="15.0" layoutY="15.0" text="Add result's analysis to a specific result:" />
+      <Label layoutX="15.0" layoutY="45.0" text="Enter result's number:" />
+      <TextField fx:id="resultNumberField" layoutX="133.0" layoutY="43.0" prefHeight="25.0" prefWidth="72.0" />
+      <Button fx:id="searchButton" layoutX="217.0" layoutY="43.0" mnemonicParsing="false" onAction="#onSeachButton" prefWidth="60.0" text="Search" />
+      <Button fx:id="cancelButton" layoutX="15.0" layoutY="365.0" mnemonicParsing="false" onAction="#onCancelButton" prefWidth="60.0" text="Cancel" />
+      <Button fx:id="addButton" layoutX="217.0" layoutY="365.0" mnemonicParsing="false" onAction="#onAddButton" prefHeight="25.0" prefWidth="60.0" text="Add" />
+      <TextArea fx:id="analysisField" layoutX="12.0" layoutY="120.0" prefHeight="219.0" prefWidth="265.0" />
+      <Label layoutX="15.0" layoutY="90.0" text="Write an analysis:" />
+      <Separator layoutX="5.0" layoutY="75.0" prefHeight="11.0" prefWidth="280.0" />
+      <Label fx:id="lengthField" layoutX="225.0" layoutY="340.0" text="  0/500" />
    </children>
 </AnchorPane>

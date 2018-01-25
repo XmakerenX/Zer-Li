@@ -23,7 +23,6 @@ import serverAPI.RemoveRequest;
 import serverAPI.Response;
 import store.Store;
 import user.LoginGUI;
-import user.NewUserCreationGUI;
 import user.UpdateUsersInfoGUI;
 import user.User;
 import user.UserController;

@@ -12,7 +12,6 @@ import survey.ResultInputGUI;
 import survey.SurveyCreationGUI;
 import survey.SurveyExplorerGUI;
 import user.LoginGUI;
-import user.NewUserCreationGUI;
 import user.User;
 import user.UserController;
 

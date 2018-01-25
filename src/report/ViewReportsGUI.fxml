@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -15,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="524.0" prefWidth="436.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.ViewReportsGUI">
+<AnchorPane prefHeight="524.0" prefWidth="436.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.ViewReportsGUI">
    <children>
       <Label fx:id="windowTitleLbl" layoutX="148.0" layoutY="14.0" text="View Report Menu">
          <font>
@@ -29,9 +24,9 @@
       <ComboBox fx:id="yearComboBox" layoutX="111.0" layoutY="173.0" prefWidth="150.0" promptText="[Select year]" />
       <TextArea fx:id="reportViaTextArea" editable="false" layoutX="19.0" layoutY="213.0" prefHeight="240.0" prefWidth="399.0" visible="false" />
       <Button fx:id="viewReportBtn" layoutX="289.0" layoutY="126.0" mnemonicParsing="false" onAction="#onViewReport" prefHeight="40.0" text="View report" />
-      <Button fx:id="backBtn" layoutX="15.0" layoutY="485.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <Label fx:id="reportTypeLbl" layoutX="27.0" layoutY="95.0" text="Report type:" />
-      <ComboBox fx:id="reportTypeComboBox" layoutX="111.0" layoutY="93.0" onAction="#onReportTypeSelection" prefWidth="150.0" promptText="[Select report]" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="485.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
+      <Label fx:id="reportTypeLbl" layoutX="19.0" layoutY="95.0" text="Report's type:" />
+      <ComboBox fx:id="reportTypeComboBox" layoutX="111.0" layoutY="93.0" onAction="#onReportTypeSelection" prefWidth="150.0" promptText="[Select type]" />
       <BarChart fx:id="complaintReportBarChart" alternativeColumnFillVisible="true" barGap="3.0" layoutX="15.0" layoutY="213.0" prefHeight="259.0" prefWidth="408.0" title="Complaint report" visible="false">
         <xAxis>
           <CategoryAxis label="Month" prefHeight="41.0" prefWidth="330.0" side="BOTTOM" />
