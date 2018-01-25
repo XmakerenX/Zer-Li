@@ -3,8 +3,7 @@ package report;
 import java.util.ArrayList;
 
 import client.Client;
-import report.ComplaintReport.Quarterly;
-import report.ComplaintReport.ReportException;
+import report.Report.Quarterly;
 import serverAPI.AddRequest;
 import serverAPI.GetRequestByKey;
 
@@ -49,7 +48,7 @@ public class ReportController {
 	 * @param incomeAmount - amount of income in specific quarterly
 	 * @param client - currently running client
 	 */
-	public static void createNewIncomeReport(report.IncomeReport.Quarterly quarterly, String year, long storeID, float incomeAmount, Client client)
+	public static void createNewIncomeReport(Quarterly quarterly, String year, long storeID, float incomeAmount, Client client)
 	{
 		IncomeReport incomeReport;
 		try {
@@ -74,7 +73,7 @@ public class ReportController {
 	 * @param plantAmount - amount of ordered plants 
 	 * @param client - currently running client
 	 */
-	public static void createNewOrderReport(report.OrderReport.Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,
+	public static void createNewOrderReport(Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,
 			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount, Client client)
 	{
 		OrderReport orderReport;
@@ -101,7 +100,7 @@ public class ReportController {
 	 * @param sixthSurveyAverageResult - average result of the survey's sixth question
 	 * @param client - currently running client
 	 */
-	public static void createNewSurveyReport(report.SurveyReport.Quarterly quarterly, String year, long storeID, long firstSurveyAverageResult, long secondSurveyAverageResult,
+	public static void createNewSurveyReport(Quarterly quarterly, String year, long storeID, long firstSurveyAverageResult, long secondSurveyAverageResult,
 												long thirdSurveyAverageResult, long fourthSurveyAverageResult, long fifthSurveyAverageResult, 
 												long sixthSurveyAverageResult, Client client)
 	{
@@ -124,7 +123,7 @@ public class ReportController {
 	 * @param storeID - specific store's ID
 	 * @param client - currently running client
 	 */
-	public static void getReport(String specificReport, IncomeReport.Quarterly quarterly, String year, long storeID, Client client)
+	public static void getReport(String specificReport, Quarterly quarterly, String year, long storeID, Client client)
 	{
 		ArrayList<String> keys = new ArrayList<String>();
 		keys.add(""+quarterly);

@@ -16,6 +16,7 @@ import client.Client;
 import client.ClientInterface;
 import product.Product;
 import report.IncomeReport;
+import report.Report.Quarterly;
 import report.ReportController;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.Response;
@@ -44,37 +45,25 @@ public class QuarterlyReportCreation extends TimerTask
 		   if(date.equals("01-01") || date.equals("01-03") || date.equals("01-07") || date.equals("01-10") /* || date.equals(formatter.format(cal.getTime()))*/ )
 		   {
 			   String yearForReports=""+year;;
-			   report.IncomeReport.Quarterly incomeQ = report.IncomeReport.Quarterly.FIRST;
-			   report.OrderReport.Quarterly orderQ = report.OrderReport.Quarterly.FIRST;
-			   report.SurveyReport.Quarterly surveyQ = report.SurveyReport.Quarterly.FIRST;
-			   report.ComplaintReport.Quarterly complaintQ = report.ComplaintReport.Quarterly.FIRST;
+			   Quarterly yearQuarter = report.IncomeReport.Quarterly.FIRST;;
 			   //inits the quarters
 			   switch(quarter) {
-				   case 1: 
+				   case 1:
 					   break;
 				   case 2:
-					   incomeQ = report.IncomeReport.Quarterly.SECOND;
-					   orderQ = report.OrderReport.Quarterly.SECOND;
-					   surveyQ = report.SurveyReport.Quarterly.SECOND;
-					   complaintQ = report.ComplaintReport.Quarterly.SECOND;
+					   yearQuarter = report.IncomeReport.Quarterly.SECOND;
 					   break; 
 				   case 3:
-					   incomeQ = report.IncomeReport.Quarterly.THIRD;
-					   orderQ = report.OrderReport.Quarterly.THIRD;
-					   surveyQ = report.SurveyReport.Quarterly.THIRD;
-					   complaintQ = report.ComplaintReport.Quarterly.THIRD;
+					   yearQuarter = report.IncomeReport.Quarterly.THIRD;
 					   break;
 				   case 4:
-					   incomeQ = report.IncomeReport.Quarterly.FOURTH;
-					   orderQ = report.OrderReport.Quarterly.FOURTH;
-					   surveyQ = report.SurveyReport.Quarterly.FOURTH;
-					   complaintQ = report.ComplaintReport.Quarterly.FOURTH;
+					   yearQuarter = report.IncomeReport.Quarterly.FOURTH;
 					   yearForReports = "" + (Integer.valueOf(year)-1);		//means it's last years'
 					   break;
 			   }
 			   //checks whether the reports have already been created, for the first run of the server.
 			   ArrayList<String> keys = new ArrayList<String>();
-			   keys.add(""+complaintQ);
+			   keys.add(""+yearQuarter);
 			   keys.add(yearForReports);
 			   keys.add(""+1);
 			   if(conn.doesExists("ComplaintReport", keys))
@@ -112,45 +101,51 @@ public class QuarterlyReportCreation extends TimerTask
 					 else if(quarter==3) quarterStr = "THIRD";
 					 else quarterStr = "FOURTH";
 					 System.out.println("=====================================\nCreating REPORTS for store :"+stores.get(i));
-								   try {
-									   //Works
-//									   System.out.println("Creating complaint report for store :"+stores.get(i));
-//									   reportData = calculateComplaintReportData(yearForReports, incomeQ, stores.get(i));
-//									   System.out.println(reportData);
-//									   conn.insertData("complaintreport(Quarterly, Year, StoreID, FirstMonthHandledComplaintsAmount, "
-//										   		+ "FirstMonthPendingComplaintsAmount, SecondMonthHandledComplaintsAmount, SecondMonthPendingComplaintsAmount, "
-//										   		+ "ThirdMonthHandledComplaintsAmount, ThirdMonthPendingComplaintsAmount)", "'"+quarterStr+"','"+
-//										   		yearForReports+"',"+stores.get(i)+","+reportData.get(0)+"," +reportData.get(1)+
-//										   		","+reportData.get(2)+","+reportData.get(3)+","+reportData.get(4)+","+
-//										   		reportData.get(5));
+					 try {
+						 //--------------------------------------------------------------
+						 // Create Complaint report
+						 //--------------------------------------------------------------
+						 System.out.println("Creating complaint report for store :"+stores.get(i));
+						 reportData = calculateComplaintReportData(yearForReports, yearQuarter, stores.get(i));
+						 System.out.println(reportData);
+						 conn.insertData("complaintreport(Quarterly, Year, StoreID, FirstMonthHandledComplaintsAmount, "
+								 + "FirstMonthPendingComplaintsAmount, SecondMonthHandledComplaintsAmount, SecondMonthPendingComplaintsAmount, "
+								 + "ThirdMonthHandledComplaintsAmount, ThirdMonthPendingComplaintsAmount)", "'"+quarterStr+"','"+
+										 yearForReports+"',"+stores.get(i)+","+reportData.get(0)+"," +reportData.get(1)+
+										 ","+reportData.get(2)+","+reportData.get(3)+","+reportData.get(4)+","+
+										 reportData.get(5));
 
-									   //Works
-//									   System.out.println("Creating income report for store :"+stores.get(i));
-//									   conn.insertData("prototype.incomereport(Quarterly, Year, StoreID, IncomeAmount)", "'"+quarterStr+"','"+yearForReports+"',"+stores.get(i)+","+calculateIncomeAmount(yearForReports, incomeQ, stores.get(i)));
-									   
-//									   System.out.println("Creating order report for store :"+stores.get(i));
-//									   orderData = calculateOrderData(yearForReports, orderQ);
-//									   ReportController.createNewOrderReport(orderQ, yearForReports, stores.get(i), orderData.get(0), 
-//											   orderData.get(1), orderData.get(2), orderData.get(3), orderData.get(4), 
-//											   orderData.get(5), Client.client);
+						 //--------------------------------------------------------------
+						 // Create Income report
+						 //--------------------------------------------------------------
+						 System.out.println("Creating income report for store :"+stores.get(i));
+						 conn.insertData("prototype.incomereport(Quarterly, Year, StoreID, IncomeAmount)", "'"+quarterStr+"','"+yearForReports+"',"+stores.get(i)+","+calculateIncomeAmount(yearForReports, yearQuarter, stores.get(i)));
 
-									   //Works
-//									   System.out.println("Creating satisfaction report for store :"+stores.get(i));
-//									   surveyResultData = calculateSurveyResultData(yearForReports, surveyQ, stores.get(i));
-//									   System.out.println(surveyResultData);
-//									   conn.insertData("surveyreport(Quarterly, Year, StoreID, FirstSurveyAverageResult, "
-//									   		+ "SecondSurveyAverageResult, ThirdSurveyAverageResult, FourthSurveyAverageResult, "
-//									   		+ "FifthSurveyAverageResult, SixthSurveyAverageResult)", "'"+quarterStr+"','"+
-//									   		yearForReports+"',"+stores.get(i)+","+surveyResultData.get(0)+"," +surveyResultData.get(1)+
-//									   		","+surveyResultData.get(2)+","+surveyResultData.get(3)+","+surveyResultData.get(4)+","+
-//									   		surveyResultData.get(5));
+						 //--------------------------------------------------------------
+						 // Create Order report
+						 //--------------------------------------------------------------
+						 System.out.println("Creating order report for store :"+stores.get(i));
+						 orderData = calculateOrderData(yearForReports, yearQuarter, stores.get(i));
+						 conn.insertData("orderreport","'"+quarterStr+ "'" +  orderData.get(0) + "," + orderData.get(1) + "," + orderData.get(2) + "," +
+								 orderData.get(3) + "," + orderData.get(4) + "," + orderData.get(5));
 
-								   
-								   } 
-								   catch (Exception ex)
-								   		{
-									   		System.out.println("error running thread " + ex.getMessage());
-								   		}
+						 //--------------------------------------------------------------
+						 // Create Satisfaction report
+						 //--------------------------------------------------------------
+						 System.out.println("Creating satisfaction report for store :"+stores.get(i));
+						 surveyResultData = calculateSurveyResultData(yearForReports, yearQuarter, stores.get(i));
+						 System.out.println(surveyResultData);
+						 conn.insertData("surveyreport(Quarterly, Year, StoreID, FirstSurveyAverageResult, "
+								 + "SecondSurveyAverageResult, ThirdSurveyAverageResult, FourthSurveyAverageResult, "
+								 + "FifthSurveyAverageResult, SixthSurveyAverageResult)", "'"+quarterStr+"','"+
+										 yearForReports+"',"+stores.get(i)+","+surveyResultData.get(0)+"," +surveyResultData.get(1)+
+										 ","+surveyResultData.get(2)+","+surveyResultData.get(3)+","+surveyResultData.get(4)+","+
+										 surveyResultData.get(5));
+					 } 
+					 catch (Exception ex)
+					 {
+						 System.out.println("error running thread " + ex.getMessage());
+					 }
 				 }
 		   }
 		   }
@@ -171,7 +166,7 @@ public class QuarterlyReportCreation extends TimerTask
 	    * 						reportData(4) - third month's handled complaints
 	    * 						reportData(5) - third month's not handled complaints
 	    */
-	   ArrayList<Integer> calculateComplaintReportData(String year, report.IncomeReport.Quarterly incomeQ, int store)
+	   public ArrayList<Integer> calculateComplaintReportData(String year, Quarterly incomeQ, int store)
 	   {
 		   ArrayList<Integer> reportData =  new ArrayList<Integer>();
 		   reportData.add(0);
@@ -252,7 +247,7 @@ public class QuarterlyReportCreation extends TimerTask
 		   return reportData;
 	   }
 	 //===============================================================================================================
-	   long calculateIncomeAmount(String year, report.IncomeReport.Quarterly quarter, Integer store)
+	   public long calculateIncomeAmount(String year, Quarterly quarter, Integer store)
 	   {
 		   long income = 0;
 		   String condition;
@@ -265,7 +260,7 @@ public class QuarterlyReportCreation extends TimerTask
 		   else
 			   condition = " and OrderCreationDateTime >= CAST('"+year+"-10-01' AS DATE) and OrderCreationDateTime<= CAST('"+year+"-12-31' AS DATE)";
 		  
-		   ResultSet rs = conn.selectTableData("*", "order", "OrderOriginStore ="+store + condition);
+		   ResultSet rs = conn.selectTableData("*", "Order", "OrderOriginStore ="+store + condition);
 		   try
 			  {
 				  while (rs.next())		//update user's balance
@@ -349,7 +344,7 @@ public class QuarterlyReportCreation extends TimerTask
 	    * 						orderData(4) - flowers ordered
 	    * 						orderData(5) - custom ordered
 	    */
-	   ArrayList<Integer> calculateOrderData(String year, report.OrderReport.Quarterly quarter, int storeID)
+	   public ArrayList<Integer> calculateOrderData(String year, Quarterly quarter, int storeID)
 	   {
 		   ArrayList<Integer> orderData =  new ArrayList<Integer>();
 		   ArrayList<Integer> orderInStore = new ArrayList<Integer>();
@@ -362,14 +357,13 @@ public class QuarterlyReportCreation extends TimerTask
 		   
 		   String condition;
 		   if(quarter == report.OrderReport.Quarterly.FIRST) 
-			   condition = "date >= CAST('"+year+"-01-01' AS DATE) AND date<= CAST('"+year+"-03-31' AS DATE)";
+			   condition = "OrderCreationDateTime >= CAST('"+year+"-01-01' AS DATE) AND OrderCreationDateTime<= CAST('"+year+"-03-31' AS DATE)";
 		   else if(quarter == report.OrderReport.Quarterly.SECOND)
-			   condition = "date >= CAST('"+year+"-04-01' AS DATE) AND date<= CAST('"+year+"-06-31' AS DATE)";
+			   condition = "OrderCreationDateTime >= CAST('"+year+"-04-01' AS DATE) AND OrderCreationDateTime<= CAST('"+year+"-06-31' AS DATE)";
 		   else if(quarter == report.OrderReport.Quarterly.THIRD)
-			   condition = "date >= CAST('"+year+"-07-01' AS DATE) AND date<= CAST('"+year+"-09-31' AS DATE)";
+			   condition = "OrderCreationDateTime >= CAST('"+year+"-07-01' AS DATE) AND OrderCreationDateTime<= CAST('"+year+"-09-31' AS DATE)";
 		   else
-			   condition = "date >= CAST('"+year+"-10-01' AS DATE) AND date<= CAST('"+year+"-12-31' AS DATE)";
-		  
+			   condition = "OrderCreationDateTime >= CAST('"+year+"-10-01' AS DATE) AND OrderCreationDateTime<= CAST('"+year+"-12-31' AS DATE)";
 		   
 		   ResultSet orderRS = conn.selectTableData("OrderID", "Order", "OrderOriginStore="+storeID+" AND "+condition);
 		   try 
@@ -391,12 +385,12 @@ public class QuarterlyReportCreation extends TimerTask
 			   condition = "OrderID" + " = " + orderID;
 
 			   ArrayList<String> tableKeyName = conn.getTableKeyName("Product");
-			   ArrayList<String> joinedTableKeyName = conn.getTableKeyName("ProdcutInOrder");
+			   ArrayList<String> joinedTableKeyName = conn.getTableKeyName("ProductInOrder");
 			   // make the join on the primary key between the tables who should be the same for this to work
 			   // condition  = <table>.<tableKey> = <joinedTable>.<joinedTableKey>;
 			   condition = "Product"+"."+tableKeyName.get(0)+"="
-					   +"ProdcutInOrder"+"."+joinedTableKeyName.get(0) +" AND " + condition;
-			   ResultSet productRS = conn.selectJoinTablesData("*", "Product", "ProdcutInOrder", condition);
+					   +"ProductInOrder"+"."+joinedTableKeyName.get(0) +" AND " + condition;
+			   ResultSet productRS = conn.selectJoinTablesData("*", "Product", "ProductInOrder", condition);
 			   
 			   try 
 			   {
@@ -404,10 +398,11 @@ public class QuarterlyReportCreation extends TimerTask
 				   {
 					   String productType = productRS.getString("ProductType".toLowerCase());
 					   
+					   System.out.println(productType);
 					   switch(productType)
 					   {
 					   
-					   case "bonquet":
+					   case "bouquet":
 						   numBouquetsOrdered++;
 						   break;
 						   

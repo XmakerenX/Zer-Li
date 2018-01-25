@@ -3,27 +3,12 @@ package report;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import report.OrderReport.Quarterly;
-import report.OrderReport.ReportException;
-
 /**
  * This class includes attributes that are needed for complaints' report at the end of quarterly
  */
 
-public class ComplaintReport implements Serializable{
-	
-	public class ReportException extends Exception {
-
-		public ReportException(String message) {
-			super(message);
-		}
-	}
-	
-	public enum Quarterly {FIRST/* Months: 1-3 */, SECOND/* Months: 4-6 */, THIRD/* Months: 7-9 */, FOURTH/* Months: 10-12 */};
-	
-	private Quarterly quarterly;
-	private String year;
-	private long storeID;
+public class ComplaintReport extends Report{
+		
 	private long firstMonthHandledComplaintsAmount;
 	private long firstMonthPendingComplaintsAmount;
 	private long secondMonthHandledComplaintsAmount;
@@ -32,11 +17,9 @@ public class ComplaintReport implements Serializable{
 	private long thirdMonthPendingComplaintsAmount;
 
 	public ComplaintReport(Quarterly quarterly, String year, long storeID, long firstMonthHandled, long firstMonthPending,
-			long secondMonthHandled, long secondMonthPending, long thirdMonthHandled, long thirdMonthPending) throws ReportException{
-		
-		this.quarterly = quarterly;
-		this.year = year;
-		this.storeID = storeID;
+			long secondMonthHandled, long secondMonthPending, long thirdMonthHandled, long thirdMonthPending) throws ReportException
+	{
+		super(quarterly, year, storeID);
 		this.firstMonthHandledComplaintsAmount = firstMonthHandled;
 		this.firstMonthPendingComplaintsAmount = firstMonthPending;
 		this.secondMonthHandledComplaintsAmount = secondMonthHandled;
@@ -45,37 +28,7 @@ public class ComplaintReport implements Serializable{
 		this.thirdMonthPendingComplaintsAmount = thirdMonthPending;
 		
 	}
-	
-	public Quarterly getQuarterly() {
-		return quarterly;
-	}
-	
-	public void setQuarterly(Quarterly quarterly) {
-		this.quarterly = quarterly;
-	}
-	
-	public String getYear() {
-		return year;
-	}
-	
-	public void setYear(String year) throws ReportException{
-		if (Integer.parseInt(year) > 0)
-			this.year = year;
-		else
-			throw new ReportException("Entered year is invalid!");
-	}
-	
-	public long getStoreID() {
-		return storeID;
-	}
-	
-	public void setStoreID(long storeID) throws ReportException{
-		if(storeID > 0)
-			this.storeID = storeID;
-		else
-			throw new ReportException("Entered store's ID is invalid!");
-	}
-	
+		
 	public long getFirstMonthHandledComplaintsAmount() {
 		return firstMonthHandledComplaintsAmount;
 	}

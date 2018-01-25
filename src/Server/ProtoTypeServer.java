@@ -16,6 +16,7 @@ import ocsf.server.ConnectionToClient;
 import order.CustomItemInOrder;
 import order.Order;
 import product.Product;
+import report.OrderReport;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
 import serverAPI.GetCustomItemRequest;
@@ -806,9 +807,11 @@ public class ProtoTypeServer extends AbstractServer {
 	        else
 	        	quarterForReports = 3;
 	        
+	        
 	        //getting current year:
 	        int year = now.get(Calendar.YEAR);
 	        String yearInString = String.valueOf(year);
+	        
 	        // Start running the task on Monday at 15:40:00, period is set to 8 hours
 	        // if you want to run the task immediately, set the 2nd parameter to 0
 	        time.schedule(new QuarterlyReportCreation(quarterForReports, yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));

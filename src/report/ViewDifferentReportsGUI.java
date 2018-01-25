@@ -25,7 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import networkGUI.NetworkManagerGUI;
 import networkGUI.StoreManagerGUI;
 import prototype.FormController;
-import report.OrderReport.Quarterly;
+import report.Report.Quarterly;
 import serverAPI.Response;
 import user.User;
 
@@ -180,7 +180,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				case "Income":
 				{
 	
-					ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("IncomeReport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
 					
 					try
 			    	{
@@ -211,7 +211,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("IncomeReport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
 					
 					try
 			    	{
@@ -326,7 +326,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Survey":
 				{
-					ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("SurveyReport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
 					
 					try
 			    	{
@@ -365,7 +365,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("SurveyReport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
 					
 					try
 			    	{
@@ -408,7 +408,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Complaint":
 				{
-					ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("ComplaintReport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
 					
 					try
 			    	{
@@ -461,7 +461,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("ComplaintReport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
 					
 					try
 			    	{
@@ -636,7 +636,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     		storeNameList.add(storeName);
 
 
-    	for(IncomeReport.Quarterly quarterly : IncomeReport.Quarterly.values())
+    	for(Quarterly quarterly : Quarterly.values())
     	{
     		temporaryString = handleSplittedStringFromDataBase(""+quarterly);
     		quarterlies.add(""+temporaryString);

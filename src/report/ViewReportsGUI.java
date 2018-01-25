@@ -22,7 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import networkGUI.StoreManagerGUI;
 import prototype.FormController;
-import report.OrderReport.Quarterly;
+import report.Report.Quarterly;
 import serverAPI.Response;
 import user.User;
 
@@ -118,7 +118,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				case "Income":
 				{
 	
-					ReportController.getReport("IncomeReport", IncomeReport.Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("IncomeReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{
@@ -154,7 +154,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Order":
 				{
-					ReportController.getReport("OrderReport", IncomeReport.Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("OrderReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{
@@ -198,7 +198,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Survey":
 				{
-					ReportController.getReport("SurveyReport", IncomeReport.Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("SurveyReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{
@@ -242,7 +242,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Complaint":
 				{
-					ReportController.getReport("ComplaintReport", IncomeReport.Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("ComplaintReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
 					
 					try
 			    	{
@@ -416,7 +416,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
     	ArrayList<String> quarterlies = new ArrayList<String>();
     	
 
-    	for(IncomeReport.Quarterly quarterly : IncomeReport.Quarterly.values())
+    	for(Quarterly quarterly : Quarterly.values())
     	{
     		temporaryString = handleSplittedStringFromDataBase(""+quarterly);
     		quarterlies.add(""+temporaryString);

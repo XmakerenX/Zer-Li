@@ -2,28 +2,12 @@ package report;
 
 import java.io.Serializable;
 
-import report.IncomeReport.Quarterly;
-import report.IncomeReport.ReportException;
-
 /**
  * This class includes attributes that are needed for orders' report at the end of quarterly
  */
 
-public class OrderReport implements Serializable{
-	
-
-	public class ReportException extends Exception {
-
-		public ReportException(String message) {
-			super(message);
-		}
-	}
-	
-	public enum Quarterly {FIRST/* Months: 1-3 */, SECOND/* Months: 4-6 */, THIRD/* Months: 7-9 */, FOURTH/* Months: 10-12 */};
-	
-	private Quarterly quarterly;
-	private String year;
-	private long storeID;
+public class OrderReport extends Report{
+		
 	private long totalOrdersAmount;
 	private long bouquetAmount;
 	private long brideBouquetAmount;
@@ -32,11 +16,9 @@ public class OrderReport implements Serializable{
 	private long plantAmount;
 	
 	public OrderReport(Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,
-			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount) throws ReportException{
-
-		this.quarterly = quarterly;
-		this.year = year;
-		this.storeID = storeID;
+			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount) throws ReportException
+	{
+		super(quarterly, year, storeID);
 		this.totalOrdersAmount = totalOrdersAmount;
 		this.bouquetAmount = bouquetAmount;
 		this.brideBouquetAmount = brideBouquetAmount;
@@ -44,37 +26,7 @@ public class OrderReport implements Serializable{
 		this.flowerAmount = flowerAmount;
 		this.plantAmount = plantAmount;
 	}
-	
-	public Quarterly getQuarterly() {
-		return quarterly;
-	}
-	
-	public void setQuarterly(Quarterly quarterly) {
-		this.quarterly = quarterly;
-	}
-	
-	public String getYear() {
-		return year;
-	}
-	
-	public void setYear(String year) throws ReportException{
-		if (Integer.parseInt(year) > 0)
-			this.year = year;
-		else
-			throw new ReportException("Entered year is invalid!");
-	}
-	
-	public long getStoreID() {
-		return storeID;
-	}
-	
-	public void setStoreID(long storeID) throws ReportException{
-		if(storeID > 0)
-			this.storeID = storeID;
-		else
-			throw new ReportException("Entered store's ID is invalid!");
-	}
-	
+		
 	public long getTotalOrdersAmount() {
 		return totalOrdersAmount;
 	}
