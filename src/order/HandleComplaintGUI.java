@@ -8,6 +8,7 @@ import client.ClientInterface;
 import customer.Customer;
 import customer.CustomerController;
 import prototype.FormController;
+import serverAPI.GetRequestWhere;
 import serverAPI.Response;
 import user.User;
 import user.UserController;
@@ -45,9 +46,11 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     @FXML
     private TextField orderPriceTextFiled;
   //===============================================================================================================
+    
     @FXML
     void onHandleButton(ActionEvent event) {
-    	
+    	try
+    	{
     	System.out.println(complaint);
 		Alert alert = new Alert(AlertType.WARNING, "Are you sure the complaint has been taken care of?", ButtonType.YES, ButtonType.NO);
 		alert.showAndWait();
@@ -59,7 +62,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 			
 			else
 				complaint.setComplaintCompensation(0);
-	    	OrderComplaintController.handleOrderComplaint(String.valueOf(complaint.getComplaintID()), complaint);
+	    	OrderComplaintController.handleOrderComplaint(String.valueOf(complaint.getComplaintID()), complaint.getOrderComplaint());
 	    	waitForServerResponse();
 	    	if(response.getType() == Response.Type.SUCCESS)			//updating complaint in data base success
 	    	{
@@ -73,8 +76,37 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 		    		waitForServerResponse();
 		    		if(response.getType() == Response.Type.SUCCESS)				//refunding succeed
 		    		{
-		    			Alert alert2 = new Alert(AlertType.CONFIRMATION, "A refund has been issued successfuly!", ButtonType.OK);
-			    		alert2.showAndWait();
+		    			OrderController.getOrdersOfaUser(Long.toString(complaint.getCustomerID()));
+		    			
+		    			
+		    			waitForServerResponse();
+		    			System.out.println("");
+		    			
+		    			
+		    			ArrayList<Order> customerOrders = (ArrayList<Order>)response.getMessage();
+		    			
+		    			Order myOrder = null;
+		    			for(Order o : customerOrders)
+		    			{
+		    				if(o.getID() == complaint.getOrderID())
+		    				{
+		    					myOrder = o;
+		    				}
+		    			}
+		    			myOrder.setRefund(Float.valueOf(refundTextField.getText()));
+		    			OrderController.updateOrder(myOrder.orderID, myOrder);
+			    		waitForServerResponse();
+
+			    		if(response.getType() == Response.Type.SUCCESS)
+						{
+			    			Alert alert2 = new Alert(AlertType.CONFIRMATION, "A refund has been issued successfuly!", ButtonType.OK);
+			    			alert2.showAndWait();
+						}
+						else
+						{
+			    			Alert alert2 = new Alert(AlertType.ERROR, "Could not update Order refund", ButtonType.OK);
+				    		alert2.showAndWait();
+						}
 		    			//clearing response
 			    		response = null;
 		    		}
@@ -104,6 +136,12 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 	    		response = null;
 	    	}
 		} else return;
+    	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    		throw e;
+    	}
     }
     //===============================================================================================================
 

@@ -33,7 +33,7 @@ public class OrderComplaintView extends OrderComplaint{
 	public OrderComplaintView(OrderComplaint complaint) {
 		super(complaint.getComplaintID(), complaint.getCustomerID(), complaint.getCustomerName(), complaint.getCustomerPhoneNum(), complaint.getStoreID(), 
 				complaint.getComplaintDescription(), complaint.getComplaintDate(), complaint.getComplaintTime(), complaint.getComplaintCompensation(),
-				complaint.getMaxCompensationAmount(), complaint.getComplaintStatus());
+				complaint.getMaxCompensationAmount(), complaint.getComplaintStatus(),complaint.getOrderID());
 		// TODO Auto-generated constructor stub
 		this.selectButton = new ComplaintViewButton(this, "Select");
 	}
@@ -51,7 +51,7 @@ public class OrderComplaintView extends OrderComplaint{
 		{
 			OrderComplaint complaint = new OrderComplaint(getComplaintID(), getCustomerID(), getCustomerName(), getCustomerPhoneNum(), getStoreID(), 
 					getComplaintDescription(), getComplaintDate(), getComplaintTime(), getComplaintCompensation(), 
-					getMaxCompensationAmount(), getComplaintStatus());
+					getMaxCompensationAmount(), getComplaintStatus(),this.getOrderID());
 			return complaint;
 		}
 }

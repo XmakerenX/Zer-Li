@@ -75,13 +75,18 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	priceColumn.setCellValueFactory(new PropertyValueFactory("Price"));
     	selectCulomn.setCellValueFactory(new PropertyValueFactory("SelectButton"));
     	
+    	
     	newComplaintCreationGUI = FormController.<NewComplaintCreationGUI, AnchorPane>loadFXML(getClass().getResource("/order/NewComplaintCreationGUI.fxml"), this);
     	initOrderTableContent(Long.toString(customer.getID()));
     }
-  public String getStoreAddress() {
+    //==============================================================================================================
+    public String getStoreAddress() 
+    {
 		return StoreAddress;
 	}
-	public void setStoreAddress(String storeAddress) {
+    //==============================================================================================================
+	public void setStoreAddress(String storeAddress) 
+	{
 		StoreAddress = storeAddress;
 	}
 	//==============================================================================================================
@@ -199,16 +204,13 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   				
   				newComplaintCreationGUI.setCustomer(customer);
   				newComplaintCreationGUI.setOrder(order);
-  				
-  				
+  	
   				newComplaintCreationGUI.setUser(user);
   				getClient().setUI(newComplaintCreationGUI);
   				newComplaintCreationGUI.setClinet(Client.client);
   				
     			FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
-  				
-  				
-  				
+  								
   			}
   	    }
   	};	

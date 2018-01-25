@@ -26,10 +26,10 @@ public class OrderComplaintController {
  * @param maxCompensationAmount
  */
 	public static void addNewComplaint(long customerID, String name, String phone, String complaint, LocalDate date, String time, 
-			int storeID, float maxCompensationAmount)
+			int storeID, float maxCompensationAmount,int orderID)
 	{		
-		OrderComplaint newComplaint = new OrderComplaint(customerID, name, phone, complaint, date, time, storeID, maxCompensationAmount);
-		Client.client.handleMessageFromClientUI(new AddRequest("orderComplaint", newComplaint));
+		OrderComplaint newComplaint = new OrderComplaint(customerID, name, phone, complaint, date, time, storeID, maxCompensationAmount,orderID);
+		Client.client.handleMessageFromClientUI(new AddRequest("ordercomplaint", newComplaint));
 	}
 	//===============================================================================================================
 	/**
@@ -37,7 +37,7 @@ public class OrderComplaintController {
 	 */
 	public static void getActiveComplaints()
 	{
-		Client.client.handleMessageFromClientUI(new GetRequestWhere("orderComplaint", "status", "NEW"));
+		Client.client.handleMessageFromClientUI(new GetRequestWhere("ordercomplaint", "status", "NEW"));
 	}
 	//===============================================================================================================
 	/**
@@ -47,6 +47,6 @@ public class OrderComplaintController {
 	 */
 	public static void handleOrderComplaint(String key, OrderComplaint orderComplaint)
 	{
-		Client.client.handleMessageFromClientUI(new UpdateRequest("orderComplaint", key, orderComplaint));
+		Client.client.handleMessageFromClientUI(new UpdateRequest("ordercomplaint", key, orderComplaint));
 	}
 }

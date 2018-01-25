@@ -48,7 +48,7 @@ public class EntityAdder {
 		case "Customers":
 			return addCustomer((Customer)entity, db);
 			
-		case "orderComplaint":
+		case "ordercomplaint":
 			return addOrderComplaint((OrderComplaint)entity, db);
 		
 	    case "ComplaintReport":
@@ -292,15 +292,16 @@ public class EntityAdder {
 			float maxConpensation = complaint.getMaxCompensationAmount();
 			String complaintStatus = "'"+complaint.getComplaintStatus()+"'";
 			String storeID = "" + complaint.getStoreID();
-			
+			String orderID = "" + complaint.getOrderID();
 			try
 			{
-			db.insertData("orderComplaint", null + "," + personID + "," + name +"," + phone + "," + storeID + "," + complaintTxt + "," + "'" + sqlDate + "'" + ","
-					+ time + "," + null + "," + maxConpensation  + "," +  complaintStatus);
+			db.insertData("ordercomplaint", null + "," + personID + "," + name +"," + phone + "," + storeID + "," + complaintTxt + "," + "'" + sqlDate + "'" + ","
+					+ time + "," + null + "," + maxConpensation  + "," +  complaintStatus+ ","+orderID);
 				return true;
 			}
 			catch(Exception e)
 			{
+				e.printStackTrace();
 				return false;
 			}
 		}

@@ -10,6 +10,14 @@ import java.time.LocalDate;
 public class OrderComplaint implements Serializable 
 {
 	private long complaintID;
+	public int getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+
 	private long customerID;
 	private String complaintDescription;
 	private LocalDate complaintDate;
@@ -20,10 +28,12 @@ public class OrderComplaint implements Serializable
 	private int storeID;
 	private String customerPhoneNum;
 	private String customerName;
-	
+	private int  orderID;
+
+
 	//A constructor for adding a new complaint to the date base
 	public OrderComplaint(long customerID, String name, String phone, String complaint, LocalDate date, String time, 
-			int storeID, float maxCompensationAmount)
+			int storeID, float maxCompensationAmount,int complaintOrderID)
 	{
 		setCustomerID(customerID);
 		setComplaintDescription(complaint);
@@ -34,11 +44,12 @@ public class OrderComplaint implements Serializable
 		setComplaintStatus("NEW");
 		setCustomerName(name);
 		setCustomerPhoneNum(phone);
+		setOrderID(complaintOrderID);
 	}
 	
 	//A constructor for receiving complaint info from data base
 	public OrderComplaint(long complaintID, long customerID, String name, String phone, int storeID, String complaint, LocalDate date, String time, 
-			float amountOfCompensation, float maxCompensationAmount, String complaintStatus)
+			float amountOfCompensation, float maxCompensationAmount, String complaintStatus ,int complaintOrderID)
 	{
 		setComplaintID(complaintID);
 		setCustomerID(customerID);
@@ -51,6 +62,7 @@ public class OrderComplaint implements Serializable
 		setMaxCompensationAmount(maxCompensationAmount);
 		setCustomerName(name);
 		setCustomerPhoneNum(phone);
+		setOrderID(complaintOrderID);
 	}
 
 	public long getComplaintID() {
@@ -145,7 +157,7 @@ public class OrderComplaint implements Serializable
 	{
 		OrderComplaint complaint = new OrderComplaint(getComplaintID(), getCustomerID(), getCustomerName(), getCustomerPhoneNum(), getStoreID(), 
 				getComplaintDescription(), getComplaintDate(), getComplaintTime(), getComplaintCompensation(), 
-				getMaxCompensationAmount(), getComplaintStatus());
+				getMaxCompensationAmount(), getComplaintStatus(),getOrderID());
 		return complaint;
 	}
 	

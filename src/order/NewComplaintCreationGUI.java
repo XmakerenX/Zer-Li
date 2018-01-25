@@ -41,10 +41,12 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 	Order order;
 	User user;
 	Response response=null;
-	
     //===============================================================================================================
 
-	 @FXML
+	 public Order getOrder() {
+		return order;
+	}
+	@FXML
     private Button cancelButton;
 
 	 @FXML
@@ -97,15 +99,18 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
     }
     //===============================================================================================================
     @FXML
-    void onCreateButton(ActionEvent event) {
+    void onCreateButton(ActionEvent event) 
+    {
     	System.out.println(customer.getStoreID());
     	String complaint = complaintBodyTextField.getText();
+    	
     	if(!complaint.isEmpty()) 
     	{
 	    	LocalDate todayLocalDate = LocalDate.now();
 	    	String time = new SimpleDateFormat("HH:mm").format(new Date());
-	    	OrderComplaintController.addNewComplaint(customer.getID(), customer.getName(), customer.getPhoneNumber(), complaint, todayLocalDate, time, (int)order.getOrderOriginStore(),order.getPrice());
+	    	OrderComplaintController.addNewComplaint(customer.getID(), customer.getName(), customer.getPhoneNumber(), complaint, todayLocalDate, time, (int)order.getOrderOriginStore(),order.getPrice(),order.getID());
 	    	waitForServerResponse();
+	    	
 	    	if(response.getType() == Response.Type.SUCCESS)
 	    	{
 	    		Alert alert = new Alert(AlertType.CONFIRMATION, "Complaint added!", ButtonType.OK);

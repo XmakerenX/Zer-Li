@@ -37,7 +37,7 @@ public class EntityUpdater {
 				setCustomerSatisfactionSurveyResult(oldKey, (CustomerSatisfactionSurveyResults)entity, db);
 				break;
 				
-			case "orderComplaint":
+			case "ordercomplaint":
 				setOrderComplaint(oldKey, (OrderComplaint)entity, db);
 				
 			case "Order":
@@ -129,6 +129,6 @@ public class EntityUpdater {
 		String compensationValue = "givenCompensationAmount= "+order.getComplaintCompensation();
 		String status = "status = 'CLOSED'";
 		String condition = "id=" + order.getComplaintID();
-		db.executeUpdate("orderComplaint", compensationValue + "," + status, condition);
+		db.executeUpdate("ordercomplaint", compensationValue + "," + status, condition);
 	}
 }

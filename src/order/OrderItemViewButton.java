@@ -9,7 +9,8 @@ import javafx.scene.control.Button;
 	*  This class creates an observable button
 	*/
 //*************************************************************************************************
-public class OrderItemViewButton extends Observable {
+public class OrderItemViewButton extends Observable 
+{
 	private Button button;
 	private Object orderItem;
 	private OrderView origin;
