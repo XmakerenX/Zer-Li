@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import client.Client;
 import prototype.FormController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that allow to the see the products in a certain order
+	*/
+//*************************************************************************************************
 public class ViewProductInOrder extends FormController {
 
 	private Stage windowStage;
@@ -40,22 +45,22 @@ public class ViewProductInOrder extends FormController {
     @FXML
     private Button closeBtn;
 
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
-  	*  Called by FXMLLoader on class initialization 
-  	*/
-//*************************************************************************************************
+     *  Called by FXMLLoader on class initialization 
+     */
+    //*************************************************************************************************
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
     	InitTableView();
     }
     
-  //*************************************************************************************************
+    //*************************************************************************************************
     /**
-  	*  Initializes the Table View to be compatible with the product class (get and set class values)
-  	*/
-//*************************************************************************************************
+     *  Initializes the Table View to be compatible with the product class (get and set class values)
+     */
+    //*************************************************************************************************
     protected void InitTableView()
     {
     	nameCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,TextArea>("nameArea"));
@@ -64,11 +69,23 @@ public class ViewProductInOrder extends FormController {
     	greetingCardCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
     }
     
+	//*************************************************************************************************
+    /**
+  	*  Closes this window
+  	*  @param e the event that triggered this function
+  	*/
+	//*************************************************************************************************
     @FXML
     void onClose(ActionEvent event) {
     	windowStage.hide();
     }
 	
+    //*************************************************************************************************
+    /**
+     *  loads the given productsInOrder to the Table View
+     *  @param productsInOrder the products to show in the table View
+     */
+    //*************************************************************************************************
     public void loadProducts(ArrayList<ProductInOrder> productsInOrder)
     {
     	final ObservableList<OrderItemView> observableProducts = FXCollections.observableArrayList();
@@ -82,14 +99,20 @@ public class ViewProductInOrder extends FormController {
     	this.productsTable.setItems(observableProducts);
     }
     
+    //*************************************************************************************************
+    /**
+     *  Sets the associated window Stage with this form
+     *  @param windowStage the windowStage for this window
+     */
+    //*************************************************************************************************
+	public void setWindowStage(Stage windowStage) {
+		this.windowStage = windowStage;
+	}
+    
 	@Override
 	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
 
-	}
-	
-	public void setWindowStage(Stage windowStage) {
-		this.windowStage = windowStage;
 	}
 
 }

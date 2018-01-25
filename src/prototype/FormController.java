@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.net.URL;
 import client.Client;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+//*************************************************************************************************
+	/**
+	*  The abstract base class for all FormControllers 
+	*  provides many common methods for the controllers
+	*/
+//*************************************************************************************************
 public abstract class FormController {
 
 	protected static Stage primaryStage;
@@ -23,19 +27,34 @@ public abstract class FormController {
 	
 	public abstract void onSwitch(Client newClient);
 	
-	
-	
-	
+    //*************************************************************************************************
+    /**
+     * Sets the primaryStage for all the forms
+  	*  @param newPrimaryStage the primary Stage be set
+  	*/
+    //*************************************************************************************************
 	public static void setPrimaryStage(Stage newPrimaryStage)
 	{
 		primaryStage = newPrimaryStage;
 	}
 	
+	//*************************************************************************************************
+    /**
+     * Returns the primary Stage
+  	*  @return the primary Stage
+  	*/
+    //*************************************************************************************************
 	public static Stage getPrimaryStage()
 	{
 		return primaryStage;
 	}
 	
+    //*************************************************************************************************
+    /**
+     * Sets the scene to used by this form
+  	*  @param scene the scene be set
+  	*/
+    //*************************************************************************************************
 	public void setScene(Scene scene)
 	{
 		thisScene = scene;
@@ -43,11 +62,23 @@ public abstract class FormController {
 		primaryStage.setResizable(false);
 	}
 	
+	//*************************************************************************************************
+    /**
+     * Returns the scene used by this form
+  	*  @return  the scene used by this form
+  	*/
+    //*************************************************************************************************
 	public Scene getScene()
 	{
 		return thisScene;
 	}
 	
+    //*************************************************************************************************
+    /**
+     * Sets the parent form for this form
+  	*  @param parent the parent form of this form
+  	*/
+    //*************************************************************************************************
 	public void setParent(FormController parent)
 	{
 		this.parent = parent;
@@ -58,12 +89,23 @@ public abstract class FormController {
 		this.client = client;
 	}
 	
+    //*************************************************************************************************
+    /**
+     * Load an fxml file and initialize it's controller with his scene and parent 
+  	*  @param res The url path for the fxml file
+  	*  @param parent the form parent form
+  	*  @param <ControllerType> the type of the form controller , need to extend FormController(this class)
+  	*  @param <PaneType> the type of the root element for the fxml that 
+  	*  @return the initialized controller for the loaded fxml form
+  	*/
+    //*************************************************************************************************
 	public static <ControllerType extends FormController, PaneType extends Pane> ControllerType loadFXML(URL res, FormController parent)
 	{
 		try
 		{
 			FXMLLoader loader = new FXMLLoader(res);
 			
+			@SuppressWarnings("unchecked")
 			PaneType root = (PaneType)loader.load();
 			ControllerType controller = loader.<ControllerType>getController();
 			controller.setParent(parent);
