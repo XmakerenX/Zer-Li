@@ -5,6 +5,8 @@ package order;
  */
 public class OrderException extends Exception 
 {
+	private static final long serialVersionUID = -529768004639113854L;
+
 	public OrderException(String message)
 	{
 		super(message);

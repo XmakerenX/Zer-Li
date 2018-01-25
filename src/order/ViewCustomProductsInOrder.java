@@ -16,6 +16,11 @@ import javafx.stage.Stage;
 import product.Product;
 import prototype.FormController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that allow to see the custom items in a certain order
+	*/
+//*************************************************************************************************
 public class ViewCustomProductsInOrder extends FormController {
 
 	private Stage windowStage;
@@ -42,22 +47,22 @@ public class ViewCustomProductsInOrder extends FormController {
     private Button closeBtn;
     
 
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
-  	*  Called by FXMLLoader on class initialization 
-  	*/
-//*************************************************************************************************
+     *  Called by FXMLLoader on class initialization 
+     */
+    //*************************************************************************************************
     @FXML
     public void initialize(){
         //Will be called by FXMLLoader
     	InitTableView();
     }
     
-  //*************************************************************************************************
+    //*************************************************************************************************
     /**
-  	*  Initializes the Table View to be compatible with the product class (get and set class values)
-  	*/
-//*************************************************************************************************
+     *  Initializes the Table View to be compatible with the product class (get and set class values)
+     */
+    //*************************************************************************************************
     protected void InitTableView()
     {
     	nameCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,TextArea>("nameArea"));
@@ -67,11 +72,23 @@ public class ViewCustomProductsInOrder extends FormController {
     	viewCol.setCellValueFactory( new PropertyValueFactory<CustomItemInOrderView,Button>("viewBtn"));
     }
     
+	//*************************************************************************************************
+    /**
+  	*  Closes this window
+  	*  @param e the event that triggered this function
+  	*/
+	//*************************************************************************************************
     @FXML
     void onClose(ActionEvent event) {
     	windowStage.hide();
     }
 	
+    //*************************************************************************************************
+    /**
+     *  loads the given customInOrder to the Table View
+     *  @param customInOrder the custom products to show in the table View
+     */
+    //*************************************************************************************************
     public void loadCustomProducts(ArrayList<CustomItemInOrder> customInOrder)
     {
     	final ObservableList<CustomItemInOrderView> observableProducts = FXCollections.observableArrayList();
@@ -83,6 +100,12 @@ public class ViewCustomProductsInOrder extends FormController {
     	this.productsTable.setItems(observableProducts);
     }
 	    
+    //*************************************************************************************************
+    /**
+     *  Sets the associated window Stage with this form
+     *  @param windowStage the windowStage for this window
+     */
+    //*************************************************************************************************
 	public void setWindowStage(Stage windowStage) {
 		this.windowStage = windowStage;
 	}

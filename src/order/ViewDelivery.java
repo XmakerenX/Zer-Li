@@ -8,16 +8,15 @@ import javafx.stage.Stage;
 import client.Client;
 import prototype.FormController;
 
+//*************************************************************************************************
+	/**
+	*  Provides a GUI that allow to see the order delivery information
+	*/
+//*************************************************************************************************
 public class ViewDelivery extends FormController {
 
 	private Stage windowStage;
-	
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
-	
+		
     @FXML
     private TextField addressTxt;
 
@@ -30,11 +29,23 @@ public class ViewDelivery extends FormController {
     @FXML
     private Button closeBtn;
 
+	//*************************************************************************************************
+    /**
+  	*  Closes this window
+  	*  @param e the event that triggered this function
+  	*/
+	//*************************************************************************************************
     @FXML
     void onClose(ActionEvent event) {
     	windowStage.hide();
     }
     
+    //*************************************************************************************************
+    /**
+     *  loads the given deliveryInfo to the text Fields
+     *  @param deliveryInfo the delivery information to present
+     */
+    //*************************************************************************************************
     public void loadDeliveryInfo(Order.DeliveryInfo deliveryInfo)
     {
     	this.addressTxt.setText(deliveryInfo.deliveryAddress);
@@ -42,8 +53,20 @@ public class ViewDelivery extends FormController {
     	this.reciverPhoneNumberTxt.setText(deliveryInfo.getReceiverPhoneNumber());
     }
     
+    //*************************************************************************************************
+    /**
+     *  Sets the associated window Stage with this form
+     *  @param windowStage the windowStage for this window
+     */
+    //*************************************************************************************************
 	public void setWindowStage(Stage windowStage) {
 		this.windowStage = windowStage;
+	}
+	
+	@Override
+	public void onSwitch(Client newClient) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
