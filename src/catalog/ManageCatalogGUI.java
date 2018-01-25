@@ -1,10 +1,7 @@
 package catalog;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.TreeSet;
-
 import catalog.EditableCatalogItemView.editableCatalogItemViewButton;
 import client.Client;
 import client.ClientInterface;
@@ -13,32 +10,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import networkGUI.NetworkWorkerGUI;
 import product.EditableProductView.EditableProductViewButton;
 import product.*;
 import prototype.FormController;
-import serverAPI.GetEmployeeStoreRequest;
-import serverAPI.GetRequest;
-import serverAPI.RemoveRequest;
 import serverAPI.Response;
-import user.LoginGUI;
 import user.User;
-import user.UserController;
-import user.User.Permissions;
 import utils.ImageData;
 
 //*************************************************************************************************
@@ -51,7 +37,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	
 	    ClientInterface ManageCatInterface = this;
 		Response response;
-		Client myClient;
+		//Client myClient;
 		User myUser;
 		int storeID;
 		int employeeStoreID;
@@ -144,6 +130,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				newWindow.initOwner(FormController.primaryStage);
 		    	newWindow.initModality(Modality.WINDOW_MODAL);  
 				newWindow.setScene(createProductGUI.getScene());
+				createProductGUI.setWindowStage(newWindow);
 				newWindow.showAndWait();
 				getClient().setUI(ManageCatInterface);
 			}
@@ -156,7 +143,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		 */
 		private Client getClient()
 		{
-			return this.client;
+			return Client.client;
 		}
 		/*
 		 * function to allow setting of user
@@ -179,7 +166,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	
 		    	getClient().setUI(editProdGUI);
 		    	
-		    	editProdGUI.setClinet( myClient);
+		    	editProdGUI.setClinet( Client.client );
 		    	newWindow.initOwner(FormController.primaryStage);
 		    	newWindow.initModality(Modality.WINDOW_MODAL);  
 		    	newWindow.setScene(editProdGUI.getScene());
@@ -189,7 +176,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	
 		    	getClient().setUI(ManageCatInterface);
 		    	
-		    	//if result from edition was success(Meaning we manged to edit it in the database):
+		    	//if result from edition was success(Meaning we managed to edit it in the database):
 		    	//update table
 		    	if(editProdGUI.response.getType().name().equals("SUCCESS"))
 		    	{
@@ -267,7 +254,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			    		{
 			    			EditableProductViewButton src = (EditableProductViewButton)e.getSource();
 			    			String id =Long.toString(src.getOrigin().getID());
-		    				ProdcutController.removeProductFromDataBase(id,myClient);
+		    				ProdcutController.removeProductFromDataBase(id, Client.client);
 		    				
 		    				waitForResponse();
 		    				
@@ -290,7 +277,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			    			   {
 			    				   if(Long.toString(eci.getID()).equals(id))
 			    				   {
-			    				    CatalogController.removeCatalogProductFromDataBase(eci.getID(), eci.getStoreID(),myClient);
+			    				    CatalogController.removeCatalogProductFromDataBase(eci.getID(), eci.getStoreID(), Client.client);
 			    				   }	    				   
 			    			   }
 			    			   initProductsTableContent();
@@ -321,7 +308,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 						{
 			    			long prodID = selectedItem.getID();
 			    			int storeID = selectedItem.getStoreID();
-							CatalogController.removeCatalogProductFromDataBase(prodID, storeID, myClient);
+							CatalogController.removeCatalogProductFromDataBase(prodID, storeID, Client.client);
 							
 							//wait for server Response:
 							waitForResponse();
@@ -494,8 +481,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    private void requestProductsAndWait()
 	    {
 	    	//this.client.handleMessageFromClientUI(new GetRequest("Product"));
-	    	myClient = this.client;
-	    	ProdcutController.requestProducts(this.client);
+	    	ProdcutController.requestProducts(Client.client);
 	    	waitForResponse();
 	    }
 //---------------------------------------------------------------------------------------

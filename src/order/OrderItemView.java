@@ -56,7 +56,8 @@ public class OrderItemView extends CatalogItem {
 	    	newWindow.initOwner(FormController.getPrimaryStage());
 	    	newWindow.initModality(Modality.WINDOW_MODAL);  
 	    	newWindow.setScene(editProdGUI.getScene());
-	    	editProdGUI.initWindow(prod);
+	    	editProdGUI.initWindowReadOnly(prod);
+	    	editProdGUI.setWindowStage(newWindow);
 	    	newWindow.requestFocus();     
 	    	newWindow.showAndWait();
 	    }

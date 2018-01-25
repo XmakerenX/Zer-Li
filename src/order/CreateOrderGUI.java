@@ -4,8 +4,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.Observable;
-import java.util.Observer;
 import catalog.CatalogGUI;
 import catalog.CatalogItemView;
 import client.Client;
@@ -19,8 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
@@ -33,9 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.web.WebView;
-import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
 
@@ -80,7 +74,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     private TableColumn<OrderItemView, TextArea> greetingCardCol;
     
     @FXML
-	protected TableColumn<OrderItemView, OrderItemViewButton> removeCol;
+	protected TableColumn<OrderItemView, Button> removeCol;
 
     @FXML
 	protected TableColumn<OrderItemView, Button> viewCol;
@@ -224,7 +218,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	
     	priceCol.setCellValueFactory( new PropertyValueFactory<OrderItemView,WebView>("SalePriceView"));
     	greetingCardCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,TextArea>("greetingCard"));
-    	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,OrderItemViewButton>("removeBtn"));
+    	removeCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,Button>("removeBtn"));
     	viewCol.setCellValueFactory(new PropertyValueFactory<OrderItemView,Button>("viewBtn"));
     	
     	this.orderTable.setEditable(false);

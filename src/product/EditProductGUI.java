@@ -55,6 +55,25 @@ public class EditProductGUI extends NewProductCreationGUI
 		});*/
 	}
 	
+	//*************************************************************************************************
+    /**
+     * Init the EditProductGUI to be read only showing the product given 
+  	*  @param prod the product information to load 
+  	*/
+    //*************************************************************************************************
+	public void initWindowReadOnly(Product prod)
+	{
+		initWindow(prod);
+		this.backBtn.setVisible(true);
+		this.amountFIeld.setEditable(false);
+		this.nameFIeld.setEditable(false);
+		this.idField.setEditable(false);
+		this.priceField.setEditable(false);
+		this.colorComboBox.setDisable(true);
+		this.createProductBtn.setVisible(false);
+		this.typeComboBox.setDisable(true);
+	}
+	
 	@FXML
     void onCreateProduct(ActionEvent event) 
     {

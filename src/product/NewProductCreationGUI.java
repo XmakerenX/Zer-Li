@@ -11,12 +11,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import networkGUI.NetworkWorkerGUI;
 import javafx.scene.control.Button;
@@ -24,7 +20,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import product.*;
 import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 
@@ -36,6 +31,8 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 
 	public Response response;
 	ChangeListener idFieldChangeListener;
+	
+	private Stage windowStage;
 
 	
 	
@@ -208,9 +205,10 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     @FXML
     void onBack(ActionEvent event) 
     {
-    	NetworkWorkerGUI netWorkerGUI = (NetworkWorkerGUI)parent;
-    	client.setUI(netWorkerGUI);
-    	FormController.primaryStage.setScene(parent.getScene());
+    	windowStage.hide();
+//    	NetworkWorkerGUI netWorkerGUI = (NetworkWorkerGUI)parent;
+//    	client.setUI(netWorkerGUI);
+//    	FormController.primaryStage.setScene(parent.getScene());
     }
 
     @FXML
@@ -374,6 +372,16 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 		{
 			this.notifyAll();
 		}
+	}
+	
+    //*************************************************************************************************
+    /**
+     *  Sets the associated window Stage with this form
+     *  @param windowStage the windowStage for this window
+     */
+    //*************************************************************************************************
+	public void setWindowStage(Stage windowStage) {
+		this.windowStage = windowStage;
 	}
 
 }
