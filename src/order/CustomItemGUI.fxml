@@ -6,27 +6,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="536.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
+<AnchorPane prefHeight="545.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
    <children>
-      <Label layoutX="128.0" layoutY="14.0" text="Create Custom Item">
+      <Label layoutX="140.0" layoutY="15.0" text="Create Custom Item">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="130.0" layoutY="73.0" text="Item Type" />
-      <ComboBox fx:id="itemTypeCbx" layoutX="233.0" layoutY="73.0" prefWidth="150.0" />
-      <Label layoutX="126.0" layoutY="120.0" text="Price Range" />
-      <TextField fx:id="rangeMin" layoutX="233.0" layoutY="118.0" prefHeight="26.0" prefWidth="55.0" />
-      <TextField fx:id="rangeMax" layoutX="328.0" layoutY="118.0" prefHeight="26.0" prefWidth="55.0" />
-      <Label layoutX="305.0" layoutY="108.0" text="-">
+      <Label layoutX="130.0" layoutY="75.0" text="Item's type:" />
+      <ComboBox fx:id="itemTypeCbx" layoutX="215.0" layoutY="73.0" prefWidth="150.0" promptText="[Select type]" />
+      <Label layoutX="129.0" layoutY="115.0" text="Price range:" />
+      <TextField fx:id="rangeMin" layoutX="215.0" layoutY="113.0" prefHeight="25.0" prefWidth="55.0" />
+      <TextField fx:id="rangeMax" layoutX="310.0" layoutY="113.0" prefHeight="25.0" prefWidth="55.0" />
+      <Label layoutX="283.0" layoutY="100.0" text="-">
          <font>
             <Font size="31.0" />
          </font>
       </Label>
-      <Label layoutX="126.0" layoutY="161.0" text="Dominate Color" />
-      <ComboBox fx:id="dominateColorCbx" layoutX="236.0" layoutY="156.0" prefWidth="150.0" />
-      <Button fx:id="CreateCustomItemBtn" layoutX="161.0" layoutY="199.0" mnemonicParsing="false" onAction="#onCreateCustomItem" text="Create Custom Item" />
-      <TableView fx:id="customTable" layoutX="16.0" layoutY="245.0" prefHeight="200.0" prefWidth="441.0">
+      <Label layoutX="106.0" layoutY="155.0" text="Dominate color:" />
+      <ComboBox fx:id="dominateColorCbx" layoutX="215.0" layoutY="153.0" prefWidth="150.0" promptText="[Select color]" />
+      <Button fx:id="CreateCustomItemBtn" layoutX="175.0" layoutY="202.0" mnemonicParsing="false" onAction="#onCreateCustomItem" prefWidth="125.0" text="Create Custom Item" />
+      <TableView fx:id="customTable" layoutX="15.0" layoutY="245.0" prefHeight="200.0" prefWidth="441.0">
         <columns>
           <TableColumn fx:id="nameCol" prefWidth="201.0" text="Name" />
           <TableColumn fx:id="priceCol" prefWidth="78.0" text="Price" />
@@ -34,14 +34,14 @@
             <TableColumn fx:id="amountCol" prefWidth="91.0" text="Amount" />
         </columns>
       </TableView>
-      <Button fx:id="orderCustomItemBtn" layoutX="165.0" layoutY="489.0" mnemonicParsing="false" onAction="#onOrderCustomItem" text="Order Custom Item" />
-      <Button fx:id="backBtn" layoutX="16.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <Label layoutX="14.0" layoutY="453.0" text="Custom Item Price :">
+      <Button fx:id="orderCustomItemBtn" layoutX="175.0" layoutY="500.0" mnemonicParsing="false" onAction="#onOrderCustomItem" prefWidth="125.0" text="Order Custom Item" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="500.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
+      <Label layoutX="15.0" layoutY="455.0" text="Custom item price :">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="totalPrice" layoutX="194.0" layoutY="453.0" prefHeight="21.0" prefWidth="262.0">
+      <Label fx:id="totalPrice" layoutX="194.0" layoutY="455.0" prefHeight="21.0" prefWidth="262.0">
          <font>
             <Font size="18.0" />
          </font>

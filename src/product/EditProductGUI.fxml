@@ -6,34 +6,34 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="303.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="product.EditProductGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="295.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="product.EditProductGUI">
 
    <children>
 
-      <Label fx:id="descriptionLbl" layoutX="26.0" layoutY="19.0" text="Please enter new product details" />
+      <Label fx:id="descriptionLbl" layoutX="20.0" layoutY="15.0" text="Enter new product's details:" />
 
-      <TextField fx:id="idField" layoutX="70.0" layoutY="50.0" />
+      <TextField fx:id="idField" layoutX="85.0" layoutY="53.0" prefWidth="160.0" />
 
-      <TextField fx:id="nameFIeld" layoutX="70.0" layoutY="80.0" />
+      <TextField fx:id="nameFIeld" layoutX="85.0" layoutY="83.0" prefWidth="160.0" />
 
-      <TextField fx:id="priceField" layoutX="72.0" layoutY="141.0" />
+      <TextField fx:id="priceField" layoutX="85.0" layoutY="143.0" prefWidth="160.0" />
 
-      <Label fx:id="idLbl" layoutX="45.0" layoutY="57.0" text="id:" />
+      <Label fx:id="idLbl" layoutX="66.0" layoutY="55.0" text="ID:" />
 
-      <Label fx:id="nameLbl" layoutX="23.0" layoutY="85.0" text="name:" />
+      <Label fx:id="nameLbl" layoutX="46.0" layoutY="85.0" text="Name:" />
 
-      <Label fx:id="typeLbl" layoutX="29.0" layoutY="115.0" text="type:" />
+      <Label fx:id="typeLbl" layoutX="53.0" layoutY="115.0" text="Type:" />
 
-      <Label fx:id="priceLbl" layoutX="22.0" layoutY="146.0" text="price:" />
+      <Label fx:id="priceLbl" layoutX="50.0" layoutY="145.0" text="Price:" />
 
-      <Button fx:id="createProductBtn" layoutX="181.0" layoutY="249.0" mnemonicParsing="false" onAction="#onCreateProduct" text="Create product" />
+      <Button fx:id="createProductBtn" layoutX="180.0" layoutY="255.0" mnemonicParsing="false" onAction="#onCreateProduct" prefWidth="100.0" text="Create product" />
 
-      <Button fx:id="backBtn" layoutX="15.0" layoutY="251.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <ComboBox fx:id="typeComboBox" layoutX="70.0" layoutY="110.0" prefHeight="26.0" prefWidth="171.0" />
-      <Label fx:id="colorLbl" layoutX="24.0" layoutY="215.0" text="color:" />
-      <Label fx:id="amountLbl" layoutX="12.0" layoutY="174.0" text="amount:" />
-      <TextField fx:id="amountFIeld" layoutX="72.0" layoutY="177.0" />
-      <ComboBox fx:id="colorComboBox" layoutX="72.0" layoutY="210.0" prefHeight="26.0" prefWidth="171.0" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="255.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
+      <ComboBox fx:id="typeComboBox" layoutX="85.0" layoutY="113.0" prefHeight="25.0" prefWidth="160.0" promptText="[Select type]" />
+      <Label fx:id="colorLbl" layoutX="49.0" layoutY="205.0" text="Color:" />
+      <Label fx:id="amountLbl" layoutX="35.0" layoutY="175.0" text="Amount:" />
+      <TextField fx:id="amountFIeld" layoutX="85.0" layoutY="173.0" prefWidth="160.0" />
+      <ComboBox fx:id="colorComboBox" layoutX="85.0" layoutY="203.0" prefHeight="25.0" prefWidth="160.0" promptText="[Select color]" />
 
    </children>
 
