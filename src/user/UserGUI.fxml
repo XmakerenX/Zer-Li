@@ -10,44 +10,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="408.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.LoginGUI">
+<AnchorPane prefHeight="450.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.LoginGUI">
    <children>
-      <TextField fx:id="usernameTxt" layoutX="45.0" layoutY="163.0">
+      <TextField fx:id="usernameTxt" layoutX="70.0" layoutY="163.0">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <Label layoutX="95.0" layoutY="135.0" text="Username:">
+      <Label layoutX="120.0" layoutY="135.0" text="Username:">
          <font>
             <Font size="15.0" />
          </font></Label>
-      <Label layoutX="97.0" layoutY="200.0" text="Password:">
+      <Label layoutX="122.0" layoutY="200.0" text="Password:">
          <font>
             <Font size="15.0" />
          </font></Label>
-      <PasswordField fx:id="passwordTxt" layoutX="45.0" layoutY="224.0">
+      <PasswordField fx:id="passwordTxt" layoutX="70.0" layoutY="224.0">
          <font>
             <Font size="15.0" />
          </font></PasswordField>
-      <Button fx:id="loginBtn" layoutX="98.0" layoutY="300.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="35.0" prefWidth="60.0" text="Login">
-         <font>
-            <Font size="15.0" />
-         </font></Button>
-      <Button fx:id="registerInfo" layoutX="68.0" layoutY="345.0" mnemonicParsing="false" onAction="#registerInfo" prefHeight="35.0" prefWidth="120.0" text="How to register?" />
-      <ImageView fx:id="logo" fitHeight="102.0" fitWidth="241.0" layoutX="13.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="loginBtn" layoutX="80.0" layoutY="300.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="35.0" prefWidth="140.0" text="Login" textAlignment="CENTER" textFill="#2e2f2e" wrapText="true" />
+      <Button fx:id="registerInfo" layoutX="79.0" layoutY="345.0" mnemonicParsing="false" onAction="#registerInfo" prefHeight="35.0" prefWidth="140.0" text="How to register?" />
+      <ImageView fx:id="logo" fitHeight="102.0" fitWidth="241.0" layoutX="48.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../zerLi%20logo%20.png" />
          </image>
       </ImageView>
-      <RadioButton fx:id="rememberMeBtn" layoutX="78.0" layoutY="265.0" mnemonicParsing="false" onAction="#onRememberMe" text="Remember me" />
-      <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="19.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
+      <RadioButton fx:id="rememberMeBtn" layoutX="98.0" layoutY="265.0" mnemonicParsing="false" onAction="#onRememberMe" text="Remember me" />
+      <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="44.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../user.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="29.0" fitWidth="28.0" layoutX="19.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="29.0" fitWidth="28.0" layoutX="44.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pass.png" />
          </image>
       </ImageView>
+      <Button fx:id="changeServerIP" layoutX="78.0" layoutY="391.0" mnemonicParsing="false" onAction="#changeServerIP" prefHeight="35.0" prefWidth="140.0" text="Change server ip" />
    </children>
 </AnchorPane>
