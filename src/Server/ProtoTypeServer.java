@@ -44,7 +44,6 @@ import utils.Config;
 import utils.EntityAdder;
 import utils.EntityChecker;
 import utils.EntityFactory;
-import utils.EntityRemover;
 import utils.EntityUpdater;
 import utils.ImageData;
 
@@ -535,7 +534,7 @@ public class ProtoTypeServer extends AbstractServer {
 			  {
 			  
 				  RemoveRequest removeRequest =  (RemoveRequest)request;
-				  Boolean result = EntityRemover.removeEntity(removeRequest.getTable(), removeRequest.getKey(), db);
+				  Boolean result = db.removeEntry(removeRequest.getTable(), removeRequest.getKey());
 				  if(result)
 				  {
 					  sendToClient(client, new Response(Response.Type.SUCCESS, "entry with key:"+removeRequest.getKey() +
