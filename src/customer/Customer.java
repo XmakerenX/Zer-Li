@@ -2,9 +2,6 @@ package customer;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
-
-import user.User.UserException;
 
 //*************************************************************************************************
 	/**
@@ -13,7 +10,12 @@ import user.User.UserException;
 //*************************************************************************************************
 public class Customer implements Serializable {
 	
+
+	private static final long serialVersionUID = 1L;
+
 	public class  CustomerException extends Exception {
+
+		private static final long serialVersionUID = 1L;
 
 		public CustomerException(String message)
 		{

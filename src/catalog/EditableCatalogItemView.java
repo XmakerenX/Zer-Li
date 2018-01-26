@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import product.CatalogItem;
-import product.Product;
 
 
 
@@ -20,13 +19,9 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 {
 	public class editableCatalogItemViewButton extends Button implements Serializable
 	{
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 1L;
-		/**
-		 * 
-		 */
+
 		CatalogItem origin;
 		public editableCatalogItemViewButton(String buttonName,CatalogItem Origin)
 		{
@@ -34,32 +29,26 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 			this.origin = Origin;
 		}
 	}
-     /**
-	 * 
-	 */
 												 
 	private static final long serialVersionUID = -4645756625966051562L;
-
-	/**
-	 * 
-	 */
 
 	public ImageView getImageView() 
      {
 		return imageView;
 	}
+	
     String stringSalePrice;
     
     public String getStringSalePrice()
     {
     	float salePrice = super.getSalePrice();
-    	if(super.getSalePrice() == -1)
+    	if(salePrice == -1)
     	{
     		return "none";
     	}
     	else
     	{
-    		return Float.toString(super.getSalePrice());
+    		return Float.toString(salePrice);
     	}
     }
     
@@ -67,11 +56,11 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
     {
     	this.stringSalePrice = stringSalePrice;
     }
+    
 	public void setImageView(ImageView imageView) 
 	{
 		this.imageView = imageView;
 	}
-
 
 	ImageView imageView;
      
@@ -86,44 +75,36 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 		  imageView = new ImageView(image);
 		  imageView.setFitHeight(64);
 		  imageView.setFitWidth(64);
-		  
-				 
+		 
 	}
+	
 	ImageView image;
+	
 	public ImageView getImage() {
 		return image;
 	}
-
 
 	public void setImage(ImageView image) {
 		this.image = image;
 	}
 
-
 	public editableCatalogItemViewButton getRemoveButton() {
 		return removeButton;
 	}
-
 
 	public void setRemoveButton(editableCatalogItemViewButton removeButton) {
 		this.removeButton = removeButton;
 	}
 
-
 	public editableCatalogItemViewButton getEditButton() {
 		return editButton;
 	}
-
 
 	public void setEditButton(editableCatalogItemViewButton editButton) {
 		this.editButton = editButton;
 	}
 
-
 	editableCatalogItemViewButton removeButton = new editableCatalogItemViewButton("Remove",this);
 	editableCatalogItemViewButton editButton = new editableCatalogItemViewButton("Edit",this);
-
-
-	
 
 }

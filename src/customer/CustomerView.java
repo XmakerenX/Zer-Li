@@ -1,23 +1,24 @@
 package customer;
 
-import java.util.ArrayList;
-
-import client.Client;
 import javafx.scene.control.Button;
-import product.EditableProductView;
-import serverAPI.GetRequestByKey;
 
 
 //*************************************************************************************************
 	/**
-	*  The class that holds the data of the customer to be shown in gui  
+	*  The class that holds the data of the customer to be shown in GUI  
 	*/
 //*************************************************************************************************
 
 public class CustomerView extends Customer
 {
+
+	private static final long serialVersionUID = 1L;
+	
 	String StoreAddress;
 	//===========================================================================================================
+	/**
+	 * Subclass that holds the data the customer view
+	 */
 	public class CustomerViewButton extends Button
 	{
 		CustomerView origin;
@@ -35,6 +36,11 @@ public class CustomerView extends Customer
 	//===========================================================================================================
 	private CustomerViewButton selectButton;
 	
+	/**
+	 * Customer's view constructor
+	 * @param customer - specific customer
+	 * @throws CustomerException
+	 */
 	public CustomerView(Customer customer)throws CustomerException
 	{
 		super(customer.getID(), customer.getStoreID(), customer.getName(), customer.getPhoneNumber(), 
@@ -52,6 +58,9 @@ public class CustomerView extends Customer
 		this.selectButton = button;
 	}
 	//===========================================================================================================
+	/**
+	 * Prints customer's view in to console
+	 */
 	public String toString()
 	{
 		return "CustomerView: name: "+this.getName()+" ,phone: "+

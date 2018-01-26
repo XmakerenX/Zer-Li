@@ -76,7 +76,6 @@ public class CatalogItemView extends CatalogItem
 	/**
 	*  Creates a new CatalogItemView with the following parameters
 	*  @param catalogItem The catalogItem item to copy
-	*  //TODO: remember wtf was this var
 	*  @param imagesDir The images directory
 	*/
 	//*************************************************************************************************
@@ -118,7 +117,7 @@ public class CatalogItemView extends CatalogItem
 
 	//*************************************************************************************************
 	/**
-	*  Return if this Item checkbox was selected  
+	*  Return if this Item check box was selected  
 	*/
 	//*************************************************************************************************
 	public boolean isSelected() {

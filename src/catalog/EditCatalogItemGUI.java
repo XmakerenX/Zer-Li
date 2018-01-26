@@ -1,55 +1,12 @@
 package catalog;
 
-import java.util.ArrayList;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import client.Client;
-import client.ClientInterface;
-import customer.CustomerGUI;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.converter.NumberStringConverter;
-import order.CreateOrderGUI;
 import product.CatalogItem;
-import product.Product;
-import prototype.FormController;
-import serverAPI.Response;
 import serverAPI.UploadImageRequest;
-import user.LoginGUI;
 import utils.ImageData;
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 //*************************************************************************************************
 	/**
 	*  Provides a GUI that enable editing a catalog's store
@@ -59,6 +16,10 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 {
 	CatalogItem eCatProd;
 	
+	/**
+	 * Initiates window's fields
+	 * @param eCatalogProd - selected product from catalog
+	 */
 	public void initWindow(CatalogItem eCatalogProd)
 	{
 		eCatProd = eCatalogProd;
@@ -78,6 +39,10 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 
 	}
 	
+	 /**
+     * Approves the input and adds product to catalog with image and sale, if they were chosen
+     * @param event - "OK" button is clicked
+     */
 	  @FXML
 	    void okBTN(ActionEvent event) 
 	    {	
@@ -99,7 +64,6 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 	    			salesPrice = -1; //default value meaning there is not sale on the catalog item
 	    		}
 	    		
-	    			String imagePath;
 		    		byte[] checkSum;
 		    		String ImageName;
 		    		
@@ -135,18 +99,9 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 						{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
-						
-			    		
-					}
-		    		
-		    		
-		    	
-	
-	    			
-	    			
-	    		}
-	    			
+						}	
+					}	
+	    		}		
 	    }		
 	    		
 	    		
@@ -170,7 +125,7 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 	
     //----------------------------------------
     /*
-     * prints which fields are missing in the gui form
+     * prints which fields are missing in the GUI form
      */
     private void printErrorMessege()
     {
@@ -188,16 +143,12 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
     		missingField+=",Image";
     	}
     	if(!missingField.equals(""))
-    	{
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-    		alert.setContentText("Form is not fully filled, please enter the \nfollowing fields: "+missingField);
-    		alert.showAndWait();
-    	}
-    
+    		showErrorMessage("Form is not fully filled, please enter the \nfollowing fields: ");
+
     }
     //------------------------------------------
     /*
-     * return true if input is valid(meaning none is missing)
+     * returns true if input is valid(meaning none is missing)
      * else false
      */
     private boolean isInputValid()
@@ -213,6 +164,5 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
     	}
     	return true;
     }
-	
-	
+
 }
