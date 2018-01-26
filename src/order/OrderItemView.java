@@ -4,6 +4,8 @@ import java.io.File;
 import java.text.DecimalFormat;
 import catalog.CatalogItemView;
 import client.Client;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -90,6 +92,20 @@ public class OrderItemView extends CatalogItem {
 		greetingCard = new TextArea();
 		greetingCard.setWrapText(true);
 		greetingCard.setPrefHeight(64);
+
+		greetingCard.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, 
+					String newValue) 
+			{
+				int inputLength = newValue.length();
+				if(inputLength <= 100) 
+					greetingCard.setText(newValue);
+				else
+					greetingCard.setText(oldValue);
+			}
+		});
+		
 		removeBtn = new Button("remove");
 		removeBtn.setUserData(this);
 		//removeBtn = new OrderItemViewButton(this, "remove");
