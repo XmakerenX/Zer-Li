@@ -1,17 +1,12 @@
 package utils;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import Server.DBConnector;
 import customer.Customer;
-import customer.Customer.PayType;
 import order.CustomItemInOrder;
 import order.Order;
 import order.OrderComplaint;
@@ -21,7 +16,6 @@ import report.ComplaintReport;
 import report.IncomeReport;
 import report.OrderReport;
 import report.SurveyReport;
-import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
 import user.User;
 

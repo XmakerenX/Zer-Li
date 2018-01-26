@@ -1,9 +1,12 @@
 package order;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import catalog.CatalogGUI;
 import catalog.CatalogItemView;
 import client.Client;
@@ -399,6 +402,66 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 		return true;
     }
     
+	//*************************************************************************************************
+    /**
+  	*  Verify that the Date Time of the order is entered correctly
+  	*  prints error message if some field is wrong
+  	*  @return true for everything is entered OK.
+  	*  		   false for there is an error in one of the fields
+  	*/
+	//*************************************************************************************************
+    private boolean verifyDateTimeInformation()
+    {
+    	// verify hour 
+    	if (this.hourTxt.getText().trim().equals(""))
+    	{
+    		showErrorMessage("Please fill the Order Time textfield");
+    		return false;
+    	}
+    	
+    	// verify mins
+    	if (this.minsTxt.getText().trim().equals(""))
+    	{
+    		showErrorMessage("Please fill the Order Time textfield");
+    		return false;
+    	}
+    	
+    	// load current time
+    	Calendar currentTime = Calendar.getInstance();
+    	// load orderRequiredDateTime
+    	Calendar orderRequiredDateTime;
+    	LocalDate orderDate = this.date.getValue();
+    	String orderTime = this.hourTxt.getText() + ":" + this.minsTxt.getText();
+		String[] time = orderTime.trim().split(":");
+		orderRequiredDateTime = new GregorianCalendar(orderDate.getYear(), orderDate.getMonth().getValue() - 1, orderDate.getDayOfMonth(),
+				Integer.parseInt(time[0]), Integer.parseInt(time[1]));
+    	
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
+		// verify valid orderRequiredDateTime
+    	if (orderRequiredDateTime.before(currentTime))
+    	{
+    		String timeSring =  sdf.format(currentTime.getTime());
+    		showErrorMessage("Please enter Time after the current time : " + timeSring);
+    		return false;
+    	}
+    	// current + 3 hours
+    	currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10800000);
+    	
+		// warn about rounding up of the order time 
+    	if (orderRequiredDateTime.before(currentTime))
+    	{
+    		
+    		ButtonType result = showConfirmationDialog("Change in Order Date Time", "The Store can only guarantee supply"
+    				+ " of your order in 3 hours from the current time , you order will be ready in "
+    				+ sdf.format(currentTime.getTime()) + " Do you accept ?");
+    		
+    		if (result.equals(ButtonType.NO))
+    			return false;
+    	}
+    	
+    	return true;
+    }
+    
     //*************************************************************************************************
     /**
   	*  Creates a new Order
@@ -416,13 +479,16 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	{
     		if (verifyDeliveryInformation())
     		{
-    			deliveryAddress= this.addressTxt.getText();
-    			receiverName = this.receiverNameTxt.getText();
-    			receiverPhoneNumber = this.receiverPhoneTxt.getText();
+    			deliveryAddress     = addressTxt.getText();
+    			receiverName        = receiverNameTxt.getText();
+    			receiverPhoneNumber = receiverPhoneTxt.getText();
     		}
     		else
     			return;
     	}
+    	
+    	if (!verifyDateTimeInformation())
+    		return;
     	
     	String orderTime = this.hourTxt.getText() + ":" + this.minsTxt.getText();
     	Order.PayMethod payMethod = (Order.PayMethod)this.payMethod.getSelectedToggle().getUserData();
