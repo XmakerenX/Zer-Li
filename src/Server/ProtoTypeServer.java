@@ -698,7 +698,7 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param username
 	   * @param pass
 	   */
-	  public static void updateConfigFile(String configPath,String port,String username,String pass)
+	  public static void updateServerConfigFile(String configPath,String port,String username,String pass)
 	  {
 		  Config serverConfig = new Config(configPath);
 		  FileOutputStream out;

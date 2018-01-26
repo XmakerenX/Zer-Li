@@ -3,6 +3,7 @@ package prototype;
 import java.io.IOException;
 import java.util.ArrayList;
 import client.Client;
+import client.ClientInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.layout.AnchorPane;
@@ -25,7 +26,6 @@ public class Main extends Application
 	{
 		try
 		{
-			initClient();
 			openNewClientGui(primaryStage);
 		}
 		catch(IOException e)
@@ -41,15 +41,16 @@ public class Main extends Application
 	/**
 	 * Initialize Client from config file (client.properties)
 	 * and open connection to server
+	 * @throws IOException 
 	 */
 	//*************************************************************************************************
-	private void initClient()
+	public static void initClient(ClientInterface controller) throws IOException
 	{
 		ArrayList<Object> args = parseArgs();
 		
 		String host = (String) args.get(0);
 		int port = (int) args.get(1);
-		
+		System.out.println("Trying to connect to "+host+":"+port);
 				try
 				{
 					//client = new Client(host, port);
@@ -58,8 +59,9 @@ public class Main extends Application
 				catch(IOException e)
 				{
 					System.out.println("Failed to connect to "+host+":"+port);
-					System.exit(0);
+					throw e;
 				}
+				Client.client.setUI(controller);
 	}
 	
 	//*************************************************************************************************
@@ -73,22 +75,19 @@ public class Main extends Application
 	 */
 	//*************************************************************************************************
 	private void openNewClientGui(Stage primaryStage) throws IOException
-	{
-				System.out.println("Hi, how are you ?");
-				
+	{				
 				FormController.primaryStage = primaryStage;
 				//MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
 				LoginGUI controller = FormController.<LoginGUI, AnchorPane>loadFXML(getClass().getResource("/user/UserGUI.fxml"), null);
 				//ShowProductController controller = FormController.<ShowProductController, BorderPane>loadFXML(getClass().getResource("ShowProduct.fxml"), null);
 				
 				
-				Client.client.setUI(controller);
-				controller.setClinet(Client.client);
+				
 				//controller.initData(client);
 
 				primaryStage.setScene(controller.getScene());
 				primaryStage.setTitle("Prototype");
-
+				
 
 				primaryStage.show();
 	}
@@ -111,7 +110,7 @@ public class Main extends Application
 	 * @return an ArrayList holding the host ip and port of the server
 	 */
 	//*************************************************************************************************	
-	protected ArrayList<Object> parseArgs()
+	protected static ArrayList<Object> parseArgs()
 	{
 		String serverIP;
 		String serverPort;

@@ -22,11 +22,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.swing.event.HyperlinkEvent.EventType;
 
@@ -83,8 +86,9 @@ public class LoginGUI extends FormController implements ClientInterface  {
     private Button registerInfo;    
     @FXML
     //Will be called by FXMLLoader
-    public void initialize(){
-
+    public void initialize()
+    {
+    	
     	userConf = new Config("user.properties");
     	rememberSelect = userConf.getProperty("REMEMBER").equals("TRUE");
     	
@@ -103,6 +107,50 @@ public class LoginGUI extends FormController implements ClientInterface  {
         	usernameTxt.setText(userConf.getProperty("USERNAME"));
         	passwordTxt.setText(userConf.getProperty("PASSWORD"));
         	
+    	}
+    	
+    }
+    
+    @FXML
+    private Button changeServerIP;
+
+    @FXML
+    void changeServerIP(ActionEvent event) 
+    {
+    	String serverIP;
+		String serverPort;
+		
+		Config clientConf = new Config("client.properties");
+
+
+		serverIP =clientConf.getProperty("SERVER_IP").trim();
+		
+		
+    	TextInputDialog dialog = new TextInputDialog();
+    	dialog.setTitle("Server ip changing");
+    	dialog.setContentText("This numbers are critical as they guide the computer\nas to where to connect.\nDont change it unless told to by zerli");
+    	dialog.setHeaderText("Please enter the new serverIP:\n");
+    	
+    	// Traditional way to get the response value.
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent())
+    	{
+    		FileOutputStream out =null;
+    		try {
+				out = new FileOutputStream("client.properties");
+				 clientConf.configFile.setProperty("SERVER_IP",result.get().toString());
+		    	    clientConf.configFile.store(out, null);
+		    	    out.close();
+			} catch (Exception e) 
+    		{
+				e.printStackTrace();
+
+				// TODO Auto-generated catch block
+				Alert mAlert = new Alert(Alert.AlertType.ERROR);
+				mAlert.setContentText("Failed to update serverip.\nPlease call our customer service for help.");
+				mAlert.showAndWait();
+			}
+    	   
     	}
     	
     }
@@ -132,6 +180,20 @@ public class LoginGUI extends FormController implements ClientInterface  {
     @FXML
     void onLogin(ActionEvent event) 
     {   
+    	
+    	try
+    	{
+		prototype.Main.initClient(this);
+    	}
+    	catch(Exception e)
+    	{
+    		Alert couldntConnectAlert = new Alert(Alert.AlertType.ERROR);
+    		couldntConnectAlert.setContentText("Failed to connect to the zerli server.\nCall customer service to make sure \nthat you are using the correct server ip.");
+    		couldntConnectAlert.showAndWait();
+    		return;
+    	}
+    	
+    	
     	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), Client.client);
     	
     	
