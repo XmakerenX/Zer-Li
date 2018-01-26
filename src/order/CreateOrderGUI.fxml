@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="690.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CreateOrderGUI">
+<AnchorPane prefHeight="690.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CreateOrderGUI">
    <children>
       <Label layoutX="300.0" layoutY="10.0" text="Create Order">
          <font>
@@ -30,11 +34,11 @@
             <TableColumn fx:id="viewCol" prefWidth="57.0" />
         </columns>
       </TableView>
-      <Label layoutX="25.0" layoutY="375.0" text="Order total price = ">
+      <Label layoutX="25.0" layoutY="375.0" text="Order total price  = ">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="totalPrice" layoutX="212.0" layoutY="375.0" prefHeight="21.0" prefWidth="286.0">
+      <Label fx:id="totalPrice" layoutX="200.0" layoutY="375.0" prefHeight="21.0" prefWidth="286.0">
          <font>
             <Font size="18.0" />
          </font></Label>
