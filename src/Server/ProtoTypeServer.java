@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
-
 import customer.Customer;
 import customer.CustomerController;
 import ocsf.server.AbstractServer;
@@ -16,7 +15,6 @@ import ocsf.server.ConnectionToClient;
 import order.CustomItemInOrder;
 import order.Order;
 import product.Product;
-import report.OrderReport;
 import serverAPI.AddRequest;
 import serverAPI.CheckExistsRequest;
 import serverAPI.GetCustomItemRequest;
@@ -28,7 +26,6 @@ import serverAPI.GetRequestByKey;
 import serverAPI.GetRequestWhere;
 import serverAPI.ImageRequest;
 import serverAPI.LoginRequest;
-import serverAPI.LogoutRequest;
 import serverAPI.RemoveOrderRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.Request;
@@ -53,9 +50,9 @@ public class ProtoTypeServer extends AbstractServer {
 	  final public static int DEFAULT_PORT = 5555;
 	  private DBConnector db;
 	
-	  //-----------------------------------------------------------------
+	  //*************************************************************************************************
 	  // Constructors 
-	  //-----------------------------------------------------------------
+	  //*************************************************************************************************
 	  /**
 	   * Constructs an instance of the Prototype Server
 	   *
@@ -63,23 +60,25 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param username The useranme to connect with
 	   * @param password The password to connect with
 	   */
+	  //*************************************************************************************************
 	  public ProtoTypeServer(int port, String username, String password) 
 	  {
 	    super(port);
 	    db = new DBConnector(username, password);
-	    //connectToDB(username, password);
 	  }
 
-	  //-----------------------------------------------------------------
+	  //*************************************************************************************************
 	  // Instance methods
-	  //-----------------------------------------------------------------
+	  //*************************************************************************************************
 	  
+	  //*************************************************************************************************
 	  /**
 	   * This method sends replay to a client
 	   *
 	   * @param client The connection to whom to replay
 	   * @param r The Replay message
 	   */
+	  //*************************************************************************************************
 	  private void sendToClient(ConnectionToClient client, Response r)
 	  {
 		  try
@@ -90,22 +89,32 @@ public class ProtoTypeServer extends AbstractServer {
 		  catch (IOException e) {System.out.println("Could not send message to Client.");}
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * Perform the login check for the user if login data is valid login the users and sends 
+	   * a response to the client
+	   *
+	   * @param client The connection to whom to replay, and associate with the user logging in
+	   * @param loginRequest the login request data to check
+	   * @param user the user matching the given username
+	   */
+	  //*************************************************************************************************
 	  private void loginUser(ConnectionToClient client, LoginRequest loginRequest,User user)
 	  {
 		  try
 		  {
 			  UserController.verifyLogin(user, loginRequest.getUsername(), loginRequest.getPassword());
-			  
+
 			  // if client had a user logged in , log him out first
 			  logoutUser(client);
 			  client.setInfo("username", user.getUserName());
 			  // update DB user has logged in
 			  try {
-				db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				  db.executeUpdate("User", "userStatus=\""+User.Status.LOGGED_IN+"\","+"unsuccessfulTries="+user.getUnsuccessfulTries() , "username=\""+user.getUserName()+"\"");
+			  } catch (SQLException e) {
+				  System.out.println("Failed to change user status when logging in");
+				  e.printStackTrace();
+			  }
 			  sendToClient(client, new Response(Response.Type.SUCCESS, user));
 		  }
 		  catch (LoginException le)
@@ -113,23 +122,25 @@ public class ProtoTypeServer extends AbstractServer {
 			  if (le.getMessage().contains("blocked"))
 				  // logout user to prevent us from unblocking him on logout
 				  this.logoutUser(client);
-			  
+
 			  //update DB user failed to log in
 			  try {
-				db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()), "username=\""+user.getUserName()+"\"");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				  db.executeUpdate("User", "userStatus=\""+user.getUserStatus()+"\","+"unsuccessfulTries="+(user.getUnsuccessfulTries()), "username=\""+user.getUserName()+"\"");
+			  } catch (SQLException e) {
+				  System.out.println("Failed to update user failed log in");
+				  e.printStackTrace();
+			  }
 			  sendToClient(client, new Response(Response.Type.ERROR, le.getMessage()));							  
 		  }
 	  }
 	  
+	  //*************************************************************************************************
 	  /**
 	   * logout the user connected using the given client
 	   *
 	   * @param client The connection which user to logout
 	   */
+	  //*************************************************************************************************
 	  private void logoutUser(ConnectionToClient client)
 	  {
 		  // check if the client has a user logged in the server 
@@ -139,10 +150,12 @@ public class ProtoTypeServer extends AbstractServer {
 			  // make sure there is no way we are unblocking a blocked user!
 			  // log the user out
 			  client.setInfo("username", null);
-			  try {
+			  try 
+			  {
 				db.executeUpdate("User", "userStatus=\""+User.Status.REGULAR+"\"", "username=\""+username+"\"");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+			  } catch (SQLException e) 
+			  {
+				System.out.println("Failed to update user status when logging out");
 				e.printStackTrace();
 			}
 		  }
@@ -150,10 +163,12 @@ public class ProtoTypeServer extends AbstractServer {
 	  
 	  
 	  	  
+	  //*************************************************************************************************
 	  /**
 	   * logs out the user logged in exception client
 	   * @see AbastServer.clientException
 	   */
+	  //*************************************************************************************************
 	  synchronized protected void clientException(ConnectionToClient client, Throwable exception) {
 		  System.out.println("Client exception!");
 		  System.out.println("Client exception "+exception.getMessage());
@@ -162,10 +177,12 @@ public class ProtoTypeServer extends AbstractServer {
 		  logoutUser(client);
 	  }
 	  
+	  //*************************************************************************************************
 	  /**
 	   * logs out the user logged in the disconnected client
 	   * @see AbastServer.clientDisconnected
 	   */
+	  //*************************************************************************************************
 	  @Override
 	  synchronized protected void clientDisconnected(
 			    ConnectionToClient client) {
@@ -173,6 +190,13 @@ public class ProtoTypeServer extends AbstractServer {
 		  logoutUser(client);
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * Handles all the different simple(non join) get Request from the client
+	   * @param getRequest the get request sent by the client
+	   * @returns An ArrayList of the desired entity data loaded form the database
+	   */
+	  //*************************************************************************************************
 	  private ArrayList<?> handleGetRequest(Request getRequest)
 	  {
 		  String table = "";
@@ -210,9 +234,15 @@ public class ProtoTypeServer extends AbstractServer {
 
 		  ResultSet rs = db.selectTableData(fields, table, condition);
 		  return  EntityFactory.loadEntity(table, rs);
-		  
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * Handles all the different get join Request from the client
+	   * @param getJoinRequest the get join request sent by the client
+	   * @returns An ArrayList of the desired entity data loaded form the database
+	   */
+	  //*************************************************************************************************
 	  private ArrayList<?>  handleGetJoinedRequest(Request getJoinRequest)
 	  {
 		  String table = "";
@@ -256,8 +286,6 @@ public class ProtoTypeServer extends AbstractServer {
 					  	  + " AND " + condition;
 			  table = joinedTablesRequest.getTable();
 			  joinTable = joinedTablesRequest.getJoinedTable();
-			  
-			  
 		  }break;
 		  
 		  }
@@ -267,6 +295,14 @@ public class ProtoTypeServer extends AbstractServer {
 		  return EntityFactory.loadEntity(joinTable, rs);
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * Handles responding to client after a get request
+	   * Check if entityArray is null or empty send error otherwise send entityArray to the client
+	   * @param entityArray the entity data loaded from the getRequest
+	   * @param client:  The connection from which the message originated.
+	   */
+	  //*************************************************************************************************
 	  private void sentGetReqeustResultToClient(ArrayList<?> entityArray, ConnectionToClient client)
 	  {
 		  if (entityArray != null)
@@ -280,13 +316,16 @@ public class ProtoTypeServer extends AbstractServer {
 			  sendToClient(client, new Response(Response.Type.ERROR, "unknown table given"));
 	  }
 	  
+	  //*************************************************************************************************
 	  /**
 	   * This method handles any requests received from the client.
 	   *
 	   * @param msg : The request received from the client.
 	   * @param client:  The connection from which the message originated.
 	   */
-	  public void handleMessageFromClient(Object msg, ConnectionToClient client)
+	  //*************************************************************************************************
+	  @SuppressWarnings("unchecked")
+	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	  {
 		  Request request = (Request)msg;
 		  
@@ -563,9 +602,8 @@ public class ProtoTypeServer extends AbstractServer {
 			  }break;
 			  case "LogoutRequest":
 			  {
-				  LogoutRequest logoutRequest = (LogoutRequest)request;
+				  //LogoutRequest logoutRequest = (LogoutRequest)request;
 				  this.logoutUser(client);
-				  //EntityUpdater.setEntity("User", logoutRequest.getUser().getUserName(), logoutRequest.getUser(), db);
 			  }break;
 			  
 			  case "ImageRequest":
@@ -585,19 +623,17 @@ public class ProtoTypeServer extends AbstractServer {
 					}
 				  }
 				  
-				  // no necessary a success 
-				  // but have to send the images we did find...
-				  // TODO: maybe add new type which indicated we got part of the data we wanted
 				  sendToClient(client, new Response(Response.Type.SUCCESS, images));
 			  }break;
 			  
 			  case "UploadImageRequest":
 			  {
 				  UploadImageRequest uploadImageRequest = (UploadImageRequest)request;
-				  ImageData reqImage= uploadImageRequest.getImage();				  
+				  //ImageData reqImage = uploadImageRequest.getImage();				  
 				  try
 				  {
-					  uploadImageRequest.getImage().saveToDisk("Images//");
+					  uploadImageRequest.getImage().saveToDisk(ImageData.ServerImagesDirectory);
+					  //uploadImageRequest.getImage().saveToDisk("Images//");
 					  sendToClient(client, new Response(Response.Type.SUCCESS, "Image was uploaded to server"));
 
 				  }
@@ -660,9 +696,18 @@ public class ProtoTypeServer extends AbstractServer {
 		  }	//end of switch  
 	  }
 	  
+	  //*************************************************************************************************
+	  /** refunds money to the customer accountBalance
+	   * @param customerKeys the customer ID and stoerID
+	   * @param refundRate how much to refund form 0.0 of  refundAmount to 1.0 of refundAmount
+	   * @param refundAmount the original amount paid by the customer
+	   * @throws SQLException
+	   */
+	  //*************************************************************************************************
 	  private float refundCustomer(ArrayList<String> customerKeys, float refundRate, float refundAmount) throws SQLException
 	  {
-		  ArrayList<Customer> customer = (ArrayList<Customer>)handleGetRequest(new GetRequestByKey("Customers", customerKeys));
+		  @SuppressWarnings("unchecked")
+		ArrayList<Customer> customer = (ArrayList<Customer>)handleGetRequest(new GetRequestByKey("Customers", customerKeys));
 		  
 		  customer.get(0).setAccountBalance(customer.get(0).getAccountBalance() + refundAmount * refundRate);
 		db.executeUpdate("Customers", "accountBalance="+customer.get(0).getAccountBalance(), 
@@ -672,19 +717,23 @@ public class ProtoTypeServer extends AbstractServer {
 	
 	  }
 	  
+	  //*************************************************************************************************
 	  /**
 	   * This method overrides the one in the superclass.  Called
 	   * when the server starts listening for connections.
 	   */
+	  //*************************************************************************************************
 	  protected void serverStarted()
 	  {
 		  System.out.println("Server listening for connections on port " + getPort());
 	  }
 	  
+	  //*************************************************************************************************
 	  /**
 	   * This method overrides the one in the superclass.  Called
 	   * when the server stops listening for connections.
 	   */
+	  //*************************************************************************************************
 	  protected void serverStopped()
 	  {
 	    System.out.println("Server has stopped listening for connections.");
@@ -692,12 +741,14 @@ public class ProtoTypeServer extends AbstractServer {
 	    db.closeConnection();
 	  }
 	  
-//-------------------------------------------------------------------------------
+	  //*************************************************************************************************
 	  /** update config file. params are transferred from the serverGUI.
-	   * @param port
-	   * @param username
-	   * @param pass
+	   * @param configPath path server config file
+	   * @param port the port to save in the config file
+	   * @param username the database username to save in the config file
+	   * @param pass the database password to save in the config file
 	   */
+	  //*************************************************************************************************
 	  public static void updateConfigFile(String configPath,String port,String username,String pass)
 	  {
 		  Config serverConfig = new Config(configPath);
@@ -719,7 +770,14 @@ public class ProtoTypeServer extends AbstractServer {
 		}
 	  
 	  }
-//-------------------------------------------------------------------------------
+
+	  //*************************************************************************************************
+	  /** parse the server config file and loads what :
+	   * port to listen to and database username and password
+	   * @param configFileNmae path server config file
+	   * @return the an Arraylist of the loaded port and database username and password
+	   */
+	  //*************************************************************************************************
 	  public static ArrayList<Object> parseConfigFile(String configFileNmae)
 	  {
 		  String DBusername = "";
@@ -750,11 +808,13 @@ public class ProtoTypeServer extends AbstractServer {
 	  }
 	  
 	  
+	  //*************************************************************************************************
 	  /**
 	   * This method is responsible for the creation of 
 	   * the server instance (there is no UI in this phase).
 	   *
 	   */
+	  //*************************************************************************************************
 	  public static void main(String[] args) 
 	  {	  
 		  ArrayList<Object> serverArgs = parseConfigFile("server.properties");
