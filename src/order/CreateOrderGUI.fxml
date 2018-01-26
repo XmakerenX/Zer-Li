@@ -19,7 +19,7 @@
    <children>
       <Label layoutX="300.0" layoutY="10.0" text="Create Order">
          <font>
-            <Font name="SansSerif Regular" size="37.0" />
+            <Font size="37.0" />
          </font>
       </Label>
       <TableView fx:id="orderTable" layoutX="25.0" layoutY="105.0" prefHeight="261.0" prefWidth="772.0">
@@ -34,91 +34,49 @@
             <TableColumn fx:id="viewCol" prefWidth="57.0" />
         </columns>
       </TableView>
-      <Label layoutX="25.0" layoutY="375.0" text="Order total price = ">
+      <Label layoutX="25.0" layoutY="375.0" text="Order total price  = ">
          <font>
-            <Font name="SansSerif Regular" size="18.0" />
+            <Font size="18.0" />
          </font></Label>
-      <Label fx:id="totalPrice" layoutX="180.0" layoutY="375.0" prefHeight="21.0" prefWidth="286.0">
+      <Label fx:id="totalPrice" layoutX="200.0" layoutY="375.0" prefHeight="21.0" prefWidth="286.0">
          <font>
-            <Font name="SansSerif Regular" size="18.0" />
+            <Font size="18.0" />
          </font></Label>
       <DatePicker fx:id="date" layoutX="190.0" layoutY="538.0" AnchorPane.leftAnchor="190.0" />
-      <Label layoutX="94.0" layoutY="540.0" text="Pick up date:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Label>
+      <Label layoutX="94.0" layoutY="540.0" text="Pick up date:" />
       <RadioButton fx:id="selfPickupRadio" layoutX="82.0" layoutY="405.0" mnemonicParsing="false" onAction="#onSelfPickup" text="Self Pickup">
          <toggleGroup>
             <ToggleGroup fx:id="pickupMethod" />
-         </toggleGroup>
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></RadioButton>
-      <RadioButton layoutX="190.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivery" text="Delivery(shipment price is 10 €)" toggleGroup="$pickupMethod">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></RadioButton>
-      <Label layoutX="72.0" layoutY="435.0" text="Delivery address:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Label>
+         </toggleGroup></RadioButton>
+      <RadioButton layoutX="190.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivery" text="Delivery(shipment price is 10 €)" toggleGroup="$pickupMethod" />
+      <Label layoutX="72.0" layoutY="435.0" text="Delivery address:" />
       <TextField fx:id="addressTxt" layoutX="190.0" layoutY="433.0" />
       <Label layoutX="325.0" layoutY="65.0" text="Items in Order">
          <font>
-            <Font name="SansSerif Regular" size="27.0" />
+            <Font size="27.0" />
          </font>
       </Label>
-      <Label layoutX="96.0" layoutY="580.0" text="Pay method:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Label>
+      <Label layoutX="96.0" layoutY="580.0" text="Pay method:" />
       <RadioButton fx:id="cashRadio" layoutX="305.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCash" text="Cash">
          <toggleGroup>
             <ToggleGroup fx:id="payMethod" />
-         </toggleGroup>
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></RadioButton>
-      <RadioButton fx:id="creditCardRadio" layoutX="371.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCreditCard" text="Credit card" toggleGroup="$payMethod">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></RadioButton>
-      <RadioButton fx:id="subscriptonRadio" layoutX="469.0" layoutY="580.0" mnemonicParsing="false" onAction="#onSubscription" text="Subscription" toggleGroup="$payMethod">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></RadioButton>
-      <Label layoutX="414.0" layoutY="540.0" text="Pick up time:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Label>
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="creditCardRadio" layoutX="371.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCreditCard" text="Credit card" toggleGroup="$payMethod" />
+      <RadioButton fx:id="subscriptonRadio" layoutX="469.0" layoutY="580.0" mnemonicParsing="false" onAction="#onSubscription" text="Subscription" toggleGroup="$payMethod" />
+      <Label layoutX="414.0" layoutY="540.0" text="Pick up time:" />
       <TextField fx:id="hourTxt" layoutX="509.0" layoutY="538.0" prefHeight="25.0" prefWidth="35.0" />
       <TextField fx:id="minsTxt" layoutX="555.0" layoutY="538.0" prefHeight="25.0" prefWidth="35.0" />
       <Label layoutX="547.0" layoutY="538.0" prefHeight="21.0" prefWidth="8.0" text=":">
          <font>
-            <Font name="SansSerif Regular" size="17.0" />
+            <Font size="17.0" />
          </font>
       </Label>
-      <Button fx:id="confirmOrderBtn" layoutX="498.0" layoutY="635.0" mnemonicParsing="false" onAction="#onConfirmOrder" prefWidth="95.0" text="Confirm Order">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Button>
-      <Button fx:id="cancelBtn" layoutX="225.0" layoutY="635.0" mnemonicParsing="false" onAction="#OnCancel" prefWidth="95.0" text="Cancel">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Button>
-      <Label layoutX="74.0" layoutY="470.0" text="Receiver's name:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Label>
-      <Label layoutX="25.0" layoutY="505.0" text="Receiver's phone number:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Label>
+      <Button fx:id="confirmOrderBtn" layoutX="498.0" layoutY="635.0" mnemonicParsing="false" onAction="#onConfirmOrder" prefWidth="95.0" text="Confirm Order" />
+      <Button fx:id="cancelBtn" layoutX="225.0" layoutY="635.0" mnemonicParsing="false" onAction="#OnCancel" prefWidth="95.0" text="Cancel" />
+      <Label layoutX="74.0" layoutY="470.0" text="Receiver's name:" />
+      <Label layoutX="25.0" layoutY="505.0" text="Receiver's phone number:" />
       <TextField fx:id="receiverPhoneTxt" layoutX="190.0" layoutY="503.0" />
       <TextField fx:id="receiverNameTxt" layoutX="190.0" layoutY="468.0" />
-      <RadioButton fx:id="StoreAccountRadio" layoutX="190.0" layoutY="580.0" mnemonicParsing="false" onAction="#OnStoreAccount" text="Store account" toggleGroup="$payMethod">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></RadioButton>
+      <RadioButton fx:id="StoreAccountRadio" layoutX="190.0" layoutY="580.0" mnemonicParsing="false" onAction="#OnStoreAccount" text="Store account" toggleGroup="$payMethod" />
    </children>
 </AnchorPane>

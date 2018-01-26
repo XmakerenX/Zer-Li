@@ -103,7 +103,22 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     private Label phoneNumberLbl;
 
     @FXML
-    private TextField newFullNameTxtField;
+    private Label firstNameLbl;
+    
+    @FXML
+    private TextField firstNameTxtField;
+    
+	@FXML
+    private TextField newFirstNameTxtField;
+	
+	@FXML
+    private Label lastNameLbl;
+	
+    @FXML
+    private TextField lastNameTxtField;
+    
+    @FXML
+    private TextField newLastNameTxtField;
 
     @FXML
     private CheckBox clearTriesCheckBox;
@@ -196,9 +211,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     private Separator usersVerticalSeparator;
 
     @FXML
-    private TextField fullNameTxtField;
-
-    @FXML
     private Label customersPersonIDLbl;
 
     @FXML
@@ -236,9 +248,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 
     @FXML
     private Separator customersVerticalSeparator;
-
-    @FXML
-    private Label fullNameLbl;
 
     @FXML
     private TextField newPhoneNumberTxtField;
@@ -459,16 +468,32 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	
     	//Updates customer only if at least one field of new fields' attributes were filled
     	
-    	if( !newCustomersPersonIDTxtField.getText().equals("") || !newFullNameTxtField.getText().equals("") || !newPhoneNumberTxtField.getText().equals("")
-    			|| newPaymentMethodComboBox.getValue() != null || !newAccoundBalanceTxtField.getText().equals("") 
-    			|| !newCreditCardNumberTxtField.getText().equals("") || newAccountStatusComboBox.getValue() != null)
+    	if( !newCustomersPersonIDTxtField.getText().equals("") || !newFirstNameTxtField.getText().equals("") || !newLastNameTxtField.getText().equals("") 
+    			|| !newPhoneNumberTxtField.getText().equals("") || newPaymentMethodComboBox.getValue() != null
+    			|| !newAccoundBalanceTxtField.getText().equals("") || !newCreditCardNumberTxtField.getText().equals("")
+    			|| newAccountStatusComboBox.getValue() != null)
     	{
+    		
+        	String currentName = "";
+        	String [] separatedFirstAndLastNames = customerToUpdate.getName().split(" ");
+        	
 			try{
 				if(!newCustomersPersonIDTxtField.getText().equals(""))
 					customerToUpdate.setID(Long.parseLong(newCustomersPersonIDTxtField.getText()));
 				
-				if(!newFullNameTxtField.getText().equals(""))
-					customerToUpdate.setName(newFullNameTxtField.getText());
+				if(!newFirstNameTxtField.getText().equals("") )
+				{
+					separatedFirstAndLastNames[0] = newFirstNameTxtField.getText();
+				}
+				
+				if(!newLastNameTxtField.getText().equals("") )
+				{
+					separatedFirstAndLastNames[1] = newLastNameTxtField.getText();
+				}
+				
+				currentName = separatedFirstAndLastNames[0] + " " + separatedFirstAndLastNames[1];
+				
+				customerToUpdate.setName(currentName);
 				
 				if(!newPhoneNumberTxtField.getText().equals(""))
 					customerToUpdate.setPhoneNumber(newPhoneNumberTxtField.getText());
@@ -697,13 +722,15 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     			newUsersStatusComboBox));
     	
     	allTextFields.addAll(Arrays.asList(newUsernameTxtField, personIDTxtField, newAccoundBalanceTxtField, newPasswordTxtField,
-    			newFullNameTxtField, accoundBalanceTxtField, unsuccessfulTriesTxtField, newCreditCardNumberTxtField, 
+    			newFirstNameTxtField, accoundBalanceTxtField, unsuccessfulTriesTxtField, newCreditCardNumberTxtField, 
     			newCustomersPersonIDTxtField, accountStatusTxtField, paymentMethodTxtField, creditCardNumberTxtField,
-    			findUserNameTxtField, usernameTxtField, newPersonIDTxtField, passwordTxtField, fullNameTxtField,
-    			customersPersonIDTxtField, usersStatusTxtField, permissionTxtField, newPhoneNumberTxtField, phoneNumberTxtField));
+    			findUserNameTxtField, usernameTxtField, newPersonIDTxtField, passwordTxtField, firstNameTxtField,
+    			customersPersonIDTxtField, usersStatusTxtField, permissionTxtField, newPhoneNumberTxtField, phoneNumberTxtField,
+    			 newLastNameTxtField, lastNameTxtField));
     	
     	onlyNewTextFields.addAll(Arrays.asList(newUsernameTxtField, newAccoundBalanceTxtField, newPasswordTxtField,
-    			newFullNameTxtField, newCreditCardNumberTxtField, newCustomersPersonIDTxtField, newPersonIDTxtField, newPhoneNumberTxtField));
+    			newFirstNameTxtField, newCreditCardNumberTxtField, newCustomersPersonIDTxtField, newPersonIDTxtField,
+    			newPhoneNumberTxtField, newLastNameTxtField));
 	}
 	
 	
@@ -773,18 +800,29 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
             }
         });
     	
-    	newFullNameTxtField.textProperty().addListener(new ChangeListener<String>() {
+    	newFirstNameTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.matches("([a-zA-Z ]*)") && newValue.length() <= 30) 
+                if (newValue.matches("([a-zA-Z ]*)") && newValue.length() <= 16) 
                 {
-                	newFullNameTxtField.setText(newValue);
+                	newFirstNameTxtField.setText(newValue);
                 }
                 else
-                	newFullNameTxtField.setText(oldValue);
+                	newFirstNameTxtField.setText(oldValue);
             }
         });
-
+    	
+    	newLastNameTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("([a-zA-Z ]*)") && newValue.length() <= 16) 
+                {
+                	newLastNameTxtField.setText(newValue);
+                }
+                else
+                	newLastNameTxtField.setText(oldValue);
+            }
+        });
 	}
 	
 	
@@ -858,9 +896,11 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	private void fillCustomersCurrentInfoFields()
 	{
 		String temporaryString = "";
+		String [] seperatedFirstAndLastNames = customerToUpdate.getName().split(" ");
 		formerPersonID= ""+customerToUpdate.getID();
 		customersPersonIDTxtField.setText(""+customerToUpdate.getID());
-		fullNameTxtField.setText(""+customerToUpdate.getName());
+		firstNameTxtField.setText(seperatedFirstAndLastNames[0]);
+		lastNameTxtField.setText(seperatedFirstAndLastNames[1]);
 		phoneNumberTxtField.setText(""+customerToUpdate.getPhoneNumber());
 
 		temporaryString = handleSplittedStringFromDataBase(""+customerToUpdate.getPayMethod());
