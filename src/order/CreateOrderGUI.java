@@ -445,7 +445,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     		return false;
     	}
     	// current + 3 hours
-    	currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10800000);
+    	currentTime.setTimeInMillis(currentTime.getTimeInMillis() + 10740000);
     	
 		// warn about rounding up of the order time 
     	if (orderRequiredDateTime.before(currentTime))
