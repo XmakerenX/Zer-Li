@@ -22,6 +22,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -33,6 +34,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebView;
+import javafx.util.Callback;
 import prototype.FormController;
 import serverAPI.Response;
 
@@ -203,6 +205,22 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
                 	receiverPhoneTxt.setText(oldValue);
             }
         });
+    	
+    	final Callback<DatePicker, DateCell> dayCellFactory;
+
+    	dayCellFactory = (final DatePicker datePicker) -> new DateCell() {
+    	    @Override
+    	    public void updateItem(LocalDate item, boolean empty) {
+    	        super.updateItem(item, empty);
+    	        LocalDate minDate = LocalDate.now();
+    	        if (item.isBefore(minDate))
+    	        { //Disable all dates after required date
+    	            setDisable(true);
+    	            setStyle("-fx-background-color: #ffc0cb;"); //To set background on different color
+    	        }
+    	    }
+    	};
+    	date.setDayCellFactory(dayCellFactory);
     	
     }
     	
