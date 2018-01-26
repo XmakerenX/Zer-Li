@@ -8,12 +8,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 
+//*************************************************************************************************
+/**
+ * This Class handles all the actions the server does on the database
+ * Including connecting and closing the connection
+ */
+//*************************************************************************************************
 public class DBConnector {
 	
 	final static String DBName = "prototype";
 	private static boolean isDriverLoaded = false;
 	private Connection conn = null;
 	
+	//*************************************************************************************************
+	/**
+	 * Creates a new DBConnector and load the jdbc driver
+	 * @param username The DB username
+	 * @param password The DB password
+	 */
+	//*************************************************************************************************
 	public DBConnector(String username, String password)
 	{
 		// init driver
@@ -31,23 +44,27 @@ public class DBConnector {
 		
 		connectToDB(username,password);
 	}
-	
-	  /**
-	   * This method overrides create a connection to the local database
-	   * 
-	   * @param username The DB username
-	   * @param password The DB passowrd
-	   */
+
+	//*************************************************************************************************
+	/**
+	 * This method create a connection to the local database
+	 * if already connected , close the active connection first
+	 * 
+	 * @param username The DB username
+	 * @param password The DB password
+	 */
+	//*************************************************************************************************
 	  public void connectToDB(String username, String password)
 	  { 
-			// init connection to database
+			// Initialize connection to database
 			try {
 				if (conn != null)
 					conn.close();
 
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/"+DBName, username, password);
 
-			} catch (SQLException ex) {/* handle any errors */
+			} catch (SQLException ex) 
+			{
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
@@ -56,6 +73,16 @@ public class DBConnector {
 			}
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to select data from table
+	   * 
+	   * @param fields The fields to select from the table
+	   * @param table The table to select from
+	   * @param condition the condition on the data to select
+	   * @return The ResultSet returned from running the query
+	   */
+	  //*************************************************************************************************
 	  public ResultSet selectTableData(String fields, String table, String condition)
 	  {
 		  Statement stmt;
@@ -83,6 +110,17 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to select data from table inner joined with another table
+	   * 
+	   * @param fields The fields to select from the table
+	   * @param table The table to select from
+	   * @param joinTable the table to join with when selecting
+	   * @param condition the condition on the data to select
+	   * @return The ResultSet returned from running the query
+	   */
+	  //*************************************************************************************************
 	  public ResultSet selectJoinTablesData(String fields, String table, String joinTable, String condition)
 	  {
 		  Statement stmt;
@@ -110,6 +148,16 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to select data from table and counts the number of rows returned
+	   * 
+	   * @param fields The fields to select from the table
+	   * @param table The table to select from
+	   * @param condition the condition on the data to select
+	   * @return The Count of rows returned form the query
+	   */
+	  //*************************************************************************************************
 	  public int countSelectTableData(String field, String table, String condition)
 	  {
 		  Statement stmt;
@@ -145,6 +193,13 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to return the last inserted ID
+	   * 
+	   * @return The ResultSet returned from running the query
+	   */
+	  //*************************************************************************************************
 	  public ResultSet selectLastInsertID()
 	  {
 		  Statement stmt;
@@ -164,6 +219,15 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to update data in the table
+	   * 
+	   * @param table The table to update
+	   * @param fieldsToUpdate The fields to update from the table
+	   * @param condition the condition on what rows to update in the table
+	   */
+	  //*************************************************************************************************
 	  public void executeUpdate(String table, String fieldsToUpdate, String condition) throws SQLException
 	  {
 		  Statement stmt;
@@ -184,6 +248,14 @@ public class DBConnector {
 		  }
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to add data to the table
+	   * 
+	   * @param table The table to update
+	   * @param fieldToInsert The fields to insert from the table
+	   */
+	  //*************************************************************************************************
 	  public void insertData(String table, String fieldToInsert) throws Exception
 	  {
 		  Statement stmt;
@@ -203,18 +275,25 @@ public class DBConnector {
 			  throw ex;
 		  }
 	  }
-//---------------------------------------------------------------------
+	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates a query to remove data from table
+	   * 
+	   * @param table The table to remove from
+	   * @param keys The primary keys for the data to remove
+	   */
+	  //*************************************************************************************************
 	  public Boolean removeEntry(String table,ArrayList<String> keys)
 	  {
 		   ArrayList<String> primaryKeys = this.getTableKeyName(table);
 		   String primaryCondition = null;
-		   primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition);
-		   //String primaryKey = this.getTableKeyName(table);		   
+		   primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition); 
 		   Statement stmnt;
+		   
 		try 
 		{
 			stmnt = conn.createStatement();
-			//stmnt.executeUpdate("delete from "+table+" where "+primaryKeys.get(0)+"="+"\""+key+"\"" +"limit 1");
 			System.out.println("delete from "+DBName+"."+table+" where "+ primaryCondition + " limit 1");
 			stmnt.executeUpdate("delete from "+DBName+"."+table+" where "+ primaryCondition  +" limit 1");
 			return true;
@@ -222,12 +301,19 @@ public class DBConnector {
 		
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
 	  }
-//---------------------------------------------------------------------
+	  
+	  //*************************************************************************************************
+	  /**
+	   * This method creates prepared Statement by the given query
+	   * 
+	   * @param query the query for the prepared Statement
+	   * @return the newly created PreparedStatement
+	   */
+	  //*************************************************************************************************
 	  public PreparedStatement createPreparedStatement(String query)
 	  {
 		  try
@@ -243,6 +329,14 @@ public class DBConnector {
 		  }
 	  }
 	  	  
+	  //*************************************************************************************************
+	  /**
+	   * This method returns the names for the given table primary keys
+	   * 
+	   * @param table The table who's keys names we want
+	   * @return an ArrayList of the primary keys names for the given table
+	   */
+	  //*************************************************************************************************
 	  public ArrayList<String> getTableKeyName(String table)
 	  {
 		  Statement stmt;
@@ -271,6 +365,15 @@ public class DBConnector {
 		  }  
 	  }
 	  
+	  //*************************************************************************************************
+	  /**
+	   * This method returns the type for the table column
+	   * 
+	   * @param table The table name
+	   * @param columnName the column that we want to its type
+	   * @return a String of what type is the column
+	   */
+	  //*************************************************************************************************
 	  public String getColumnType(String table , String columnName)
 	  {
 		  Statement stmt;
@@ -292,6 +395,11 @@ public class DBConnector {
 		  } 
 	  }
 	  	  
+	  //*************************************************************************************************
+	  /**
+	   * This method closes the connection to the database
+	   */
+	  //*************************************************************************************************
 	  public void closeConnection()
 	  {
 		  try
@@ -305,10 +413,19 @@ public class DBConnector {
 			  ex.printStackTrace();
 		  }
 	  }
-//----------------------------------------------------------------------
+	  
+	  //*************************************************************************************************
+	  /**
+	   * This method check if a entry with the given primary keys exist in the table
+	   * @param table the table to search in
+	   * @param keys the primary keys for the row we want to know if exist
+	   * @return true if there such a row with this primary keys
+	   * false if there isn't
+	   */
+	  //*************************************************************************************************
 	public Boolean doesExists(String table, ArrayList<String> keys) 
 	{
-		   ArrayList<String> primaryKeys = this.getTableKeyName(table);
+		   //ArrayList<String> primaryKeys = this.getTableKeyName(table);
 		   //String primaryKey = this.getTableKeyName(table);
 		   String primaryCondition = null;
 		   primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition);
@@ -317,7 +434,6 @@ public class DBConnector {
 		try 
 		{
 			stmnt = conn.createStatement();
-			//rs = stmnt.executeQuery("Select * from "+table+" where "+primaryKeys.get(0)+"="+"\""+key+"\"");
 			System.out.println("Select * from "+table+" where "+primaryCondition);
 			rs = stmnt.executeQuery("Select * from "+table+" where "+primaryCondition);
 			rs.next();
@@ -341,15 +457,17 @@ public class DBConnector {
 		}
 	}
 	
+	//*************************************************************************************************
 	/**
-	   * This method given a table and a primary key value generate a condition for it 
-	   * for the table product and key value 5 will generate in condition "ProductID=4"
-	   * @param table the table that the primary key belongs to
-	   * @param key the value of the primary key
-	   * @param condition the generated MySQL condition or error message
-	   * @return true if the condition was generated successfully , false if error was incurred
-	   * 
-	   */
+	 * This method given a table and a primary key value generate a condition for it 
+	 * for the table product and key value 5 will generate in condition "ProductID=4"
+	 * @param table the table that the primary key belongs to
+	 * @param key the value of the primary key
+	 * @param condition the generated MySQL condition or error message
+	 * @return true if the condition was generated successfully , false if error was incurred
+	 * 
+	 */
+	//*************************************************************************************************
 	  public String generateConditionForPrimayKey(String table, ArrayList<String> keys, String condition)
 	  {		
 		  System.out.println("keys");

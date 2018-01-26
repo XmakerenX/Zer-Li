@@ -1,12 +1,26 @@
 package serverAPI;
 
+//*************************************************************************************************
+/**
+*  a Request for the server to update table data
+*  Stores the data for the UpdateRequest that will be sent to the server from the client 
+*/
+//*************************************************************************************************
 public class UpdateRequest extends Request 
 {
-
-	String table;
-	String entityKey;
-	Object entity;
+	private static final long serialVersionUID = -8697566778951697267L;
+	private String table;
+	private String entityKey;
+	private Object entity;
 	
+	//*************************************************************************************************
+	/**
+	 *  Creates an UpdateRequest with the following parameters
+	 *  @param table  the table to update 
+	 *  @param entityKey the entity primary key
+	 *  @param entity the entity data 
+	 */
+	//*************************************************************************************************
 	public UpdateRequest(String table,String entityKey, Object entity)
 	{
 		super("UpdateRequest");
@@ -15,14 +29,32 @@ public class UpdateRequest extends Request
 		this.entity = entity;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  Returns the UpdateRequest table
+	 *  @returns the UpdateRequest table 
+	 */
+	//*************************************************************************************************
 	public String getTable() {
 		return table;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  Returns the UpdateRequest entityKey
+	 *  @returns the UpdateRequest entityKey 
+	 */
+	//*************************************************************************************************
 	public String getEntityKey() {
 		return entityKey;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  Returns the GetRequestByKey entity
+	 *  @returns the GetRequestByKey entity 
+	 */
+	//*************************************************************************************************
 	public Object getEntity() {
 		return entity;
 	}
