@@ -229,7 +229,7 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES (1,'roses bouquet','Red',90,15,'Red'),(2,'Chrysanthemums bouquet','bouquet',20,20,'White'),(3,'Avalanche bouquet','bouquet',15,10,'Purple'),(4,'Panter bouquet','bouquet',151,5,'Pink'),(5,'Buttercup bouquet','bouquet',94,10,'Red'),(6,'Anemone bouquet','bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red');
+INSERT INTO `Product` VALUES (1,'roses bouquet','bouquet',90,15,'Red'),(2,'Chrysanthemums bouquet','bouquet',20,20,'White'),(3,'Avalanche bouquet','bouquet',15,10,'Purple'),(4,'Panter bouquet','bouquet',151,5,'Pink'),(5,'Buttercup bouquet','bouquet',94,10,'Red'),(6,'Anemone bouquet','bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red'),(11,'Small Gozmania','PLANT',33,20,'Yellow'),(12,'Medium Gozmania','PLANT',69,30,'Yellow'),(13,'Big Gozmania','PLANT',99,25,'Yellow'),(14,'Small Anthurium','PLANT',29,15,'Red'),(15,'Medium Anthurium','PLANT',79,20,'Red'),(16,'Big Anthurium','PLANT',109,30,'Red'),(17,'Small Cocktail','PLANT',19,30,'Pink'),(18,'Medium Cocktail','PLANT',49,20,'Pink'),(19,'Big Cocktail','PLANT',89,10,'Pink'),(50,'temp','Bridal Bouquet',50,20,'Black');
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
