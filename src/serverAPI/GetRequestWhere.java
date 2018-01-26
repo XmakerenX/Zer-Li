@@ -21,7 +21,7 @@ public class GetRequestWhere extends Request
 	/**
 	 * Creates an GetRequestWhere with the following parameters
 	 * @param table name of the table we are looking at
-	 * @param checkColomn the Column name to do the condition on
+	 * @param checkColomn the Column name to do the condition om
 	 * @param condition the value for the column
 	 */
 	//*************************************************************************************************
