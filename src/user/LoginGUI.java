@@ -105,6 +105,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
     	customerServiceWorkerGUI =  FormController.<CustomerServiceWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceWorkerGUI.fxml"), this);
     	customerServiceGUI =  FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
+    	
     	if(rememberSelect)
     	{
         	rememberMeBtn.setSelected(true);
@@ -309,7 +310,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	        			customerServiceWorkerGUI.setUser(user);
 	        			customerServiceWorkerGUI.setClinet(Client.client);
-	        			client.setUI(customerServiceWorkerGUI);
+	        			Client.client.setUI(customerServiceWorkerGUI);
 	        			FormController.primaryStage.setScene(customerServiceWorkerGUI.getScene());
 	        		}
 	    		}break;
@@ -321,7 +322,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	        			sysManagerGUI.setUser(user);
 	        			sysManagerGUI.setClinet(Client.client);
-	        			client.setUI(sysManagerGUI);
+	        			Client.client.setUI(sysManagerGUI);
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
 	    		}break;
@@ -333,7 +334,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    				networkWorkerGui.setClinet(Client.client);
 						networkWorkerGui.setUser(user);
 						networkWorkerGui.setStoreID(releventStoreOfUserEmployee);
-						client.setUI(networkWorkerGui);
+						Client.client.setUI(networkWorkerGui);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
 	    			break;
@@ -345,7 +346,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				networkManagerGui.setClinet(Client.client);
 	    				networkManagerGui.setUser(user);
-						client.setUI(networkManagerGui);
+	    				Client.client.setUI(networkManagerGui);
 	        			FormController.primaryStage.setScene(networkManagerGui.getScene());
 	        		}
 	    			break;
@@ -360,7 +361,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    				storeWorkerGUI.setStoreID(releventStoreOfUserEmployee);
 	    				storeWorkerGUI.setClinet(Client.client);
 	    				storeWorkerGUI.setFormParent(this);
-	    				client.setUI(storeWorkerGUI);
+	    				Client.client.setUI(storeWorkerGUI);
 	    				
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
@@ -374,7 +375,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				customerServiceExpertGUI.setUser(user);
 	    				customerServiceExpertGUI.setClinet(Client.client);
-	    				client.setUI(customerServiceExpertGUI);
+	    				Client.client.setUI(customerServiceExpertGUI);
 	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
 	        		}
 	    			break;
@@ -387,7 +388,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				customerServiceGUI.setUser(user);
 	    				customerServiceGUI.setClinet(Client.client);
-	    				client.setUI(customerServiceGUI);
+	    				Client.client.setUI(customerServiceGUI);
 	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
 	        		}
 	    			break;
@@ -399,7 +400,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				storeManagerGUI.setUser(user);
 		    			storeManagerGUI.setClinet(Client.client);
-		    			client.setUI(storeManagerGUI);
+		    			Client.client.setUI(storeManagerGUI);
 		        		FormController.primaryStage.setScene(storeManagerGUI.getScene());
 
 	        		}
