@@ -91,6 +91,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	storeManagerGUI = FormController.<StoreManagerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/StoreManagerGUI.fxml"), this);
     	customerServiceWorkerGUI =  FormController.<CustomerServiceWorkerGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceWorkerGUI.fxml"), this);
     	customerServiceGUI =  FormController.<CustomerServiceGUI, AnchorPane>loadFXML(getClass().getResource("/networkGUI/CustomerServiceGUI.fxml"), this);
+    	
     	if(rememberSelect)
     	{
         	rememberMeBtn.setSelected(true);

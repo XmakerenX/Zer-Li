@@ -6,6 +6,8 @@ public class Report implements Serializable {
 
 	public class ReportException extends Exception {
 
+		private static final long serialVersionUID = -6826358522799084121L;
+
 		public ReportException(String message) {
 			super(message);
 		}
