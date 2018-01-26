@@ -47,6 +47,7 @@ import user.User;
  */
 public class ComplaintCreationGUI extends FormController implements ClientInterface{
 
+	//local variables:
 	ClientInterface SelectOrderInterface = this;
 	Response response = null;
 	User user;
@@ -88,6 +89,9 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     private TableColumn<?, ?> storeAddress;// Value injected by FXMLLoader
 
     //===============================================================================================================
+    /**
+     * an initialization function that sets the tables
+     */
     public void doInit()
     {
     	currentStores = getCurrentStores();
@@ -131,6 +135,10 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     }
   //===============================================================================================================
     @FXML
+    /**
+     * 	returns us back to the gui we came from
+     * @param event
+     */
     void onBackButton(ActionEvent event) {
     	idTextField.clear();
     	phoneNumberTextField.clear();
@@ -181,6 +189,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 
     }
     //===============================================================================================================
+    //changing the display method so that we could use the response object
   	public void display(Object message) {
   		
 

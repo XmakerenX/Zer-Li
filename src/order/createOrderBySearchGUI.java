@@ -76,7 +76,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	    Response res;
 	   
 	    
-	    
+	    //initializes the table view
 	    public void doInit()
 	    {
 	    	this.orderTable.getItems().clear();
@@ -99,6 +99,9 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			}
 	    }
 //----------------------------------------------------------------
+	    /**
+	     * back to the customer gui
+	     */
 	    void returnToCustomerGUI()
 		{
 			this.addressTxt.clear();
@@ -124,11 +127,19 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 
 	    }
 //----------------------------------------------------------------
+	    /**
+	     * sets the current user to the one we receive
+	     * @param user		the user received
+	     */
 	    public void setCurrentUser(User user)
 	    {
 	    	this.currentUser = user;
 	    }
 //----------------------------------------------------------------
+	    /**
+	     * sets the current store to the one we receive
+	     * @param storeID		received store id
+	     */
 	    public void setCurrentStoreID(int storeID)
 	    {
 	    	
@@ -188,6 +199,12 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 	        
 	    }
 //------------------------------------------------------------------------
+	    /**
+	     * looks for the item in the set
+	     * @param set set of items
+	     * @param catItem	the item
+	     * @return true if found, else returns false
+	     */
 private Boolean SearchItemIn(TreeSet<CatalogItem> set,CatalogItem[] catItem)
 {
 	Boolean searchByName = !nameFIeld.getText().equals("");
@@ -230,7 +247,10 @@ private Boolean SearchItemIn(TreeSet<CatalogItem> set,CatalogItem[] catItem)
     	return itemWasFound;
 }
 //------------------------------------------------------------------------
-
+/**
+ * loads a catalog item
+ * @param catItem	a catalogue item to load
+ */
 private void loadItem(CatalogItem catItem)
 {
 
@@ -251,6 +271,9 @@ private void loadItem(CatalogItem catItem)
 			alert.showAndWait();
 	    }
 //------------------------------------------------------------------------
+    	/**
+    	 * loads the item in the order
+    	 */
 	    public void loadItemsInOrder(ObservableList<CatalogItemView> orderCatalogItems)
 	    {
 	    	super.orderTotalPrice = 0;
@@ -275,6 +298,10 @@ private void loadItem(CatalogItem catItem)
 	    	customOrder = false;
 	    }
 //------------------------------------------------------------------------
+	    /**
+	     * adds a selected product to a given set
+	     * @param productItemSet	the set we add a product to
+	     */
 	    private void addStoreProductsToSet(TreeSet<CatalogItem> productItemSet)
 	    {
 	    	res = null;
@@ -318,6 +345,11 @@ private void loadItem(CatalogItem catItem)
 			}
 	    }
 //------------------------------------------------------------------------	  
+	    /**
+	     * adds a store catalog to set	
+	     * @param storeID	of the catalog
+	     * @param set	the set we add to
+	     */
 	    private void addStoreCatalogToSet(int storeID, TreeSet<CatalogItem> set)
 	    {
 	    	res = null;
@@ -352,6 +384,10 @@ private void loadItem(CatalogItem catItem)
 			}
 	    }
 	    //-------------------------------------------------------------------------
+	    /**
+	     * downloading the missing images for the catalog 
+	     * @param productItemSet	the items that should be in it
+	     */
 	    public void downloadMissingCatalogImages(TreeSet<CatalogItem> productItemSet)
 	    {
 	    	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(productItemSet);

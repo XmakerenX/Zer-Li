@@ -64,7 +64,7 @@ public class OrderComplaint implements Serializable
 		setCustomerPhoneNum(phone);
 		setOrderID(complaintOrderID);
 	}
-
+//getters and setters:
 	public long getComplaintID() {
 		return complaintID;
 	}

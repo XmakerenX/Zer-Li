@@ -41,7 +41,11 @@ import serverAPI.GetRequest;
 import serverAPI.Response;
 import utils.Config;
 
-
+/**
+ * holds all the functionality needed for the login GUI
+ * @author dk198
+ *
+ */
 public class LoginGUI extends FormController implements ClientInterface  {
 
 	// holds the last replay we got from server
@@ -190,7 +194,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     			updateUserConfigFile("user.properties", "", "","FALSE");
     		}
     	
-    		
+    		//depending on the user's permissions we will show them a different gui
     		switch (permission)
     		{
 	    		case "CUSTOMER":
@@ -367,7 +371,13 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	}
 	
 		
-	
+	/**
+	 * updates the config file, when some one chooses to use the remember me function 
+	 * @param configPath	file's path
+	 * @param user			username
+	 * @param pass			password
+	 * @param isSelected	if selected
+	 */
 	private static void updateUserConfigFile(String configPath,String user,String pass,String isSelected)
 	  {
 		  File configFile = new File(configPath);

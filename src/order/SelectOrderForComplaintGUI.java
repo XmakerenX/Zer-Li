@@ -37,7 +37,7 @@ import user.User;
  *
  */
 public class SelectOrderForComplaintGUI extends FormController implements ClientInterface, Observer{
-
+//local variables:
 	User user;
 	Response response=null;
 	Customer customer;
@@ -46,7 +46,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	NewComplaintCreationGUI newComplaintCreationGUI;
 	String StoreAddress;
 	//==============================================================================================================
-
+//gui components:
    @FXML
     private Label storeLabel;
 	@FXML
@@ -66,6 +66,9 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     @FXML
     private TableColumn<OrderRow, OrderItemViewButton> orderColumn;
     //==============================================================================================================
+    /**
+     * initializes the table view for the table
+     */
     public void doInit()
     {
     	storeLabel.setText("Store Address: "+getStoreAddress()+"\nStore ID: "+customer.getStoreID());
@@ -85,17 +88,21 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 		return StoreAddress;
 	}
     //==============================================================================================================
+    /**
+     * sets the store address to the given one
+     * @param storeAddress	the one we want to change to
+     */
 	public void setStoreAddress(String storeAddress) 
 	{
 		StoreAddress = storeAddress;
 	}
 	//==============================================================================================================
-    @FXML
-    void onTestCustomer(ActionEvent event) {
-    	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer+" Store id: "+customer.getStoreID(), ButtonType.OK);
-		alert.showAndWait();
-
-    }
+//    @FXML
+//    void onTestCustomer(ActionEvent event) {
+//    	Alert alert = new Alert(AlertType.INFORMATION, "Customer received: "+customer+" Store id: "+customer.getStoreID(), ButtonType.OK);
+//		alert.showAndWait();
+//
+//    }
   //==============================================================================================================
     @FXML
     void onBackButton(ActionEvent event) {
@@ -227,6 +234,10 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   	    }
   	};	
   	//===============================================================================================================
+  	/**
+  	 * takes care of what happens when we select a specific product
+  	 * @param orderItem		the specific product
+  	 */
   	private void onViewProducts(OrderRow orderItem)
 	{
 		OrderController.getOrderProducts(orderItem.getID());

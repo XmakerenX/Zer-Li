@@ -36,12 +36,14 @@ import user.User;
 //*************************************************************************************************
 public class ComplaintManageGUI extends FormController implements ClientInterface{
 
+	//the window will not open unless complaint were found
 	public Boolean getComplaintFound() {
 			return complaintFound;
 		}
 		public void setComplaintFound(Boolean complaintFound) {
 			this.complaintFound = complaintFound;
 		}
+		//local variables:
 	Response response = null;
 	HandleComplaintGUI handleComplaintGUI = null;
 	User user;
@@ -72,6 +74,7 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
     private TableColumn<OrderComplaintView, ?> selectColumn;
 
     @FXML
+    //returns us back to the gui we came from
     void onBackButton(ActionEvent event) 
     {
     	complaintTable.getItems().clear();
@@ -80,6 +83,9 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
+    /**
+     * initializes the table view
+     */
  	public void doInit()
  	{
  		complaintFound = false;
