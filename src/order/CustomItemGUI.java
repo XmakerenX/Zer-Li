@@ -1,5 +1,7 @@
 package order;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -111,6 +113,42 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	
     	itemTypeCbx.setItems(FXCollections.observableArrayList(comboboxTypeStrings));
     	
+      	rangeMin.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            	if (newValue.length() > 3)
+            	{
+            		rangeMin.setText(oldValue);
+            		return;
+            	}
+            	
+                if (newValue.matches("([0-9]*)")) 
+                {
+                	rangeMin.setText(newValue);
+                }
+                else
+                	rangeMin.setText(oldValue);
+            }
+        });
+    	
+      	rangeMax.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            	if (newValue.length() > 3)
+            	{
+            		rangeMax.setText(oldValue);
+            		return;
+            	}
+            	
+                if (newValue.matches("([0-9]*)")) 
+                {
+                	rangeMax.setText(newValue);
+                }
+                else
+                	rangeMax.setText(oldValue);
+            }
+        });
+      	
     	createOrderGUI = FormController.<CreateOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CreateOrderGUI.fxml"), parent);
     	
     } 
@@ -150,6 +188,41 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
+     * Verifies that we got good input if not show an appropriate error message
+     * @return true for valid input , false for invliad input
+  	*/
+    //*************************************************************************************************
+    boolean verifyInput()
+    {
+    	if (rangeMin.getText().trim().equals(""))
+    	{
+    		showErrorMessage("Please Enter the minium price range");
+    		return false;
+    	}
+    	
+    	if (rangeMax.getText().trim().equals(""))
+    	{
+    		showErrorMessage("Please Enter the maxium price range");
+    		return false;
+    	}
+    	
+    	if (itemTypeCbx.getSelectionModel().getSelectedIndex() == -1)
+    	{
+    		showErrorMessage("Please Select a type");
+    		return false;
+    	}
+    	
+    	if(dominateColorCbx.getSelectionModel().getSelectedIndex() == -1 )
+    	{
+    		showErrorMessage("Please Select a dominate color");
+    		return false;
+    	}
+    	
+    	return true;
+    }
+    
+    //*************************************************************************************************
+    /**
   	*  Called when the Create Custom Item button is pressed
   	*  Generates a custom Item based on customer entered preferences
   	*  @param event the event that triggered this function
@@ -161,6 +234,9 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	ArrayList<Product> flowers = getFlowers();
     	ArrayList<Float> prices = new ArrayList<Float>();
     	int min;
+    	
+    	if (!verifyInput())
+    		return;
     	
     	if (flowers != null)
     	{
@@ -236,14 +312,23 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     		currentPrice += flowerNum * originalPrice;
     		minFlower.setAmount(minFlower.getAmount() + flowerNum);
     		
-    		itemTotalPrice = currentPrice;
+    		for (int i = customProducts.size() - 1; i >= 0; i--)
+    		{
+    			if (customProducts.get(i).getPrice() == 0)
+    				customProducts.remove(i);
+    		}
     		
-    		DecimalFormat df = new DecimalFormat();
-    		df.setMaximumFractionDigits(2);
-    		totalPrice.setText(df.format(itemTotalPrice)+"€");
-    		
-    		customTable.setItems(customProducts);
-    		orderCustomItemBtn.setDisable(false);
+    		if (currentPrice > 0)
+    		{
+	    		itemTotalPrice = currentPrice;
+	    		
+	    		DecimalFormat df = new DecimalFormat();
+	    		df.setMaximumFractionDigits(2);
+	    		totalPrice.setText(df.format(itemTotalPrice)+"€");
+	    		
+	    		customTable.setItems(customProducts);
+	    		orderCustomItemBtn.setDisable(false);
+    		}
     	}
     }
 
