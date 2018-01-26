@@ -1,5 +1,6 @@
 package serverAPI;
 
+
 public class GetEmployeeStoreRequest extends Request
 {
 	String username;

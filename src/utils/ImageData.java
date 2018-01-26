@@ -5,37 +5,45 @@ import java.security.DigestInputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.io.File;
-import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+//*************************************************************************************************
+/**
+* Holds the image data 
+* allows to load and save the image from and to the disk
+*/
+//*************************************************************************************************
 public class ImageData implements Serializable {
 
 	public static final String ClientImagesDirectory = "Cache//";
 	public static final String ServerImagesDirectory = "Images//";
 	
-	
+	private static final long serialVersionUID = -1941760645979467925L;
 	private String Description = null;
-	private String filePath = null;
 	private String fileName = null;
 	private int size = 0;
 	public  byte[] mybytearray;
 	private byte[] sha256CheckSum = null;
 	
+	//*************************************************************************************************
+	/**
+	 * Loads the image data in filePath to the class , and calculates the image checksum
+	 *  @param filePath the path to the image to load
+	 */
+	//*************************************************************************************************
 	public ImageData(String filePath) throws IOException
 	{
-		this.filePath = filePath;
 		File imageFile = new File(filePath);
 		fileName = imageFile.getName();
 
 		mybytearray  = new byte [(int)imageFile.length()];
 		
 		try {
-			DigestInputStream dis = new DigestInputStream(new FileInputStream(imageFile),  MessageDigest.getInstance("SHA-256"));
+			DigestInputStream dis = new DigestInputStream(new FileInputStream(imageFile), 
+					MessageDigest.getInstance("SHA-256"));
 
 			initArray(mybytearray.length);
 			setSize(mybytearray.length);
@@ -51,6 +59,12 @@ public class ImageData implements Serializable {
 		
 	}
 	
+	//*************************************************************************************************
+	/**
+	 * Saves the image Data to the given directory
+	 *  @param directory path to the directory to save to
+	 */
+	//*************************************************************************************************
 	public void saveToDisk(String directory)
 	{
 		try {
@@ -70,49 +84,115 @@ public class ImageData implements Serializable {
 		}
 	}
 	
+	//*************************************************************************************************
+	/**
+	 * inits mybytearray to the given size
+	 *  @param size the size to init to
+	 */
+	//*************************************************************************************************
 	public void initArray(int size)
 	{
 		mybytearray = new byte [size];	
 	}
 	
+	//*************************************************************************************************
+	/**
+	 *  Returns the ImageData fileName
+	 *  @returns the ImageData fileName 
+	 */
+	//*************************************************************************************************
 	public String getFileName() {
 		return fileName;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  sets the ImageData fileName
+	 *  @param the ImageData fileName to set 
+	 */
+	//*************************************************************************************************
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 	
+	//*************************************************************************************************
+	/**
+	 *  Returns the ImageData size
+	 *  @returns the ImageData size 
+	 */
+	//*************************************************************************************************
 	public int getSize() {
 		return size;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  sets the ImageData size
+	 *  @param the ImageData size to set 
+	 */
+	//*************************************************************************************************
 	public void setSize(int size) {
 		this.size = size;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  Returns the ImageData mybytearray
+	 *  @returns the ImageData mybytearray 
+	 */
+	//*************************************************************************************************
 	public byte[] getMybytearray() {
 		return mybytearray;
 	}
 	
+	//*************************************************************************************************
+	/**
+	 *  Returns the ImageData mybytearray at index i
+	 *  @returns the ImageData mybytearray  at index i
+	 */
+	//*************************************************************************************************
 	public byte getMybytearray(int i) {
 		return mybytearray[i];
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  sets the ImageData mybytearray
+	 *  @param the ImageData mybytearray to set 
+	 */
+	//*************************************************************************************************
 	public void setMybytearray(byte[] mybytearray) {
 		
 		for(int i=0;i<mybytearray.length;i++)
 		this.mybytearray[i] = mybytearray[i];
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  Returns the ImageData Description
+	 *  @returns the ImageData Description 
+	 */
+	//*************************************************************************************************
 	public String getDescription() {
 		return Description;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  sets the ImageData description
+	 *  @param the ImageData description to set 
+	 */
+	//*************************************************************************************************
 	public void setDescription(String description) {
 		Description = description;
 	}
 
+	//*************************************************************************************************
+	/**
+	 *  Returns the Description sha256CheckSum
+	 *  @returns the Description sha256CheckSum 
+	 */
+	//*************************************************************************************************
 	public byte[] getSha256() {
 		return sha256CheckSum;
 	}	

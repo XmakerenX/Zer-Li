@@ -241,10 +241,10 @@ public class ProtoTypeServer extends AbstractServer {
 		  {
 			  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)getJoinRequest;
 			  
-			  if (!getJoinedTablesWhereRequest.getCheckColomn().equals("OrderID"))
-				  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
+			  if (!getJoinedTablesWhereRequest.getCheckColumn().equals("OrderID"))
+				  condition = "" + getJoinedTablesWhereRequest.getCheckColumn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
 			  else
-				  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + getJoinedTablesWhereRequest.getCondition();
+				  condition = "" + getJoinedTablesWhereRequest.getCheckColumn() + " = " + getJoinedTablesWhereRequest.getCondition();
 			  
 			  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)getJoinRequest;
 			  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
@@ -367,10 +367,10 @@ public class ProtoTypeServer extends AbstractServer {
 				  GetJoinedTablesWhereRequest getJoinedTablesWhereRequest = (GetJoinedTablesWhereRequest)request;
 				  
 				  String condition;
-				  if (!getJoinedTablesWhereRequest.getCheckColomn().equals("OrderID"))
-					  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
+				  if (!getJoinedTablesWhereRequest.getCheckColumn().equals("OrderID"))
+					  condition = "" + getJoinedTablesWhereRequest.getCheckColumn() + " = " + "'" + getJoinedTablesWhereRequest.getCondition() + "'";
 				  else
-					  condition = "" + getJoinedTablesWhereRequest.getCheckColomn() + " = " + getJoinedTablesWhereRequest.getCondition();
+					  condition = "" + getJoinedTablesWhereRequest.getCheckColumn() + " = " + getJoinedTablesWhereRequest.getCondition();
 				  
 				  GetJoinedTablesRequest joinedTablesRequest = (GetJoinedTablesRequest)request;
 				  ArrayList<String> tableKeyName = db.getTableKeyName(joinedTablesRequest.getTable());
