@@ -10,7 +10,12 @@ import java.util.Map;
 import java.util.TimerTask;
 
 import Server.DBConnector;
-
+/**
+ * a task that takes care of the customer's need to pay for the subscription they've made
+ * at the beginning of each month we take care of the last months orders
+ * @author dk198
+ *
+ */
 public class SubscriptionPayment extends TimerTask
 {
 	DBConnector conn = null;
@@ -22,6 +27,9 @@ public class SubscriptionPayment extends TimerTask
 	}
 	
 	@Override
+	/**
+	 * the actual method that is run, it checks whether it's the first of a month and reduces the money from their balance
+	 */
 	public void run() {
 		Calendar cal = Calendar.getInstance();
 		   SimpleDateFormat formatter = new SimpleDateFormat("dd");

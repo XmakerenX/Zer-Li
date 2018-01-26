@@ -70,6 +70,10 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	 }
 	  //===============================================================================================================
 	    @FXML
+	    /**
+	     * looking for a specific result
+	     * @param event
+	     */
 	    void onSeachButton(ActionEvent event) {
 	    	if(!resultNumberField.getText().isEmpty())
 	    	{
@@ -112,6 +116,10 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	    }
 	    //===============================================================================================================
 	    @FXML
+	    /**
+	     * adding a new analysis to a specific result
+	     * @param event
+	     */
 	    void onAddButton(ActionEvent event) {
 	    	if(result!=null)
 	    	{
@@ -144,6 +152,9 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 
 	    }
 		//===============================================================================================================
+	    /**
+	     * clearing all the fields when needed
+	     */
 	    private void clearForm()
 	    {
 	    	resultNumberField.clear();
@@ -170,6 +181,10 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 			
 		}
 		//===============================================================================================================
+		/**
+		 * setting the current user for the given one
+		 * @param user
+		 */
 		public void setUser(User user)
 		{
 			this.user = user;

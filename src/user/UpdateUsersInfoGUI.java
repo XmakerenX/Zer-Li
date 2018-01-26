@@ -29,7 +29,11 @@ import user.User.UserException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
+/**
+ * holds all the needed functionality for the Update USer GUI
+ * @author dk198
+ *
+ */
 public class UpdateUsersInfoGUI extends FormController implements ClientInterface {
 
 	// holds the last replay we got from server

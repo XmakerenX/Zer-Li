@@ -2,6 +2,7 @@ package survey;
 
 /**
  * this is our customer satisfaction surveys.
+ * all the questions are saved here.
  * @author dk198
  *
  */

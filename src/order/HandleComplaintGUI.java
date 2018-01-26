@@ -23,14 +23,19 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-
+/**
+ * a class that holds all the needed functions for the handle Complaint GUI, which takes care of a selected complaint
+ * @author dk198
+ *
+ */
 public class HandleComplaintGUI extends FormController implements ClientInterface{
 
+	//class variables:
 	Response response = null;
 	User user;
 	OrderComplaint complaint;
 
-	
+	//gui:
 	@FXML
     private TextField phoneNumberTextField;
     @FXML
@@ -48,6 +53,10 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
   //===============================================================================================================
     
     @FXML
+    /**
+     * runs when the handle button is pressed, refunds the customer and changes the complaint status to closed
+     * @param event
+     */
     void onHandleButton(ActionEvent event) {
     	try
     	{
@@ -145,6 +154,9 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     }
     //===============================================================================================================
 
+    /**
+     * changes the default listener
+     */
   public void initialize(){
 	  refundTextField.textProperty().addListener(new ChangeListener<String>() {
 	    @Override
@@ -160,6 +172,10 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
   }
  	//===============================================================================================================
     @FXML
+    /**
+     * going back to the previous GUI when "back" is pressed
+     * @param event
+     */
     void onCancelButton(ActionEvent event) {
     	customerNameTextFiled.clear();
     	phoneNumberTextField.clear();
@@ -172,6 +188,9 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
+    /**
+     * initializes customer info
+     */
     public void doInit() 
     {
     	customerNameTextFiled.setText(complaint.getCustomerName());

@@ -16,7 +16,11 @@ import serverAPI.RemoveRequest;
 import serverAPI.Response;
 import serverAPI.UpdateRequest;
 import user.User.*;
-
+/**
+ * this class holds the needed functionality for the use
+ * @author dk198
+ *
+ */
 public class UserController implements ClientInterface
 {
 	

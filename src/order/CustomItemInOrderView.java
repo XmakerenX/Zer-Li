@@ -49,7 +49,15 @@ public class CustomItemInOrderView extends CustomItemInOrder
 	    	newWindow.showAndWait();
 	    }
 	};
-	
+	/**
+	 * this is how a custom item will look in an order
+	 * @param customItemID	it's id
+	 * @param type			it's type
+	 * @param price			
+	 * @param color
+	 * @param greetingCard
+	 * @param components
+	 */
 	public CustomItemInOrderView(long customItemID, String type, float price, String color, String greetingCard,
 			ArrayList<Product> components) 
 	{

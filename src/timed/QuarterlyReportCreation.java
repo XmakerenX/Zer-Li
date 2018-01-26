@@ -20,20 +20,28 @@ import report.Report.Quarterly;
 import report.ReportController;
 import serverAPI.GetJoinedTablesRequest;
 import serverAPI.Response;
-
+/**
+ * this is a task that takes care of creating the quarterly reports for the zer li system
+ * @author dk198
+ *
+ */
 public class QuarterlyReportCreation extends TimerTask
 {
+	//variables:
 	DBConnector conn = null;
 	private int quarter;
 	private String year;
-
+//constructor
 	public QuarterlyReportCreation(int quarter, String year, DBConnector conn)
 	{
 		this.quarter = quarter;
 		this.year = year;
 		this.conn = conn;
 	}
-
+/**
+ * this is what actually happens when the task is run
+ * we check if it's time to create the reports and if so, we create them for each one of our stores
+ */
 	public void run() 
 	{
 		System.out.println("Creating reports");
@@ -104,6 +112,7 @@ public class QuarterlyReportCreation extends TimerTask
 						else if(quarter==2) quarterStr = "SECOND";
 						else if(quarter==3) quarterStr = "THIRD";
 						else quarterStr = "FOURTH";
+						
 						System.out.println("=====================================\nCreating REPORTS for store :"+stores.get(i));
 						try {
 							//--------------------------------------------------------------
@@ -161,7 +170,7 @@ public class QuarterlyReportCreation extends TimerTask
 	}
 	//===============================================================================================================
 	/**
-	 * 
+	 * 						calculates all the needed data for the complaint report for a specific store, year and quarter
 	 * @param year			year
 	 * @param quarter		quarter
 	 * @return				reportData(0) - first month's handled complaints
@@ -174,6 +183,7 @@ public class QuarterlyReportCreation extends TimerTask
 	public ArrayList<Integer> calculateComplaintReportData(String year, Quarterly incomeQ, int store)
 	{
 		ArrayList<Integer> reportData =  new ArrayList<Integer>();
+		//initialization:
 		reportData.add(0);
 		reportData.add(0);
 		reportData.add(0);
@@ -183,26 +193,31 @@ public class QuarterlyReportCreation extends TimerTask
 		String condition1;
 		String condition2;
 		String condition3;
+		//setting the dates based on the needed quarter:
 		if(incomeQ == report.IncomeReport.Quarterly.FIRST) 
 		{
+			//calculating each month's dates separately
 			condition1 = " and date >= CAST('"+year+"-01-01' AS DATE) and date<= CAST('"+year+"-01-31' AS DATE)";
 			condition2 = " and date >= CAST('"+year+"-02-01' AS DATE) and date<= CAST('"+year+"-02-31' AS DATE)";
 			condition3 = " and date >= CAST('"+year+"-03-01' AS DATE) and date<= CAST('"+year+"-03-31' AS DATE)";
 		}
 		else if(incomeQ == report.IncomeReport.Quarterly.SECOND)
 		{
+			//calculating each month's dates separately
 			condition1 = " and date >= CAST('"+year+"-04-01' AS DATE) and date<= CAST('"+year+"-04-31' AS DATE)";
 			condition2 = " and date >= CAST('"+year+"-05-01' AS DATE) and date<= CAST('"+year+"-05-31' AS DATE)";
 			condition3 = " and date >= CAST('"+year+"-06-01' AS DATE) and date<= CAST('"+year+"-06-31' AS DATE)";
 		}
 		else if(incomeQ == report.IncomeReport.Quarterly.THIRD)
 		{
+			//calculating each month's dates separately
 			condition1 = " and date >= CAST('"+year+"-07-01' AS DATE) and date<= CAST('"+year+"-07-31' AS DATE)";
 			condition2 = " and date >= CAST('"+year+"-08-01' AS DATE) and date<= CAST('"+year+"-08-31' AS DATE)";
 			condition3 = " and date >= CAST('"+year+"-09-01' AS DATE) and date<= CAST('"+year+"-09-31' AS DATE)";
 		}
 		else
 		{
+			//calculating each month's dates separately
 			condition1 = " and date >= CAST('"+year+"-10-01' AS DATE) and date<= CAST('"+year+"-10-31' AS DATE)";
 			condition2 = " and date >= CAST('"+year+"-11-01' AS DATE) and date<= CAST('"+year+"-11-30' AS DATE)";
 			condition3 = " and date >= CAST('"+year+"-12-01' AS DATE) and date<= CAST('"+year+"-12-31' AS DATE)";
@@ -252,10 +267,18 @@ public class QuarterlyReportCreation extends TimerTask
 		return reportData;
 	}
 	//===============================================================================================================
+	/**
+	 * calculates store's income for a specific quarter in a given year
+	 * @param year
+	 * @param quarter
+	 * @param store
+	 * @return	the income for said store, year and quarter
+	 */
 	public long calculateIncomeAmount(String year, Quarterly quarter, Integer store)
 	{
 		long income = 0;
 		String condition;
+		//setting the dates based on the needed quarter:
 		if(quarter == report.IncomeReport.Quarterly.FIRST) 
 			condition = " and OrderCreationDateTime >= CAST('"+year+"-01-01' AS DATE) and OrderCreationDateTime<= CAST('"+year+"-03-31' AS DATE)";
 		else if(quarter == report.IncomeReport.Quarterly.SECOND)
@@ -280,7 +303,7 @@ public class QuarterlyReportCreation extends TimerTask
 	}
 	//===============================================================================================================
 	/**
-	 * 
+	 * 						calculates the report data for a specific year, store and quarter
 	 * @param year			year
 	 * @param quarter		quarter
 	 * @return				reportData(0) - first question's average result
@@ -300,6 +323,7 @@ public class QuarterlyReportCreation extends TimerTask
 		surveyResultData.add((long) 0);
 		surveyResultData.add((long) 0);
 		String condition;
+		//setting the dates based on the needed quarter:
 		if(quarter == report.SurveyReport.Quarterly.FIRST) 
 			condition = "date >= CAST('"+year+"-01-01' AS DATE) and date<= CAST('"+year+"-03-31' AS DATE)";
 		else if(quarter == report.SurveyReport.Quarterly.SECOND)
@@ -313,6 +337,7 @@ public class QuarterlyReportCreation extends TimerTask
 		int numberOfResults=0;
 		try
 		{
+			//saving all of the results in our data base to later divide them by the number of results
 			while (rs.next())
 			{
 				surveyResultData.set(0, surveyResultData.get(0) + rs.getLong("answer1"));
@@ -324,6 +349,7 @@ public class QuarterlyReportCreation extends TimerTask
 				numberOfResults++;
 			}
 		}catch (SQLException e) {e.printStackTrace();}
+		//calculating averages for each answer:
 		if(numberOfResults!=0)
 		{
 			surveyResultData.set(0, surveyResultData.get(0)/numberOfResults);
@@ -339,7 +365,7 @@ public class QuarterlyReportCreation extends TimerTask
 
 	//===============================================================================================================
 	/**
-	 * 
+	 * 						calculates the order report data for a specific store, year and quarter
 	 * @param year			year
 	 * @param quarter		quarter
 	 * @return				orderData(0) - total amount of orders in said quarter
@@ -353,6 +379,7 @@ public class QuarterlyReportCreation extends TimerTask
 	{
 		ArrayList<Integer> orderData =  new ArrayList<Integer>();
 		ArrayList<Integer> orderInStore = new ArrayList<Integer>();
+		//initialization:
 		int totalOrdersNum = 0;
 		int numBouquetsOrdered  = 0;
 		int numBridalOrdered  = 0;
@@ -361,6 +388,7 @@ public class QuarterlyReportCreation extends TimerTask
 		int numCustomOrdered = 0;
 
 		String condition;
+		//setting the dates based on the needed quarter:
 		if(quarter == report.OrderReport.Quarterly.FIRST) 
 			condition = "OrderCreationDateTime >= CAST('"+year+"-01-01' AS DATE) AND OrderCreationDateTime<= CAST('"+year+"-03-31' AS DATE)";
 		else if(quarter == report.OrderReport.Quarterly.SECOND)
@@ -432,7 +460,7 @@ public class QuarterlyReportCreation extends TimerTask
 				e.printStackTrace();
 			}
 		}
-
+		//getting the data ready for return
 		orderData.add(totalOrdersNum);
 		orderData.add(numBouquetsOrdered);
 		orderData.add(numBridalOrdered);
