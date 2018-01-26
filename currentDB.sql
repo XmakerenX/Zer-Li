@@ -89,7 +89,7 @@ CREATE TABLE `CustomItem` (
   `CustomItemType` varchar(45) DEFAULT NULL,
   `CustomItemPrice` float DEFAULT NULL,
   `CustomItemColor` varchar(45) DEFAULT NULL,
-  `CustomItemGreetingCard` varchar(45) DEFAULT NULL,
+  `CustomItemGreetingCard` varchar(100) DEFAULT NULL,
   `CustomItemOrderID` int(11) DEFAULT NULL,
   PRIMARY KEY (`CustomItemID`),
   KEY `fk_CustomItem_1_idx` (`CustomItemOrderID`),
@@ -243,7 +243,7 @@ DROP TABLE IF EXISTS `ProductInOrder`;
 CREATE TABLE `ProductInOrder` (
   `ProductID` int(11) NOT NULL,
   `OrderID` int(11) NOT NULL,
-  `ProductGrettingCard` varchar(45) DEFAULT NULL,
+  `ProductGrettingCard` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ProductID`,`OrderID`),
   KEY `fk_ProductInOrder_2_idx` (`OrderID`),
   CONSTRAINT `fk_ProductInOrder_1` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE,
