@@ -7,7 +7,6 @@ import prototype.FormController;
 import survey.AddSurveyAnalysisToExistingSurveyGUI;
 import survey.ResultInputGUI;
 import user.LoginGUI;
-import user.NewUserCreationGUI;
 import user.User;
 import user.UserController;
 import javafx.event.ActionEvent;
