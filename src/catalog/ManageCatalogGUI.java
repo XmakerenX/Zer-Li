@@ -336,7 +336,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 				    @Override public void handle(ActionEvent e) 
 				    {
 				        	editableCatalogItemViewButton button = (editableCatalogItemViewButton)e.getSource();
-				        	CatalogItem baseCatalogProduct = button.origin;
+				        	EditableCatalogItemView baseCatalogProduct = button.origin;
+				        
 							if (editCatItemGui != null)
 							{
 								Stage newWindow = new Stage();
@@ -344,8 +345,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 								editCatItemGui.setClinet(client);
 								editCatItemGui.setProd(baseCatalogProduct.getBaseProduct());
 								editCatItemGui.setStoreID(storeID);
+								
+								editCatItemGui.getCatalogItemImage().setImage(baseCatalogProduct.getImageView().getImage());
+								editCatItemGui.setImageField("Cache:\\"+baseCatalogProduct.getImageName());
 								editCatItemGui.doInit();
 								editCatItemGui.initWindow(baseCatalogProduct);
+								editCatItemGui.setStage(newWindow);
 								newWindow.initOwner(FormController.primaryStage);
 						    	newWindow.initModality(Modality.WINDOW_MODAL);  
 								newWindow.setScene(editCatItemGui.getScene());
@@ -388,10 +393,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	prod_editCol.setCellValueFactory(new PropertyValueFactory<>("EditBtn"));
 	    	prod_removeCol.setCellValueFactory(new PropertyValueFactory<>("RemoveBtn"));
 	    	
+	    	
 	    	editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/product/EditProductGUI.fxml"), this);
 	    	addToCatGUI = FormController.<AddToCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/AddToCatalog.fxml"), this);
 	    	editCatItemGui= FormController.<EditCatalogItemGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/EditCatalogItem.fxml"), this);
-
+	    	
+	    	
 	    	//init catalog table:
 	    	cat_imageCol.setCellValueFactory(new PropertyValueFactory<>("ImageView"));
 		    cat_nameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));

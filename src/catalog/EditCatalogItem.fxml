@@ -4,18 +4,21 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.EditCatalogItemGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.EditCatalogItemGUI">
    <children>
-      <Label fx:id="salesLabel" layoutX="20.0" layoutY="40.0" text="Sale price:" />
-      <Label fx:id="imageLabel" layoutX="38.0" layoutY="75.0" text="Image:" />
-      <Button fx:id="BrowseBTN" layoutX="264.0" layoutY="73.0" mnemonicParsing="false" onAction="#BrowseBTN" text="Browse" />
+      <Label fx:id="salesLabel" layoutX="15.0" layoutY="40.0" text="Sale price:" />
+      <Label fx:id="imageLabel" layoutX="38.0" layoutY="88.0" text="Image:" />
+      <Button fx:id="BrowseBTN" layoutX="271.0" layoutY="86.0" mnemonicParsing="false" onAction="#BrowseBTN" text="Browse" />
       <Label fx:id="headLabel" layoutX="15.0" layoutY="5.0" text="Please enter catalog product info:" />
-      <TextField fx:id="imageField" layoutX="87.0" layoutY="73.0" />
-      <TextField fx:id="salesPriceField" layoutX="87.0" layoutY="38.0" />
-      <Button fx:id="cancelBTN" layoutX="77.0" layoutY="120.0" mnemonicParsing="false" onAction="#cancelBTN" prefWidth="55.0" text="Cancel" />
-      <Button fx:id="okBTN" layoutX="205.0" layoutY="120.0" mnemonicParsing="false" onAction="#okBTN" prefHeight="25.0" prefWidth="55.0" text="OK" />
-      <CheckBox fx:id="onSale" layoutX="264.0" layoutY="40.0" mnemonicParsing="false" onAction="#onSale" text="on sale" />
+      <TextField fx:id="imageField" layoutX="92.0" layoutY="196.0" />
+      <TextField fx:id="salesPriceField" layoutX="94.0" layoutY="38.0" />
+      <Button fx:id="cancelBTN" layoutX="57.0" layoutY="249.0" mnemonicParsing="false" onAction="#cancelBTN" prefWidth="55.0" text="Cancel" />
+      <Button fx:id="okBTN" layoutX="253.0" layoutY="246.0" mnemonicParsing="false" onAction="#okBTN" prefHeight="25.0" prefWidth="55.0" text="OK" />
+      <CheckBox fx:id="onSale" layoutX="274.0" layoutY="43.0" mnemonicParsing="false" onAction="#onSale" text="on sale" />
+      <Label fx:id="imageLabel1" layoutX="12.0" layoutY="197.0" text="Image path" />
+      <ImageView fx:id="catalogItemImage" fitHeight="120.0" fitWidth="128.0" layoutX="94.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

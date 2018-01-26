@@ -27,8 +27,8 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 		/**
 		 * 
 		 */
-		CatalogItem origin;
-		public editableCatalogItemViewButton(String buttonName,CatalogItem Origin)
+		EditableCatalogItemView origin;
+		public editableCatalogItemViewButton(String buttonName,EditableCatalogItemView Origin)
 		{
 			super(buttonName);
 			this.origin = Origin;

@@ -1,62 +1,47 @@
 package catalog;
 
-import java.util.ArrayList;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import client.Client;
 import client.ClientInterface;
-import customer.CustomerGUI;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.converter.NumberStringConverter;
-import order.CreateOrderGUI;
 import product.CatalogItem;
 import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
 import serverAPI.UploadImageRequest;
-import user.LoginGUI;
 import utils.ImageData;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 /*
  * provides a GUI to handle the proccess of adding a product to a store's catalog
  */
 public class AddToCatalogGUI extends FormController implements ClientInterface 
 {
+	
 	int storeID;
+	Stage stage;
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
 	public int getStoreID() {
 		return storeID;
 	}
@@ -95,12 +80,33 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	ImageData image;
 	CatalogItem catItem;
 	
-    public CatalogItem getCatItem() {
+	@FXML
+	protected ImageView catalogItemImage;
+
+    public ImageView getCatalogItemImage() {
+		return catalogItemImage;
+	}
+
+	public void setCatalogItemImage(ImageView catalogItemImage) {
+		this.catalogItemImage = catalogItemImage;
+	}
+
+	public CatalogItem getCatItem() {
 		return catItem;
 	}
 
-	public void setCatItem(CatalogItem catItem) {
+	public void setCatItem(EditableCatalogItemView catItem) 
+	{
 		this.catItem = catItem;
+		
+	}
+
+	public TextField getImageField() {
+		return imageField;
+	}
+
+	public void setImageField(String string) {
+		this.imageField.setText(string);
 	}
 
 	@FXML
@@ -159,8 +165,11 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     	//try to open image:
     	try 
     	{
+    		Image newImage = new Image(new FileInputStream(file));
     		image = new ImageData(file.getAbsolutePath());
-	    	imageField.setText(file.getAbsolutePath());
+    		imageField.setText(file.getAbsolutePath());
+	    	catalogItemImage.setImage(newImage);
+	    	
 
 		} catch (IOException e) 
     	{
@@ -327,70 +336,14 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	
     public void doInit()
     {
-    	imageField.setText("");
+    	//imageField.setText("");
     	salesPriceField.setText("");
     	onSale.setSelected(false);
     	imageField.setEditable(false);
     	salesPriceField.setDisable(true);
     	
     	salesPriceField.textProperty().addListener(salesPriceFieldChangeListener);
-    	//inti text fields : make imageField uneditable and  price field to be of the form %.2f
-		
-       
-        //salesPriceField.setText(Float.toString(prod.getPrice()));
-        
-       /*
-        *  salesPriceField.textProperty().addListener(new ChangeListener<String>() 
-		{
-		    @Override
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-		        String newValue) 
-		    {
-		    	//clean input:
-		    	newValue.replaceAll("[^\\d.]","");
-		    	
-		    	//allow empty input(for filling only)
-		    	if(newValue.equals("")) return;
-		    	
-		    	else//try to convert it into float
-		    	{
-			    	try
-			    	{
-			    	  float floatInput = Float.parseFloat(newValue);//first, check format
-			    	  //enorfce float policy : ".2f":
-			    	  int i;
-			    	  int len =newValue.length();
-			    	  salesPriceField.setText(newValue);
-			    	  for(i=0;i<len;i++)
-			    	  {
-			    		  if( newValue.charAt(i) == '.' )
-			    		  {
-			    			  try
-			    			  {
-			    			  String numbersAfterDot = newValue.substring(i+1,len-1);
-			    			  if(numbersAfterDot.length()>=2)
-								{
-			    				  salesPriceField.setText(newValue.substring(0,i+3));
-								} 
-			    			    break;
-			    			  }
-			    			  catch(Exception e)
-			    			  {
-			    				  break;
-			    			  }
-			    		  }
-			    	  }
-			    	}
-			    	
-			    	catch(Exception e)//if every last check or try to fix the input failed, 
-			    					  //simply ignore the change.
-			    	{
-			    		salesPriceField.setText(oldValue);
-			    	}
-		    	}
-		    }
-    	});		
-        */
+    	
     }
 
 
