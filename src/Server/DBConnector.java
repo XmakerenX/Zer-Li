@@ -286,24 +286,24 @@ public class DBConnector {
 	  //*************************************************************************************************
 	  public Boolean removeEntry(String table,ArrayList<String> keys)
 	  {
-		   ArrayList<String> primaryKeys = this.getTableKeyName(table);
-		   String primaryCondition = null;
-		   primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition); 
-		   Statement stmnt;
-		   
-		try 
-		{
-			stmnt = conn.createStatement();
-			System.out.println("delete from "+DBName+"."+table+" where "+ primaryCondition + " limit 1");
-			stmnt.executeUpdate("delete from "+DBName+"."+table+" where "+ primaryCondition  +" limit 1");
-			return true;
-		} 
-		
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
+		  //ArrayList<String> primaryKeys = this.getTableKeyName(table);
+		  String primaryCondition = null;
+		  primaryCondition = generateConditionForPrimayKey(table, keys, primaryCondition); 
+		  Statement stmnt;
+
+		  try 
+		  {
+			  stmnt = conn.createStatement();
+			  System.out.println("delete from "+DBName+"."+table+" where "+ primaryCondition + " limit 1");
+			  stmnt.executeUpdate("delete from "+DBName+"."+table+" where "+ primaryCondition  +" limit 1");
+			  return true;
+		  } 
+
+		  catch (SQLException e)
+		  {
+			  e.printStackTrace();
+			  return false;
+		  }
 	  }
 	  
 	  //*************************************************************************************************

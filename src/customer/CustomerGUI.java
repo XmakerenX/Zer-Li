@@ -111,7 +111,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 	    	customItemGUI.setCurrentCustomer(currentCustomer);
 			client.setUI(customItemGUI);
 			customItemGUI.setClinet(client);
-			customItemGUI.loadDominateColors();
+			customItemGUI.initFields();
 			FormController.primaryStage.setScene(customItemGUI.getScene());
     	}
     }

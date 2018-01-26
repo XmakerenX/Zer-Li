@@ -19,6 +19,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.converter.NumberStringConverter;
 import product.Product;
+import product.Product.Type;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class CustomItemGUI extends FormController implements ClientInterface {
 	private Customer currentCustomer = null;
 	private float itemTotalPrice = 0;
 	private CreateOrderGUI createOrderGUI = null;
+	private final float bridePrice = 20;
+	private final float bouquetPrice = 10;
 	
     @FXML
     private ComboBox<String> itemTypeCbx;
@@ -94,6 +97,13 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	return typeName;
     }
     
+    private Product.Type toTypeFromString(String t)
+    {
+    	String typeName = t.replaceAll(" ", "_");
+    	typeName = typeName.toUpperCase();
+    	return Product.Type.valueOf(typeName);
+    }
+    
  	//*************************************************************************************************
     /**
   	*  Called by FXMLLoader on class initialization 
@@ -110,6 +120,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	comboboxTypeStrings.add(toStringType(Product.Type.BOUQUET));
     	comboboxTypeStrings.add(toStringType(Product.Type.BRIDE_BOUQUET));
     	comboboxTypeStrings.add(toStringType(Product.Type.FLOWERPOT));
+    	comboboxTypeStrings.add(toStringType(Product.Type.FLOWERS_CLUSTER));
     	
     	itemTypeCbx.setItems(FXCollections.observableArrayList(comboboxTypeStrings));
     	
@@ -231,105 +242,19 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     @FXML
     void onCreateCustomItem(ActionEvent event) 
     {
-    	ArrayList<Product> flowers = getFlowers();
-    	ArrayList<Float> prices = new ArrayList<Float>();
-    	int min;
-    	
+    	customTable.getItems().clear();
     	if (!verifyInput())
     		return;
     	
-    	if (flowers != null)
-    	{
-    		Product mainFlower = null;
-    		ArrayList<Product> customFlowers = new ArrayList<Product>();
-    		for (Product flower : flowers)
-    		{
-    			if (flower.getColor().equals(dominateColorCbx.getSelectionModel().getSelectedItem()))
-    			{
-    				customFlowers.add(flower);
-    				mainFlower = flower;
-    				break;
-    			}
-    		}
-    		
-    		for (Product flower : flowers)
-    		{
-    			if (!flower.getColor().equals(dominateColorCbx.getSelectionModel().getSelectedItem()))
-    			{
-    				customFlowers.add(flower);
-    				if (customFlowers.size() == 3)
-    					break;
-    			}
-    		}
-    		
-    		for (Product flower : customFlowers)
-    		{
-    			prices.add(flower.getPrice());
-    		}
-    		
-    		float maxPrice = Float.parseFloat(rangeMax.getText());
-    		final ObservableList<Product> customProducts = FXCollections.observableArrayList();
-    		
-    		float currentPrice = 0;
-    		for (int i = 0; i < customFlowers.size(); i++)
-    		{
-    			float ratio;
-    			if (i == 0)
-    			{
-    				ratio = 1 / (float)customFlowers.size() * 2;
-    				if (ratio > 1)
-    					ratio = 1;
-    			}
-    			else
-    			{
-    				ratio = 1 / (float)customFlowers.size() / 2;
-    			}
-    			
-				int flowerNum = (int)(maxPrice*ratio / customFlowers.get(i).getPrice());
-				currentPrice += flowerNum * customFlowers.get(i).getPrice();
-				customFlowers.get(i).setPrice(flowerNum * customFlowers.get(i).getPrice());
-				customFlowers.get(i).setAmount(flowerNum);
-				customProducts.add(customFlowers.get(i));
-    		}
-    		
-    		Product minFlower = customFlowers.get(0);
-    		min = 0;
-    		
-    		for (int i = 1; i < customFlowers.size(); i++)
-    		{
-    			if (customFlowers.get(i).getPrice() < minFlower.getPrice())
-    			{
-    				min = i;
-    				minFlower = customFlowers.get(i);
-    			}
-    		}
-    		
-    		float priceLeft = maxPrice - currentPrice;
-    		float originalPrice = prices.get(min);
-    		
-    		int	flowerNum = (int)(priceLeft / originalPrice);
-    		minFlower.setPrice(minFlower.getPrice() + flowerNum * originalPrice);
-    		currentPrice += flowerNum * originalPrice;
-    		minFlower.setAmount(minFlower.getAmount() + flowerNum);
-    		
-    		for (int i = customProducts.size() - 1; i >= 0; i--)
-    		{
-    			if (customProducts.get(i).getPrice() == 0)
-    				customProducts.remove(i);
-    		}
-    		
-    		if (currentPrice > 0)
-    		{
-	    		itemTotalPrice = currentPrice;
-	    		
-	    		DecimalFormat df = new DecimalFormat();
-	    		df.setMaximumFractionDigits(2);
-	    		totalPrice.setText(df.format(itemTotalPrice)+"€");
-	    		
-	    		customTable.setItems(customProducts);
-	    		orderCustomItemBtn.setDisable(false);
-    		}
-    	}
+    	Product.Type type = this.toTypeFromString(itemTypeCbx.getSelectionModel().getSelectedItem().toUpperCase());
+    	
+    	if (type == Product.Type.BOUQUET || type == Product.Type.BRIDE_BOUQUET || 
+    			type == Product.Type.FLOWERS_CLUSTER)
+    		generateCustomFlowers();
+    	
+    	if (type == Product.Type.FLOWERPOT)
+    		generateCustomPlants();
+    	
     }
 
     //*************************************************************************************************
@@ -363,14 +288,27 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	
     //*************************************************************************************************
     /**
-    *  Requests from server all the flowers items 
+  	*  Called when the item types checkbox is pressed
+  	*  loads the dominate colors
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
+    @FXML
+    void onTypeSelected(ActionEvent event) {
+    	Product.Type type = this.toTypeFromString(itemTypeCbx.getSelectionModel().getSelectedItem().toUpperCase());
+    	getDominateColors(type);
+    }
+    
+    //*************************************************************************************************
+    /**
+    *  Requests from server all the custom items components with the given type 
   	*  @return an Arraylist of the flowers items
   	*/
     //*************************************************************************************************
-    public ArrayList<Product> getFlowers()
+    private ArrayList<Product> getCustomComponents(Product.Type type)
     {
     	replay = null;
-    	Client.client.handleMessageFromClientUI(new GetRequestWhere("Product", "ProductType", ""+Product.Type.FLOWER));
+    	Client.client.handleMessageFromClientUI(new GetRequestWhere("Product", "ProductType", ""+type));
     	
    		synchronized(this)
 		{
@@ -413,6 +351,176 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
+    *  generate a custom item based on flowers (BOUQUET, BRIDE_BOUQUET, FLOWERS_CLUSTER)
+  	*/
+    //*************************************************************************************************
+    public void generateCustomFlowers()
+    {   	
+    	ArrayList<Product> flowers = getCustomComponents(Product.Type.FLOWER);
+    	ArrayList<Float> prices = new ArrayList<Float>();
+    	
+    	if (flowers != null)
+    	{
+    		Product mainFlower = null;
+    		ArrayList<Product> customFlowers = new ArrayList<Product>();
+    		for (Product flower : flowers)
+    		{
+    			if (flower.getColor().equals(dominateColorCbx.getSelectionModel().getSelectedItem()))
+    			{
+    				customFlowers.add(flower);
+    				mainFlower = flower;
+    				break;
+    			}
+    		}
+    		
+    		for (Product flower : flowers)
+    		{
+    			if (!flower.getColor().equals(dominateColorCbx.getSelectionModel().getSelectedItem()))
+    			{
+    				customFlowers.add(flower);
+    				if (customFlowers.size() == 3)
+    					break;
+    			}
+    		}
+    		
+    		for (Product flower : customFlowers)
+    		{
+    			prices.add(flower.getPrice());
+    		}
+    		
+    		float maxPrice = Float.parseFloat(rangeMax.getText());
+			Product.Type type = this.toTypeFromString(itemTypeCbx.getSelectionModel().getSelectedItem().toUpperCase());
+			if (type == Product.Type.BOUQUET)
+				maxPrice -= bouquetPrice;
+			if (type == Product.Type.BRIDE_BOUQUET)
+				maxPrice -= bridePrice;
+    		final ObservableList<Product> customProducts = FXCollections.observableArrayList();
+    		
+    		float currentPrice = 0;
+    		for (int i = 0; i < customFlowers.size(); i++)
+    		{
+    			float ratio;
+    			if (i == 0)
+    			{
+    				ratio = 1 / (float)customFlowers.size() * 2;
+    				if (ratio > 1)
+    					ratio = 1;
+    			}
+    			else
+    			{
+    				ratio = 1 / (float)customFlowers.size() / 2;
+    			}
+    			
+				int flowerNum = (int)(maxPrice*ratio / customFlowers.get(i).getPrice());
+				currentPrice += flowerNum * customFlowers.get(i).getPrice();
+				customFlowers.get(i).setPrice(flowerNum * customFlowers.get(i).getPrice());
+				customFlowers.get(i).setAmount(flowerNum);
+				customProducts.add(customFlowers.get(i));
+    		}
+    		
+    		int min;
+    		Product minFlower = customFlowers.get(0);
+    		min = 0;
+    		
+    		for (int i = 1; i < customFlowers.size(); i++)
+    		{
+    			if (customFlowers.get(i).getPrice() < minFlower.getPrice())
+    			{
+    				min = i;
+    				minFlower = customFlowers.get(i);
+    			}
+    		}
+    		
+    		float priceLeft = maxPrice - currentPrice;
+    		float originalPrice = prices.get(min);
+    		
+    		int	flowerNum = (int)(priceLeft / originalPrice);
+    		minFlower.setPrice(minFlower.getPrice() + flowerNum * originalPrice);
+    		currentPrice += flowerNum * originalPrice;
+    		minFlower.setAmount(minFlower.getAmount() + flowerNum);
+    		
+    		for (int i = customProducts.size() - 1; i >= 0; i--)
+    		{
+    			if (customProducts.get(i).getPrice() == 0)
+    				customProducts.remove(i);
+    		}
+    		
+    		if (currentPrice > 0)
+    		{
+    			type = this.toTypeFromString(itemTypeCbx.getSelectionModel().getSelectedItem().toUpperCase());
+    			if (type == Product.Type.BOUQUET)
+    				currentPrice += bouquetPrice;
+    			if (type == Product.Type.BRIDE_BOUQUET)
+    				currentPrice += bridePrice;
+	    		itemTotalPrice = currentPrice;
+	    		
+	    		DecimalFormat df = new DecimalFormat();
+	    		df.setMaximumFractionDigits(2);
+	    		totalPrice.setText(df.format(itemTotalPrice)+"€");
+	    		
+	    		customTable.setItems(customProducts);
+	    		orderCustomItemBtn.setDisable(false);
+    		}
+    		else
+    		{
+    			this.showErrorMessage("No Item found for the given parameters");
+    		}
+    	}
+    }
+    
+    //*************************************************************************************************
+    /**
+    *  generate a custom item based on Plants
+  	*/
+    //*************************************************************************************************
+    public void generateCustomPlants()
+    {
+    	ArrayList<Product> planets = getCustomComponents(Product.Type.PLANT);
+    	
+    	float maxPrice = Float.parseFloat(rangeMax.getText());
+    	float minPrice = Float.parseFloat(rangeMin.getText());
+    	
+    	if (planets != null)
+    	{
+    		Product maxPlant = null;
+    		for (Product plant : planets)
+    		{
+    			if (plant.getColor().equals(dominateColorCbx.getSelectionModel().getSelectedItem()))
+    			{
+    				if (plant.getPrice() > minPrice && plant.getPrice() < maxPrice)
+    				{
+    					if (maxPlant == null)
+        					maxPlant = plant;
+    					
+    					if (maxPlant != null && plant.getPrice() > maxPlant.getPrice())
+    						maxPlant = plant;
+    				}
+    			}
+    		}
+    		
+    		if (maxPlant != null)
+    		{
+    			maxPlant.setAmount(1);
+        		final ObservableList<Product> customProducts = FXCollections.observableArrayList();
+        		customProducts.add(maxPlant);
+        		itemTotalPrice = maxPlant.getPrice();
+        		
+	    		DecimalFormat df = new DecimalFormat();
+	    		df.setMaximumFractionDigits(2);
+	    		totalPrice.setText(df.format(itemTotalPrice)+"€");
+	    		
+	    		customTable.setItems(customProducts);
+	    		orderCustomItemBtn.setDisable(false);
+    		}
+       		else
+    		{
+    			this.showErrorMessage("No Item found for the given parameters");
+    		}
+    	}  	
+    }
+    
+    //*************************************************************************************************
+    /**
     *  Clear and reset the GUI fields
   	*/
     //*************************************************************************************************
@@ -431,13 +539,44 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     *  Initialize the dominateColorCbx with all the flowers item dominate colors
   	*/
     //*************************************************************************************************
-    public void loadDominateColors()
+    public void initFields()
     {
     	clearFields();
     	createOrderGUI.setParent(parent);
     	orderCustomItemBtn.setDisable(true);
     	
-    	ArrayList<Product> flowers = getFlowers();
+    	getDominateColors(Product.Type.FLOWER);
+    	
+//    	ArrayList<Product> flowers = getCustomComponents(Product.Type.FLOWER);
+//    	if (flowers != null)
+//    	{
+//    		TreeSet<String> comboboxColorStrings = new TreeSet<String>();
+//    		
+//    		for (Product flower : flowers)
+//    		{
+//    			comboboxColorStrings.add(flower.getColor());
+//    		}
+//    		
+//    		dominateColorCbx.setItems(FXCollections.observableArrayList(comboboxColorStrings));
+//    	}
+    }
+
+    //*************************************************************************************************
+    /**
+    *  Loads the custom components dominate colors to the dominateColorCbx
+    *  @param  type 
+  	*/
+    //*************************************************************************************************
+    private void getDominateColors(Product.Type type)
+    {
+    	ArrayList<Product> flowers = null;
+    	if (type == Product.Type.BOUQUET || type == Product.Type.BRIDE_BOUQUET || 
+    			type == Product.Type.FLOWERS_CLUSTER)
+    		flowers = getCustomComponents(Product.Type.FLOWER);
+    	
+    	if (type == Product.Type.FLOWERPOT)
+    		flowers = getCustomComponents(Product.Type.PLANT);
+    
     	if (flowers != null)
     	{
     		TreeSet<String> comboboxColorStrings = new TreeSet<String>();
@@ -449,8 +588,9 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     		
     		dominateColorCbx.setItems(FXCollections.observableArrayList(comboboxColorStrings));
     	}
+    	
     }
-
+    
     //*************************************************************************************************
     /**
   	*  Called from the client when the server sends a response

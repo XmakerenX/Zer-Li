@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="545.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
+<AnchorPane prefHeight="545.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
    <children>
       <Label layoutX="140.0" layoutY="15.0" text="Create Custom Item">
          <font>
@@ -14,7 +14,7 @@
          </font>
       </Label>
       <Label layoutX="130.0" layoutY="75.0" text="Item's type:" />
-      <ComboBox fx:id="itemTypeCbx" layoutX="215.0" layoutY="73.0" prefWidth="150.0" promptText="[Select type]" />
+      <ComboBox fx:id="itemTypeCbx" layoutX="215.0" layoutY="73.0" onAction="#onTypeSelected" prefWidth="150.0" promptText="[Select type]" />
       <Label layoutX="129.0" layoutY="115.0" text="Price range:" />
       <TextField fx:id="rangeMin" layoutX="215.0" layoutY="113.0" prefHeight="25.0" prefWidth="55.0" />
       <TextField fx:id="rangeMax" layoutX="310.0" layoutY="113.0" prefHeight="25.0" prefWidth="55.0" />

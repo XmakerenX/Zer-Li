@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Product implements Serializable 
 {
 
-	public enum Type {BOUQUET, BRIDE_BOUQUET, FLOWERPOT, FLOWER,PLANT };
+	public enum Type {BOUQUET, BRIDE_BOUQUET, FLOWERPOT, FLOWERS_CLUSTER,FLOWER,PLANT };
 	
 	public static final long serialVersionUID = 55L;
 	
