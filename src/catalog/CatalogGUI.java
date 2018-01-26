@@ -2,46 +2,33 @@ package catalog;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Set;
 import java.util.TreeSet;
 
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
-import customer.CustomerGUI;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
-import javafx.util.converter.NumberStringConverter;
 import order.CreateOrderGUI;
 import product.CatalogItem;
 import prototype.FormController;
 import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.Response;
-import user.LoginGUI;
 import utils.ImageData;
 
 //*************************************************************************************************
@@ -165,6 +152,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
 		{
 			if (replay.getType() == Response.Type.SUCCESS)
 			{
+				@SuppressWarnings("unchecked")
 				ArrayList<CatalogItem> catalogItems = (ArrayList<CatalogItem>)replay.getMessage();
 				for (CatalogItem item : catalogItems)
 				{
@@ -181,7 +169,8 @@ public class CatalogGUI extends FormController implements ClientInterface {
   	*  @param catalogItemsSet the catalog items to show in the catalog
   	*/
     //*************************************************************************************************
-    public void downloadMissingCatalogImages(TreeSet<CatalogItem> catalogItemsSet)
+    @SuppressWarnings("unchecked")
+	public void downloadMissingCatalogImages(TreeSet<CatalogItem> catalogItemsSet)
     {
     	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItemsSet);
 		if (missingImages.size() > 0)

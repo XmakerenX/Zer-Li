@@ -1,34 +1,24 @@
 package networkGUI;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import client.Client;
 import client.ClientInterface;
 import customer.NewCustomerCreationGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
 import report.ViewReportsGUI;
 import serverAPI.GetEmployeeStoreRequest;
-import serverAPI.GetRequest;
 import serverAPI.Response;
-import store.Store;
-import store.StoreEmployee;
 import user.LoginGUI;
-import user.UpdateUsersInfoGUI;
 import user.User;
 import user.UserController;
 
 //*************************************************************************************************
 	/**
-	*  Provides a gui to handle Store Manager actions: viewing report
+	*  Provides a GUI to handle Store Manager actions: view report, create new customer
 	*/
 //*************************************************************************************************
 
@@ -65,8 +55,8 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     }
     
     /**
-     * Displays reports' menu GUI
-     * @param event - "View reports" button is pressed
+     * Displays reports' menu GUI which allows to view reports from manager's store
+     * @param event - "View reports" button is clicked
      */
 
 	@FXML
@@ -106,8 +96,8 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 	}
 
     /**
-     * Display customer creation GUI
-     * @param event - "Create new customer" button is pressed
+     * Display customer creation GUI which allows to enter new customer's info
+     * @param event - "Create new customer" button is clicked
      */
     
     @FXML
@@ -147,7 +137,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 
     /**
      * Logs the user out of the system
-     * @param event - "Log out" button is pressed
+     * @param event - "Log out" button is clicked
      */
     @FXML
     void onLogOut(ActionEvent event) {
@@ -161,7 +151,9 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     	
     }
 
-	
+	/**
+	 * Display reply message from server
+	 */
 	public void display(Object message) {
 		
     	System.out.println(message.toString());

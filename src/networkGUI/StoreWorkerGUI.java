@@ -4,7 +4,6 @@ import catalog.ManageCatalogGUI;
 import client.Client;
 import client.ClientInterface;
 import prototype.FormController;
-import survey.AddSurveyAnalysisToExistingSurveyGUI;
 import survey.ResultInputGUI;
 import user.LoginGUI;
 import user.User;
@@ -16,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 
 //*************************************************************************************************
 	/**
-	*  Provides a gui to handle store worker actions : input surveys results
+	*  Provides a GUI to handle store worker actions : input surveys' results, manage catalog
 	*/
 //*************************************************************************************************
 
@@ -46,21 +45,18 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	private ResultInputGUI resultInputGUI;
 	private ManageCatalogGUI manCatGui;
 
-	//private AddSurveyAnalysisToExistingSurveyGUI addSurveyAnalysisToExistingSurveyGUI;
 	
-	 @FXML
-	    private Button manageCatalogButton;
-
-	 
+    @FXML
+    private Button manageCatalogButton;
 
     @FXML
     private Button inputSurveyAnalysis;
     
     @FXML // fx:id="inputSurveyBtn"
-    private Button inputSurveyBtn; // Value injected by FXMLLoader
+    private Button inputSurveyBtn;
 
     @FXML // fx:id="logOutBtn"
-    private Button logOutBtn; // Value injected by FXMLLoader
+    private Button logOutBtn;
   //===============================================================================================================
 	@Override
 	public void display(Object message) {
@@ -82,6 +78,10 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
         manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
     }
   //===============================================================================================================
+    /**
+     * Displays menu which allows to enter surveys' results
+     * @param event - "Input survey results" button is clicked
+     */
     @FXML
     void onInputSurvey(ActionEvent event) 
     {
@@ -96,6 +96,10 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 		}
     }
     //===============================================================================================================
+    /**
+     * Displays menu which allows to manage catalog
+     * @param event - "Manage catalog" button is clicked
+     */
     @FXML
     void onManageCatalog(ActionEvent event) 
     {
@@ -110,21 +114,11 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 	    	FormController.primaryStage.setScene(manCatGui.getScene());
 		}
     }
-//    @FXML
-//    void onInputSurveyAnalysis(ActionEvent event) {
-//    	if ( addSurveyAnalysisToExistingSurveyGUI != null)
-//		{
-//	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
-//			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
-//			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
-//			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
-//		}
-//    }
     
   //===============================================================================================================
     /**
      * Logs the user out of the system
-     * @param event - "Log out" button is pressed
+     * @param event - "Log out" button is clicked
      */
     @FXML
     void onLogOut(ActionEvent event) 

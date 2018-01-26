@@ -716,7 +716,7 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param pass the database password to save in the config file
 	   */
 	  //*************************************************************************************************
-	  public static void updateConfigFile(String configPath,String port,String username,String pass)
+	  public static void updateServerConfigFile(String configPath,String port,String username,String pass)
 	  {
 		  Config serverConfig = new Config(configPath);
 		  FileOutputStream out;

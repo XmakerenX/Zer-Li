@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
 import survey.SurveyAnalysisGUI;
-import survey.SurveyCreationGUI;
-import survey.SurveyExplorerGUI;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
@@ -28,10 +26,10 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
 	
 	
     @FXML // fx:id="LogOutBtn"
-    private Button LogOutBtn; // Value injected by FXMLLoader
+    private Button LogOutBtn; 
 
     @FXML // fx:id="analyzeBtn"
-    private Button analyzeBtn; // Value injected by FXMLLoader
+    private Button analyzeBtn;
   //===============================================================================================================
     @FXML
     //Will be called by FXMLLoader
@@ -39,6 +37,10 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
     	surveyAnalysisGUI = FormController.<SurveyAnalysisGUI, AnchorPane>loadFXML(getClass().getResource("/survey/SurveyAnalysisGUI.fxml"), this);
     }
   //===============================================================================================================
+    /**
+     * Logs current user out and returns to LogInGUI
+     * @param event - "Log out" button is clicked
+     */
     @FXML
     void onLogOut(ActionEvent event) {
 
@@ -51,6 +53,10 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
     	
     }
   //===============================================================================================================
+    /**
+     * Opens window which allows to view surveys' results
+     * @param event - "Review survey results" button is clicked
+     */
     @FXML
     void onAnalyze(ActionEvent event) {
 

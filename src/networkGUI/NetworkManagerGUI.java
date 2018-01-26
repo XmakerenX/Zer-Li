@@ -7,11 +7,8 @@ import client.Client;
 import client.ClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
 import report.ViewDifferentReportsGUI;
@@ -19,10 +16,12 @@ import serverAPI.GetRequest;
 import serverAPI.Response;
 import store.Store;
 import user.LoginGUI;
-import user.UpdateUsersInfoGUI;
 import user.User;
 import user.UserController;
 
+/**
+ * Provides a GUI to handle network manager actions: views\compares different reports
+ */
 public class NetworkManagerGUI extends  FormController implements ClientInterface{
 
 	private Response replay = null;
@@ -66,7 +65,7 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 
     /**
      * Displays different reports' menu GUI
-     * @param event - "View different reports" button is pressed
+     * @param event - "View different reports" button is clicked
      */
     @SuppressWarnings("unchecked")
 	@FXML
@@ -101,13 +100,9 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 	    		viewDifferentReportsGUI.setComboBoxes();
 	    	}
 	    	else
-	    	{
-	        	// show failure  
-	    		Alert alert = new Alert(AlertType.ERROR, "\"Store\" table is empty!", ButtonType.OK);
-	    		alert.showAndWait();
-	    		// clear replay
-	    	}
-	    	
+	    		showErrorMessage("\"Store\" table is empty!");
+	    		
+	    	// clear replay
 			replay = null;
 			
 	    	}catch(InterruptedException e) {}
@@ -117,7 +112,10 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 			FormController.primaryStage.setScene(viewDifferentReportsGUI.getScene());
     	}
     }
-
+    
+    /**
+     * Displays reply message from server
+     */
 	@Override
 	public void display(Object message) {
     	System.out.println(message.toString());
@@ -134,7 +132,6 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 
 	@Override
 	public void onSwitch(Client newClient) {
-
 		
 	}
 	

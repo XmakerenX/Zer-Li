@@ -1,62 +1,47 @@
 package catalog;
 
-import java.util.ArrayList;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import client.Client;
 import client.ClientInterface;
-import customer.CustomerGUI;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.converter.NumberStringConverter;
-import order.CreateOrderGUI;
 import product.CatalogItem;
 import product.Product;
 import prototype.FormController;
 import serverAPI.Response;
 import serverAPI.UploadImageRequest;
-import user.LoginGUI;
 import utils.ImageData;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 /*
- * provides a GUI to handle the proccess of adding a product to a store's catalog
+ * provides a GUI to handle the process of adding a product to a store's catalog
  */
 public class AddToCatalogGUI extends FormController implements ClientInterface 
 {
+	
 	int storeID;
+	Stage stage;
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
 	public int getStoreID() {
 		return storeID;
 	}
@@ -95,12 +80,33 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	ImageData image;
 	CatalogItem catItem;
 	
-    public CatalogItem getCatItem() {
+	@FXML
+	protected ImageView catalogItemImage;
+
+    public ImageView getCatalogItemImage() {
+		return catalogItemImage;
+	}
+
+	public void setCatalogItemImage(ImageView catalogItemImage) {
+		this.catalogItemImage = catalogItemImage;
+	}
+
+	public CatalogItem getCatItem() {
 		return catItem;
 	}
 
-	public void setCatItem(CatalogItem catItem) {
+	public void setCatItem(EditableCatalogItemView catItem) 
+	{
 		this.catItem = catItem;
+		
+	}
+
+	public TextField getImageField() {
+		return imageField;
+	}
+
+	public void setImageField(String string) {
+		this.imageField.setText(string);
 	}
 
 	@FXML
@@ -132,6 +138,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	protected CheckBox onSale;
 	
 	
+    /**
+     * Allows or denies to enter sale price depends on "OnSale" check box value
+     * @param event - "on sale" check box is clicked
+     */
     @FXML
     void onSale(ActionEvent event) 
     {
@@ -144,7 +154,11 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		salesPriceField.setDisable(true);
     	}
     }
-	  
+	 
+    /**
+     * Opens file chooser window and allows to choose images
+     * @param event - "Browse" button is clicked
+     */
     @FXML
     void BrowseBTN(ActionEvent event) 
     {
@@ -159,8 +173,11 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     	//try to open image:
     	try 
     	{
+    		Image newImage = new Image(new FileInputStream(file));
     		image = new ImageData(file.getAbsolutePath());
-	    	imageField.setText(file.getAbsolutePath());
+    		imageField.setText(file.getAbsolutePath());
+	    	catalogItemImage.setImage(newImage);
+	    	
 
 		} catch (IOException e) 
     	{
@@ -171,6 +188,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 		}
     }
 
+    /**
+     * Closes current window and returns to previous one
+     * @param event - "Cancel" button is clicked
+     */
     @FXML
     void cancelBTN(ActionEvent event) 
     {
@@ -180,6 +201,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
         stage.close();   
     }
 
+    /**
+     * Approves the input and adds product to catalog with image and sale, if they were chosen
+     * @param event - "OK" button is clicked
+     */
     @FXML
     void okBTN(ActionEvent event) 
     {
@@ -204,7 +229,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		}
     		
     		System.out.println(salesPrice);
-    		String imagePath = imageField.getText();//this is the absoloute path
+    		String imagePath = imageField.getText();//this is the absolute path
     		byte[] checkSum = image.getSha256();
 			
     		String ImageName = image.getFileName();
@@ -223,24 +248,9 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 			catch (IOException e)    {e.printStackTrace();} }
     }
     
-    /*
-     * This function waits for the server response by putting the caller in sleep
-     */
-//    private void waitForResponse()
-//    {
-//    	synchronized(this)
-//    	{
-//    		try {
-//				this.wait();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//    	}
-//    }
     //----------------------------------------
     /*
-     * prints which fields are missing in the gui form
+     * Prints which fields are missing in the GUI form
      */
     private void printErrorMessege()
     {
@@ -258,17 +268,13 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		missingField+=",Image";
     	}
     	if(!missingField.equals(""))
-    	{
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-    		alert.setContentText("Form is not fully filled, please enter the \nfollowing fields: "+missingField);
-    		alert.showAndWait();
-    	}
+    		showErrorMessage("Form is not fully filled, please enter the \nfollowing fields: "); 	
     
     }
     //------------------------------------------
     /*
-     * return true if input is valid(meaning none is missing)
-     * else false
+     * Returns true if input is valid(meaning none is missing)
+     * else, false
      */
     private boolean isInputValid()
     {
@@ -285,17 +291,14 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     }
     //------------------------------------------
     
-    /*
-      
-    */
     public void setSalesPrice(String price)
     {
     	this.salesPriceField.setText(price);
     }
     
    
-  //make salesField numberic only.
-	 ChangeListener salesPriceFieldChangeListener =  new ChangeListener<String>() 
+  //Makes salesField numeric only.
+	 ChangeListener<String> salesPriceFieldChangeListener =  new ChangeListener<String>() 
 	 {
 	    @Override
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -324,73 +327,19 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	
 	
 	
-	
+	/**
+	 * Initiates fields of the GUI
+	 */
     public void doInit()
     {
-    	imageField.setText("");
+    	//imageField.setText("");
     	salesPriceField.setText("");
     	onSale.setSelected(false);
     	imageField.setEditable(false);
     	salesPriceField.setDisable(true);
     	
     	salesPriceField.textProperty().addListener(salesPriceFieldChangeListener);
-    	//inti text fields : make imageField uneditable and  price field to be of the form %.2f
-		
-       
-        //salesPriceField.setText(Float.toString(prod.getPrice()));
-        
-       /*
-        *  salesPriceField.textProperty().addListener(new ChangeListener<String>() 
-		{
-		    @Override
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-		        String newValue) 
-		    {
-		    	//clean input:
-		    	newValue.replaceAll("[^\\d.]","");
-		    	
-		    	//allow empty input(for filling only)
-		    	if(newValue.equals("")) return;
-		    	
-		    	else//try to convert it into float
-		    	{
-			    	try
-			    	{
-			    	  float floatInput = Float.parseFloat(newValue);//first, check format
-			    	  //enorfce float policy : ".2f":
-			    	  int i;
-			    	  int len =newValue.length();
-			    	  salesPriceField.setText(newValue);
-			    	  for(i=0;i<len;i++)
-			    	  {
-			    		  if( newValue.charAt(i) == '.' )
-			    		  {
-			    			  try
-			    			  {
-			    			  String numbersAfterDot = newValue.substring(i+1,len-1);
-			    			  if(numbersAfterDot.length()>=2)
-								{
-			    				  salesPriceField.setText(newValue.substring(0,i+3));
-								} 
-			    			    break;
-			    			  }
-			    			  catch(Exception e)
-			    			  {
-			    				  break;
-			    			  }
-			    		  }
-			    	  }
-			    	}
-			    	
-			    	catch(Exception e)//if every last check or try to fix the input failed, 
-			    					  //simply ignore the change.
-			    	{
-			    		salesPriceField.setText(oldValue);
-			    	}
-		    	}
-		    }
-    	});		
-        */
+    	
     }
 
 
@@ -425,7 +374,6 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     
 	@Override
 	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
 
 	}
 

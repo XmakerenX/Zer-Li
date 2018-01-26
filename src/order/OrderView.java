@@ -1,7 +1,11 @@
 package order;
 
 import javafx.scene.control.Button;
-
+/**
+ * the class responsible for showing orders in a table view
+ * @author dk198
+ *
+ */
 public class OrderView extends Order{
 	//===========================================================================================================
 	public class OrderViewButton extends Button

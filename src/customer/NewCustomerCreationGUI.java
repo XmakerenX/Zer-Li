@@ -1,9 +1,7 @@
 package customer;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import client.Client;
 import client.ClientInterface;
 import javafx.beans.value.ChangeListener;
@@ -12,13 +10,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import networkGUI.StoreManagerGUI;
 import prototype.FormController;
 import serverAPI.Response;
@@ -88,7 +83,8 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 	private TextField creditCardNumberTxtField;
 
 	/**
-	 * Initializes the combo box of payment method.
+	 * Initializes the combo box of payment method
+	 * Sets listeners for the text fields
 	 */
 	@FXML
 	// Will be called by FXMLLoader
@@ -110,9 +106,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 
 	/**
 	 * Creates new customer and adds him/her to data base
-	 * 
-	 * @param event
-	 *            - "Create customer" button is pressed
+	 * @param event - "Create customer" button is clicked
 	 */
 	@FXML
 	void onCreateCustomer(ActionEvent event) {
@@ -195,10 +189,8 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 	}
 
 	/**
-	 * Returns to previous GUI window
-	 * 
-	 * @param event
-	 *            - "Back" button is pressed
+	 * Clears all window's fields and returns to previous GUI window
+	 * @param event - "Back" button is pressed
 	 */
 	@FXML
 	void onBack(ActionEvent event) {
@@ -234,9 +226,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 	/**
 	 * Receives message that will be splitted by "_" symbol and transformed to user
 	 * friendly view. For example: "CREDIT_CARD" is transformed to "Credit card"
-	 * 
-	 * @param stringToSplit
-	 *            - message to be splitted by specific symbol
+	 * @param stringToSplit - message to be splitted by specific symbol
 	 * @return transformed string
 	 */
 
@@ -262,10 +252,8 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 
 	/**
 	 * Receives message that will be splitted by " " symbol and transformed to data
-	 * base view. For example: "Credit card" is transformed to "CREDIT_CARD"
-	 * 
-	 * @param stringToSplit
-	 *            - message to be splitted by specific symbol
+	 * base view. For example: "Credit card" is transformed to "CREDIT_CARD" 
+	 * @param stringToSplit - message to be splitted by specific symbol
 	 * @return transformed string
 	 */
 
@@ -284,6 +272,9 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 		return tempString;
 	}
 
+	/**
+	 * A private method to set listeners for the required GUI's fields 
+	 */
 	private void setListenersForTextFields() {
 		personIDTxtField.textProperty().addListener(new ChangeListener<String>() {
 			@Override

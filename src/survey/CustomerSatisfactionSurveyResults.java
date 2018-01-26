@@ -11,6 +11,7 @@ import java.util.Calendar;
  */
 public class CustomerSatisfactionSurveyResults implements Serializable {
 
+	//class variables:
 	private static final long serialVersionUID = 11L;
 	private int ID;
 	private LocalDate date;
