@@ -77,7 +77,6 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	orderBySearchGUI = FormController.<createOrderBySearchGUI, AnchorPane>loadFXML(getClass().getResource("/order/createOrderBySearchGUI.fxml"), this);
     	customItemGUI = FormController.<CustomItemGUI, AnchorPane>loadFXML(getClass().getResource("/order/CustomItemGUI.fxml"), this);
     	cancelOrderGUI = FormController.<CancelOrderGUI, AnchorPane>loadFXML(getClass().getResource("/order/CancelOrderGUI.fxml"), this);
-    
     }
     
     //*************************************************************************************************
@@ -168,7 +167,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
-  	*  Called when the store Combobox is pressed
+  	*  Called when the store combo box is pressed
   	*  Loads the user customer matching the selected store
   	*  @param event the event that triggered this function
   	*/
@@ -180,7 +179,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 
     //*************************************************************************************************
     /**
-  	*  Called when the store Combobox is pressed
+  	*  Called when the store combo box is pressed
   	*  Loads the user customer matching the selected store
   	*  @param event the event that triggered this function
   	*/
@@ -222,6 +221,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 		{
 			if (replay.getType() == Response.Type.SUCCESS)
 			{
+				@SuppressWarnings("unchecked")
 				ArrayList<Customer> customer = (ArrayList<Customer>)replay.getMessage();
 				if (customer.get(0).getAccountStatus())
 				{
@@ -247,7 +247,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     
     //*************************************************************************************************
     /**
-  	*  Loads from the server all the stores and sets the store combobox
+  	*  Loads from the server all the stores and sets the store combo box
   	*/
     //*************************************************************************************************
     public void loadStores()
@@ -270,15 +270,14 @@ public class CustomerGUI extends FormController implements ClientInterface {
    	    	if (replay.getType() == Response.Type.SUCCESS)
    	    	{
    	    		ArrayList<String> comboboxStoreStrings = new ArrayList<String>();
-   	    		ArrayList<Store> stores = (ArrayList<Store>)replay.getMessage(); 	
+   	    		@SuppressWarnings("unchecked")
+				ArrayList<Store> stores = (ArrayList<Store>)replay.getMessage(); 	
    	        	
    	    		for (Store store : stores)
    	    		{
    	    			// ignore store 0(base store) as it isn't a real store
    	    			if (store.getStoreID() != 0)
-   	    			{
    	    				comboboxStoreStrings.add(store.getStoreAddress());
-   	    			}
    	    		}
    	        	
    	        	storeCombo.setItems(FXCollections.observableArrayList(comboboxStoreStrings));

@@ -49,7 +49,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			this.employeeStoreID = storeID;
 		}
 
-		//Gui:
+		//GUI:
 		EditProductGUI editProdGUI;
 		AddToCatalogGUI addToCatGUI;
 		EditCatalogItemGUI editCatItemGui;
@@ -59,54 +59,55 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		 @FXML
 		  private Button newProdBtn;
 		
-		    @FXML
-		    private Button backBTN;
+		 @FXML
+		 private Button backBTN;
 
 		   
 
 		   
-		 
-		//---------------Tables:--------------------------
-									
-									
-								//editable catalog view:
-								   @FXML
-								    private TableView editCatalogView;
-								   
-										    TableColumn cat_imageCol = new TableColumn("Image");
-										    TableColumn cat_nameCol = new TableColumn("Name");
-										    TableColumn cat_priceCol = new TableColumn("Price");
-										    TableColumn cat_salesPriceCol = new TableColumn("sale price");
-										    TableColumn cat_editCol = new TableColumn("");
-										    TableColumn cat_removeCol = new TableColumn("");
-										    
-										    
-											ObservableList<EditableCatalogItemView> eCatalogProducts; //table's data
+ 
+//---------------Tables:--------------------------
+	
+	
+//editable catalog view:
+   @FXML
+    private TableView editCatalogView;
+   
+		    TableColumn cat_imageCol = new TableColumn("Image");
+		    TableColumn cat_nameCol = new TableColumn("Name");
+		    TableColumn cat_priceCol = new TableColumn("Price");
+		    TableColumn cat_salesPriceCol = new TableColumn("sale price");
+		    TableColumn cat_editCol = new TableColumn("");
+		    TableColumn cat_removeCol = new TableColumn("");
+		    
+		    
+			ObservableList<EditableCatalogItemView> eCatalogProducts; //table's data
 
-								//editable product view
-								    @FXML
-								    private TableView editProductTable;//define table
-								
-										    TableColumn prod_idCol = new TableColumn("id");
-										    TableColumn prod_nameCol = new TableColumn("Name");
-										    TableColumn prod_typeCol = new TableColumn("Type");
-										    TableColumn prod_priceCol = new TableColumn("Price");
-										    TableColumn prod_amountCol = new TableColumn("Amount");
-										    TableColumn prod_addToCatalogCol = new TableColumn("");
-										    TableColumn prod_editCol = new TableColumn("");
-										    TableColumn prod_removeCol = new TableColumn("");
-								    
-								   ObservableList<EditableProductView> eProducts; //table's data
+//editable product view
+    @FXML
+    private TableView editProductTable;//define table
+
+		    TableColumn prod_idCol = new TableColumn("id");
+		    TableColumn prod_nameCol = new TableColumn("Name");
+		    TableColumn prod_typeCol = new TableColumn("Type");
+		    TableColumn prod_priceCol = new TableColumn("Price");
+		    TableColumn prod_amountCol = new TableColumn("Amount");
+		    TableColumn prod_addToCatalogCol = new TableColumn("");
+		    TableColumn prod_editCol = new TableColumn("");
+		    TableColumn prod_removeCol = new TableColumn("");
+    
+   ObservableList<EditableProductView> eProducts; //table's data
 
 		
 					
 			    
-			 		//action events for product buttons:
+//action events for product buttons:
 			    
 			
-	   /*
-	    * return to the previous window			   
-	    */
+   /**
+    * Returns to the previous window
+    * @param event - "Back" button is clicked
+    */
 	   @FXML
 	    void onBackBTN(ActionEvent event) 
 	    {
@@ -116,7 +117,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    }
 		/**
 		 * Opens a new product creation window								    
-		 * @param event
+		 * @param event - "New product" button is clicked
 		 */
 	    @FXML
 	    void newProdBtn(ActionEvent event) 
@@ -139,7 +140,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    
 	 
 		/*
-		 * function to allow access of client even in evene handlers
+		 * function to allow access of client even in event handlers
 		 */
 		private Client getClient()
 		{
@@ -210,11 +211,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
     				}
     			}
     			if(itemDoesAlreadyExists)
-    			{
-    				Alert alert = new Alert(Alert.AlertType.ERROR);
-    				alert.setContentText("The selected already appears in the catalog.");
-    				alert.showAndWait();
-    			}
+    				showErrorMessage("Selected product already appears in the catalog!");
+    			
     			else
     			{
 					if (addToCatGUI != null)
@@ -231,16 +229,13 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 						newWindow.showAndWait();
 						getClient().setUI(ManageCatInterface);
 						CatalogItem newCatalogItem = addToCatGUI.getCatItem();
-						
-						
-
 					}
 					initCatalogProductsTableContent();
 					
     			}
 		    }
 		};		
-		//remove prod button:
+		//remove product button:
 		EventHandler<ActionEvent> prodRemoveAction  = new EventHandler<ActionEvent>() 
 				{
 				    @Override public void handle(ActionEvent e) 
@@ -374,6 +369,10 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			   return output;
 		}
 //---------------------------------------------------------------------------------------
+		/**
+		 * Initiates window's fields and tables
+		 * @param user - current logged in user
+		 */
 		public void doInit(User user)
 	    {
 		
@@ -457,7 +456,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 //---------------------------------------------------------------------------------------
 	    /**
 	     * this adds data to the table from the database
-	     * and match buttons with actionevent handlers
+	     * and match buttons with action event handlers
 	     */
 	    public void initProductsTableContent()
 	    {
@@ -467,6 +466,10 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	
 	    }
 //---------------------------------------------------------------------------------------
+	   /**
+	     * this adds data to the catalog table from the database
+	     * and match buttons with action event handlers
+	    */
 	    public void initCatalogProductsTableContent()
 	    {
 	    	eCatalogProducts = getEditableCatalogProducts();
@@ -541,26 +544,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    	return FXCollections.observableArrayList(res);
 	    }
 //---------------------------------------------------------------------------------------		
-	 /**
-	  * As said, this functions wait for the server's reply to continue.
-	  */
-	    public void waitForResponse()
-	 {
-		 synchronized(this) 
-	    	{
-	    		try 
-	    		{
-	    			this.wait();
-	    		}
-	    		
-	    		catch (InterruptedException e) 
-	    		{
-	    			e.printStackTrace();
-	    		}
-	    	} 
-	 }
-//---------------------------------------------------------------------------------------
-	    private void downloadMissingCatalogImages(ArrayList<CatalogItem> catalogItemsSet)
+	    /**
+	     * Downloads and fills the missing item's images for client
+	     * @param catalogItemsSet - set of catalog items 
+	     */
+	    @SuppressWarnings("unchecked")
+		private void downloadMissingCatalogImages(ArrayList<CatalogItem> catalogItemsSet)
 	    {
 	    	ArrayList<String> missingImages = CatalogController.scanForMissingCachedImages(catalogItemsSet);
 			if (missingImages.size() > 0)

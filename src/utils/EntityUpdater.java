@@ -1,20 +1,32 @@
 package utils;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-
 import Server.DBConnector;
 import customer.Customer;
-import customer.Customer.PayType;
 import order.Order;
 import order.OrderComplaint;
 import product.Product;
-import survey.CustomerSatisfactionSurvey;
 import survey.CustomerSatisfactionSurveyResults;
 import user.User;
 
+//*************************************************************************************************
+/**
+* updates Entities in database
+*/
+//*************************************************************************************************
 public class EntityUpdater {
 
+	//*************************************************************************************************
+	/**
+	 * Updates entity in database
+	 * call the appropriate sub setXXX function based on the table
+	 * @param table the table load the entity from
+	 * @param oldKey the select query result set
+	 * @param entity the entity data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	public static Boolean setEntity(String table, String oldKey, Object entity, DBConnector db)
 	{
 		try
@@ -53,18 +65,17 @@ public class EntityUpdater {
 		}
 	}
 	
-	
-	
+	//*************************************************************************************************
+	/**
+	 * Updates order in database
+	 * @param oldKey the select query result set
+	 * @param order the order data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	private static void setOrder(String oldKey, Order order, DBConnector db) throws SQLException
-	{
-		 // String OrderID = "OrderID=\""+order.getID();
-		  //String OrderPrice ="OrderPrice=\""+order.getPrice();
-		  //String OrderCreationDateTime ="OrderCreationDateTime=\""+order.getCreationDateTime();
-		  //String OrderRequiredDate = "OrderRequiredDate=\""+order.getRequiredDateTime();
-		  //String OrderRequiredTime = "OrderRequiredTime=\""+order.getRequiredDateTime();
-		  //String OrderShipmentAddress = "OrderShipmentAddress=\""+order.getDeliveryInfo().getDeliveryAddress();
-		  //String OrderReceiverName = "OrderReceiverName=\"" + order.getDeliveryInfo().getReceiverName();
-          
+	{         
 		  String OrderStatus = "OrderStatus=\""+order.getStatus().toString()+"\"";
 
 		  String OrderRefund = "OrderRefund="+order.getRefund();
@@ -74,7 +85,15 @@ public class EntityUpdater {
 		  db.executeUpdate("prototype.Order", OrderRefund + "," + OrderStatus , condition);
 	}
 	
-	
+	//*************************************************************************************************
+	/**
+	 * Updates product in database
+	 * @param oldKey the select query result set
+	 * @param product the product data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	private static void setProdcut(String oldKey, Product product, DBConnector db) throws SQLException
 	{
 		  String productID = "ProductID="+product.getID();
@@ -89,6 +108,15 @@ public class EntityUpdater {
 				  			productAmount + "," +productColor, condition);
 	}
 	
+	//*************************************************************************************************
+	/**
+	 * Updates User in database
+	 * @param oldKey the select query result set
+	 * @param user the user data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	private static void setUser(String oldKey, User user, DBConnector db) throws SQLException
 	{		  
 		  String userName = "userName=\""+user.getUserName()+"\"";
@@ -102,7 +130,16 @@ public class EntityUpdater {
 		  db.executeUpdate("User", userName + "," + userPassword + "," + userPermission + "," 
 				  +personID+", " + userStatus + ", " + unsuccessfulTries , condition);
 	}
-	
+
+	//*************************************************************************************************
+	/**
+	 * Updates Customer in database
+	 * @param oldKey the select query result set
+	 * @param customer the customer data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	private static void setCustomer(String oldKey, Customer customer, DBConnector db) throws SQLException
 	{
 		String personID = "personID="+customer.getID();
@@ -119,6 +156,15 @@ public class EntityUpdater {
 				  +payMethod+", " + accountBalance + ", " + creditCardNumber + "," + accountStatus + "," + storeID, condition);
 	}
 	
+	//*************************************************************************************************
+	/**
+	 * Updates Customer Satisfaction Survey Results in database
+	 * @param oldKey the select query result set
+	 * @param result the Customer Satisfaction Survey Results data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	private static void setCustomerSatisfactionSurveyResult(String oldKey, CustomerSatisfactionSurveyResults result, DBConnector db) throws SQLException
 	{
 		String analysis = "analysis='"+result.getAnalysis()+"'";
@@ -126,6 +172,15 @@ public class EntityUpdater {
 		db.executeUpdate("customersatisfactionsurveyresults", analysis, condition);
 	}
 	
+	//*************************************************************************************************
+	/**
+	 * Updates Order Complaint in database
+	 * @param oldKey the select query result set
+	 * @param order the Order Complaint data to update
+	 * @param db the database connector
+	 * @return true on entity updated successfully otherwise returns false
+	 */
+	//*************************************************************************************************
 	private static void setOrderComplaint(String oldKey, OrderComplaint order, DBConnector db) throws SQLException
 	{
 		String compensationValue = "givenCompensationAmount= "+order.getComplaintCompensation();

@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="networkGUI.NetworkWorkerGUI">
    <children>
-      <Button fx:id="backBtn" layoutX="15.0" layoutY="170.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Log out" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="170.0" mnemonicParsing="false" onAction="#onLogOut" prefWidth="60.0" text="Log out" />
       <Button fx:id="manageCatalogBTN" layoutX="50.0" layoutY="80.0" mnemonicParsing="false" onAction="#manageCatalog" prefHeight="35.0" prefWidth="180.0" text="Manage catalog" />
       <Label fx:id="welcomeLbl" layoutX="45.0" layoutY="14.0" text="Welcome, network worker!">
          <font>

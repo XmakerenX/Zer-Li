@@ -68,7 +68,7 @@ public class CatalogController
 	
 	//*************************************************************************************************
 	/**
-	* checks if  there are any missing cached images, and does a checksum test to see
+	* checks if there are any missing cached images, and does a checksum test to see
 	* if the images found on cache are the same as the ones on the server side
 	* @param catalogItems The items  Collection to check against
 	*/

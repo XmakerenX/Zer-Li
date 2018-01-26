@@ -2,24 +2,17 @@ package networkGUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import client.Client;
-import client.ClientInterface;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import order.ComplaintCreationGUI;
 import order.ComplaintManageGUI;
 import prototype.FormController;
-import survey.SurveyAnalysisGUI;
-import survey.SurveyCreationGUI;
-import survey.SurveyExplorerGUI;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
 //*************************************************************************************************
 	/**
-	*  Provides a gui to handle customer service worker actions: adding new complaint, managing complaint
+	*  Provides a GUI to handle customer service worker actions: adding new complaint, managing complaints
 	*/
 //*************************************************************************************************
 public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
@@ -46,6 +39,10 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
     	complaintManageGUI = FormController.<ComplaintManageGUI, AnchorPane>loadFXML(getClass().getResource("/order/ComplaintManageGUI.fxml"), this);
     }
   //===============================================================================================================
+    /**
+     * Opens menu which allows to add new customer's complaint
+     * @param event - "Add new complaint" button is clicked
+     */
     @FXML
     void OnAddNewComplaintButton(ActionEvent event) {
     	complaintCreationGUI.setUser(user);
@@ -55,6 +52,10 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
 		FormController.primaryStage.setScene(complaintCreationGUI.getScene());
     }
   //===============================================================================================================
+    /**
+     * Opens menu which allows to manager existing customers' complaints
+     * @param event - "Manage complaints" button is clicked
+     */
     @FXML
     void onManageComplaintsButton(ActionEvent event)
     {
@@ -68,6 +69,10 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
 		}
     }
   //===============================================================================================================
+    /**
+     * Logs current user out and returns to LogInGUI
+     * @param event - "Log out" button is clicked
+     */
     @FXML
     void onLogOutButton(ActionEvent event) {
     	user.setUserStatus(User.Status.valueOf("REGULAR"));

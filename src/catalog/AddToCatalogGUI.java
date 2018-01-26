@@ -27,7 +27,7 @@ import serverAPI.UploadImageRequest;
 import utils.ImageData;
 
 /*
- * provides a GUI to handle the proccess of adding a product to a store's catalog
+ * provides a GUI to handle the process of adding a product to a store's catalog
  */
 public class AddToCatalogGUI extends FormController implements ClientInterface 
 {
@@ -138,6 +138,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	protected CheckBox onSale;
 	
 	
+    /**
+     * Allows or denies to enter sale price depends on "OnSale" check box value
+     * @param event - "on sale" check box is clicked
+     */
     @FXML
     void onSale(ActionEvent event) 
     {
@@ -150,7 +154,11 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		salesPriceField.setDisable(true);
     	}
     }
-	  
+	 
+    /**
+     * Opens file chooser window and allows to choose images
+     * @param event - "Browse" button is clicked
+     */
     @FXML
     void BrowseBTN(ActionEvent event) 
     {
@@ -180,6 +188,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 		}
     }
 
+    /**
+     * Closes current window and returns to previous one
+     * @param event - "Cancel" button is clicked
+     */
     @FXML
     void cancelBTN(ActionEvent event) 
     {
@@ -189,6 +201,10 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
         stage.close();   
     }
 
+    /**
+     * Approves the input and adds product to catalog with image and sale, if they were chosen
+     * @param event - "OK" button is clicked
+     */
     @FXML
     void okBTN(ActionEvent event) 
     {
@@ -213,7 +229,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		}
     		
     		System.out.println(salesPrice);
-    		String imagePath = imageField.getText();//this is the absoloute path
+    		String imagePath = imageField.getText();//this is the absolute path
     		byte[] checkSum = image.getSha256();
 			
     		String ImageName = image.getFileName();
@@ -232,24 +248,9 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 			catch (IOException e)    {e.printStackTrace();} }
     }
     
-    /*
-     * This function waits for the server response by putting the caller in sleep
-     */
-//    private void waitForResponse()
-//    {
-//    	synchronized(this)
-//    	{
-//    		try {
-//				this.wait();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//    	}
-//    }
     //----------------------------------------
     /*
-     * prints which fields are missing in the gui form
+     * Prints which fields are missing in the GUI form
      */
     private void printErrorMessege()
     {
@@ -267,17 +268,13 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     		missingField+=",Image";
     	}
     	if(!missingField.equals(""))
-    	{
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-    		alert.setContentText("Form is not fully filled, please enter the \nfollowing fields: "+missingField);
-    		alert.showAndWait();
-    	}
+    		showErrorMessage("Form is not fully filled, please enter the \nfollowing fields: "); 	
     
     }
     //------------------------------------------
     /*
-     * return true if input is valid(meaning none is missing)
-     * else false
+     * Returns true if input is valid(meaning none is missing)
+     * else, false
      */
     private boolean isInputValid()
     {
@@ -294,17 +291,14 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     }
     //------------------------------------------
     
-    /*
-      
-    */
     public void setSalesPrice(String price)
     {
     	this.salesPriceField.setText(price);
     }
     
    
-  //make salesField numberic only.
-	 ChangeListener salesPriceFieldChangeListener =  new ChangeListener<String>() 
+  //Makes salesField numeric only.
+	 ChangeListener<String> salesPriceFieldChangeListener =  new ChangeListener<String>() 
 	 {
 	    @Override
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -333,7 +327,9 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 	
 	
 	
-	
+	/**
+	 * Initiates fields of the GUI
+	 */
     public void doInit()
     {
     	//imageField.setText("");
@@ -378,7 +374,6 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     
 	@Override
 	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
 
 	}
 

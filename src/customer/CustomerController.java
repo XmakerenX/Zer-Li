@@ -2,8 +2,6 @@ package customer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import client.Client;
 import customer.Customer.CustomerException;
 import customer.Customer.PayType;
@@ -99,7 +97,7 @@ public class CustomerController {
 	//*************************************************************************************************
 	/**
 	 * Calculates how much to refund the customer for his canceled order
-	 * @param requiredDate	The order required Date
+	 * @param requiredDate - order's required Date
 	 * @return how much of the original price to refund the customer (0.0f, 0.5f , 1.0f)
 	 */
 	//*************************************************************************************************

@@ -1,6 +1,5 @@
 package networkGUI;
 
-import catalog.AddToCatalogGUI;
 import catalog.ManageCatalogGUI;
 import client.Client;
 import client.ClientInterface;
@@ -9,15 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import prototype.FormController;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
 //*************************************************************************************************
 	/**
-	*  Provides a gui to handle simple network worker gui (handle base catalog and products)
+	*  Provides a GUI to handle network worker GUI (handle base catalog and products)
 	*/
 //*************************************************************************************************
 public class NetworkWorkerGUI extends  FormController  implements ClientInterface
@@ -42,7 +39,11 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
 	public void setStoreID(int storeID) {
 		this.storeID = storeID;
 	}
-
+	
+	/**
+	 * Displays menu which allows to manage catalogs
+	 * @param event - "Manage catalog" button is clicked
+	 */
 	@FXML
     void manageCatalog(ActionEvent event)
     {
@@ -60,11 +61,12 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
 		this.user = user;
 	}
     
-    
-
-    
+    /**
+     * Logs the user out of the system
+     * @param event - "Log out" button is pressed
+     */
     @FXML
-    void onBack(ActionEvent event) 
+    void onLogOut(ActionEvent event) 
     {
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
     	UserController.requestLogout(user, client);

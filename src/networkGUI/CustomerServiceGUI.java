@@ -8,16 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import prototype.FormController;
 import survey.AddSurveyAnalysisToExistingSurveyGUI;
-import survey.ResultInputGUI;
-import survey.SurveyCreationGUI;
-import survey.SurveyExplorerGUI;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
 
 //*************************************************************************************************
 	/**
-	*  Provides a gui to handle  customer service actions: (input survey analysis) 
+	*  Provides a GUI to handle customer service actions: (input survey analysis) 
 	*/
 //*************************************************************************************************
 public class CustomerServiceGUI extends FormController implements ClientInterface{
@@ -41,6 +38,10 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     }
   //===============================================================================================================
  
+    /**
+     * Opens window which allows to enter surveys' analysis
+     * @param event - "Input survey analysis" button is clicked
+     */
     @FXML
     void onInputSurveyAnalysisButton(ActionEvent event) 
     {
@@ -53,6 +54,10 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
 		}
     }
   //===============================================================================================================
+    /**
+     * Logs current user out and returns to LogInGUI
+     * @param event - "Log out" button is clicked
+     */
     @FXML
     void onLogOutButton(ActionEvent event) 
     {

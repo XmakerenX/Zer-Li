@@ -2,8 +2,6 @@ package Server;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,20 +9,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import prototype.MainFormController;
-import utils.Config;
 
+//*************************************************************************************************
+/**
+* This Class provides a GUI to show the server status
+*/
+//*************************************************************************************************
 public class ServerGUI extends Application 
 {
     @FXML
@@ -48,11 +43,15 @@ public class ServerGUI extends Application
     @FXML
     private Label statusLabel;	
 	
-
-
 	private ProtoTypeServer sv;
 
-//-------------------------------------------------------------------------------
+    //*************************************************************************************************
+    /**
+  	*  Called when the save button is pressed
+  	*  Save the new config info entered
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onSaveBtn(ActionEvent event) 
     {
@@ -80,7 +79,14 @@ public class ServerGUI extends Application
     	alert.showAndWait();
     	}
     }
-//-------------------------------------------------------------------------------
+    
+    //*************************************************************************************************
+    /**
+  	*  Called when the start button is pressed
+  	*  starts the server so it listens to clients 
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onStartBtn(ActionEvent event) 
     {
@@ -96,7 +102,14 @@ public class ServerGUI extends Application
 			System.out.println("ERROR - Could not listen for clients!");
 		}
     }
-//-------------------------------------------------------------------------------
+    
+    //*************************************************************************************************
+    /**
+  	*  Called when the stop button is pressed
+  	*  stops the server and it stops listening to clients 
+  	*  @param event the event that triggered this function
+  	*/
+    //*************************************************************************************************
     @FXML
     void onStopBtn(ActionEvent event) 
     {
@@ -110,7 +123,13 @@ public class ServerGUI extends Application
 			System.exit(-1);
 		}
     }
-//-------------------------------------------------------------------------------
+    
+ 	//*************************************************************************************************
+    /**
+  	*  Called by FXMLLoader on class initialization 
+  	*  Initializes The gui controls
+  	*/
+ 	//*************************************************************************************************
     @FXML
     public void initialize() 
     {
@@ -132,7 +151,12 @@ public class ServerGUI extends Application
         		e.printStackTrace();
         	}
     }
-//-------------------------------------------------------------------------------
+    
+ 	//*************************************************************************************************
+    /**
+     * Called on application start , Initialize the server gui form the fxml and shows it
+  	*/
+ 	//*************************************************************************************************
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{		
@@ -149,7 +173,13 @@ public class ServerGUI extends Application
 		 //show
 		primaryStage.show();
 	}
-//-------------------------------------------------------------------------------
+	
+ 	//*************************************************************************************************
+    /**
+     * The application main function calls the application launch
+     * @see javafx.application.Application.launch;
+  	*/
+ 	//*************************************************************************************************
 	public static void main(String[] args) 
 	{ 
 		launch(args);
