@@ -12,8 +12,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import product.Product;
+import utils.FormController;
 import client.Client;
-import prototype.FormController;
 
 //*************************************************************************************************
 	/**

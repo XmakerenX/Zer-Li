@@ -18,10 +18,10 @@ import javafx.scene.control.Alert.AlertType;
 import networkGUI.CustomerServiceGUI;
 import networkGUI.StoreWorkerGUI;
 import product.CatalogItem;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User;
 import user.UserController;
+import utils.FormController;
 /**
  * this class lets us add new customer satisfaction survey results to the data base
  * you can only add a result if all fields have been filled.

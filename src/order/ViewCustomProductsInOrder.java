@@ -14,7 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import product.Product;
-import prototype.FormController;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**

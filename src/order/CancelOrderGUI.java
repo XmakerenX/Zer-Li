@@ -24,8 +24,8 @@ import java.util.Observer;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
-import prototype.FormController;
 import serverAPI.Response;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**
@@ -248,6 +248,10 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
     //*************************************************************************************************
     public void onRefresh(ActionEvent event) {
     	replay = null;
+    	
+    	if (currentCustomer == null)
+    		return;
+    	
     	OrderController.requestCustomerOrders(currentCustomer.getID());
     	
     	// wait for response

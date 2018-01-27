@@ -6,11 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import prototype.FormController;
 import survey.SurveyAnalysisGUI;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**

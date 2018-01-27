@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import product.EditProductGUI;
 import product.CatalogItem;
 import product.Product;
-import prototype.FormController;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**

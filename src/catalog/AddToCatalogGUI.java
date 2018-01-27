@@ -21,9 +21,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import product.CatalogItem;
 import product.Product;
-import prototype.FormController;
 import serverAPI.Response;
 import serverAPI.UploadImageRequest;
+import utils.FormController;
 import utils.ImageData;
 
 /*

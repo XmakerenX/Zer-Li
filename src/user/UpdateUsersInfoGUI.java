@@ -23,9 +23,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import networkGUI.SystemManagerGUI;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User.UserException;
+import utils.FormController;
 
 import java.util.ArrayList;
 import java.util.Arrays;

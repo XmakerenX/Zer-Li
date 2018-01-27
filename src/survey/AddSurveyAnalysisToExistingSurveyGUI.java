@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 import client.Client;
 import client.ClientInterface;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User;
+import utils.FormController;
 /**
  * this class holds the GUI functionality that lets the customer service add an analysis to a specific survey result
  * @author dk198

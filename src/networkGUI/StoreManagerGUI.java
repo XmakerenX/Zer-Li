@@ -8,13 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import prototype.FormController;
 import report.ViewReportsGUI;
 import serverAPI.GetEmployeeStoreRequest;
 import serverAPI.Response;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**

@@ -14,7 +14,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
-import prototype.FormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
 import store.Store;
@@ -22,6 +21,7 @@ import user.LoginGUI;
 import user.UpdateUsersInfoGUI;
 import user.User;
 import user.UserController;
+import utils.FormController;
 
 
 

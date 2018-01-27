@@ -28,9 +28,9 @@ import javafx.stage.Stage;
 import networkGUI.CustomerServiceWorkerGUI;
 import order.OrderRow.OrderViewButton;
 import order.OrderRow.orderRowButton;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User;
+import utils.FormController;
 /**
  * In this GUI we select an order of a specific user, to complain about
  * @author dk198

@@ -160,8 +160,10 @@ public class ServerGUI extends Application
     {
     		try 
     		{
-    			server.stopServer();
-				statusLabel.setText("Status: Offline");
+    			if (server != null)
+    				server.stopServer();
+    			if (statusLabel != null)
+    				statusLabel.setText("Status: Offline");
 			} 
     		
     		catch (Exception e) 

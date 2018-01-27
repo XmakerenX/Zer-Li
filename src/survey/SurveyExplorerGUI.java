@@ -19,8 +19,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import networkGUI.CustomerServiceGUI;
-import prototype.FormController;
 import serverAPI.Response;
+import utils.FormController;
 /**
  * this class allows us to browse between existing surveys.
  * @author dk198

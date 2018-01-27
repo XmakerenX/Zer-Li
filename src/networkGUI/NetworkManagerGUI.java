@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import prototype.FormController;
 import report.ViewDifferentReportsGUI;
 import serverAPI.GetRequest;
 import serverAPI.Response;
@@ -18,6 +17,7 @@ import store.Store;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
+import utils.FormController;
 
 /**
  * Provides a GUI to handle network manager actions: views\compares different reports

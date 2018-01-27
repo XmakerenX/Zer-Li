@@ -26,9 +26,9 @@ import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import order.CreateOrderGUI;
 import product.CatalogItem;
-import prototype.FormController;
 import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.Response;
+import utils.FormController;
 import utils.ImageData;
 
 //*************************************************************************************************

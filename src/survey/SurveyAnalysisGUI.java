@@ -12,8 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import networkGUI.CustomerServiceExpertGUI;
-import prototype.FormController;
 import serverAPI.Response;
+import utils.FormController;
 /**
  * A class that lets the customer service expert browse through the survey's results which haven't been assigned an analysis yet
  * @author dk198

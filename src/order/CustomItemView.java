@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import product.Product;
-import prototype.FormController;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**

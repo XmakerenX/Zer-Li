@@ -15,10 +15,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import networkGUI.StoreManagerGUI;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User;
 import user.UserController;
+import utils.FormController;
 
 /**
  * A GUI for store manager to create new customer in his/her store.

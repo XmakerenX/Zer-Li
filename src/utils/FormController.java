@@ -1,4 +1,4 @@
-package prototype;
+package utils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +24,7 @@ import javafx.stage.WindowEvent;
 //*************************************************************************************************
 public abstract class FormController {
 
-	protected static Stage primaryStage;
+	public static Stage primaryStage;
 	protected Scene thisScene;
 	protected FormController parent;
 	protected Client client;

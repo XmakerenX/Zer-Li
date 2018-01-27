@@ -24,9 +24,9 @@ import client.ClientInterface;
 import customer.Customer;
 import customer.CustomerView;
 import customer.Customer.CustomerException;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User;
+import utils.FormController;
 
 
 //*************************************************************************************************

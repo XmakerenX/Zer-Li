@@ -35,8 +35,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
-import prototype.FormController;
 import serverAPI.Response;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**

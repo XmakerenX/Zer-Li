@@ -26,9 +26,9 @@ import java.util.Optional;
 import client.Client;
 import client.ClientInterface;
 import customer.CustomerGUI;
-import prototype.FormController;
 import serverAPI.Response;
 import utils.Config;
+import utils.FormController;
 
 /**
  * holds all the functionality needed for the login GUI
@@ -174,7 +174,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     {   
     	try
     	{
-		prototype.Main.initClient(this);
+		zerliStart.Main.initClient(this);
     	}
     	catch(Exception e)
     	{

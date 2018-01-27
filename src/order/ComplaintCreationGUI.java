@@ -37,11 +37,11 @@ import networkGUI.StoreWorkerGUI;
 import product.CatalogItem;
 import product.Product;
 import product.EditableProductView.EditableProductViewButton;
-import prototype.FormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
 import store.Store;
 import user.User;
+import utils.FormController;
 /**
  * this class holds all the GUI related info so we could start the complaint creation process
  * @author dk198

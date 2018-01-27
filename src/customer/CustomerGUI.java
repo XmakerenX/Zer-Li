@@ -17,13 +17,13 @@ import javafx.scene.layout.AnchorPane;
 import order.CancelOrderGUI;
 import order.CustomItemGUI;
 import order.createOrderBySearchGUI;
-import prototype.FormController;
 import serverAPI.GetRequest;
 import serverAPI.Response;
 import store.Store;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
+import utils.FormController;
 
 //*************************************************************************************************
 	/**
@@ -228,12 +228,14 @@ public class CustomerGUI extends FormController implements ClientInterface {
 				{
 					orderCustomItemBtn.setDisable(false);
 					orderBySearch.setDisable(false);
+					viewOrdersBtn.setDisable(false);
 					return customer.get(0);
 				}
 			}
 			// disable the button if there was no valid customer
 			orderCustomItemBtn.setDisable(true);
 			orderBySearch.setDisable(true);
+			viewOrdersBtn.setDisable(true);
 			return null;
 		}
 		else

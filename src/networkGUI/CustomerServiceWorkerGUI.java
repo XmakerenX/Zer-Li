@@ -6,10 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
 import order.ComplaintCreationGUI;
 import order.ComplaintManageGUI;
-import prototype.FormController;
 import user.LoginGUI;
 import user.User;
 import user.UserController;
+import utils.FormController;
 //*************************************************************************************************
 	/**
 	*  Provides a GUI to handle customer service worker actions: adding new complaint, managing complaints

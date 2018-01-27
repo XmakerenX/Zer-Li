@@ -17,9 +17,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 import serverAPI.Response;
+import utils.FormController;
 
 /*
  * Provides a GUI to edit products info

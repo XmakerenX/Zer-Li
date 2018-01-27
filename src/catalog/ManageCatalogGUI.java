@@ -22,9 +22,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import product.EditableProductView.EditableProductViewButton;
 import product.*;
-import prototype.FormController;
 import serverAPI.Response;
 import user.User;
+import utils.FormController;
 import utils.ImageData;
 
 //*************************************************************************************************

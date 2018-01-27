@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import serverAPI.Response;
-
+import utils.FormController;
 import client.Client;
 import client.ClientInterface;
 import javafx.beans.value.ChangeListener;
@@ -20,7 +20,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import prototype.FormController;
 import serverAPI.CheckExistsRequest;
 
 /*

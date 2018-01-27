@@ -38,10 +38,10 @@ import javafx.scene.layout.Region;
 import product.CatalogItem;
 import product.ProdcutController;
 import product.Product;
-import prototype.FormController;
 import serverAPI.GetJoinedTablesWhereRequest;
 import serverAPI.Response;
 import user.User;
+import utils.FormController;
 import utils.ImageData;
 
 

@@ -1,4 +1,4 @@
-package prototype;
+package zerliStart;
 	
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import user.*;
 import utils.Config;
+import utils.FormController;
 
 public class Main extends Application 
 {
@@ -78,16 +79,10 @@ public class Main extends Application
 	private void openNewClientGui(Stage primaryStage) throws IOException
 	{				
 				FormController.primaryStage = primaryStage;
-				//MainFormController controller = FormController.<MainFormController, BorderPane>loadFXML(getClass().getResource("MainForm.fxml"), null);
 				LoginGUI controller = FormController.<LoginGUI, AnchorPane>loadFXML(getClass().getResource("/user/UserGUI.fxml"), null);
-				//ShowProductController controller = FormController.<ShowProductController, BorderPane>loadFXML(getClass().getResource("ShowProduct.fxml"), null);
 				
-				
-				
-				//controller.initData(client);
-
 				primaryStage.setScene(controller.getScene());
-				primaryStage.setTitle("Prototype");
+				primaryStage.setTitle("Zerli");
 				
 
 				primaryStage.show();

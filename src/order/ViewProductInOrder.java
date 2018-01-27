@@ -11,12 +11,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import product.Product;
+import utils.FormController;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import client.Client;
-import prototype.FormController;
 
 //*************************************************************************************************
 	/**

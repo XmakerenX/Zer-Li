@@ -15,9 +15,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import networkGUI.StoreManagerGUI;
-import prototype.FormController;
 import report.Report.Quarterly;
 import serverAPI.Response;
+import utils.FormController;
 
 /**
  * GUI allows to view income, order or survey report from specific quarterly and
