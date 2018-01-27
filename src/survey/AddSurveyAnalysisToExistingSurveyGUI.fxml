@@ -9,14 +9,14 @@
 
 <AnchorPane prefHeight="406.0" prefWidth="290.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.AddSurveyAnalysisToExistingSurveyGUI">
    <children>
-      <Label layoutX="15.0" layoutY="15.0" text="Add result's analysis to a specific result:" />
-      <Label layoutX="15.0" layoutY="45.0" text="Enter result's number:" />
+      <Label layoutX="12.0" layoutY="15.0" text="Add result's analysis to a specific result:" />
+      <Label layoutX="12.0" layoutY="45.0" text="Enter result's number:" />
       <TextField fx:id="resultNumberField" layoutX="133.0" layoutY="43.0" prefHeight="25.0" prefWidth="72.0" />
       <Button fx:id="searchButton" layoutX="217.0" layoutY="43.0" mnemonicParsing="false" onAction="#onSeachButton" prefWidth="60.0" text="Search" />
-      <Button fx:id="cancelButton" layoutX="15.0" layoutY="365.0" mnemonicParsing="false" onAction="#onCancelButton" prefWidth="60.0" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="12.0" layoutY="365.0" mnemonicParsing="false" onAction="#onCancelButton" prefWidth="60.0" text="Cancel" />
       <Button fx:id="addButton" layoutX="217.0" layoutY="365.0" mnemonicParsing="false" onAction="#onAddButton" prefHeight="25.0" prefWidth="60.0" text="Add" />
       <TextArea fx:id="analysisField" layoutX="12.0" layoutY="120.0" prefHeight="219.0" prefWidth="265.0" />
-      <Label layoutX="15.0" layoutY="90.0" text="Write an analysis:" />
+      <Label layoutX="12.0" layoutY="90.0" text="Write an analysis:" />
       <Separator layoutX="5.0" layoutY="75.0" prefHeight="11.0" prefWidth="280.0" />
       <Label fx:id="lengthField" layoutX="225.0" layoutY="340.0" text="  0/500" />
    </children>

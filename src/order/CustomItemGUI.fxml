@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="545.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
+<AnchorPane prefHeight="545.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CustomItemGUI">
    <children>
       <Label layoutX="140.0" layoutY="15.0" text="Create Custom Item">
          <font>
@@ -18,7 +21,7 @@
       <Label layoutX="129.0" layoutY="115.0" text="Price range:" />
       <TextField fx:id="rangeMin" layoutX="215.0" layoutY="113.0" prefHeight="25.0" prefWidth="55.0" />
       <TextField fx:id="rangeMax" layoutX="310.0" layoutY="113.0" prefHeight="25.0" prefWidth="55.0" />
-      <Label layoutX="283.0" layoutY="100.0" text="-">
+      <Label layoutX="284.0" layoutY="100.0" text="-">
          <font>
             <Font size="31.0" />
          </font>

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="340.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.NewCustomerCreationGUI">
+<AnchorPane prefHeight="340.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.NewCustomerCreationGUI">
    <children>
       <Label fx:id="windowTitleLbl" layoutX="72.0" layoutY="14.0" text="New Customer Creation Menu">
          <font>
@@ -26,8 +28,8 @@
       <TextField fx:id="phoneNumberTxtField" layoutX="147.0" layoutY="182.0" prefHeight="25.0" prefWidth="150.0" />
       <TextField fx:id="creditCardNumberTxtField" layoutX="147.0" layoutY="242.0" prefWidth="150.0" />
       <ComboBox fx:id="paymentMethodComboBox" layoutX="147.0" layoutY="212.0" prefWidth="150.0" promptText="[Select method]" />
-      <Button fx:id="backBtn" layoutX="15.0" layoutY="301.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
-      <Button fx:id="createCustomerBtn" layoutX="253.0" layoutY="301.0" mnemonicParsing="false" onAction="#onCreateCustomer" text="Create customer" />
+      <Button fx:id="backBtn" layoutX="15.0" layoutY="301.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
+      <Button fx:id="createCustomerBtn" layoutX="251.0" layoutY="301.0" mnemonicParsing="false" onAction="#onCreateCustomer" prefWidth="105.0" text="Create customer" />
       <Separator layoutX="5.0" layoutY="284.0" prefWidth="360.0" />
    </children>
 </AnchorPane>

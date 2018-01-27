@@ -10,13 +10,13 @@
 
    <children>
 
-      <Label fx:id="descriptionLbl" layoutX="20.0" layoutY="15.0" text="Enter new product's details:" />
+      <Label fx:id="descriptionLbl" layoutX="15.0" layoutY="15.0" text="Enter new product's details:" />
 
-      <TextField fx:id="idField" layoutX="85.0" layoutY="53.0" prefWidth="160.0" />
+      <TextField fx:id="idField" layoutX="90.0" layoutY="53.0" prefWidth="160.0" />
 
-      <TextField fx:id="nameFIeld" layoutX="85.0" layoutY="83.0" prefWidth="160.0" />
+      <TextField fx:id="nameFIeld" layoutX="90.0" layoutY="83.0" prefWidth="160.0" />
 
-      <TextField fx:id="priceField" layoutX="85.0" layoutY="143.0" prefWidth="160.0" />
+      <TextField fx:id="priceField" layoutX="90.0" layoutY="143.0" prefWidth="160.0" />
 
       <Label fx:id="idLbl" layoutX="66.0" layoutY="55.0" text="ID:" />
 
@@ -29,11 +29,11 @@
       <Button fx:id="createProductBtn" layoutX="180.0" layoutY="255.0" mnemonicParsing="false" onAction="#onCreateProduct" prefWidth="100.0" text="Create product" />
 
       <Button fx:id="backBtn" layoutX="15.0" layoutY="255.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
-      <ComboBox fx:id="typeComboBox" layoutX="85.0" layoutY="113.0" prefHeight="25.0" prefWidth="160.0" promptText="[Select type]" />
+      <ComboBox fx:id="typeComboBox" layoutX="90.0" layoutY="113.0" prefHeight="25.0" prefWidth="160.0" promptText="[Select type]" />
       <Label fx:id="colorLbl" layoutX="49.0" layoutY="205.0" text="Color:" />
       <Label fx:id="amountLbl" layoutX="35.0" layoutY="175.0" text="Amount:" />
-      <TextField fx:id="amountFIeld" layoutX="85.0" layoutY="175.0" prefWidth="160.0" />
-      <ComboBox fx:id="colorComboBox" layoutX="85.0" layoutY="203.0" prefHeight="25.0" prefWidth="160.0" promptText="[Select color]" />
+      <TextField fx:id="amountFIeld" layoutX="90.0" layoutY="175.0" prefWidth="160.0" />
+      <ComboBox fx:id="colorComboBox" layoutX="90.0" layoutY="203.0" prefHeight="25.0" prefWidth="160.0" promptText="[Select color]" />
 
    </children>
 
