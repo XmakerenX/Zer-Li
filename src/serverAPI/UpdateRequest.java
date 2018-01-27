@@ -32,7 +32,7 @@ public class UpdateRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the UpdateRequest table
-	 *  @returns the UpdateRequest table 
+	 *  @return the UpdateRequest table 
 	 */
 	//*************************************************************************************************
 	public String getTable() {
@@ -42,7 +42,7 @@ public class UpdateRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the UpdateRequest entityKey
-	 *  @returns the UpdateRequest entityKey 
+	 *  @return the UpdateRequest entityKey 
 	 */
 	//*************************************************************************************************
 	public String getEntityKey() {
@@ -52,7 +52,7 @@ public class UpdateRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetRequestByKey entity
-	 *  @returns the GetRequestByKey entity 
+	 *  @return the GetRequestByKey entity 
 	 */
 	//*************************************************************************************************
 	public Object getEntity() {

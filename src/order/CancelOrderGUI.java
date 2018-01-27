@@ -243,7 +243,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
     //*************************************************************************************************
     /**
   	*  Request from the Server the customer orders
-  	*  TODO: delete the event parameter
+  	*  @param event the event that triggered this function
   	*/
     //*************************************************************************************************
     public void onRefresh(ActionEvent event) {

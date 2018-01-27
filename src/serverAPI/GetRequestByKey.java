@@ -30,7 +30,7 @@ public class GetRequestByKey extends GetRequest {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetRequestByKey Keys
-	 *  @returns the GetRequestByKey Keys 
+	 *  @return the GetRequestByKey Keys 
 	 */
 	//*************************************************************************************************
 	public ArrayList<String> getKey() {

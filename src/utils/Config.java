@@ -48,7 +48,9 @@ public class Config
 
    //*************************************************************************************************
    /**
-    *  @see Properties.getProperty
+    * @param key the property key
+    * @return the value connected to that property key
+    * @see Properties
     */
    //*************************************************************************************************
    public String getProperty(String key)

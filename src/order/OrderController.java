@@ -78,7 +78,7 @@ public class OrderController
 	//*************************************************************************************************
 	/**
 	*  This function requests from the server to cancel a Order with a given orderID 
-	*  @param orderID The ID of the order to cancel
+	*  @param order the order to cancel
 	*/
 	//*************************************************************************************************
 	public static void cancelOrder(Order order)

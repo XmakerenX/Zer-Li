@@ -134,6 +134,7 @@ public class Order implements Serializable
 	* @param payMethod the way the order was paid for {CASH, CREDITCARD, SUBSCRIPTION}
 	* @param originShop the order origin shop ID
 	* @param customerID the customer ID who created the order
+	* @throws OrderException thrown if invalid parameters were given
 	*/
 	//*****************************************************************************************
 	public Order(int id,Status status,float price,Calendar orderCreationDateTime,LocalDate date,String time,
@@ -169,6 +170,7 @@ public class Order implements Serializable
 	* @param payMethod the way the order was paid for {CASH, CREDITCARD, SUBSCRIPTION}
 	* @param originShop the order origin shop ID
 	* @param customerID the customer ID who created the order
+	* @throws OrderException thrown if invalid parameters were given
 	*/
 	//*****************************************************************************************
 	public Order(int id,Status status,float price,Calendar orderCreationDateTime, Calendar orderRequiredDateTime,
@@ -203,6 +205,7 @@ public class Order implements Serializable
 	* @param payMethod the way the order was paid for {CASH, CREDITCARD, SUBSCRIPTION}
 	* @param originShop the order origin shop ID
 	* @param customerID the customer ID who created the order
+	* @throws OrderException thrown if invalid parameters were given
 	*/
 	//*****************************************************************************************
 	public Order(int id, Status status, float price, Calendar orderCreationDateTime,Calendar orderRequiredDateTime, DeliveryInfo info,
@@ -239,7 +242,7 @@ public class Order implements Serializable
     //*************************************************************************************************
     /**
      * Sets the order Status
-  	*  @param oorderStatus the order Status to be set
+  	*  @param orderStatus the order Status to be set
   	*/
     //*************************************************************************************************
 	public void setStatus(Status orderStatus)
@@ -262,6 +265,7 @@ public class Order implements Serializable
     /**
      * Sets the order price
   	*  @param price the order price to be set
+  	*  @throws OrderException thrown if invliad price was given
   	*/
     //*************************************************************************************************
 	public void setPrice(float price) throws OrderException

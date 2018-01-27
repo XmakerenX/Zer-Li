@@ -36,7 +36,7 @@ public class GetRequestWhere extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetRequestWhere table
-	 *  @returns the GetRequestWhere table 
+	 *  @return the GetRequestWhere table 
 	 */
 	//*************************************************************************************************
 	public String getTable() {
@@ -46,7 +46,7 @@ public class GetRequestWhere extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetRequestWhere checkColomn
-	 *  @returns the GetRequestWhere checkColomn 
+	 *  @return the GetRequestWhere checkColomn 
 	 */
 	//*************************************************************************************************
 	public String getCheckColomn() {
@@ -56,7 +56,7 @@ public class GetRequestWhere extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetRequestWhere condition
-	 *  @returns the GetRequestWhere condition 
+	 *  @return the GetRequestWhere condition 
 	 */
 	//*************************************************************************************************
 	public String getCondition() {

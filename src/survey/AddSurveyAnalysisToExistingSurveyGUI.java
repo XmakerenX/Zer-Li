@@ -183,7 +183,7 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 		//===============================================================================================================
 		/**
 		 * setting the current user for the given one
-		 * @param user
+		 * @param user the user to set
 		 */
 		public void setUser(User user)
 		{

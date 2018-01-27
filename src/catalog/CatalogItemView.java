@@ -118,6 +118,7 @@ public class CatalogItemView extends CatalogItem
 	//*************************************************************************************************
 	/**
 	*  Return if this Item check box was selected  
+	*  @return return the selected status of the checkbox inside this item
 	*/
 	//*************************************************************************************************
 	public boolean isSelected() {
@@ -137,6 +138,7 @@ public class CatalogItemView extends CatalogItem
 	//*************************************************************************************************
 	/**
 	*  Return this Item selectedProperty  
+	*  @return The selected status of the checkbox inside this item
 	*/
 	//*************************************************************************************************
 	public BooleanProperty selectedProperty()
@@ -157,7 +159,7 @@ public class CatalogItemView extends CatalogItem
 	//*************************************************************************************************
 	/**
 	*  sets This item Image
-	*  @param the new image to set  
+	*  @param image the new image to set  
 	*/
 	//*************************************************************************************************
 	public void setImage(ImageView image) {
@@ -177,7 +179,7 @@ public class CatalogItemView extends CatalogItem
 	//*************************************************************************************************
 	/**
 	*  sets This item webView for the sale price
-	*  @param the new webView for the sale price to set  
+	*  @param salePriceView the new webView for the sale price to set  
 	*/
 	//*************************************************************************************************
 	public void setSalePriceView(WebView salePriceView) {
@@ -188,7 +190,7 @@ public class CatalogItemView extends CatalogItem
 	/**
 	*  compare items  based on if the item is on sale
 	*  @param o the CatalogItem to compare to
-	*  @see java.lang.Comparable.compareTo
+	*  @see java.lang.Comparable
 	*/
 	//*************************************************************************************************
 	//TODO: do a smarter compareTO to sort by something...

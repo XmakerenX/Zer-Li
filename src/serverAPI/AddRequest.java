@@ -29,7 +29,7 @@ public class AddRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the AddRequest table
-	 *  @returns the AddRequest table 
+	 *  @return the AddRequest table 
 	 */
 	//*************************************************************************************************
 	public String getTable() {
@@ -39,7 +39,7 @@ public class AddRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the AddRequest entity
-	 *  @returns the AddRequest entity 
+	 *  @return the AddRequest entity 
 	 */
 	//*************************************************************************************************
 	public Object getEntity() {

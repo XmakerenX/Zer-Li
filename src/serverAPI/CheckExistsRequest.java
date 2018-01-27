@@ -31,7 +31,7 @@ public class CheckExistsRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the CheckExistsRequest table
-	 *  @returns the CheckExistsRequest table 
+	 *  @return the CheckExistsRequest table 
 	 */
 	//*************************************************************************************************
 	public String getTable() {
@@ -51,7 +51,7 @@ public class CheckExistsRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the CheckExistsRequest primaryKeys
-	 *  @returns the CheckExistsRequest primaryKeys 
+	 *  @return the CheckExistsRequest primaryKeys 
 	 */
 	//*************************************************************************************************
 	public ArrayList<String> getPrimaryKey() {
@@ -61,7 +61,7 @@ public class CheckExistsRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  sets the CheckExistsRequest primaryKeys
-	 *  @param table the primaryKeys to be set  
+	 *  @param primaryKey table the primaryKeys to be set  
 	 */
 	//*************************************************************************************************
 	public void setPrimaryKey(ArrayList<String> primaryKey) {

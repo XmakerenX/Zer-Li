@@ -36,7 +36,7 @@ public class Response implements Serializable{
 	//*************************************************************************************************
 	/**
 	 *  Returns the Response type
-	 *  @returns the Response type 
+	 *  @return the Response type 
 	 */
 	//*************************************************************************************************
 	public Type getType()
@@ -47,7 +47,7 @@ public class Response implements Serializable{
 	//*************************************************************************************************
 	/**
 	 *  Returns the Response message
-	 *  @returns the Response message 
+	 *  @return the Response message 
 	 */
 	//*************************************************************************************************
 	public Object getMessage()

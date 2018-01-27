@@ -31,7 +31,7 @@ public class UploadImageRequest extends Request implements Serializable
 	//*************************************************************************************************
 	/**
 	 *  Returns the UploadImageRequest ImageData
-	 *  @returns the UploadImageRequest ImageData 
+	 *  @return the UploadImageRequest ImageData 
 	 */
 	//*************************************************************************************************
 	public ImageData getImage() 

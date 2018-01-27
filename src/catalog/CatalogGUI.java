@@ -198,7 +198,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     /**
   	*  Request from the Server the catalog items for the current selected Store
-  	*  TODO: delete the event parameter
+  	*  @param event the event that called this function
   	*/
     //*************************************************************************************************
     public void onRefresh(ActionEvent event) {

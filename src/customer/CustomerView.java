@@ -39,7 +39,7 @@ public class CustomerView extends Customer
 	/**
 	 * Customer's view constructor
 	 * @param customer - specific customer
-	 * @throws CustomerException
+	 * @throws CustomerException when invalid paramenets are given
 	 */
 	public CustomerView(Customer customer)throws CustomerException
 	{

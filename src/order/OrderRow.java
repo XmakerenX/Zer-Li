@@ -78,7 +78,8 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 	//*************************************************************************************************
 	/**
 	*  Creates a new OrderRow with the following parameters
-	*  @param OrderRow The order form which to init the orderRow
+	*  @param order The order form which to init the orderRow
+	*  @throws OrderException thrown when once of the paremeters given is invalid
 	*/
 	//*************************************************************************************************
 	public OrderRow(Order order) throws OrderException
@@ -119,7 +120,7 @@ public class OrderRow extends Order  implements Comparable<OrderRow>{
 	//*************************************************************************************************
 	/**
 	 *  sets the View Info Button
-	 *  @param the new View Info Button to set  
+	 *  @param viewInfoButton the new View Info Button to set  
 	 */
 	//*************************************************************************************************
 	public void setViewInfoButton(Button viewInfoButton) {

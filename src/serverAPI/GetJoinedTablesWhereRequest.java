@@ -19,7 +19,7 @@ public class GetJoinedTablesWhereRequest extends GetJoinedTablesRequest {
 	 *  @param table the table to get data from
 	 *  @param joinedTable the table to join with when getting the data
 	 *  @param keyIndex the index of the primary key to do the join on
-	 *  @param checkColomn the Column name to do the condition on
+	 *  @param checkColumn the Column name to do the condition on
 	 *  @param condition the value for the column
 	 */
 	//*************************************************************************************************
@@ -34,7 +34,7 @@ public class GetJoinedTablesWhereRequest extends GetJoinedTablesRequest {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetJoinedTablesWhereRequest checkColumn
-	 *  @returns the GetJoinedTablesWhereRequest checkColumn 
+	 *  @return the GetJoinedTablesWhereRequest checkColumn 
 	 */
 	//*************************************************************************************************
 	public String getCheckColumn() {
@@ -44,7 +44,7 @@ public class GetJoinedTablesWhereRequest extends GetJoinedTablesRequest {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetJoinedTablesWhereRequest condition
-	 *  @returns the GetJoinedTablesWhereRequest condition 
+	 *  @return the GetJoinedTablesWhereRequest condition 
 	 */
 	//*************************************************************************************************
 	public String getCondition() {

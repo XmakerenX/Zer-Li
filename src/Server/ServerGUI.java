@@ -182,7 +182,8 @@ public class ServerGUI extends Application
  	//*************************************************************************************************
     /**
      * The application main function calls the application launch
-     * @see javafx.application.Application.launch;
+     * @param args given from the command line
+     * @see javafx.application.Application
   	*/
  	//*************************************************************************************************
 	public static void main(String[] args) 

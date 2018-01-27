@@ -14,8 +14,9 @@ public class CustomerSatisfactionSurveyResultsController
 	//===============================================================================================================
 	/**
 	 * adds a new result to the data base
-	 * @param surveyName
-	 * @param client
+	 * @param answers the answers to add
+	 * @param storeID the store id to add the answers to
+	 * @param client the client to use to send the request
 	 */
 	public static void addResults(int[] answers, int storeID, Client client)
 	{		
@@ -25,6 +26,8 @@ public class CustomerSatisfactionSurveyResultsController
 	//===============================================================================================================
 	/**
 	 * lets us receive the results which haven't been analyzed yet
+	 * @param client the client to use to send the request
+	 * @param client the client to use to send the request
 	 */
 	public static void getResultsWithoutAnalysis(Client client)
 	{
@@ -34,6 +37,7 @@ public class CustomerSatisfactionSurveyResultsController
 	/**
 	 * lets us receive a specific customer satisfation survey result
 	 * @param id		id of the survey result we are looking for
+	 * @param client the client to use to send the request
 	 */
 	public static void getSpecificResults(String id, Client client)
 	{

@@ -26,7 +26,7 @@ public class GetRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetRequest table
-	 *  @returns the GetRequest table 
+	 *  @return the GetRequest table 
 	 */
 	//*************************************************************************************************
 	public String getTable() {

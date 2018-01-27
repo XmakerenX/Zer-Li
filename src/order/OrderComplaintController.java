@@ -16,14 +16,15 @@ import survey.CustomerSatisfactionSurveyResults;
 public class OrderComplaintController {
 /**
  * creating a new complaint based on the inputs below
- * @param customerID
- * @param name
- * @param phone
- * @param complaint
- * @param date
- * @param time
- * @param storeID
- * @param maxCompensationAmount
+ * @param customerID the customer ID for this complaint
+ * @param name the customer name
+ * @param phone the customer phone number
+ * @param complaint the customer complaint 
+ * @param date the complaint date 
+ * @param time the complaint time
+ * @param storeID the storeID connected to this complaint
+ * @param maxCompensationAmount the maximum amount to compensate the customer 
+ * @param orderID the order ID that is connected to this complaint
  * @param addedBy 	the user who added the complaint
  */
 	public static void addNewComplaint(long customerID, String name, String phone, String complaint, LocalDate date, String time, 

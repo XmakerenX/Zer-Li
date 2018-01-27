@@ -26,7 +26,7 @@ public class GetCustomItemRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetCustomItemRequest orderID
-	 *  @returns the GetCustomItemRequest orderID 
+	 *  @return the GetCustomItemRequest orderID 
 	 */
 	//*************************************************************************************************
 	public long getOrderID() {

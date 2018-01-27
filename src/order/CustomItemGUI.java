@@ -628,7 +628,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     /**
      * Sets the current Customer that is viewing the catalog
-  	*  @param currentCustomer the customer to be set
+  	*  @param currentStoreID the current Store ID to be set
   	*/
     //*************************************************************************************************
 	public void setCurrentStoreID(long currentStoreID) {
@@ -638,7 +638,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     /**
      * Sets the current store whose catalog is being viewed
-  	*  @param storeID the storeID to be set
+  	*  @param currentCustomer the current Customer to be set
   	*/
     //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {

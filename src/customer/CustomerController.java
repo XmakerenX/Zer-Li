@@ -20,14 +20,16 @@ public class CustomerController {
 	//*************************************************************************************************
 	/**
 	 * Creates new customer and adds to database
-	 * @param personID - customer's person ID
-	 * @param storeID - the store the customer belongs to 
-	 * @param fullName - customer's first and last names
-	 * @param phoneNumber - customer's active phone number
-	 * @param payMethod - payment method
-	 * @param accountBalance - customer's account balance in the store
-	 * @param creditCardNumber - customer's credit card number
-	 * @param client - currently running client
+	 * @param personID  customer's person ID
+	 * @param storeID  the store the customer belongs to 
+	 * @param fullName  customer's first and last names
+	 * @param phoneNumber  customer's active phone number
+	 * @param payMethod  payment method
+	 * @param accountBalance  customer's account balance in the store
+	 * @param creditCardNumber  customer's credit card number
+	 * @param accountStatus the account status if blocked or not
+	 * @param expirationDate the subscription expiration Date
+	 * @param client  currently running client
 	 */
 	//*************************************************************************************************
 	public static void createNewCustomer(long personID, long storeID ,String fullName, String phoneNumber, PayType payMethod, float accountBalance,
@@ -60,8 +62,9 @@ public class CustomerController {
 	//*************************************************************************************************
 	/**
 	 * Gets customer from data base
-	 * @param personID - customer's person ID (is the key)
-	 * @param client - currently running client
+	 * @param personID  customer's person ID (is the key)
+	 * @param storeID the stores ID
+	 * @param client  currently running client
 	 */
 	//*************************************************************************************************
 	public static void getCustomer(String personID, String storeID ,Client client)

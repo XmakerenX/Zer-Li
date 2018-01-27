@@ -17,7 +17,7 @@ public class StoreEmployee implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the StoreEmployee userName
-	 *  @returns the StoreEmployee userName 
+	 *  @return the StoreEmployee userName 
 	 */
 	//*************************************************************************************************
 	public String getUserName() {
@@ -31,7 +31,7 @@ public class StoreEmployee implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the Store Employee storeID
-	 *  @returns the Store Employee storeID 
+	 *  @return the Store Employee storeID 
 	 */
 	//*************************************************************************************************
 	public long getStoreID() {
@@ -51,7 +51,7 @@ public class StoreEmployee implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the Store Employee permission
-	 *  @returns the Store Employee permission 
+	 *  @return the Store Employee permission 
 	 */
 	//*************************************************************************************************
 	public String getPermission() {

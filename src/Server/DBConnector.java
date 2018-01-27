@@ -152,7 +152,7 @@ public class DBConnector {
 	  /**
 	   * This method creates a query to select data from table and counts the number of rows returned
 	   * 
-	   * @param fields The fields to select from the table
+	   * @param field The fields to select from the table
 	   * @param table The table to select from
 	   * @param condition the condition on the data to select
 	   * @return The Count of rows returned form the query
@@ -226,6 +226,7 @@ public class DBConnector {
 	   * @param table The table to update
 	   * @param fieldsToUpdate The fields to update from the table
 	   * @param condition the condition on what rows to update in the table
+	   * @throws SQLException thrown if the query fails 
 	   */
 	  //*************************************************************************************************
 	  public void executeUpdate(String table, String fieldsToUpdate, String condition) throws SQLException
@@ -254,9 +255,10 @@ public class DBConnector {
 	   * 
 	   * @param table The table to update
 	   * @param fieldToInsert The fields to insert from the table
+	   * @throws SQLException thrown if the query fails 
 	   */
 	  //*************************************************************************************************
-	  public void insertData(String table, String fieldToInsert) throws Exception
+	  public void insertData(String table, String fieldToInsert) throws SQLException
 	  {
 		  Statement stmt;
 		  
@@ -282,6 +284,7 @@ public class DBConnector {
 	   * 
 	   * @param table The table to remove from
 	   * @param keys The primary keys for the data to remove
+	   * @return true on entrry removed , false on query failure
 	   */
 	  //*************************************************************************************************
 	  public Boolean removeEntry(String table,ArrayList<String> keys)
@@ -462,7 +465,7 @@ public class DBConnector {
 	 * This method given a table and a primary key value generate a condition for it 
 	 * for the table product and key value 5 will generate in condition "ProductID=4"
 	 * @param table the table that the primary key belongs to
-	 * @param key the value of the primary key
+	 * @param keys the value of the primary key
 	 * @param condition the generated MySQL condition or error message
 	 * @return true if the condition was generated successfully , false if error was incurred
 	 * 

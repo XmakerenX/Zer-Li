@@ -186,7 +186,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item Image
-	*  @param the new image to set  
+	*  @param image the new image to set  
 	*/
 	//*************************************************************************************************
 	public void setImage(ImageView image) {
@@ -207,7 +207,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item remove button
-	*  @param the remove button to set  
+	*  @param button the remove button to set  
 	*/
 	//*************************************************************************************************
 	public void setRemoveBtn(Button button) {
@@ -238,7 +238,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item Greeting Card text
-	*  @param the Greeting Card text to set  
+	*  @param text the Greeting Card text to set  
 	*/
 	//*************************************************************************************************
 	public void setGreetingCardText(String text)
@@ -249,7 +249,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item Greeting Card textArea
-	*  @param the Greeting Card textArea to set  
+	*  @param greetingCard the Greeting Card textArea to set  
 	*/
 	//*************************************************************************************************
 	public void setGreetingCard(TextArea greetingCard) {
@@ -269,7 +269,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item View button
-	*  @param the item View button to set
+	*  @param viewBtn the item View button to set
 	*/
 	//*************************************************************************************************
 	public void setViewBtn(Button viewBtn) {
@@ -289,7 +289,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item View button
-	*  @param the item View button to set
+	*  @param nameArea the item View button to set
 	*/
 	//*************************************************************************************************
 	public void setNameArea(TextArea nameArea) {
@@ -309,7 +309,7 @@ public class OrderItemView extends CatalogItem {
 	//*************************************************************************************************
 	/**
 	*  sets This item webView for the sale price
-	*  @param the new webView for the sale price to set  
+	*  @param salePriceView the new webView for the sale price to set  
 	*/
 	//*************************************************************************************************
 	public void setSalePriceView(WebView salePriceView) {

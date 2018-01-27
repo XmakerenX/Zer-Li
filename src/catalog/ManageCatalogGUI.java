@@ -148,6 +148,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		}
 		/**
 		 * function to allow setting of user
+		 * @param user the user to set
 		 */
 		public void setUser(User user)
 		{

@@ -42,7 +42,7 @@ public class UserController implements ClientInterface
 	
 	/**
 	 * Sends a logout request to server
-	 * @param username - user's name to log out
+	 * @param user - user to log out
 	 * @param client - current running client
 	 */
 	public static void requestLogout(User user, Client client)
@@ -53,9 +53,9 @@ public class UserController implements ClientInterface
 	/**
 	 * Sends a login request to server
 	 * @param user the user to verify against 
-	 * @param userName the username given to login with 
-	 * @param userPassword the user password to login with
-	 * @param client - current running client
+	 * @param username the username given to login with 
+	 * @param password the user password to login with
+	 * @throws LoginException if bad login information was given
 	 */
 	public static void verifyLogin(User user, String username , String password) throws LoginException
 	{
@@ -117,12 +117,11 @@ public class UserController implements ClientInterface
 	}
 	/**
 	 * Creates new user and adds to database
-	 * @param userName - user name in program program
-	 * @param userPassword - password to access the program
-	 * @param userPermission - permission to distinguish between users and their rights
-	 * @param personID - ID of the person who uses the program
-	 * @param userStatus - user's status, is he: blocked, logged in, or not connected yet (regular)
-	 * @param client - current running client
+	 * @param userName  user name in program program
+	 * @param userPassword  password to access the program
+	 * @param userPermission  permission to distinguish between users and their rights
+	 * @param personID  ID of the person who uses the program
+	 * @param client  current running client
 	 */
 	public static void createNewUser(String userName, String userPassword, Permissions userPermission, int personID, Client client)
 	{
@@ -138,9 +137,9 @@ public class UserController implements ClientInterface
 		
 	/**
 	 * Applies changes in user's info
-	 * @param updatedUser - updated User entity
-	 * @param userName - old user name (in case it has been changed)
-	 * @param client - current running client
+	 * @param updatedUser  updated User entity
+	 * @param formerUserName  old user name (in case it has been changed)
+	 * @param client  current running client
 	 */
 	public static void updateUserDetails(User updatedUser, String formerUserName, Client client)
 	{		
@@ -173,8 +172,9 @@ public class UserController implements ClientInterface
 	
 	/**
 	 * Gets user by specific key
-	 * @param condition - is a specific key
-	 * @param client - currently running client
+	 * @param condition  is a specific key
+	 * @param column  the column name
+	 * @param client  currently running client
 	 */
 	public static void GetUserByCertainCondition(String condition, String column, Client client)
 	{

@@ -39,7 +39,7 @@ public class EntityFactory {
 	 * call the appropriate sub loadXXX function based on the table
 	 * @param table the table load the entity from
 	 * @param rs the select query result set
-	 * @returns An ArrayList of the desired entity data loaded form the database
+	 * @return An ArrayList of the desired entity data loaded form the database
 	 */
 	//*************************************************************************************************
 	  public static ArrayList<?> loadEntity(String table ,ResultSet rs)

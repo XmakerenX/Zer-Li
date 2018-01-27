@@ -155,8 +155,9 @@ public class QuarterlyReportCreation extends TimerTask
 	//===============================================================================================================
 	/**
 	 * 						calculates all the needed data for the complaint report for a specific store, year and quarter
-	 * @param year			year
-	 * @param quarter		quarter
+	 * @param year			for what year to generate the report
+	 * @param incomeQ		the year quarter
+	 * @param store 		for what store to generate the report
 	 * @return				reportData(0) - first month's handled complaints
 	 * 						reportData(1) - first month's not handled complaints
 	 *						reportData(2) - second month's handled complaints
@@ -253,9 +254,9 @@ public class QuarterlyReportCreation extends TimerTask
 	//===============================================================================================================
 	/**
 	 * calculates store's income for a specific quarter in a given year
-	 * @param year
-	 * @param quarter
-	 * @param store
+	 * @param year for what year to generate the report
+	 * @param quarter the year quarter  
+	 * @param store year for what year to generate the report
 	 * @return	the income for said store, year and quarter
 	 */
 	public long calculateIncomeAmount(String year, Quarterly quarter, Integer store)
@@ -350,8 +351,9 @@ public class QuarterlyReportCreation extends TimerTask
 	//===============================================================================================================
 	/**
 	 * 						calculates the order report data for a specific store, year and quarter
-	 * @param year			year
-	 * @param quarter		quarter
+	 * @param year			for what year to generate the report
+	 * @param quarter		the year quarter 
+	 * @param storeID		for what store to generate the report
 	 * @return				orderData(0) - total amount of orders in said quarter
 	 * 						orderData(1) - bouquets ordered
 	 * 						orderData(2) - bridal bouquets ordered
