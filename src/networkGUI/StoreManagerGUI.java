@@ -82,7 +82,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 					viewReportsGUI.setManagersStoreID((long)storeID);
 					
 					viewReportsGUI.setClinet(client);
-					client.setUI(viewReportsGUI);
+					Client.client.setUI(viewReportsGUI);
 					FormController.primaryStage.setScene(viewReportsGUI.getScene());
 					
 				} else
@@ -122,7 +122,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 					Integer storeID = (Integer) replay.getMessage();
 					customerCreationGUI.setManagersStoreID((long)storeID);
 					customerCreationGUI.setClinet(client);
-					client.setUI(customerCreationGUI);
+					Client.client.setUI(customerCreationGUI);
 					FormController.primaryStage.setScene(customerCreationGUI.getScene());
 					
 				} else
@@ -146,7 +146,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     	UserController.requestLogout(user, client);
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }

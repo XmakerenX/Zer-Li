@@ -74,7 +74,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	UserController.requestLogout(user, client);
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }
@@ -112,7 +112,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
 	     	
 			
 			updateUserGUI.setClinet(client);
-			client.setUI(updateUserGUI);
+			Client.client.setUI(updateUserGUI);
 			FormController.primaryStage.setScene(updateUserGUI.getScene());
 		}
     }
