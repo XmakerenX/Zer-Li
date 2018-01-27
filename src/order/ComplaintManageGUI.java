@@ -198,7 +198,7 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 		    	OrderComplaintView view = null;
 		    	for(OrderComplaint complaint : complaintsList)
 		    	{
-		    		if(complaint.getUserNameOfWhoeverAddedIt()!=null && complaint.getUserNameOfWhoeverAddedIt().equals(user.getUserName()))
+		    		if(complaint.getUserNameOfWhoeverAddedIt()!=null && complaint.getUserNameOfWhoeverAddedIt().equals(user.getUserName())&& complaint.getComplaintCompensation()==-1)
 		    		{
 						try {
 							view = new OrderComplaintView(complaint);
