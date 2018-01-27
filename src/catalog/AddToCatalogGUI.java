@@ -249,7 +249,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     }
     
     //----------------------------------------
-    /*
+    /**
      * Prints which fields are missing in the GUI form
      */
     private void printErrorMessege()
@@ -272,7 +272,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     
     }
     //------------------------------------------
-    /*
+    /**
      * Returns true if input is valid(meaning none is missing)
      * else, false
      */

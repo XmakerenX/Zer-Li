@@ -139,14 +139,14 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    }	  
 	    
 	 
-		/*
+		/**
 		 * function to allow access of client even in event handlers
 		 */
 		private Client getClient()
 		{
 			return Client.client;
 		}
-		/*
+		/**
 		 * function to allow setting of user
 		 */
 		public void setUser(User user)
