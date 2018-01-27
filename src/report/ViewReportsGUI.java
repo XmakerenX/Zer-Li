@@ -279,34 +279,37 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
     @FXML
     void onReportTypeSelection(ActionEvent event) {
     	
-    	if(reportTypeComboBox.getValue().equals("Complaint") || reportTypeComboBox.getValue().equals("Survey"))
+    	if(reportTypeComboBox.getValue() != null)
     	{
-    		if(reportTypeComboBox.getValue().equals("Complaint"))
-    		{
-    			complaintReportBarChart.setTitle("Complaint Report");
-				complaintReportBarChart.getXAxis().setLabel("Months");
-				complaintReportBarChart.getYAxis().setLabel("# of complaints");
-    		}
-    		else
-    		{
-    			complaintReportBarChart.setTitle("Survey Report");
-				complaintReportBarChart.getXAxis().setLabel("Questions");
-				complaintReportBarChart.getYAxis().setLabel("Average results");
-    		}
-    		
-    		reportViaTextArea.setVisible(false);
-    		complaintReportBarChart.setVisible(true);
+	    	if(reportTypeComboBox.getValue().equals("Complaint") || reportTypeComboBox.getValue().equals("Survey"))
+	    	{
+	    		if(reportTypeComboBox.getValue().equals("Complaint"))
+	    		{
+	    			complaintReportBarChart.setTitle("Complaint Report");
+					complaintReportBarChart.getXAxis().setLabel("Months");
+					complaintReportBarChart.getYAxis().setLabel("# of complaints");
+	    		}
+	    		else
+	    		{
+	    			complaintReportBarChart.setTitle("Survey Report");
+					complaintReportBarChart.getXAxis().setLabel("Questions");
+					complaintReportBarChart.getYAxis().setLabel("Average results");
+	    		}
+	    		
+	    		reportViaTextArea.setVisible(false);
+	    		complaintReportBarChart.setVisible(true);
+	    	}
+	    	else
+	    	{
+	    		complaintReportBarChart.setVisible(false);
+	    		reportViaTextArea.setVisible(true);
+	    	}
+	    	
+	    	reportViaTextArea.setText("");
+	    	quarterlyComboBox.setValue(null);
+	    	yearComboBox.setValue(null);
+	    	complaintReportBarChart.getData().clear();
     	}
-    	else
-    	{
-    		complaintReportBarChart.setVisible(false);
-    		reportViaTextArea.setVisible(true);
-    	}
-    	
-    	reportViaTextArea.setText("");
-    	quarterlyComboBox.setValue(null);
-    	yearComboBox.setValue(null);
-    	complaintReportBarChart.getData().clear();
     }
 
     /**

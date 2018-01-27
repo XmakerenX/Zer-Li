@@ -289,7 +289,7 @@ public class EntityFactory {
 				  complaints.add(new OrderComplaint(rs.getInt("id") ,rs.getInt("customerID"),  rs.getString("customerName"), rs.getString("customerPhoneNumber"),
 						  rs.getInt("storeID"), rs.getString("complaintDescription"),
 						  date, rs.getString("time"), rs.getFloat("givenCompensationAmount"), rs.getFloat("maxCompensationAmount"), 
-						  rs.getString("status"),Integer.parseInt(rs.getString("orderID"))));
+						  rs.getString("status"),Integer.parseInt(rs.getString("orderID")), rs.getString("addedBy")));
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}
 		  catch (Exception ce ) {

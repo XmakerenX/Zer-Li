@@ -48,8 +48,7 @@ public class ProtoTypeServer extends AbstractServer {
 
 	  final public static int DEFAULT_PORT = 5555;
 	  private DBConnector db;
-	  static ProtoTypeServer sv;
-	  static Timer time;
+	  private Timer time;
 	
 	  //*************************************************************************************************
 	  // Constructors 
@@ -782,27 +781,28 @@ public class ProtoTypeServer extends AbstractServer {
 	  /**
 	   * This method is responsible for the creation of 
 	   * the server instance (there is no UI in this phase).
+	 * @throws IOException 
 	   *
 	   */
 	  //*************************************************************************************************
-	  public static void main(String[] args) 
-	  {	  
-		  ArrayList<Object> serverArgs = parseConfigFile("server.properties");
-		  sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
-
-		  try 
-		  {
-			  //Start listening for connections
-			  sv.listen();
-			  runTimedTasks(sv.db);
-		  } 
-		  catch (IOException ex) 
-		  {
-			  System.out.println("ERROR - Could not listen for clients!");
-		  }
+	  public void start() throws IOException
+	  {
+		try 
+		{
+			 this.listen();
+			 this.runTimedTasks(this.db);
+			 System.out.println("Server started listening");
+		} 
+		
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
+		 
 	  }
-	  
-	  public static void runTimedTasks(DBConnector db)
+	  public void runTimedTasks(DBConnector db)
 	  {
 	        Calendar midnight = Calendar.getInstance();
 	        midnight.set(Calendar.HOUR_OF_DAY, 0);
@@ -811,7 +811,7 @@ public class ProtoTypeServer extends AbstractServer {
 	        midnight.set(Calendar.MILLISECOND, 0);
 	        midnight.setTimeInMillis(midnight.getTimeInMillis() + TimeUnit.DAYS.toMillis(1));
 	        
-	        Timer time = new Timer(); // Instantiate Timer Object
+	        time = new Timer(); // Instantiate Timer Object
 	        	        
 	        // Start running the task on midnight tomorrow, period is set to start again everyday
 	        
@@ -834,11 +834,11 @@ public class ProtoTypeServer extends AbstractServer {
 	        
 	}
 	  
-	public static void stopServer() throws IOException
+	public void stopServer() throws IOException
 	{
-			time.cancel();
-			sv.close();
 		
-	  
+		    this.stopListening();
+			this.time.cancel();
+			this.close();
 	}
 }

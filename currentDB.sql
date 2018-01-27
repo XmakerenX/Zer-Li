@@ -45,13 +45,13 @@ INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.j
 UNLOCK TABLES;
 
 --
--- Table structure for table `complaintreport`
+-- Table structure for table `ComplaintReport`
 --
 
-DROP TABLE IF EXISTS `complaintreport`;
+DROP TABLE IF EXISTS `ComplaintReport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `complaintreport` (
+CREATE TABLE `ComplaintReport` (
   `Quarterly` varchar(45) NOT NULL,
   `Year` varchar(45) NOT NULL,
   `StoreID` int(11) NOT NULL,
@@ -68,13 +68,13 @@ CREATE TABLE `complaintreport` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `complaintreport`
+-- Dumping data for table `ComplaintReport`
 --
 
-LOCK TABLES `complaintreport` WRITE;
-/*!40000 ALTER TABLE `complaintreport` DISABLE KEYS */;
-INSERT INTO `complaintreport` VALUES ('FIRST','2017',2,13,14,15,16,17,18),('THIRD','2017',2,20,10,51,46,23,31);
-/*!40000 ALTER TABLE `complaintreport` ENABLE KEYS */;
+LOCK TABLES `ComplaintReport` WRITE;
+/*!40000 ALTER TABLE `ComplaintReport` DISABLE KEYS */;
+INSERT INTO `ComplaintReport` VALUES ('FIRST','2017',2,13,14,15,16,17,18),('THIRD','2017',2,20,10,51,46,23,31);
+/*!40000 ALTER TABLE `ComplaintReport` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -286,13 +286,13 @@ INSERT INTO `Store` VALUES (0,'Base'),(1,'Haifa'),(2,'Karmiel'),(3,'Qiryat Biyal
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `User`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `User` (
   `UserName` varchar(45) NOT NULL,
   `UserPassword` varchar(45) DEFAULT NULL,
   `UserPermission` varchar(45) DEFAULT NULL,
@@ -304,13 +304,13 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `User`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('deleteme','123456','STORE_WORKER',123456789,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('jenia2','123456','CUSTOMER',5555,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'BLOCKED',0),('twain','123456','NETWORK_MANAGER',787878,'REGULAR',0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `User` WRITE;
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('deleteme','123456','STORE_WORKER',123456789,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('jenia2','123456','CUSTOMER',5555,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker1','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('serviceWorker2','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('twain','123456','NETWORK_MANAGER',787878,'REGULAR',0);
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -395,6 +395,7 @@ CREATE TABLE `ordercomplaint` (
   `maxCompensationAmount` float DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `orderID` int(11) DEFAULT NULL,
+   `addedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -405,7 +406,7 @@ CREATE TABLE `ordercomplaint` (
 
 LOCK TABLES `ordercomplaint` WRITE;
 /*!40000 ALTER TABLE `ordercomplaint` DISABLE KEYS */;
-INSERT INTO `ordercomplaint` VALUES (8,305022949,'matan k','0507788765',1,'sdsddssd','2018-01-25','12:51',10,223,'CLOSED',94),(9,305022949,'matan k','0507788765',1,'I orderd hamburger, WTF?!','2018-01-25','12:51',30,217,'CLOSED',96),(10,305022949,'matan k','0507788765',1,'dsdsds','2018-01-25','13:43',22,217,'CLOSED',96),(11,305022949,'matan k','0507788765',1,'dssd','2018-01-25','13:48',20,94,'CLOSED',99),(12,305022949,'matan k','0507788765',1,'wtfff','2018-01-25','13:53',10,223,'CLOSED',97),(13,305022949,'matan k','0507788765',1,'dsdsgdsg','2018-01-25','13:55',20,223,'CLOSED',94),(14,305022949,'matan k','0507788765',1,'safdfdaf','2018-01-25','14:01',200,223,'CLOSED',94),(15,305022949,'Matan Keren','3523523',2,'dsvgdssdg','2018-01-25','14:02',20,294.3,'CLOSED',95),(16,305022949,'Matan Keren','3523523',2,'gsgdf','2018-01-25','14:04',2,294.3,'CLOSED',95),(17,305022949,'Matan Keren','3523523',2,'sfddsgdgss','2018-01-25','14:05',200,294.3,'CLOSED',95),(18,305022949,'matan k','0507788765',1,'dvfds','2018-01-25','14:07',2,94,'CLOSED',99),(19,305022949,'matan k','0507788765',1,'dsfad','2018-01-25','14:11',20,217,'CLOSED',96),(20,305022949,'Matan Keren','3523523',2,'sdfdssf','2018-01-25','14:11',222,294.3,'CLOSED',95),(21,305022949,'Matan Keren','3523523',2,'sssf','2018-01-25','14:13',NULL,294.3,'NEW',95);
+INSERT INTO `ordercomplaint` VALUES (8,305022949,'matan k','0507788765',1,'sdsddssd','2018-01-25','12:51',10,223,'CLOSED',94,NULL),(9,305022949,'matan k','0507788765',1,'I orderd hamburger, WTF?!','2018-01-25','12:51',30,217,'CLOSED',96,NULL),(10,305022949,'matan k','0507788765',1,'dsdsds','2018-01-25','13:43',22,217,'CLOSED',96,NULL),(11,305022949,'matan k','0507788765',1,'dssd','2018-01-25','13:48',20,94,'CLOSED',99,NULL),(12,305022949,'matan k','0507788765',1,'wtfff','2018-01-25','13:53',10,223,'CLOSED',97,NULL),(13,305022949,'matan k','0507788765',1,'dsdsgdsg','2018-01-25','13:55',20,223,'CLOSED',94,NULL),(14,305022949,'matan k','0507788765',1,'safdfdaf','2018-01-25','14:01',200,223,'CLOSED',94,'serviceWorker1'),(15,305022949,'Matan Keren','3523523',2,'dsvgdssdg','2018-01-25','14:02',20,294.3,'CLOSED',95,'serviceWorker1'),(16,305022949,'Matan Keren','3523523',2,'gsgdf','2018-01-25','14:04',0,294.3,'NEW',95,'serviceWorker1'),(17,305022949,'Matan Keren','3523523',2,'sfddsgdgss','2018-01-25','14:05',200,294.3,'CLOSED',95,'serviceWorker1'),(18,305022949,'matan k','0507788765',1,'dvfds','2018-01-25','14:07',2,94,'CLOSED',99,'serviceWorker1'),(19,305022949,'matan k','0507788765',1,'dsfad','2018-01-25','14:11',20,217,'CLOSED',96,'serviceWorker1'),(20,305022949,'Matan Keren','3523523',2,'sdfdssf','2018-01-25','14:11',222,294.3,'CLOSED',95,'serviceWorker1'),(21,305022949,'Matan Keren','3523523',2,'sssf','2018-01-25','14:13',NULL,294.3,'NEW',95,'serviceWorker1'),(22,305022949,'matan k','0507788765',1,'Blabla complaint','2018-01-27','14:56',10,223,'CLOSED',97,'serviceWorker1');
 /*!40000 ALTER TABLE `ordercomplaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -424,8 +425,8 @@ CREATE TABLE `orderreport` (
   `BouquetAmount` int(11) DEFAULT NULL,
   `BrideBouquetAmount` int(11) DEFAULT NULL,
   `FlowerPotAmount` int(11) DEFAULT NULL,
-  `FlowerAmount` int(11) DEFAULT NULL,
-  `PlantAmount` int(11) DEFAULT NULL,
+  `CustomAmount` int(11) DEFAULT NULL,
+  `FlowerClusterAmount` int(11) DEFAULT NULL,
   PRIMARY KEY (`Quarterly`,`Year`,`StoreID`),
   KEY `OrderReport_idx` (`StoreID`),
   CONSTRAINT `fk_OrderReport_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE

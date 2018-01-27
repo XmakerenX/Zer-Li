@@ -21,7 +21,6 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
 	ComplaintManageGUI complaintManageGUI;
 	private User user;
 	
-	
     @FXML // fx:id="logOutButton"
     private Button logOutButton; // Value injected by FXMLLoader
 
@@ -62,10 +61,14 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
 		client.setUI(complaintManageGUI);
 		complaintManageGUI.setClinet(client);
 		complaintManageGUI.setParent(this);
+		complaintManageGUI.setUser(user);
 		complaintManageGUI.doInit();
 		if(complaintManageGUI.getComplaintFound())
 		{
 			FormController.primaryStage.setScene(complaintManageGUI.getScene());
+		}
+		else {
+			this.showInformationMessage("No complaints you've added need to be taken care of.");
 		}
     }
   //===============================================================================================================

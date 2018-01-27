@@ -43,7 +43,7 @@ public class ServerGUI extends Application
     @FXML
     private Label statusLabel;	
 	
-
+    private ProtoTypeServer server;
     //*************************************************************************************************
     /**
   	*  Called when the save button is pressed
@@ -90,12 +90,19 @@ public class ServerGUI extends Application
     void onStartBtn(ActionEvent event) 
     {
     	ArrayList<Object> serverArgs = ProtoTypeServer.parseConfigFile("server.properties");
+    	
+		  try 
+		  {
+			  server = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
+			  //Start listening for connections
+			  server.start();
+			  statusLabel.setText("Status: Running");
+		  } 
+		  catch (IOException ex) 
+		  {
+			  System.out.println("ERROR - Could not listen for clients!");
+		  }
 		
-    	ProtoTypeServer.sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
-		
-		ProtoTypeServer.main(null);
-		
-		statusLabel.setText("Status: Running");
     }
     
     //*************************************************************************************************
@@ -110,15 +117,13 @@ public class ServerGUI extends Application
     {
     		try 
     		{
-				ProtoTypeServer.stopServer();
+    			server.stopServer();
 				statusLabel.setText("Status: Offline");
 			} 
     		
     		catch (Exception e) 
     		{
 				// TODO Auto-generated catch block
-				
-				System.out.println("ERROR - Could not  stop listening for clients!");
 				e.printStackTrace();
 	    		System.exit(-1);
 			}

@@ -108,7 +108,8 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
     	{
 	    	LocalDate todayLocalDate = LocalDate.now();
 	    	String time = new SimpleDateFormat("HH:mm").format(new Date());
-	    	OrderComplaintController.addNewComplaint(customer.getID(), customer.getName(), customer.getPhoneNumber(), complaint, todayLocalDate, time, (int)order.getOrderOriginStore(),order.getPrice(),order.getID());
+	    	String addedBy = user.getUserName();
+	    	OrderComplaintController.addNewComplaint(customer.getID(), customer.getName(), customer.getPhoneNumber(), complaint, todayLocalDate, time, (int)order.getOrderOriginStore(),order.getPrice(),order.getID(), addedBy);
 	    	waitForServerResponse();
 	    	
 	    	if(response.getType() == Response.Type.SUCCESS)
