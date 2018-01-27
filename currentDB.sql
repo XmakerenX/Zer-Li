@@ -40,9 +40,10 @@ CREATE TABLE `CatalogProduct` (
 
 LOCK TABLES `CatalogProduct` WRITE;
 /*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
-INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,-1,'Zer-li Class Diagram.jpg',0),(6,10,NULL,3);
+INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,10,NULL,3),(20,100,'SnowWhite.jpg',1),(21,120,'Cinderella.jpg',2),(22,-1,'Olive.jpg',1),(23,-1,'Spathiphyllum.jpg',3),(24,-1,'sunshine.jpg',0),(25,-1,'VioletWinter.jpg',1);
 /*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 --
 -- Table structure for table `ComplaintReport`
@@ -229,7 +230,7 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES (1,'roses bouquet','bouquet',90,15,'Red'),(2,'Chrysanthemums bouquet','bouquet',20,20,'White'),(3,'Avalanche bouquet','bouquet',15,10,'Purple'),(4,'Panter bouquet','bouquet',151,5,'Pink'),(5,'Buttercup bouquet','bouquet',94,10,'Red'),(6,'Anemone bouquet','bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red'),(11,'Small Gozmania','PLANT',33,20,'Yellow'),(12,'Medium Gozmania','PLANT',69,30,'Yellow'),(13,'Big Gozmania','PLANT',99,25,'Yellow'),(14,'Small Anthurium','PLANT',29,15,'Red'),(15,'Medium Anthurium','PLANT',79,20,'Red'),(16,'Big Anthurium','PLANT',109,30,'Red'),(17,'Small Cocktail','PLANT',19,30,'Pink'),(18,'Medium Cocktail','PLANT',49,20,'Pink'),(19,'Big Cocktail','PLANT',89,10,'Pink'),(50,'temp','Bridal Bouquet',50,20,'Black');
+INSERT INTO `Product` VALUES (1,'roses bouquet','bouquet',90,15,'Red'),(2,'Chrysanthemums bouquet','bouquet',20,20,'White'),(3,'Avalanche bouquet','bouquet',15,10,'Purple'),(4,'Panter bouquet','bouquet',151,5,'Pink'),(5,'Buttercup bouquet','bouquet',94,10,'Red'),(6,'Anemone bouquet','bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red'),(11,'Small Gozmania','PLANT',33,20,'Yellow'),(12,'Medium Gozmania','PLANT',69,30,'Yellow'),(13,'Big Gozmania','PLANT',99,25,'Yellow'),(14,'Small Anthurium','PLANT',29,15,'Red'),(15,'Medium Anthurium','PLANT',79,20,'Red'),(16,'Big Anthurium','PLANT',109,30,'Red'),(17,'Small Cocktail','PLANT',19,30,'Pink'),(18,'Medium Cocktail','PLANT',49,20,'Pink'),(19,'Big Cocktail','PLANT',89,10,'Pink'),(20,'SnowWhite','Bridal Bouquet',149,20,'White'),(21,'Cinderella','Bridal Bouquet',159,20,'White'),(22,'Olive','Flower Pot',89,20,'Green'),(23,'Spathiphyllum','Flower Pot',199,20,'Green'),(24,'sunshine','Flowers Cluster',89,20,'Yellow'),(25,'Violet Winter','Flowers Cluster',129,20,'Purple');
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
