@@ -91,7 +91,6 @@ public class EntityFactory {
 		  case "CustomItemProduct":
 			  return loadCustomItemInOrder(rs);
 			  
-			  
 		  default:
 			  return null;
 		  }  
@@ -455,7 +454,7 @@ public class EntityFactory {
 			  {
 				  reports.add(new OrderReport(OrderReport.Quarterly.valueOf(rs.getString("Quarterly")), rs.getString("Year"), rs.getLong("StoreID"), 
 						  rs.getLong("TotalOrdersAmount"), rs.getLong("BouquetAmount"), rs.getLong("BrideBouquetAmount"),
-						  rs.getLong("FlowerPotAmount"), rs.getLong("FlowerAmount"), rs.getLong("PlantAmount")));
+						  rs.getLong("FlowerPotAmount"), rs.getLong("CustomAmount"), rs.getLong("FlowerClusterAmount")));
 
 			  }
 		  }catch (SQLException e) {e.printStackTrace();}

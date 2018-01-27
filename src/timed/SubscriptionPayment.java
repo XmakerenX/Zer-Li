@@ -19,11 +19,11 @@ import Server.DBConnector;
 public class SubscriptionPayment extends TimerTask
 {
 	DBConnector conn = null;
-	String year;
-	public SubscriptionPayment(String year, DBConnector db)
+	//String year;
+	public SubscriptionPayment(DBConnector db)
 	{
 		this.conn = db;
-		this.year = year;
+		//this.year = year;
 	}
 	
 	@Override
@@ -32,11 +32,15 @@ public class SubscriptionPayment extends TimerTask
 	 */
 	public void run() {
 		Calendar cal = Calendar.getInstance();
+		//cal.add(Calendar.MONTH, 1);
 		   SimpleDateFormat formatter = new SimpleDateFormat("dd");
 		   String date = formatter.format(cal.getTime());
 		   //Checks if the date is right for creating new reports
-		   if(date.equals("01") /* || date.equals(formatter.format(cal.getTime())) */)		//checks whether the it's the first of a month 
+		   if(date.equals("01")) //checks whether the it's the first of a month
+		   //if (date.equals("27"))
 		   {
+		        //getting current year:
+		        String year = String.valueOf(cal.get(Calendar.YEAR));
 			   formatter = new SimpleDateFormat("MM");
 			   String monthOfPayment = formatter.format(cal.getTime());
 			   if(monthOfPayment.equals("01"))		//if we are at the beginning of the year
@@ -54,6 +58,7 @@ public class SubscriptionPayment extends TimerTask
 			   SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 			   
 			   Calendar from = Calendar.getInstance();
+			   //from.add(Calendar.MONTH, 1);
 			   from.add(Calendar.MONTH, -1);
 			   from.set(Calendar.MINUTE, 00);
 			   from.set(Calendar.HOUR_OF_DAY, 00);
@@ -62,6 +67,7 @@ public class SubscriptionPayment extends TimerTask
 			   from.set(Calendar.YEAR, Integer.valueOf(year));
 			   
 			   Calendar to = Calendar.getInstance();
+			   //to.add(Calendar.MONTH, 1);
 			   to.add(Calendar.MONTH, -1);
 			   to.set(Calendar.MINUTE, 59);
 			   to.set(Calendar.HOUR_OF_DAY, 23);
@@ -73,7 +79,7 @@ public class SubscriptionPayment extends TimerTask
 			   ArrayList<Integer> orderIDs = new ArrayList<Integer>(); //this way we save all of the orders we need to update to 'SUBSCRIPTION_PAID'
 			   
 			   //all the customers who have bought anything during this month
-			   ResultSet rs = conn.selectTableData("*", "order", "OrderPaymentMethod = 'SUBSCRIPTION' AND "
+			   ResultSet rs = conn.selectTableData("*", "Order", "OrderPaymentMethod = 'SUBSCRIPTION' AND "
 				   		+ "STR_TO_DATE(OrderCreationDateTime, '%Y-%m-%d %k:%i:%s') between '"+format.format(from.getTime())+"' and '"+format.format(to.getTime())+"' ");
 			   try
 				  {
@@ -103,7 +109,7 @@ public class SubscriptionPayment extends TimerTask
 					   String storeID = parts[1];
 					   System.out.println(customerID+" store: "+ storeID);
 					   spendings.add((float) 0);
-					   rs = conn.selectTableData("*", "order", "OrderCustomerID = "+customerID+ " AND OrderOriginStore = "+storeID+" AND OrderPaymentMethod = 'SUBSCRIPTION' AND "
+					   rs = conn.selectTableData("*", "Order", "OrderCustomerID = "+customerID+ " AND OrderOriginStore = "+storeID+" AND OrderPaymentMethod = 'SUBSCRIPTION' AND "
 						   		+ "STR_TO_DATE(OrderCreationDateTime, '%Y-%m-%d %k:%i:%s') between '"+format.format(from.getTime())+"' and '"+format.format(to.getTime())+"' ");
 					   try
 						  {
@@ -126,14 +132,14 @@ public class SubscriptionPayment extends TimerTask
 				   String[] parts = customerANdStore.split("-");
 				   String customerID = parts[0];
 				   String storeID = parts[1];
-				   rs = conn.selectTableData("accountBalance", "customers", "personID ="+customerID+" and StoreID="+storeID);
+				   rs = conn.selectTableData("accountBalance", "Customers", "personID ="+customerID+" and StoreID="+storeID);
 				   try
 					  {
 						  while (rs.next())		//update user's balance
 						  {
 							  Float updateTo = rs.getFloat("accountBalance") - spendings.get(i);
 							  System.out.println("Updating customer Balance! from "+rs.getFloat("accountBalance")+" to: "+updateTo);
-							  conn.executeUpdate("customers", "accountBalance="+updateTo, "personID="+customerID+" and StoreID ="+storeID);
+							  conn.executeUpdate("Customers", "accountBalance="+updateTo, "personID="+customerID+" and StoreID ="+storeID);
 						  }
 					  }
 				   catch (SQLException e) {e.printStackTrace();}
@@ -142,7 +148,7 @@ public class SubscriptionPayment extends TimerTask
 			   for(int i=0; i<numberOfOrdersToUpdate; i++)				//updating the status of each order to 'SUBSCRIPTION_PAID'
 			   {
 				   try {
-					conn.executeUpdate("prototype.order", "OrderPaymentMethod = 'SUBSCRIPTION_PAID'", "OrderID = "+orderIDs.get(i));
+					conn.executeUpdate("prototype.Order", "OrderPaymentMethod = 'SUBSCRIPTION_PAID'", "OrderID = "+orderIDs.get(i));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
