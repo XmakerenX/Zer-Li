@@ -59,7 +59,7 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
     	UserController.requestLogout(user, client);
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     }
 
@@ -108,7 +108,7 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 	    	}catch(InterruptedException e) {}
 		
 			viewDifferentReportsGUI.setClinet(client);
-			client.setUI(viewDifferentReportsGUI);
+			Client.client.setUI(viewDifferentReportsGUI);
 			FormController.primaryStage.setScene(viewDifferentReportsGUI.getScene());
     	}
     }

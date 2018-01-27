@@ -66,7 +66,7 @@ public class ServerGUI extends Application
 	          {
 	        	  Alert alert = new Alert(AlertType.CONFIRMATION);
 	        	  alert.setTitle("Confirmation Dialog");
-	        	  alert.setHeaderText("About to close serever.");
+	        	  alert.setHeaderText("About to close server.");
 	        	  alert.setContentText("Are you sure?");
 
 	        	  Optional<ButtonType> result = alert.showAndWait();
@@ -116,8 +116,8 @@ public class ServerGUI extends Application
     	ProtoTypeServer.updateServerConfigFile("server.properties", newPort, newUsername, newPass);
     	
     	Alert alert = new Alert(AlertType.INFORMATION);
-    	alert.setTitle("new configurations saved");
-    	alert.setHeaderText("new configurations were saved.\nTo apply changes,restart the server");
+    	alert.setTitle("New configurations saved");
+    	alert.setHeaderText("New configurations were saved.\nTo apply changes,restart the server");
     	alert.showAndWait();
     	}
     }

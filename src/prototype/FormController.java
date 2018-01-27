@@ -74,7 +74,7 @@ public abstract class FormController {
 	          {
 	        	  Alert alert = new Alert(AlertType.CONFIRMATION);
 	        	  alert.setTitle("Confirmation Dialog");
-	        	  alert.setHeaderText("About to close zerli programm.");
+	        	  alert.setHeaderText("About to close Zer-Li program.");
 	        	  alert.setContentText("Are you sure you want to exit?");
 
 	        	  Optional<ButtonType> result = alert.showAndWait();
