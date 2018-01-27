@@ -81,6 +81,9 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     private TableColumn<Product, Number> amountCol;
 
     @FXML
+    private Label noteLabel;
+    
+    @FXML
     private Label totalPrice;
     
     @FXML
@@ -296,6 +299,14 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     @FXML
     void onTypeSelected(ActionEvent event) {
     	Product.Type type = this.toTypeFromString(itemTypeCbx.getSelectionModel().getSelectedItem().toUpperCase());
+    	if (type == Product.Type.BRIDE_BOUQUET)
+    		this.noteLabel.setText("Note : Bride Bouquet Cost an addional "+ bridePrice +" ILS");
+    	else
+	    	if (type == Product.Type.BOUQUET)
+	    		this.noteLabel.setText("Note : Bouquet Cost an addional "+ bouquetPrice +" ILS");
+	    	else
+	    		this.noteLabel.setText("");
+    	
     	getDominateColors(type);
     }
     
@@ -456,7 +467,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
 	    		
 	    		DecimalFormat df = new DecimalFormat();
 	    		df.setMaximumFractionDigits(2);
-	    		totalPrice.setText(df.format(itemTotalPrice)+"€");
+	    		totalPrice.setText(df.format(itemTotalPrice)+" ILS");
 	    		
 	    		customTable.setItems(customProducts);
 	    		orderCustomItemBtn.setDisable(false);
@@ -507,7 +518,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
         		
 	    		DecimalFormat df = new DecimalFormat();
 	    		df.setMaximumFractionDigits(2);
-	    		totalPrice.setText(df.format(itemTotalPrice)+"€");
+	    		totalPrice.setText(df.format(itemTotalPrice)+" ILS");
 	    		
 	    		customTable.setItems(customProducts);
 	    		orderCustomItemBtn.setDisable(false);

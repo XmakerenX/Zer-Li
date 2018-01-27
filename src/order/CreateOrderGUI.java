@@ -730,7 +730,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	else
     		this.StoreAccountRadio.setDisable(true);
     	
-    	totalPrice.setText(""+orderTotalPrice+"€");
+    	totalPrice.setText(""+orderTotalPrice+" ILS");
     	customOrder = false;
     	
     	resetControls();
@@ -754,7 +754,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	
     	orderTable.setItems(orderItems);
     	orderTotalPrice = customItem.getPrice();
-    	totalPrice.setText(""+customItem.getPrice()+"€");
+    	totalPrice.setText(""+customItem.getPrice()+" ILS");
     	customOrder = true;
     	resetControls();
     	setCurrentTime();
@@ -837,7 +837,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
 		orderTotalPrice += amount;
-		this.totalPrice.setText(""+df.format(orderTotalPrice)+"€");
+		this.totalPrice.setText(""+df.format(orderTotalPrice)+" ILS");
 	}
 	
 	@Override
