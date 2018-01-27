@@ -99,9 +99,9 @@ public class EntityUpdater {
 		  String productID = "ProductID="+product.getID();
 		  String productName = "ProductName=\""+product.getName()+"\"";
 		  String productType = "ProductType=\""+product.getType()+"\"";
-		  String productPrice = "ProductType=\""+product.getPrice()+"\"";
-		  String productAmount= "ProductType=\""+product.getAmount()+"\"";
-		  String productColor = "ProductType=\""+product.getColor()+"\"";
+		  String productPrice = "productPrice=\""+product.getPrice()+"\"";
+		  String productAmount= "productAmount=\""+product.getAmount()+"\"";
+		  String productColor = "productColor=\""+product.getColor()+"\"";
 
 		  String condition = "ProductID="+oldKey; 
 		  db.executeUpdate("Product", productID + "," + productName + "," + productType+ ","+productPrice+ "," +
