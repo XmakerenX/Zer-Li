@@ -11,7 +11,6 @@ import report.Report.Quarterly;
 
 /**
  * this is a task that takes care of creating the quarterly reports for the zer li system
- * @author dk198
  *
  */
 public class QuarterlyReportCreation extends TimerTask

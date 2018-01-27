@@ -380,6 +380,8 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     @FXML
     void onReportTypeSelection(ActionEvent event) {
     	
+       if(reportTypeComboBox.getValue() != null)
+       {
     	if(reportTypeComboBox.getValue().equals("Complaint") || reportTypeComboBox.getValue().equals("Survey"))
     	{
     		if(reportTypeComboBox.getValue().equals("Complaint"))
@@ -414,6 +416,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
     	}
     	
     	clearFieldsMethod();
+       }
     }
 
 	@Override

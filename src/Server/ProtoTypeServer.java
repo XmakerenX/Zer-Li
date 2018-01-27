@@ -34,6 +34,7 @@ import serverAPI.UpdateRequest;
 import serverAPI.UploadImageRequest;
 import timed.QuarterlyReportCreation;
 import timed.SubscriptionPayment;
+import timed.TimedComplaintsHandler;
 import user.LoginException;
 import user.User;
 import user.UserController;
@@ -47,6 +48,8 @@ public class ProtoTypeServer extends AbstractServer {
 
 	  final public static int DEFAULT_PORT = 5555;
 	  private DBConnector db;
+	  static ProtoTypeServer sv;
+	  static Timer time;
 	
 	  //*************************************************************************************************
 	  // Constructors 
@@ -785,7 +788,7 @@ public class ProtoTypeServer extends AbstractServer {
 	  public static void main(String[] args) 
 	  {	  
 		  ArrayList<Object> serverArgs = parseConfigFile("server.properties");
-		  ProtoTypeServer sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
+		  sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
 
 		  try 
 		  {
@@ -811,6 +814,7 @@ public class ProtoTypeServer extends AbstractServer {
 	        Timer time = new Timer(); // Instantiate Timer Object
 	        	        
 	        // Start running the task on midnight tomorrow, period is set to start again everyday
+	        
 	        // if you want to run the task immediately, set the 2nd parameter to 0
 	        QuarterlyReportCreation reportsCreator = new QuarterlyReportCreation(db);
 	        SubscriptionPayment subsPayment = new SubscriptionPayment(db);
@@ -820,5 +824,17 @@ public class ProtoTypeServer extends AbstractServer {
 	        time.scheduleAtFixedRate(subsPayment, midnight.getTime(), TimeUnit.DAYS.toMillis(1));
 //	        time.scheduleAtFixedRate(reportsCreator, Calendar.getInstance().getTime(), TimeUnit.MINUTES.toMillis(1));
 //	        time.scheduleAtFixedRate(subsPayment, Calendar.getInstance().getTime(), TimeUnit.MINUTES.toMillis(1));
+	        time.schedule(new TimedComplaintsHandler(db) ,calendar.getTime(), TimeUnit.SECONDS.toSeconds(10));
+	        
+	        
+	        
+	}
+	  
+	public static void stopServer() throws IOException
+	{
+			time.cancel();
+			sv.close();
+		
+	  
 	}
 }

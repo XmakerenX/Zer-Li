@@ -91,7 +91,6 @@ public class EntityFactory {
 		  case "CustomItemProduct":
 			  return loadCustomItemInOrder(rs);
 			  
-			  
 		  default:
 			  return null;
 		  }  

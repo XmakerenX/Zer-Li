@@ -1,8 +1,11 @@
 package report;
 
 import java.io.Serializable;
-
-public class Report implements Serializable {
+/**
+ *  This class constructs the basic attributes of a report.
+ */
+public class Report implements Serializable 
+{
 
 	public class ReportException extends Exception {
 
