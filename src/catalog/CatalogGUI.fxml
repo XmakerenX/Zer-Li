@@ -25,6 +25,6 @@
          </font>
       </Label>
       <Button fx:id="backBtn" layoutX="15.0" layoutY="450.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
-      <Button fx:id="createOrderBtn" layoutX="290.0" layoutY="450.0" mnemonicParsing="false" onAction="#onCreateOrder" text="Create Order" />
+      <Button fx:id="createOrderBtn" layoutX="289.0" layoutY="450.0" mnemonicParsing="false" onAction="#onCreateOrder" text="Create Order" />
    </children>
 </AnchorPane>
