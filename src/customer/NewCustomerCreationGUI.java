@@ -166,7 +166,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 
 					CustomerController.createNewCustomer(Long.parseLong(personID), managersStoreID, fullName,
 							phoneNumber, Customer.PayType.valueOf(paymentMethod), 0, creditCardNumber, true,
-							expirationDate, client);
+							expirationDate, Client.client);
 
 						
 						waitForResponse();
