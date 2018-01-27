@@ -229,8 +229,12 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 						newWindow.showAndWait();
 						getClient().setUI(ManageCatInterface);
 						CatalogItem newCatalogItem = addToCatGUI.getCatItem();
+						EditableCatalogItemView newCatItem = new EditableCatalogItemView(newCatalogItem);
+						editCatalogView.getItems().add(newCatItem);
+						eCatalogProducts.add(newCatItem);
 					}
-					initCatalogProductsTableContent();
+					
+					//initCatalogProductsTableContent();
 					
     			}
 		    }

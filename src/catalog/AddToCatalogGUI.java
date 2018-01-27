@@ -201,6 +201,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
         stage.close();   
     }
 
+    
     /**
      * Approves the input and adds product to catalog with image and sale, if they were chosen
      * @param event - "OK" button is clicked
@@ -244,9 +245,13 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 				imageToUpload = new ImageData(imagePath);
 				
 				client.handleMessageFromClientUI(new UploadImageRequest(imageToUpload));
-				this.getStage().close();
+				synchronized(this)
+				{	
+					this.wait();
+				}
+				cancelBTN(null);
 			} 
-			catch (IOException e)    {e.printStackTrace();} }
+			catch (Exception e)    {e.printStackTrace();} }
     }
     
     //----------------------------------------
