@@ -17,6 +17,7 @@ import serverAPI.Response;
 import utils.FormController;
 /**
  * A class that lets the customer service expert browse through the survey's results which haven't been assigned an analysis yet
+ * and showing how many we've got
  * @author dk198
  *
  */
