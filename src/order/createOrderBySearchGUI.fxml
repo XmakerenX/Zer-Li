@@ -15,11 +15,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
 <AnchorPane prefHeight="750.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.createOrderBySearchGUI">
-=======
-<AnchorPane prefHeight="750.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.createOrderBySearchGUI">
->>>>>>> branch 'master' of https://github.com/XmakerenX/prototype.git
+
    <children>
       <Label layoutX="290.0" layoutY="10.0" text="Create Order">
          <font>
@@ -98,12 +95,9 @@
             <Font size="15.0" />
          </font>
       </Label>
-<<<<<<< HEAD
+      
       <Button fx:id="searchButton" layoutX="515.0" layoutY="103.0" mnemonicParsing="false" onAction="#onSearchButton" prefWidth="60.0" text="Search" />
       <RadioButton fx:id="StoreAccountRadio" layoutX="200.0" layoutY="650.0" mnemonicParsing="false" onAction="#OnStoreAccount" text="Store account" />
-=======
-      <Button fx:id="searchButton" layoutX="545.0" layoutY="103.0" mnemonicParsing="false" onAction="#onSearchButton" prefWidth="60.0" text="Search" />
-      <RadioButton fx:id="StoreAccountRadio" layoutX="200.0" layoutY="650.0" mnemonicParsing="false" onAction="#OnStoreAccount" text="Store account" toggleGroup="$payMethod" />
->>>>>>> branch 'master' of https://github.com/XmakerenX/prototype.git
+
    </children>
 </AnchorPane>
