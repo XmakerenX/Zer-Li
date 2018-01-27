@@ -34,6 +34,7 @@ import serverAPI.UpdateRequest;
 import serverAPI.UploadImageRequest;
 import timed.QuarterlyReportCreation;
 import timed.SubscriptionPayment;
+import timed.TimedComplaintsHandler;
 import user.LoginException;
 import user.User;
 import user.UserController;
@@ -47,6 +48,8 @@ public class ProtoTypeServer extends AbstractServer {
 
 	  final public static int DEFAULT_PORT = 5555;
 	  private DBConnector db;
+	  static ProtoTypeServer sv;
+	  static Timer time;
 	
 	  //*************************************************************************************************
 	  // Constructors 
@@ -785,7 +788,7 @@ public class ProtoTypeServer extends AbstractServer {
 	  public static void main(String[] args) 
 	  {	  
 		  ArrayList<Object> serverArgs = parseConfigFile("server.properties");
-		  ProtoTypeServer sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
+		  sv = new ProtoTypeServer((int)serverArgs.get(0), (String)serverArgs.get(1), (String)serverArgs.get(2));
 
 		  try 
 		  {
@@ -799,8 +802,8 @@ public class ProtoTypeServer extends AbstractServer {
 		  }
 	  }
 	  
-	  public static void runTimedTasks(DBConnector db){
-
+	  public static void runTimedTasks(DBConnector db)
+	  {
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.set(
 	           Calendar.DAY_OF_WEEK,
@@ -811,7 +814,7 @@ public class ProtoTypeServer extends AbstractServer {
 	        calendar.set(Calendar.SECOND, 0);
 	        calendar.set(Calendar.MILLISECOND, 0);
 
-	        Timer time = new Timer(); // Instantiate Timer Object
+	        time = new Timer(); // Instantiate Timer Object
 	        
 	        Calendar now = Calendar.getInstance();
 	        //getting the quarter: 1/1, 1/4, 1/7, 1/
@@ -836,9 +839,23 @@ public class ProtoTypeServer extends AbstractServer {
 	        int year = now.get(Calendar.YEAR);
 	        String yearInString = String.valueOf(year);
 	        
+	        System.out.println(calendar.getTime());
+	        
 	        // Start running the task on Monday at 15:40:00, period is set to 8 hours
 	        // if you want to run the task immediately, set the 2nd parameter to 0
 	        time.schedule(new QuarterlyReportCreation(quarterForReports, yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));
 	        time.schedule(new SubscriptionPayment(yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));
+	        time.schedule(new TimedComplaintsHandler(db) ,calendar.getTime(), TimeUnit.SECONDS.toSeconds(10));
+	        
+	        
+	        
+	}
+	  
+	public static void stopServer() throws IOException
+	{
+			time.cancel();
+			sv.close();
+		
+	  
 	}
 }
