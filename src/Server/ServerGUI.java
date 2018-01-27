@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -143,6 +145,10 @@ public class ServerGUI extends Application
 		  } 
 		  catch (IOException ex) 
 		  {
+			  Alert alert = new Alert(AlertType.ERROR, "ERROR - Could not listen for clients!, is the server already running ?"
+					  , ButtonType.OK);
+			  alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+			  alert.showAndWait();
 			  System.out.println("ERROR - Could not listen for clients!");
 		  }
 		
