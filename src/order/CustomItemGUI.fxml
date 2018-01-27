@@ -46,5 +46,6 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Label fx:id="noteLabel" layoutX="379.0" layoutY="71.0" prefHeight="97.0" prefWidth="67.0" wrapText="true" />
    </children>
 </AnchorPane>

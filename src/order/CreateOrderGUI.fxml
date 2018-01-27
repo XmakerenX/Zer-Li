@@ -48,7 +48,7 @@
          <toggleGroup>
             <ToggleGroup fx:id="pickupMethod" />
          </toggleGroup></RadioButton>
-      <RadioButton layoutX="190.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivery" text="Delivery(shipment price is 10 €)" toggleGroup="$pickupMethod" />
+      <RadioButton layoutX="190.0" layoutY="405.0" mnemonicParsing="false" onAction="#onDelivery" text="Delivery(shipment price is 10 ILS)" toggleGroup="$pickupMethod" />
       <Label layoutX="72.0" layoutY="435.0" text="Delivery address:" />
       <TextField fx:id="addressTxt" layoutX="190.0" layoutY="433.0" />
       <Label layoutX="325.0" layoutY="65.0" text="Items in Order">
