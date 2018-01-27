@@ -54,7 +54,7 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 		        String newValue) 
 		    {
 		    int inputLength = newValue.length();
-		    	if(inputLength<=500) 
+		    if(inputLength<=500 && !newValue.contains("'")) 
 		    	{
 		    		if(inputLength<=9)
 		    			lengthField.setText("  " + inputLength+"/500");

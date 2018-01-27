@@ -75,7 +75,7 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 		        String newValue) 
 		    {
 		    int inputLength = newValue.length();
-		    	if(inputLength<=500) 
+		    if(inputLength<=500 && !newValue.contains("'")) 
 		    	{
 		    		if(inputLength<=9)
 		    			lengthField.setText("  " + inputLength + "/500");
