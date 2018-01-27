@@ -118,7 +118,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 			
 			String personID = personIDTxtField.getText();
 
-			CustomerController.getCustomer(personID, "" + managersStoreID, client);
+			CustomerController.getCustomer(personID, "" + managersStoreID, Client.client);
 
 			waitForResponse();
 			
@@ -130,7 +130,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 				// clear replay
 				replay = null;
 				
-				UserController.GetUserByCertainCondition(personID,"personID", client);
+				UserController.GetUserByCertainCondition(personID,"personID", Client.client);
 
 				waitForResponse();
 				
@@ -198,7 +198,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 		clearFieldsMethod();
 
 		StoreManagerGUI storeManagerGUI = (StoreManagerGUI) parent;
-		client.setUI(storeManagerGUI);
+		Client.client.setUI(storeManagerGUI);
 		FormController.primaryStage.setScene(parent.getScene());
 	}
 
