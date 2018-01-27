@@ -14,6 +14,12 @@ import order.OrderComplaint;
 import serverAPI.GetRequestByKey;
 import utils.EntityFactory;
 
+/**
+ * A task that takes care of whether or not an active complaint had been taken care of within 24 hours from its sumbission. 
+ * if not, it automatically refunds the complainer.
+ * @author ariel
+ *
+ */
 public class TimedComplaintsHandler extends TimerTask
 {
 	DBConnector db;
