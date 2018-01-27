@@ -478,7 +478,6 @@ public class ProtoTypeServer extends AbstractServer {
 						  try {
 							  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
 							  order.get(0).setRefund(refundAmount);
-							  order.get(0).setStatus(Order.Status.CANCELED);
 						  } catch (SQLException e) {
 							  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
 							  e.printStackTrace();
@@ -487,6 +486,7 @@ public class ProtoTypeServer extends AbstractServer {
 					  }
 				  }
 				  // Cancel order(update its status and refund ammount)
+				  order.get(0).setStatus(Order.Status.CANCELED);
 				  if (EntityUpdater.setEntity("Order", Integer.toString(order.get(0).getID()), order.get(0), db))
 					  sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+refundAmount));
 				  else
