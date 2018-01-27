@@ -237,7 +237,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 	}
 	//===============================================================================================================
 	//waiting for the server to respond
-    public void waitForServerResponse()
+    protected void waitForServerResponse()
     {
     	synchronized(this) 
     	{

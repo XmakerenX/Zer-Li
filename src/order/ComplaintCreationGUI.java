@@ -279,7 +279,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 	};	
 	//===============================================================================================================
 	//waiting for the server to respond
-    public void waitForServerResponse()
+    protected void waitForServerResponse()
     {
     	synchronized(this) 
     	{

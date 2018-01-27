@@ -34,24 +34,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.converter.NumberStringConverter;
-import order.CreateOrderGUI;
+
 import product.CatalogItem;
-import product.Product;
-import serverAPI.Response;
+
 import serverAPI.UploadImageRequest;
-import user.LoginGUI;
-import utils.FormController;
+
 import utils.ImageData;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 //*************************************************************************************************
 	/**
 	*  Provides a GUI that enable editing a catalog's store
