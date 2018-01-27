@@ -9,10 +9,10 @@ import java.util.Calendar;
 import java.util.TimerTask;
 
 import Server.DBConnector;
+import Server.EntityFactory;
 import customer.Customer;
 import order.OrderComplaint;
 import serverAPI.GetRequestByKey;
-import utils.EntityFactory;
 
 /**
  * A task that takes care of whether or not an active complaint had been taken care of within 24 hours from its sumbission. 

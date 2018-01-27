@@ -39,9 +39,6 @@ import user.LoginException;
 import user.User;
 import user.UserController;
 import utils.Config;
-import utils.EntityAdder;
-import utils.EntityFactory;
-import utils.EntityUpdater;
 import utils.ImageData;
 
 //*************************************************************************************************

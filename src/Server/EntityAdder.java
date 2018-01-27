@@ -1,11 +1,11 @@
-package utils;
+package Server;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import Server.DBConnector;
+
 import customer.Customer;
 import order.CustomItemInOrder;
 import order.Order;

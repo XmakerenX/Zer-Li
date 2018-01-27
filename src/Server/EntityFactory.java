@@ -1,4 +1,4 @@
-package utils;
+package Server;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -17,6 +17,7 @@ import order.OrderComplaint;
 import order.OrderException;
 import order.ProductInOrder;
 import user.User;
+import utils.ImageData;
 import product.CatalogItem;
 import product.Product;
 import report.ComplaintReport;
