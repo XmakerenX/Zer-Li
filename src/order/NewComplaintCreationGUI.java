@@ -118,6 +118,10 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 	    		alert.showAndWait();
 		    	//clearing response
 	    		response = null;
+	    		complaintBodyTextField.clear();
+	        	SelectOrderForComplaintGUI selectOrderForComplaintGUI = (SelectOrderForComplaintGUI)parent;
+	        	client.setUI(selectOrderForComplaintGUI);
+	        	FormController.primaryStage.setScene(parent.getScene());
 	    	}
 	    	else if(response.getType() == Response.Type.ERROR)
 	    	{

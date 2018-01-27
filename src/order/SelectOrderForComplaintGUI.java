@@ -110,6 +110,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	
     	ComplaintCreationGUI complaintCreationGUI = (ComplaintCreationGUI)parent;
     	client.setUI(complaintCreationGUI);
+    	complaintCreationGUI.clearForm();
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================

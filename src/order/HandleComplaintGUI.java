@@ -102,7 +102,11 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 		    					myOrder = o;
 		    				}
 		    			}
-		    			myOrder.setRefund(Float.valueOf(refundTextField.getText()));
+		    			if(!refundTextField.getText().isEmpty())
+		    				myOrder.setRefund(Float.valueOf(refundTextField.getText()));
+		    			else
+		    				myOrder.setRefund(Float.valueOf(0));
+		    				
 		    			OrderController.updateOrder(myOrder.orderID, myOrder);
 			    		waitForServerResponse();
 
@@ -110,6 +114,17 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 						{
 			    			Alert alert2 = new Alert(AlertType.CONFIRMATION, "A refund has been issued successfuly!", ButtonType.OK);
 			    			alert2.showAndWait();
+			    			//********************************
+			    			customerNameTextFiled.clear();
+			    	    	phoneNumberTextField.clear();
+			    	    	complainTextField.clear();
+			    	    	orderPriceTextFiled.clear();
+			    	    	
+			    	    	ComplaintManageGUI complaintManageGUI = (ComplaintManageGUI)parent;
+			    	    	client.setUI(complaintManageGUI);
+			    	    	complaintManageGUI.doInit();
+			    	    	FormController.primaryStage.setScene(parent.getScene());
+			    	    	//*******************************
 						}
 						else
 						{
@@ -163,8 +178,9 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
 	        String newValue) 
 	    {
-	    	if(newValue.isEmpty() || (Float.valueOf(newValue) >= 0 && Float.valueOf(newValue) <= complaint.getMaxCompensationAmount()))
+	    	if(newValue.isEmpty() || (newValue.matches("[0-9]+") && Float.valueOf(newValue) >= 0 && Float.valueOf(newValue) <= Math.round(complaint.getMaxCompensationAmount())))
 	    		refundTextField.setText(newValue);
+
 	    	else
 	    		refundTextField.setText(oldValue);
 	    }
@@ -196,7 +212,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     	customerNameTextFiled.setText(complaint.getCustomerName());
     	phoneNumberTextField.setText(complaint.getCustomerPhoneNum());
     	complainTextField.setText(complaint.getComplaintDescription());
-    	orderPriceTextFiled.setText(complaint.getMaxCompensationAmount() + " nis");
+    	orderPriceTextFiled.setText(Math.round(complaint.getMaxCompensationAmount()) + " nis");
 	}
 	//===============================================================================================================
   	public void display(Object message) {

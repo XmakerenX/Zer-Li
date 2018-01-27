@@ -14,6 +14,8 @@ import customer.Customer.CustomerException;
 import customer.CustomerController;
 import customer.CustomerView;
 import customer.CustomerView.CustomerViewButton;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -87,7 +89,36 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     
     @FXML // fx:id="storeAddress"
     private TableColumn<?, ?> storeAddress;// Value injected by FXMLLoader
+    /**
+     * changes the default listener
+     */
+  public void initialize(){
+	  
+	  idTextField.textProperty().addListener(new ChangeListener<String>() {
+	    @Override
+	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+	        String newValue) 
+	    {
+	    	if(newValue.isEmpty() || (newValue.matches("[0-9]+") && newValue.length()<=9))
+	    		idTextField.setText(newValue);
 
+	    	else
+	    		idTextField.setText(oldValue);
+	    }
+	});
+	  phoneNumberTextField.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) 
+		    {
+		    	if(newValue.isEmpty() || (newValue.matches("[0-9]+")&& newValue.length()<=10))
+		    		phoneNumberTextField.setText(newValue);
+
+		    	else
+		    		phoneNumberTextField.setText(oldValue);
+		    }
+		});
+  }
     //===============================================================================================================
     /**
      * an initialization function that sets the tables
@@ -369,4 +400,11 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 	{
 		return this.client;
 	}
+  //===============================================================================================================
+    public void clearForm()
+    {
+    	idTextField.clear();
+    	phoneNumberTextField.clear();
+    	userTable.getItems().clear();
+    }
 }

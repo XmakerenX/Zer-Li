@@ -105,6 +105,11 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	        	}
 	    		
 	    	}
+	    	else
+	    	{
+	    		Alert alert = new Alert(AlertType.ERROR, "Please enter a result number to search for.", ButtonType.OK);
+        		alert.showAndWait();
+	    	}
 	    }
 	    //===============================================================================================================
 	    @FXML
@@ -123,25 +128,33 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	    void onAddButton(ActionEvent event) {
 	    	if(result!=null)
 	    	{
-	    		result.setAnalysis(analysisField.getText());
-	    		CustomerSatisfactionSurveyResultsController.addResultAnalysis(Integer.toString(result.getID()), result, client);
-	    		waitForServerResponse();
-	    		// show success 
-	        	if (response.getType() == Response.Type.SUCCESS)
-	        	{
-	        		Alert alert = new Alert(AlertType.CONFIRMATION, "Analysis added successfully.", ButtonType.OK);
+	    		if(!analysisField.getText().contains("No analysis have been given to "))
+	    		{
+		    		result.setAnalysis(analysisField.getText());
+		    		CustomerSatisfactionSurveyResultsController.addResultAnalysis(Integer.toString(result.getID()), result, client);
+		    		waitForServerResponse();
+		    		// show success 
+		        	if (response.getType() == Response.Type.SUCCESS)
+		        	{
+		        		Alert alert = new Alert(AlertType.CONFIRMATION, "Analysis added successfully.", ButtonType.OK);
+		        		alert.showAndWait();
+		        		//clear response
+		        		response = null;
+		        		clearForm();
+		        	}
+		        	else
+		        	{
+		        		Alert alert = new Alert(AlertType.ERROR, "Could not add analysis.", ButtonType.OK);
+		        		alert.showAndWait();
+		        		// clear response
+		        		response = null;
+		        	}
+	    		}
+	    		else
+	    		{
+	    			Alert alert = new Alert(AlertType.ERROR, "Please add an analysis.", ButtonType.OK);
 	        		alert.showAndWait();
-	        		//clear response
-	        		response = null;
-	        		clearForm();
-	        	}
-	        	else
-	        	{
-	        		Alert alert = new Alert(AlertType.ERROR, "Could not add analysis.", ButtonType.OK);
-	        		alert.showAndWait();
-	        		// clear response
-	        		response = null;
-	        	}
+	    		}
 	    		
 	    	}
 	    	else
