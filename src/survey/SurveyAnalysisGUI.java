@@ -10,12 +10,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import networkGUI.CustomerServiceExpertGUI;
 import serverAPI.Response;
 import utils.FormController;
 /**
  * A class that lets the customer service expert browse through the survey's results which haven't been assigned an analysis yet
+ * and showing how many we've got
  * @author dk198
  *
  */
@@ -60,12 +62,17 @@ public class SurveyAnalysisGUI extends FormController implements ClientInterface
 	    @FXML
 	    private TextField resultIDField;
 	    @FXML
+	    private Label ofLabel;
+	    @FXML
+	    private Label numberLabel;
+	    @FXML
 	    //========================================================================
 	    void onPrevButton(ActionEvent event) {
 	    	if(currentResult!=0)
 	    	{
 	    		currentResult--;
 	    		setFields(resultList.get(currentResult));
+	    		numberLabel.setText(""+(currentResult+1));
 	    	}
 	    }
 	  //========================================================================
@@ -86,6 +93,7 @@ public class SurveyAnalysisGUI extends FormController implements ClientInterface
 	    		{
 	    			currentResult++;
 	    			setFields(resultList.get(currentResult));
+	    			numberLabel.setText(""+(currentResult+1));
 	    		}
 	    	}
 	    }
@@ -139,6 +147,8 @@ public class SurveyAnalysisGUI extends FormController implements ClientInterface
     		setFields(resultList.get(0));
     		//clear response
     		response = null;
+    		numberLabel.setText("1");
+    		ofLabel.setText(""+resultList.size());
     	}
     	else
     	{
