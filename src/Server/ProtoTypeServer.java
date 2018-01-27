@@ -44,6 +44,12 @@ import utils.EntityFactory;
 import utils.EntityUpdater;
 import utils.ImageData;
 
+//*************************************************************************************************
+/**
+ * The Server , Handles all The client request and communicates with the database
+ * also every quarter creates reports
+ */
+//*************************************************************************************************
 public class ProtoTypeServer extends AbstractServer {
 
 	  final public static int DEFAULT_PORT = 5555;

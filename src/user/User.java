@@ -15,6 +15,7 @@ public class User implements Serializable{
 			super(message);
 		}
 	}
+	
 	//enums:
 	public enum Permissions {CUSTOMER/*0*/ , STORE_WORKER/*1*/, STORE_MANAGER/*2*/, NETWORK_WORKER/*3*/,
 		NETWORK_MANAGER/*4*/,CUSTOMER_SERVICE/*5*/, CUSTOMER_SERVICE_EXPERT/*6*/, 

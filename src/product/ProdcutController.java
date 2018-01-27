@@ -37,8 +37,8 @@ public class ProdcutController
 	/**
 	 * 
 	 * Request server to add a new Product to the Product table in the database
-	 * @param newProd
-	 * @param client
+	 * @param newProd the product to add
+	 * @param client The client connection to use to send the message to the server 
 	 */
 	public static void addProductToDataBase(Product newProd,Client client)
 	{
@@ -48,8 +48,8 @@ public class ProdcutController
 	
 	/**
 	 * Request server to add a Product whose key is prodKey
-	 * @param prodKey
-	 * @param client
+	 * @param prodKey the product id
+	 * @param client The client connection to use to send the message to the server 
 	 */
 	public static void removeProductFromDataBase(String prodKey,Client client)
 	{
