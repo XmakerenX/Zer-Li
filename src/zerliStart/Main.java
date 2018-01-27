@@ -12,6 +12,11 @@ import user.*;
 import utils.Config;
 import utils.FormController;
 
+//*************************************************************************************************
+/**
+ * Class that start our Application
+ */
+//*************************************************************************************************
 public class Main extends Application 
 {
 	// the client default port
