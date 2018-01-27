@@ -86,15 +86,16 @@ public abstract class FormController {
 	        	  } 
 	        	  else 
 	        	  {
-	        	      
+	        	      we.consume();
 	        	  }
 	          }
 	      };        
 	      
 		primaryStage.setOnCloseRequest(onClose);
 		  
-		
 	}
+	
+	
 	
 	//*************************************************************************************************
     /**
