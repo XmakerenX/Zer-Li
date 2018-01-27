@@ -8,6 +8,11 @@ import serverAPI.GetRequest;
 import serverAPI.RemoveRequest;
 import serverAPI.UpdateRequest;
 
+//*************************************************************************************************
+	/**
+	* Provides functions that Manages the Prodcut 
+	*/
+//*************************************************************************************************
 public class ProdcutController 
 {
 

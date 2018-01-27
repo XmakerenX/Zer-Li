@@ -2,6 +2,12 @@ package product;
 
 import java.io.Serializable;
 
+//*************************************************************************************************
+	/**
+	*  The Product Entity
+	*  holds all the information for the Product table
+	*/
+//*************************************************************************************************
 public class Product implements Serializable 
 {
 

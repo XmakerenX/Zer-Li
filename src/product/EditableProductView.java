@@ -4,17 +4,19 @@ import java.io.Serializable;
 
 import javafx.scene.control.Button;
 
+//*************************************************************************************************
+/**
+* This class stores the data of a EditableProductView used in a tableview in EditProductGUI 
+*/
+//*************************************************************************************************
 public class EditableProductView extends Product implements Serializable
 {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 
 	 */
-
 	public class EditableProductViewButton extends Button implements Serializable
 	{
 		/**

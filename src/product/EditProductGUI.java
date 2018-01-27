@@ -21,7 +21,7 @@ import serverAPI.CheckExistsRequest;
 import serverAPI.Response;
 import utils.FormController;
 
-/*
+/**
  * Provides a GUI to edit products info
  */
 public class EditProductGUI extends NewProductCreationGUI 

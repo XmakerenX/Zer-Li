@@ -22,7 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import serverAPI.CheckExistsRequest;
 
-/*
+/**
  * Provides a gui for the creation of a new product
  */
 public class NewProductCreationGUI extends  FormController implements ClientInterface
