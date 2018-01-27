@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.createOrderBySearchGUI">
+<AnchorPane prefHeight="750.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.createOrderBySearchGUI">
    <children>
       <Label layoutX="305.0" layoutY="10.0" text="Create Order">
          <font>
@@ -91,6 +95,6 @@
          </font>
       </Label>
       <Button fx:id="searchButton" layoutX="545.0" layoutY="103.0" mnemonicParsing="false" onAction="#onSearchButton" prefWidth="60.0" text="Search" />
-      <RadioButton fx:id="StoreAccountRadio" layoutX="200.0" layoutY="650.0" mnemonicParsing="false" onAction="#OnStoreAccount" text="Store account" />
+      <RadioButton fx:id="StoreAccountRadio" layoutX="200.0" layoutY="650.0" mnemonicParsing="false" onAction="#OnStoreAccount" text="Store account" toggleGroup="$payMethod" />
    </children>
 </AnchorPane>
