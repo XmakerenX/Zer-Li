@@ -146,11 +146,11 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 									long bouquetAmount = orderReport.getBouquetAmount();
 									long brideBouquetAmount = orderReport.getBrideBouquetAmount();
 									long flowerPotAmount = orderReport.getFlowerPotAmount();
-									long flowerAmount = orderReport.getFlowerAmount();		//Maybe need to be removed
-									long plantAmount = orderReport.getPlantAmount();
+									long customAmount = orderReport.getFlowerAmount();		//Maybe need to be removed
+									long flowerClusterAmount = orderReport.getPlantAmount();
 									
 									fillOrderReportsTextArea(""+orderReport.getQuarterly(), ""+orderReport.getYear(), totalOrdersAmount, bouquetAmount, brideBouquetAmount,
-											flowerPotAmount, flowerAmount, plantAmount);
+											flowerPotAmount, customAmount, flowerClusterAmount);
 									
 				  	}
 				  	else
@@ -401,7 +401,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 	}
 	
 	private void fillOrderReportsTextArea(String quarterly, String year, long totalOrdersAmount, long bouquetAmount,
-			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount)
+			long brideBouquetAmount, long flowerPotAmount, long customAmount, long flowerClusterAmount)
 	{
 		String messageToDisplay = "          *****ORDER REPORT*****\n\n"
 				+ "This is the order report from " + quarterly.toLowerCase() + " quarterly of a year " + year + ":\n"
@@ -410,8 +410,8 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 								+ "- The amount of ordered bouquets: " + bouquetAmount + ".\n"
 								+ "- The amount of ordered bride bouquets: " + brideBouquetAmount + ".\n"
 								+ "- The amount of ordered flower pots: " + flowerPotAmount + ".\n"
-								+ "- The amount of ordered plants: " + plantAmount + ".\n"
-								+ "- The amount of ordered customed items: " + flowerAmount + ".";
+								+ "- The amount of ordered flower cluster: " + flowerClusterAmount + ".\n"
+								+ "- The amount of ordered customed items: " + customAmount + ".";
 		
 		reportViaTextArea.setText(messageToDisplay);
 	}

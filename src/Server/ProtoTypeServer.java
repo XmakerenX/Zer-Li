@@ -818,13 +818,17 @@ public class ProtoTypeServer extends AbstractServer {
 	        // if you want to run the task immediately, set the 2nd parameter to 0
 	        QuarterlyReportCreation reportsCreator = new QuarterlyReportCreation(db);
 	        SubscriptionPayment subsPayment = new SubscriptionPayment(db);
+	        TimedComplaintsHandler timedComplaint = new TimedComplaintsHandler(db);
 	        reportsCreator.run();
 	        subsPayment.run();
+	        timedComplaint.run();
 	        time.scheduleAtFixedRate(reportsCreator, midnight.getTime(), TimeUnit.DAYS.toMillis(1));
 	        time.scheduleAtFixedRate(subsPayment, midnight.getTime(), TimeUnit.DAYS.toMillis(1));
+	        time.scheduleAtFixedRate(timedComplaint ,midnight.getTime(), TimeUnit.DAYS.toMillis(1));
 //	        time.scheduleAtFixedRate(reportsCreator, Calendar.getInstance().getTime(), TimeUnit.MINUTES.toMillis(1));
 //	        time.scheduleAtFixedRate(subsPayment, Calendar.getInstance().getTime(), TimeUnit.MINUTES.toMillis(1));
-	        time.schedule(new TimedComplaintsHandler(db) ,calendar.getTime(), TimeUnit.SECONDS.toSeconds(10));
+//	        time.scheduleAtFixedRate(timedComplaint ,midnight.getTime(), TimeUnit.SECONDS.toSeconds(10));
+	        
 	        
 	        
 	        
