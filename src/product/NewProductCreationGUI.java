@@ -56,8 +56,9 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 										"Purple",
 										"Violet",
 										"Blue",
-										"red",
-										"Yellow");
+										"Red",
+										"Yellow",
+										"Green");
 				colorComboBox.getSelectionModel().selectFirst();
 				
 				//make idField numberic only.
