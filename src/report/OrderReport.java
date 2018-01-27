@@ -1,18 +1,18 @@
 package report;
 
-import java.io.Serializable;
-
 /**
  * This class includes attributes that are needed for orders' report at the end of quarterly
  */
 
 public class OrderReport extends Report{
 		
+	private static final long serialVersionUID = 7041524175752347009L;
+	
 	private long totalOrdersAmount;
 	private long bouquetAmount;
 	private long brideBouquetAmount;
 	private long flowerPotAmount;
-	private long customAmount;		//Maybe need to be removed
+	private long customAmount;	
 	private long flowerClusterAmount;
 	
 	public OrderReport(Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,

@@ -518,7 +518,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 	}
 	
 	private String buildOrderReportsTextAreaMessage(String quarterly, String year, String storeName, long totalOrdersAmount, long bouquetAmount,
-			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount)
+			long brideBouquetAmount, long flowerPotAmount, long customAmount, long flowerClusterAmount)
 	{
 		String messageToDisplay = "          *****ORDER REPORT*****\n\n"
 				+ "This is "+storeName+" store's order report from " + quarterly.toLowerCase() + " quarterly of a year " + year + ":\n"
@@ -527,8 +527,8 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 								+ "- The amount of ordered bouquets: " + bouquetAmount + ".\n"
 								+ "- The amount of ordered bride bouquets: " + brideBouquetAmount + ".\n"
 								+ "- The amount of ordered flower pots: " + flowerPotAmount + ".\n"
-								+ "- The amount of ordered plants: " + plantAmount + ".\n"
-								+ "- The amount of ordered customed items: " + flowerAmount + ".";
+								+ "- The amount of ordered flower clusters: " + flowerClusterAmount + ".\n"
+								+ "- The amount of ordered customed items: " + customAmount + ".";
 		
 		return messageToDisplay;
 	}
