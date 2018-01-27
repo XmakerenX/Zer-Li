@@ -29,11 +29,11 @@ public class OrderComplaint implements Serializable
 	private String customerPhoneNum;
 	private String customerName;
 	private int  orderID;
-
+	private String userNameOfWhoeverAddedIt;
 
 	//A constructor for adding a new complaint to the date base
 	public OrderComplaint(long customerID, String name, String phone, String complaint, LocalDate date, String time, 
-			int storeID, float maxCompensationAmount,int complaintOrderID)
+			int storeID, float maxCompensationAmount,int complaintOrderID, String userNameOfWhoeverAddedIt)
 	{
 		setCustomerID(customerID);
 		setComplaintDescription(complaint);
@@ -45,11 +45,12 @@ public class OrderComplaint implements Serializable
 		setCustomerName(name);
 		setCustomerPhoneNum(phone);
 		setOrderID(complaintOrderID);
+		setUserNameOfWhoeverAddedIt(userNameOfWhoeverAddedIt);
 	}
 	
 	//A constructor for receiving complaint info from data base
 	public OrderComplaint(long complaintID, long customerID, String name, String phone, int storeID, String complaint, LocalDate date, String time, 
-			float amountOfCompensation, float maxCompensationAmount, String complaintStatus ,int complaintOrderID)
+			float amountOfCompensation, float maxCompensationAmount, String complaintStatus ,int complaintOrderID, String userNameOfWhoeverAddedIt)
 	{
 		setComplaintID(complaintID);
 		setCustomerID(customerID);
@@ -63,6 +64,7 @@ public class OrderComplaint implements Serializable
 		setCustomerName(name);
 		setCustomerPhoneNum(phone);
 		setOrderID(complaintOrderID);
+		setUserNameOfWhoeverAddedIt(userNameOfWhoeverAddedIt);
 	}
 //getters and setters:
 	public long getComplaintID() {
@@ -157,8 +159,16 @@ public class OrderComplaint implements Serializable
 	{
 		OrderComplaint complaint = new OrderComplaint(getComplaintID(), getCustomerID(), getCustomerName(), getCustomerPhoneNum(), getStoreID(), 
 				getComplaintDescription(), getComplaintDate(), getComplaintTime(), getComplaintCompensation(), 
-				getMaxCompensationAmount(), getComplaintStatus(),getOrderID());
+				getMaxCompensationAmount(), getComplaintStatus(),getOrderID(), getUserNameOfWhoeverAddedIt());
 		return complaint;
+	}
+
+	public String getUserNameOfWhoeverAddedIt() {
+		return userNameOfWhoeverAddedIt;
+	}
+
+	public void setUserNameOfWhoeverAddedIt(String userNameOfWhoeverAddedIt) {
+		this.userNameOfWhoeverAddedIt = userNameOfWhoeverAddedIt;
 	}
 	
 }

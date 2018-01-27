@@ -193,20 +193,23 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 	    	waitForServerResponse();
 	    	if(response.getType() == Response.Type.SUCCESS)
 	    	{
-	    		complaintFound = true;
 		    	ArrayList<OrderComplaintView> customerViewList = new ArrayList<OrderComplaintView>();
 		    	ArrayList<OrderComplaint> complaintsList = (ArrayList<OrderComplaint>)response.getMessage();
+		    	OrderComplaintView view = null;
 		    	for(OrderComplaint complaint : complaintsList)
 		    	{
-		    		OrderComplaintView view = null;
-					try {
-						view = new OrderComplaintView(complaint);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-		    		//add function for the button:
-		    		view.getSelectButton().setOnAction(selectComplaint);
-		    		customerViewList.add(view);
+		    		if(complaint.getUserNameOfWhoeverAddedIt()!=null && complaint.getUserNameOfWhoeverAddedIt().equals(user.getUserName()))
+		    		{
+						try {
+							view = new OrderComplaintView(complaint);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+			    		//add function for the button:
+			    		view.getSelectButton().setOnAction(selectComplaint);
+			    		customerViewList.add(view);
+			    		complaintFound = true;
+		    		}
 		    	}
 		    	System.out.println(customerViewList);
 		    	//clearing response
@@ -227,4 +230,9 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 	    	}
 	    	return null;
 	    }
+	  //===============================================================================================================
+	  	public void setUser(User user)
+	  	{
+	  		this.user = user;
+	  	}
 }

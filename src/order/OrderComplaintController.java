@@ -24,11 +24,12 @@ public class OrderComplaintController {
  * @param time
  * @param storeID
  * @param maxCompensationAmount
+ * @param addedBy 	the user who added the complaint
  */
 	public static void addNewComplaint(long customerID, String name, String phone, String complaint, LocalDate date, String time, 
-			int storeID, float maxCompensationAmount,int orderID)
+			int storeID, float maxCompensationAmount,int orderID, String addedBy)
 	{		
-		OrderComplaint newComplaint = new OrderComplaint(customerID, name, phone, complaint, date, time, storeID, maxCompensationAmount,orderID);
+		OrderComplaint newComplaint = new OrderComplaint(customerID, name, phone, complaint, date, time, storeID, maxCompensationAmount,orderID, addedBy);
 		Client.client.handleMessageFromClientUI(new AddRequest("ordercomplaint", newComplaint));
 	}
 	//===============================================================================================================

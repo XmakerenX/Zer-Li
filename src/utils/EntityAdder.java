@@ -361,10 +361,11 @@ public class EntityAdder {
 		String complaintStatus = "'"+complaint.getComplaintStatus()+"'";
 		String storeID = "" + complaint.getStoreID();
 		String orderID = "" + complaint.getOrderID();
+		String whoAdded = "" + complaint.getUserNameOfWhoeverAddedIt();
 		try
 		{
 			db.insertData("ordercomplaint", null + "," + personID + "," + name +"," + phone + "," + storeID + "," + complaintTxt + "," + "'" + sqlDate + "'" + ","
-					+ time + "," + null + "," + maxConpensation  + "," +  complaintStatus+ ","+orderID);
+					+ time + "," + null + "," + maxConpensation  + "," +  complaintStatus+ ","+orderID+ ","+"'"+whoAdded+"'");
 			return true;
 		}
 		catch(Exception e)
