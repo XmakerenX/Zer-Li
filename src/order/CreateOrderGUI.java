@@ -591,13 +591,16 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     	else
     		this.setTotalPriceText(Order.deliveryCost);
     	
-    	if (orderTotalPrice < currentCustomer.getAccountBalance())
+    	if (this.StoreAccountRadio.isSelected())
     	{
-    		this.StoreAccountRadio.setDisable(false);
-    		creditCardRadio.setSelected(true);
+	    	if (orderTotalPrice < currentCustomer.getAccountBalance())
+	    	{
+	    		this.StoreAccountRadio.setDisable(false);
+	    		creditCardRadio.setSelected(true);
+	    	}
+	    	else
+	    		this.StoreAccountRadio.setDisable(true);
     	}
-    	else
-    		this.StoreAccountRadio.setDisable(true);
     }
 
     //*************************************************************************************************
