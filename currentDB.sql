@@ -40,9 +40,10 @@ CREATE TABLE `CatalogProduct` (
 
 LOCK TABLES `CatalogProduct` WRITE;
 /*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
-INSERT INTO `CatalogProduct` VALUES (4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(24,-1,'sunshine.jpg',0);
+INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,10,NULL,3),(20,100,'SnowWhite.jpg',1),(21,120,'Cinderella.jpg',2),(22,-1,'Olive.jpg',1),(23,-1,'Spathiphyllum.jpg',3),(24,-1,'sunshine.jpg',0),(25,-1,'VioletWinter.jpg',1);
 /*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 --
 -- Table structure for table `ComplaintReport`
@@ -164,6 +165,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
+INSERT INTO `Customers` VALUES (1234,'mk','546','YEARLY_SUBSCRIPTION',3112,'1111-2222-3333-4444',1,1,'23-01-2018'),(1234,'mk','452','MONTHLY_SUBSCRIPTION',100.35,'3423',1,2,'30-01-2018'),(12345,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1,NULL),(2344354,'Mark Twain','3435678','YEARLY_SUBSCRIPTION',0,'5454645757',1,2,'24-01-2019'),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',1,1,''),(305022949,'Matan Keren','3523523','MONTHLY_SUBSCRIPTION',0,'2314123',1,2,'24-02-2018'),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3,NULL);
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,6 +202,7 @@ CREATE TABLE `Order` (
 
 LOCK TABLES `Order` WRITE;
 /*!40000 ALTER TABLE `Order` DISABLE KEYS */;
+INSERT INTO `Order` VALUES (77,'NEW',90,'2018-01-22 09:03:54','2018-01-22 12:03:54','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345,0),(78,'NEW',82.5,'2018-01-22 09:04:06','2018-01-22 12:04:06','',NULL,NULL,NULL,'SUBSCRIPTION',3,12345,0),(79,'NEW',174.6,'2018-01-22 09:45:58','2018-01-22 12:45:58','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345,0),(80,'NEW',183.6,'2018-01-22 12:16:44','2018-01-23 03:16:00','','','','','SUBSCRIPTION',2,12345,0),(81,'NEW',151,'2018-01-22 20:47:50','2018-01-23 11:47:00','',NULL,NULL,NULL,'CREDITCARD',3,12345,0),(82,'NEW',174.6,'2018-01-22 21:52:24','2018-01-23 12:51:00','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345,0),(83,'NEW',233,'2018-01-24 10:43:58','2018-01-24 13:43:58','','werwe','345345','455464','CREDITCARD',1,12345,0),(88,'CANCELED',327,'2018-01-24 13:07:38','2018-01-25 04:07:00','','asfa','sdfsdf','232342','CREDITCARD',1,1234,0),(94,'NEW',223,'2018-01-24 14:56:12','2018-01-24 17:56:12','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(95,'NEW',294.3,'2018-01-24 14:56:30','2018-01-24 17:56:30','','2342','42342','42342','SUBSCRIPTION',2,305022949,0),(96,'NEW',217,'2018-01-24 14:56:51','2018-01-24 17:56:51','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(97,'NEW',223,'2018-01-24 14:57:02','2018-01-24 20:50:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(98,'NEW',223,'2018-01-24 14:58:08','2018-01-26 17:58:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(99,'NEW',94,'2018-01-24 14:58:36','2018-01-30 17:58:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(100,'NEW',217,'2018-01-24 14:59:36','2018-01-24 17:59:36','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(101,'NEW',123,'2018-01-24 15:46:51','2018-01-31 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(102,'NEW',123,'2018-01-24 15:52:53','2018-02-10 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(103,'NEW',123,'2018-01-24 15:53:59','2018-02-09 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(104,'NEW',123,'2018-01-24 15:56:38','2018-02-01 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(105,'NEW',123,'2018-01-24 15:56:52','2018-02-15 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(106,'CANCELED',100,'2018-01-24 18:23:53','2018-01-24 21:23:53','',NULL,NULL,NULL,'CREDITCARD',1,1234,0),(107,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `Order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,6 +258,7 @@ CREATE TABLE `ProductInOrder` (
 
 LOCK TABLES `ProductInOrder` WRITE;
 /*!40000 ALTER TABLE `ProductInOrder` DISABLE KEYS */;
+INSERT INTO `ProductInOrder` VALUES (4,77,''),(4,78,''),(4,79,''),(4,80,''),(4,81,'fgjgfj'),(4,82,''),(4,83,''),(4,88,''),(4,94,''),(4,95,''),(4,97,''),(4,98,''),(4,106,''),(5,79,''),(5,80,''),(5,82,''),(5,88,''),(5,95,''),(5,96,''),(5,99,''),(5,100,''),(6,78,''),(6,83,''),(6,88,''),(6,94,''),(6,95,''),(6,96,''),(6,97,''),(6,98,''),(6,100,''),(6,101,''),(6,102,''),(6,103,''),(6,104,''),(6,105,'');
 /*!40000 ALTER TABLE `ProductInOrder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +310,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',98,'REGULAR',0),('customer1','123456','CUSTOMER',101,'REGULAR',0),('customer2','123456','CUSTOMER',102,'REGULAR',0),('customerService','123456','CUSTOMER_SERVICE',105,'REGULAR',0),('networkManager','123456','NETWORK_MANAGER',103,'REGULAR',0),('networkWorker','123456','NETWORK_WORKER',100,'REGULAR',0),('serviceExpert','123456','CUSTOMER_SERVICE_EXPERT',109,'REGULAR',0),('serviceWorker1','123456','CUSTOMER_SERVICE_WORKER',106,'REGULAR',0),('serviceWorker2','123456','CUSTOMER_SERVICE_WORKER',107,'REGULAR',0),('storeManager','123456','STORE_MANAGER',99,'REGULAR',0),('storeWorker','123456','STORE_WORKER',104,'REGULAR',0),('systemManager','123456','SYSTEM_MANAGER',108,'REGULAR',0);
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('deleteme','123456','STORE_WORKER',123456789,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('jenia2','123456','CUSTOMER',5555,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker1','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('serviceWorker2','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('twain','123456','NETWORK_MANAGER',787878,'REGULAR',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,15 +344,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
 
 LOCK TABLES `customersatisfactionsurveyresults` WRITE;
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` DISABLE KEYS */;
-INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'2017-06-20',4,9,9,7,4,5,1,'The customer thought we were the BEST flower shop ever!'),(2,'2017-06-27',3,1,8,5,8,5,1,'The customer thought we were the BEST flower shop ever!'),(3,'2017-06-5',8,9,4,8,2,4,2,'The customer thought we were the BEST flower shop ever!'),(4,'2017-06-8',8,4,10,1,3,3,2,'The customer thought we were the BEST flower shop ever!'),(5,'2017-06-24',10,10,4,9,2,7,2,'The customer thought we were the BEST flower shop ever!'),(6,'2017-06-22',8,8,8,6,2,4,1,'The customer thought we were the BEST flower shop ever!'),(7,'2017-06-23',8,5,1,2,10,1,3,'The customer thought we were the BEST flower shop ever!'),(8,'2017-06-25',9,6,5,10,7,5,2,'The customer thought we were the BEST flower shop ever!'),(9,'2017-06-6',9,6,5,9,7,3,3,'The customer thought we were the BEST flower shop ever!'),(10,'2017-06-11',10,6,4,3,9,4,1,'The customer thought we were the BEST flower shop ever!'),
-(11,'2017-07-6',7,10,6,4,10,4,2,'The customer thought we were the BEST flower shop ever!'),(12,'2017-07-23',1,8,4,7,2,2,3,'The customer thought we were the BEST flower shop ever!'),(13,'2017-07-2',5,7,6,6,5,10,1,'The customer thought we were the BEST flower shop ever!'),(14,'2017-07-7',2,7,9,3,10,5,3,'The customer thought we were the BEST flower shop ever!'),(15,'2017-07-4',9,2,9,5,1,10,1,'The customer thought we were the BEST flower shop ever!'),(16,'2017-07-10',9,3,5,9,7,9,3,'The customer thought we were the BEST flower shop ever!'),(17,'2017-07-19',7,8,3,3,9,10,1,'The customer thought we were the BEST flower shop ever!'),(18,'2017-07-9',2,5,9,4,7,3,3,'The customer thought we were the BEST flower shop ever!'),(19,'2017-07-5',10,10,4,6,4,4,2,'The customer thought we were the BEST flower shop ever!'),(20,'2017-07-25',9,9,8,7,1,10,2,'The customer thought we were the BEST flower shop ever!'),
-(21,'2017-09-6',10,3,2,3,4,8,2,'The customer thought we were the BEST flower shop ever!'),(22,'2017-09-26',6,10,6,3,7,6,3,'The customer thought we were the BEST flower shop ever!'),(23,'2017-09-14',3,1,1,3,3,5,1,'The customer thought we were the BEST flower shop ever!'),(24,'2017-09-24',9,3,1,6,6,7,3,'The customer thought we were the BEST flower shop ever!'),(25,'2017-09-18',2,4,8,5,8,7,1,'The customer thought we were the BEST flower shop ever!'),(26,'2017-09-17',1,4,2,5,9,1,2,'The customer thought we were the BEST flower shop ever!'),(27,'2017-09-27',4,6,1,9,10,7,3,'The customer thought we were the BEST flower shop ever!'),(28,'2017-09-20',10,9,2,4,5,1,3,'The customer thought we were the BEST flower shop ever!'),(29,'2017-09-4',1,10,8,9,2,10,3,'The customer thought we were the BEST flower shop ever!'),(30,'2017-09-15',7,2,1,5,1,7,2,'The customer thought we were the BEST flower shop ever!'),
-(31,'2017-10-11',5,1,1,5,6,3,1,'The customer thought we were the BEST flower shop ever!'),(32,'2017-10-5',9,9,3,10,9,8,1,'The customer thought we were the BEST flower shop ever!'),(33,'2017-10-8',8,9,2,10,6,6,3,'The customer thought we were the BEST flower shop ever!'),(34,'2017-10-7',7,6,3,10,10,9,1,'The customer thought we were the BEST flower shop ever!'),(35,'2017-10-3',3,4,3,3,4,8,3,'The customer thought we were the BEST flower shop ever!'),(36,'2017-10-18',10,9,8,3,6,8,3,'The customer thought we were the BEST flower shop ever!'),(37,'2017-10-21',3,1,9,3,1,9,1,'The customer thought we were the BEST flower shop ever!'),(38,'2017-10-10',5,8,8,5,2,5,1,'The customer thought we were the BEST flower shop ever!'),(39,'2017-10-6',1,9,8,10,4,4,3,'The customer thought we were the BEST flower shop ever!'),(40,'2017-10-4',9,9,7,8,10,6,1,'The customer thought we were the BEST flower shop ever!'),
-(41,'2017-11-3',5,9,1,1,1,9,1,'The customer thought we were the BEST flower shop ever!'),(42,'2017-11-8',5,1,5,10,7,8,2,'The customer thought we were the BEST flower shop ever!'),(43,'2017-11-24',3,5,4,4,10,8,2,'The customer thought we were the BEST flower shop ever!'),(44,'2017-11-26',1,3,3,8,10,5,1,'The customer thought we were the BEST flower shop ever!'),(45,'2017-11-7',2,3,1,7,9,1,1,'The customer thought we were the BEST flower shop ever!'),(46,'2017-11-24',8,1,3,6,10,9,2,'The customer thought we were the BEST flower shop ever!'),(47,'2017-11-11',7,4,4,9,9,7,1,'The customer thought we were the BEST flower shop ever!'),(48,'2017-11-25',10,9,6,6,3,1,1,'The customer thought we were the BEST flower shop ever!'),(49,'2017-11-20',10,5,1,9,8,8,1,'The customer thought we were the BEST flower shop ever!'),(50,'2017-11-26',2,9,4,6,6,3,3,'The customer thought we were the BEST flower shop ever!'),
-(51,'2017-12-28',7,4,4,1,6,5,3,'The customer thought we were the BEST flower shop ever!'),(52,'2017-12-24',4,6,7,1,1,9,3,'The customer thought we were the BEST flower shop ever!'),(53,'2017-12-11',4,7,10,10,6,9,1,'The customer thought we were the BEST flower shop ever!'),(54,'2017-12-27',6,7,3,3,10,6,1,'The customer thought we were the BEST flower shop ever!'),(55,'2017-12-10',10,8,9,8,7,1,3,'The customer thought we were the BEST flower shop ever!'),(56,'2017-12-4',4,7,6,1,9,9,1,'The customer thought we were the BEST flower shop ever!'),(57,'2017-12-4',7,4,10,1,4,5,2,'The customer thought we were the BEST flower shop ever!'),(58,'2017-12-11',7,1,10,4,10,10,2,'The customer thought we were the BEST flower shop ever!'),(59,'2017-12-23',1,2,5,5,5,4,1,'The customer thought we were the BEST flower shop ever!'),(60,'2017-12-16',5,8,4,1,9,2,2,'The customer thought we were the BEST flower shop ever!'),
-(61,'2018-01-6',6,4,2,1,3,7,2,''),(62,'2018-01-11',3,1,3,9,6,3,1,''),(63,'2018-01-18',2,7,9,10,5,10,2,''),(64,'2018-01-2',7,10,2,4,10,10,2,''),(65,'2018-01-6',10,6,3,9,1,3,1,''),(66,'2018-01-2',3,4,1,9,1,1,1,''),(67,'2018-01-27',8,6,4,6,5,2,2,''),(68,'2018-01-25',10,1,6,2,9,7,1,''),(69,'2018-01-24',3,3,9,8,2,1,2,''),(70,'2018-01-26',7,3,9,10,10,10,3,'');
-
-
+INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'2018-01-03',2,2,2,2,2,2,1,'Sample Survey Analysis'),(2,'2018-01-03',5,5,5,5,5,5,1,''),(3,'2018-01-03',5,5,5,5,5,5,1,''),(4,'2018-01-14',5,6,9,8,7,4,1,''),(6,'2018-01-15',9,9,9,9,9,9,1,'');
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,9 +396,9 @@ CREATE TABLE `ordercomplaint` (
   `maxCompensationAmount` float DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `orderID` int(11) DEFAULT NULL,
-  `addedBy` varchar(45) DEFAULT NULL,
+   `addedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -411,6 +407,7 @@ CREATE TABLE `ordercomplaint` (
 
 LOCK TABLES `ordercomplaint` WRITE;
 /*!40000 ALTER TABLE `ordercomplaint` DISABLE KEYS */;
+INSERT INTO `ordercomplaint` VALUES (8,305022949,'matan k','0507788765',1,'sdsddssd','2018-01-25','12:51',10,223,'CLOSED',94,NULL),(9,305022949,'matan k','0507788765',1,'I orderd hamburger, WTF?!','2018-01-25','12:51',30,217,'CLOSED',96,NULL),(10,305022949,'matan k','0507788765',1,'dsdsds','2018-01-25','13:43',22,217,'CLOSED',96,NULL),(11,305022949,'matan k','0507788765',1,'dssd','2018-01-25','13:48',20,94,'CLOSED',99,NULL),(12,305022949,'matan k','0507788765',1,'wtfff','2018-01-25','13:53',10,223,'CLOSED',97,NULL),(13,305022949,'matan k','0507788765',1,'dsdsgdsg','2018-01-25','13:55',20,223,'CLOSED',94,NULL),(14,305022949,'matan k','0507788765',1,'safdfdaf','2018-01-25','14:01',200,223,'CLOSED',94,'serviceWorker1'),(15,305022949,'Matan Keren','3523523',2,'dsvgdssdg','2018-01-25','14:02',20,294.3,'CLOSED',95,'serviceWorker1'),(16,305022949,'Matan Keren','3523523',2,'gsgdf','2018-01-25','14:04',0,294.3,'NEW',95,'serviceWorker1'),(17,305022949,'Matan Keren','3523523',2,'sfddsgdgss','2018-01-25','14:05',200,294.3,'CLOSED',95,'serviceWorker1'),(18,305022949,'matan k','0507788765',1,'dvfds','2018-01-25','14:07',2,94,'CLOSED',99,'serviceWorker1'),(19,305022949,'matan k','0507788765',1,'dsfad','2018-01-25','14:11',20,217,'CLOSED',96,'serviceWorker1'),(20,305022949,'Matan Keren','3523523',2,'sdfdssf','2018-01-25','14:11',222,294.3,'CLOSED',95,'serviceWorker1'),(21,305022949,'Matan Keren','3523523',2,'sssf','2018-01-25','14:13',NULL,294.3,'NEW',95,'serviceWorker1'),(22,305022949,'matan k','0507788765',1,'Blabla complaint','2018-01-27','14:56',10,223,'CLOSED',97,'serviceWorker1');
 /*!40000 ALTER TABLE `ordercomplaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -468,7 +465,7 @@ CREATE TABLE `storeEmployees` (
 
 LOCK TABLES `storeEmployees` WRITE;
 /*!40000 ALTER TABLE `storeEmployees` DISABLE KEYS */;
-INSERT INTO `storeEmployees` VALUES ('storeManager',2,'STORE_MANAGER'),('storeWorker',1,'STORE_WORKER');
+INSERT INTO `storeEmployees` VALUES ('deckard',2,'STORE_MANAGER'),('matan',1,'STORE_WORKER');
 /*!40000 ALTER TABLE `storeEmployees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -544,4 +541,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-27 22:31:04
+-- Dump completed on 2018-01-25 14:25:42
