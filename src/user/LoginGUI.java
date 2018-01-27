@@ -128,6 +128,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	{
     		FileOutputStream out =null;
     		try {
+				Client.client.closeConnection();
 				out = new FileOutputStream("client.properties");
 				 clientConf.configFile.setProperty("SERVER_IP",result.get().toString());
 		    	    clientConf.configFile.store(out, null);
@@ -171,7 +172,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
     @FXML
     void onLogin(ActionEvent event) 
     {   
-    	
     	try
     	{
 		prototype.Main.initClient(this);
