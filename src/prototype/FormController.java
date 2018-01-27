@@ -2,7 +2,10 @@ package prototype;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
+
 import client.Client;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,6 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 //*************************************************************************************************
 	/**
@@ -25,6 +29,7 @@ public abstract class FormController {
 	protected FormController parent;
 	protected Client client;
 	
+	
 	public abstract void onSwitch(Client newClient);
 	
     //*************************************************************************************************
@@ -35,7 +40,9 @@ public abstract class FormController {
     //*************************************************************************************************
 	public static void setPrimaryStage(Stage newPrimaryStage)
 	{
+		
 		primaryStage = newPrimaryStage;
+	
 	}
 	
 	//*************************************************************************************************
@@ -60,6 +67,33 @@ public abstract class FormController {
 		thisScene = scene;
 		//Disables resizing option to primary stage
 		primaryStage.setResizable(false);
+		
+		
+		EventHandler<WindowEvent> onClose = new EventHandler<WindowEvent>() {
+	          public void handle(WindowEvent we) 
+	          {
+	        	  Alert alert = new Alert(AlertType.CONFIRMATION);
+	        	  alert.setTitle("Confirmation Dialog");
+	        	  alert.setHeaderText("About to close zerli programm.");
+	        	  alert.setContentText("Are you sure you want to exit?");
+
+	        	  Optional<ButtonType> result = alert.showAndWait();
+	        	  if (result.get() == ButtonType.OK)
+	        	  {
+	        	      // ... user chose OK
+	        		  primaryStage.close();
+	        		  System.exit(0);
+	        	  } 
+	        	  else 
+	        	  {
+	        	      
+	        	  }
+	          }
+	      };        
+	      
+		primaryStage.setOnCloseRequest(onClose);
+		  
+		
 	}
 	
 	//*************************************************************************************************
