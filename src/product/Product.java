@@ -17,14 +17,17 @@ public class Product implements Serializable
     private String  productColor;
     
     
-//*************************************************************************************************
+    //*************************************************************************************************
     /**
-  	*  Constructs a new Product
-  	*  @param newID
-  	*  @param newName
-  	*  @param newType
-  	*/
-//*************************************************************************************************
+     *  Constructs a new Product
+     *  @param newID the product id
+     *  @param newName the product name
+     *  @param newType the product type
+     *  @param productPrice the product price
+     *  @param productAmount the product amount 
+     *  @param productColor the product color
+     */
+    //*************************************************************************************************
 	public Product(long newID, String newName, String newType,
 					float productPrice, int productAmount,String productColor)
 	{
