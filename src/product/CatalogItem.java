@@ -127,7 +127,7 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
     //*************************************************************************************************
     /**
      * Sets the CatalogItem sale Price
-  	*  @param storeID the CatalogItem sale Price to be set
+  	*  @param salePrice the CatalogItem sale Price to be set
   	*/
     //*************************************************************************************************
 	public void setSalePrice(float salePrice) {
@@ -147,7 +147,7 @@ public class CatalogItem extends Product implements Comparable<CatalogItem>
     //*************************************************************************************************
     /**
      * Sets the CatalogItem image information(name and checksum)
-  	*  @param storeID the image information(name and checksum) to be set
+  	*  @param imageInfo the image information(name and checksum) to be set
   	*/
     //*************************************************************************************************
 	public void setImageInfo(ImageInfo imageInfo) {

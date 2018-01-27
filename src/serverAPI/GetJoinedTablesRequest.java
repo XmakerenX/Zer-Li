@@ -31,7 +31,7 @@ public class GetJoinedTablesRequest extends GetRequest {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetJoinedTablesRequest joinedTable
-	 *  @returns the GetJoinedTablesRequest joinedTable 
+	 *  @return the GetJoinedTablesRequest joinedTable 
 	 */
 	//*************************************************************************************************
 	public String getJoinedTable() {
@@ -41,7 +41,7 @@ public class GetJoinedTablesRequest extends GetRequest {
 	//*************************************************************************************************
 	/**
 	 *  Returns the GetJoinedTablesRequest keyIndex
-	 *  @returns the GetJoinedTablesRequest keyIndex 
+	 *  @return the GetJoinedTablesRequest keyIndex 
 	 */
 	//*************************************************************************************************
 	public int getKeyIndex() {

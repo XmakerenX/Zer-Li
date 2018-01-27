@@ -199,6 +199,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     /**
   	*  Loads the user customer matching the current store
+  	*  @return the customer matching the current chosen store
   	*/
     //*************************************************************************************************
     public Customer loadCustomer()

@@ -29,7 +29,7 @@ public class Store implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the Store storeID
-	 *  @returns the Store storeID 
+	 *  @return the Store storeID 
 	 */
 	//*************************************************************************************************
 	public long getStoreID() {
@@ -49,7 +49,7 @@ public class Store implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the Store storeAddress
-	 *  @returns the Store storeAddress 
+	 *  @return the Store storeAddress 
 	 */
 	//*************************************************************************************************
 	public String getStoreAddress() {

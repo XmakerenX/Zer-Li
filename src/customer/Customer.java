@@ -47,6 +47,8 @@ public class Customer implements Serializable {
 	* @param accountBalance the customer account balance
 	* @param creditCardNumber the customer credit card number
 	* @param accountStatus the customer account status
+	* @param expirationDate the subscription expiration date
+	* @throws CustomerException when invalid parameters are given
 	*/
 	//*****************************************************************************************
 	public Customer(long ID, long storeID,String name, String phoneNumber, PayType payMethod, float accountBalance,
@@ -76,7 +78,8 @@ public class Customer implements Serializable {
     //*************************************************************************************************
     /**
      * Sets the customer ID
-  	*  @param ID the customer ID to be set
+  	*  @param iD the customer ID to be set
+  	*  @throws CustomerException when invalid date is given
   	*/
     //*************************************************************************************************
 	public void setID(long iD) throws CustomerException  {
@@ -121,7 +124,7 @@ public class Customer implements Serializable {
     //*************************************************************************************************
     /**
      * Sets the customer phone number
-  	*  @param phone the customer phone number to be set
+  	*  @param phoneNumber the customer phone number to be set
   	*/
     //*************************************************************************************************
 	public void setPhoneNumber(String phoneNumber) {
@@ -222,6 +225,7 @@ public class Customer implements Serializable {
     /**
      * Sets the customer storeID
   	*  @param storeID the customer storeID to be set
+  	*  @throws CustomerException when invalid store id was given
   	*/
     //*************************************************************************************************
 	public void setStoreID(long storeID) throws CustomerException {

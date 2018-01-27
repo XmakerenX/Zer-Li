@@ -41,8 +41,8 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 	private static final long serialVersionUID = -4645756625966051562L;
 
 	/**
-	 * 
-	 */
+	 * @return the image view
+	 */ 
 
 	public ImageView getImageView() 
      {

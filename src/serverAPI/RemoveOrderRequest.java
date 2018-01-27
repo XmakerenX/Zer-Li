@@ -26,7 +26,7 @@ public class RemoveOrderRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the RemoveOrderRequest orderID
-	 *  @returns the RemoveOrderRequest orderID 
+	 *  @return the RemoveOrderRequest orderID 
 	 */
 	//*************************************************************************************************
 	public long getOrderID() {

@@ -34,6 +34,7 @@ public class Client extends AbstractClient{
   	*  Constructs a new client
   	*  @param host the host ip
   	*  @param port the port with to connect to the server
+  	*  @throws IOException thrown if client fails to connect to server
   	*/
 	//*************************************************************************************************
 	public Client(String host, int port)
@@ -51,6 +52,7 @@ public class Client extends AbstractClient{
   	*  Open a connection to server
   	*  @param host the host ip
   	*  @param port the port with to connect to the server
+  	*  @throws IOException if client failed to connect to server
   	*/
 	//*************************************************************************************************
 	public void startConnection(String host, int port) throws IOException
@@ -77,12 +79,11 @@ public class Client extends AbstractClient{
 
 	//*************************************************************************************************
 	/**
-	* This method handles all data coming from the UI            
+	* This method handles all the requests that are needed to be send to the server         
 	*
-	* @param message The message from the UI.    
+	* @param request the request to send to server   
 	*/
 	//*************************************************************************************************	
-	//public void handleMessageFromClientUI(ArrayList<String> message)
 	public void handleMessageFromClientUI(Request request)
 	{
 		try

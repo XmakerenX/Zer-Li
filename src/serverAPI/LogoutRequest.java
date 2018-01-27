@@ -28,7 +28,7 @@ public class LogoutRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the LogoutRequest user
-	 *  @returns the LogoutRequest user 
+	 *  @return the LogoutRequest user 
 	 */
 	//*************************************************************************************************
 	public User getUser() {

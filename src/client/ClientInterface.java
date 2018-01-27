@@ -13,6 +13,7 @@ public interface ClientInterface {
 	/**
 	* Method that when overridden is used to display objects onto
 	* a UI.
+	* @param message the message to transfer to this ClientInterface
 	*/
 	//*************************************************************************************************
 	public abstract void display(Object message);

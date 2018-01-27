@@ -337,7 +337,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     //===============================================================================================================
     /**
      * initializes the table view
-     * @param column		the column we are checking
      * @param condition		the condition we are looking for
      */
     public void initOrderTableContent(String condition)

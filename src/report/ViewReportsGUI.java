@@ -342,8 +342,8 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 	/**
 	 * Receives message that will be splitted by "_" symbol and transformed to user friendly view.
 	 * For example: "CREDIT_CARD" is transformed to "Credit card"
-	 * @param stringToSplit - message to be splitted by specific symbol
-	 * @return
+	 * @param stringToSplit  message to be splitted by specific symbol
+	 * @return the stringToSplit with spaces instead of '_'
 	 */
 	
 	public String handleSplittedStringFromDataBase(String stringToSplit)

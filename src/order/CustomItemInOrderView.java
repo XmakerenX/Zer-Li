@@ -53,10 +53,10 @@ public class CustomItemInOrderView extends CustomItemInOrder
 	 * this is how a custom item will look in an order
 	 * @param customItemID	it's id
 	 * @param type			it's type
-	 * @param price			
-	 * @param color
-	 * @param greetingCard
-	 * @param components
+	 * @param price			the custom item price
+	 * @param color			the custom item dominate color
+	 * @param greetingCard	the custom item greeting card
+	 * @param components    the products that makes this custom item
 	 */
 	public CustomItemInOrderView(long customItemID, String type, float price, String color, String greetingCard,
 			ArrayList<Product> components) 

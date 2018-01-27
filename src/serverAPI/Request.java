@@ -26,7 +26,7 @@ public abstract class Request implements Serializable{
 	//*************************************************************************************************
 	/**
 	 *  Returns the Request type
-	 *  @returns the Request type 
+	 *  @return the Request type 
 	 */
 	//*************************************************************************************************
 	public String getType() {

@@ -62,16 +62,16 @@ public class ReportController {
 	
 	/**
 	 * Create new orders' report and adds to data base
-	 * @param quarterly - specific quarterly
-	 * @param year - specific year
-	 * @param storeID - specific store's ID
-	 * @param totalOrdersAmount - total amount of ordered items of all types
-	 * @param bouquetAmount - amount of ordered bouquets 
-	 * @param brideBouquetAmount - amount of ordered bride bouquets 
-	 * @param flowerPotAmount - amount of ordered flower pots 
-	 * @param flowerAmount - amount of ordered flowers
-	 * @param plantAmount - amount of ordered plants 
-	 * @param client - currently running client
+	 * @param quarterly  specific quarterly
+	 * @param year  specific year
+	 * @param storeID  specific store's ID
+	 * @param totalOrdersAmount  total amount of ordered items of all types
+	 * @param bouquetAmount  amount of ordered bouquets 
+	 * @param brideBouquetAmount  amount of ordered bride bouquets 
+	 * @param flowerPotAmount  amount of ordered flower pots 
+	 * @param customAmount  amount of custom items ordered
+	 * @param flowerClusterAmount  amount of ordered flower Cluster
+	 * @param client  currently running client
 	 */
 	public static void createNewOrderReport(Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,
 			long brideBouquetAmount, long flowerPotAmount, long customAmount, long flowerClusterAmount, Client client)

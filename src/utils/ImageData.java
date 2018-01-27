@@ -32,6 +32,7 @@ public class ImageData implements Serializable {
 	/**
 	 * Loads the image data in filePath to the class , and calculates the image checksum
 	 *  @param filePath the path to the image to load
+	 *  @throws IOException thrown when file fails to load
 	 */
 	//*************************************************************************************************
 	public ImageData(String filePath) throws IOException
@@ -98,7 +99,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the ImageData fileName
-	 *  @returns the ImageData fileName 
+	 *  @return the ImageData fileName 
 	 */
 	//*************************************************************************************************
 	public String getFileName() {
@@ -108,7 +109,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  sets the ImageData fileName
-	 *  @param the ImageData fileName to set 
+	 *  @param fileName the ImageData fileName to set 
 	 */
 	//*************************************************************************************************
 	public void setFileName(String fileName) {
@@ -118,7 +119,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the ImageData size
-	 *  @returns the ImageData size 
+	 *  @return the ImageData size 
 	 */
 	//*************************************************************************************************
 	public int getSize() {
@@ -128,7 +129,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  sets the ImageData size
-	 *  @param the ImageData size to set 
+	 *  @param size the ImageData size to set 
 	 */
 	//*************************************************************************************************
 	public void setSize(int size) {
@@ -138,7 +139,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the ImageData mybytearray
-	 *  @returns the ImageData mybytearray 
+	 *  @return the ImageData mybytearray 
 	 */
 	//*************************************************************************************************
 	public byte[] getMybytearray() {
@@ -148,7 +149,8 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the ImageData mybytearray at index i
-	 *  @returns the ImageData mybytearray  at index i
+	 *  @param i the index
+	 *  @return the ImageData mybytearray  at index i
 	 */
 	//*************************************************************************************************
 	public byte getMybytearray(int i) {
@@ -158,7 +160,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  sets the ImageData mybytearray
-	 *  @param the ImageData mybytearray to set 
+	 *  @param mybytearray the ImageData mybytearray to set 
 	 */
 	//*************************************************************************************************
 	public void setMybytearray(byte[] mybytearray) {
@@ -170,7 +172,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the ImageData Description
-	 *  @returns the ImageData Description 
+	 *  @return the ImageData Description 
 	 */
 	//*************************************************************************************************
 	public String getDescription() {
@@ -180,7 +182,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  sets the ImageData description
-	 *  @param the ImageData description to set 
+	 *  @param description the ImageData description to set 
 	 */
 	//*************************************************************************************************
 	public void setDescription(String description) {
@@ -190,7 +192,7 @@ public class ImageData implements Serializable {
 	//*************************************************************************************************
 	/**
 	 *  Returns the Description sha256CheckSum
-	 *  @returns the Description sha256CheckSum 
+	 *  @return the Description sha256CheckSum 
 	 */
 	//*************************************************************************************************
 	public byte[] getSha256() {

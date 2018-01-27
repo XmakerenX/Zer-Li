@@ -820,7 +820,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     /**
     *  Sets the current store whose catalog is being viewed
-  	*  @param storeID the storeID to be set
+  	*  @param currentStore the currentStore ID to be set
   	*/
     //*************************************************************************************************
 	public void setCurrentStore(long currentStore) {

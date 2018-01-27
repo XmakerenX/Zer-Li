@@ -21,7 +21,7 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	
 	/**
 	 * a constructor without local date, used for creating new results BEFORE sending them to the data base
-	 * @param answer	array with answers to the survey
+	 * @param answers	array with answers to the survey
 	 * @param storeID	the id of the store the answers are for 
 	 */
 	public CustomerSatisfactionSurveyResults(int[] answers, int storeID) {
@@ -32,9 +32,11 @@ public class CustomerSatisfactionSurveyResults implements Serializable {
 	}
 	/**
 	 * a constructor with local date, used for getting the data from the data base
+	 * @param id the id to set
 	 * @param answers 	answers array with answers to the survey
 	 * @param date		date of the survey
 	 * @param storeID	the id of the store the answers are for 
+	 * @param analysis the analysis to set
 	 */
 	public CustomerSatisfactionSurveyResults(int id, int[] answers, LocalDate date, int storeID, String analysis) {
 		setID(id);

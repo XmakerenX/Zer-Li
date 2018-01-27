@@ -33,7 +33,7 @@ public class EntityAdder {
 	 * @param table the table to insert to
 	 * @param entity the entity data to insert
 	 * @param db the database connector
-	 * @returns true if entity successfully added ,false otherwise
+	 * @return true if entity successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
 	public static Boolean addEntity(String table, Object entity, DBConnector db)

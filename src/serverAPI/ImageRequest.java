@@ -28,7 +28,7 @@ public class ImageRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the ImageRequest imageNames
-	 *  @returns the ImageRequest imageNames 
+	 *  @return the ImageRequest imageNames 
 	 */
 	//*************************************************************************************************
 	public ArrayList<String> getImageNames() {

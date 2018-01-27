@@ -781,7 +781,7 @@ public class ProtoTypeServer extends AbstractServer {
 	  /**
 	   * This method is responsible for the creation of 
 	   * the server instance (there is no UI in this phase).
-	 * @throws IOException 
+	   * @throws IOException thrown if server fails to listen to clients
 	   *
 	   */
 	  //*************************************************************************************************

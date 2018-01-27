@@ -32,7 +32,7 @@ public class RemoveRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the RemoveRequest table
-	 *  @returns the RemoveRequest table 
+	 *  @return the RemoveRequest table 
 	 */
 	//*************************************************************************************************
 	public String getTable() {
@@ -52,7 +52,7 @@ public class RemoveRequest extends Request
 	//*************************************************************************************************
 	/**
 	 *  Returns the RemoveRequest keys
-	 *  @returns the RemoveRequest keys 
+	 *  @return the RemoveRequest keys 
 	 */
 	//*************************************************************************************************
 	public ArrayList<String> getKey() {

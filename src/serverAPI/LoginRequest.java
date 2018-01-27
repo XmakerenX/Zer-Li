@@ -29,7 +29,7 @@ public class LoginRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the LoginRequest username
-	 *  @returns the LoginRequest username 
+	 *  @return the LoginRequest username 
 	 */
 	//*************************************************************************************************
 	public String getUsername() {
@@ -39,7 +39,7 @@ public class LoginRequest extends Request {
 	//*************************************************************************************************
 	/**
 	 *  Returns the LoginRequest password
-	 *  @returns the ImageRequest password 
+	 *  @return the ImageRequest password 
 	 */
 	//*************************************************************************************************
 	public String getPassword() {

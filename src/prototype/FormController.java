@@ -202,7 +202,9 @@ public abstract class FormController {
     //*************************************************************************************************
 	/**
 	 * A method to display Confirmation dialog to user
-	 * @param message - specific message to display
+	 * @param title the dialog title
+	 * @param message  specific message to display
+	 * @return which button was pressed in the confirmation dialog
 	 */
     //*************************************************************************************************
 	public ButtonType showConfirmationDialog(String title, String message)

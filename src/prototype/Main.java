@@ -41,7 +41,8 @@ public class Main extends Application
 	/**
 	 * Initialize Client from config file (client.properties)
 	 * and open connection to server
-	 * @throws IOException 
+	 * @param controller the controller GUI to replay to
+	 * @throws IOException thrown when client fails to connect to server
 	 */
 	//*************************************************************************************************
 	public static void initClient(ClientInterface controller) throws IOException
@@ -148,6 +149,7 @@ public class Main extends Application
 	//*************************************************************************************************
 	/**
 	 * Starts the application 
+	 * @param args arguments given from the command line
 	 */
 	//*************************************************************************************************
 	public static void main(String[] args) 
