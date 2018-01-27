@@ -5,15 +5,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 //*************************************************************************************************
 /**
@@ -44,7 +49,45 @@ public class ServerGUI extends Application
     private Label statusLabel;	
 	
     private ProtoTypeServer server;
-    //*************************************************************************************************
+    private Stage stage;
+    
+    
+    public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) 
+	{
+		this.stage = stage;
+		
+		
+		EventHandler<WindowEvent> onClose = new EventHandler<WindowEvent>() {
+	          public void handle(WindowEvent we) 
+	          {
+	        	  Alert alert = new Alert(AlertType.CONFIRMATION);
+	        	  alert.setTitle("Confirmation Dialog");
+	        	  alert.setHeaderText("About to close serever.");
+	        	  alert.setContentText("Are you sure?");
+
+	        	  Optional<ButtonType> result = alert.showAndWait();
+	        	  if (result.get() == ButtonType.OK)
+	        	  {
+	        	      // ... user chose OK
+	        		  onStopBtn(null);
+	        		  getStage().close();
+	        		  System.exit(0);
+	        	  } 
+	        	  else 
+	        	  {
+	        	      we.consume();
+	        	  }
+	          }
+	      };        
+	      
+		stage.setOnCloseRequest(onClose);
+	}
+
+	//*************************************************************************************************
     /**
   	*  Called when the save button is pressed
   	*  Save the new config info entered
@@ -150,6 +193,12 @@ public class ServerGUI extends Application
        	 	usernameField.setText(serverUserName);
        	 	passwordField.setText(serverPass);
        	 	
+       	 	
+       	 	
+       		
+    	
+       	 	
+       	 	
     		}
         	catch(Exception e)
         	{
@@ -174,7 +223,7 @@ public class ServerGUI extends Application
 		primaryStage.setScene(scene);
 		
 		primaryStage.setTitle("Zer li Server");
-			
+		setStage(primaryStage);
 		 //show
 		primaryStage.show();
 	}
