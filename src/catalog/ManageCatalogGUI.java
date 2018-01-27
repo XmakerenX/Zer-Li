@@ -221,7 +221,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 						getClient().setUI(addToCatGUI);
 						addToCatGUI.setClinet(client);
 						addToCatGUI.setProd(prod);
-						addToCatGUI.setStoreID(storeID);
+						addToCatGUI.setStoreID(employeeStoreID);
 						addToCatGUI.doInit();
 						newWindow.initOwner(FormController.primaryStage);
 				    	newWindow.initModality(Modality.WINDOW_MODAL);  
