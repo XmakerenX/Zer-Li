@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: prototype
 -- ------------------------------------------------------
--- Server version	5.7.20
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,43 +16,42 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `CatalogProduct`
+-- Table structure for table `catalogproduct`
 --
 
-DROP TABLE IF EXISTS `CatalogProduct`;
+DROP TABLE IF EXISTS `catalogproduct`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CatalogProduct` (
+CREATE TABLE `catalogproduct` (
   `productID` int(11) NOT NULL,
   `salesPrice` float DEFAULT NULL,
   `Image` varchar(256) DEFAULT NULL,
   `StoreID` int(11) NOT NULL,
   PRIMARY KEY (`productID`,`StoreID`),
   KEY `storeid_idx` (`StoreID`),
-  CONSTRAINT `pID` FOREIGN KEY (`productID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `storeid` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `pID` FOREIGN KEY (`productID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `storeid` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `CatalogProduct`
+-- Dumping data for table `catalogproduct`
 --
 
-LOCK TABLES `CatalogProduct` WRITE;
-/*!40000 ALTER TABLE `CatalogProduct` DISABLE KEYS */;
-INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(6,10,NULL,3),(20,100,'SnowWhite.jpg',1),(21,120,'Cinderella.jpg',2),(22,-1,'Olive.jpg',1),(23,-1,'Spathiphyllum.jpg',3),(24,-1,'sunshine.jpg',0),(25,-1,'VioletWinter.jpg',1);
-/*!40000 ALTER TABLE `CatalogProduct` ENABLE KEYS */;
+LOCK TABLES `catalogproduct` WRITE;
+/*!40000 ALTER TABLE `catalogproduct` DISABLE KEYS */;
+INSERT INTO `catalogproduct` VALUES (4,100,'panter.jpg',0),(5,-1,'buttercup.jpg',0),(20,100,'SnowWhite.jpg',1),(21,120,'Cinderella.jpg',2),(22,-1,'Olive.jpg',1),(23,-1,'Spathiphyllum.jpg',3),(24,-1,'sunshine.jpg',0),(25,-1,'VioletWinter.jpg',1);
+/*!40000 ALTER TABLE `catalogproduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
-
 --
--- Table structure for table `ComplaintReport`
+-- Table structure for table `complaintreport`
 --
 
-DROP TABLE IF EXISTS `ComplaintReport`;
+DROP TABLE IF EXISTS `complaintreport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ComplaintReport` (
+CREATE TABLE `complaintreport` (
   `Quarterly` varchar(45) NOT NULL,
   `Year` varchar(45) NOT NULL,
   `StoreID` int(11) NOT NULL,
@@ -69,81 +68,23 @@ CREATE TABLE `ComplaintReport` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ComplaintReport`
+-- Dumping data for table `complaintreport`
 --
 
-LOCK TABLES `ComplaintReport` WRITE;
-/*!40000 ALTER TABLE `ComplaintReport` DISABLE KEYS */;
-INSERT INTO `ComplaintReport` VALUES ('FIRST','2017',2,13,14,15,16,17,18),('THIRD','2017',2,20,10,51,46,23,31);
-/*!40000 ALTER TABLE `ComplaintReport` ENABLE KEYS */;
+LOCK TABLES `complaintreport` WRITE;
+/*!40000 ALTER TABLE `complaintreport` DISABLE KEYS */;
+INSERT INTO `complaintreport` VALUES ('FIRST','2017',2,13,14,15,16,17,18),('THIRD','2017',2,20,10,51,46,23,31);
+/*!40000 ALTER TABLE `complaintreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `CustomItem`
+-- Table structure for table `customers`
 --
 
-DROP TABLE IF EXISTS `CustomItem`;
+DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CustomItem` (
-  `CustomItemID` int(11) NOT NULL AUTO_INCREMENT,
-  `CustomItemType` varchar(45) DEFAULT NULL,
-  `CustomItemPrice` float DEFAULT NULL,
-  `CustomItemColor` varchar(45) DEFAULT NULL,
-  `CustomItemGreetingCard` varchar(100) DEFAULT NULL,
-  `CustomItemOrderID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`CustomItemID`),
-  KEY `fk_CustomItem_1_idx` (`CustomItemOrderID`),
-  CONSTRAINT `fk_CustomItem_1` FOREIGN KEY (`CustomItemOrderID`) REFERENCES `Order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `CustomItem`
---
-
-LOCK TABLES `CustomItem` WRITE;
-/*!40000 ALTER TABLE `CustomItem` DISABLE KEYS */;
-/*!40000 ALTER TABLE `CustomItem` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `CustomItemProduct`
---
-
-DROP TABLE IF EXISTS `CustomItemProduct`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CustomItemProduct` (
-  `CustomItemID` int(11) NOT NULL AUTO_INCREMENT,
-  `ProductID` int(11) NOT NULL,
-  `Amount` int(11) NOT NULL,
-  `Price` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`CustomItemID`,`ProductID`),
-  KEY `fk_CustomItemProduct_2_idx` (`CustomItemID`),
-  KEY `fk_CustomItemProduct_2_idx1` (`ProductID`),
-  CONSTRAINT `fk_CustomItemProduct_1` FOREIGN KEY (`CustomItemID`) REFERENCES `CustomItem` (`CustomItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_CustomItemProduct_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `CustomItemProduct`
---
-
-LOCK TABLES `CustomItemProduct` WRITE;
-/*!40000 ALTER TABLE `CustomItemProduct` DISABLE KEYS */;
-/*!40000 ALTER TABLE `CustomItemProduct` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Customers`
---
-
-DROP TABLE IF EXISTS `Customers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Customers` (
+CREATE TABLE `customers` (
   `personID` int(11) NOT NULL,
   `fullName` varchar(45) DEFAULT NULL,
   `phoneNumber` varchar(45) DEFAULT NULL,
@@ -155,163 +96,18 @@ CREATE TABLE `Customers` (
   `ExpirationDate` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`personID`,`StoreID`),
   KEY `fk_Customers_1_idx` (`StoreID`),
-  CONSTRAINT `fk_Customers_1` FOREIGN KEY (`StoreID`) REFERENCES `Store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_Customers_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Customers`
+-- Dumping data for table `customers`
 --
 
-LOCK TABLES `Customers` WRITE;
-/*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1234,'mk','546','YEARLY_SUBSCRIPTION',3112,'1111-2222-3333-4444',1,1,'23-01-2018'),(1234,'mk','452','MONTHLY_SUBSCRIPTION',100.35,'3423',1,2,'30-01-2018'),(12345,'Dzon Levi','101','CREDIT_CARD',0,'4356768',NULL,1,NULL),(2344354,'Mark Twain','3435678','YEARLY_SUBSCRIPTION',0,'5454645757',1,2,'24-01-2019'),(305022949,'matan k','0507788765','CREDIT_CARD',194,'1111-2222-3333-4444',1,1,''),(305022949,'Matan Keren','3523523','MONTHLY_SUBSCRIPTION',0,'2314123',1,2,'24-02-2018'),(305022949,'matan k','0507788765','CREDIT_CARD',0,'1111-2222-3333-4444',0,3,NULL);
-/*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Order`
---
-
-DROP TABLE IF EXISTS `Order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Order` (
-  `OrderID` int(11) NOT NULL AUTO_INCREMENT,
-  `OrderStatus` varchar(45) DEFAULT NULL,
-  `OrderPrice` float DEFAULT NULL,
-  `OrderCreationDateTime` varchar(45) DEFAULT NULL,
-  `OrderRequiredDate` varchar(45) DEFAULT NULL,
-  `OrderRequiredTime` varchar(45) DEFAULT NULL,
-  `OrderShipmentAddress` varchar(45) DEFAULT NULL,
-  `OrderReceiverName` varchar(45) DEFAULT NULL,
-  `OrderReceiverPhoneNumber` varchar(45) DEFAULT NULL,
-  `OrderPaymentMethod` varchar(45) DEFAULT NULL,
-  `OrderOriginStore` int(11) DEFAULT NULL,
-  `OrderCustomerID` int(11) DEFAULT NULL,
-  `OrderRefund` float DEFAULT NULL,
-  PRIMARY KEY (`OrderID`),
-  KEY `fk_Order_1_idx` (`OrderCustomerID`),
-  CONSTRAINT `fk_Order_1` FOREIGN KEY (`OrderCustomerID`) REFERENCES `Customers` (`personID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Order`
---
-
-LOCK TABLES `Order` WRITE;
-/*!40000 ALTER TABLE `Order` DISABLE KEYS */;
-INSERT INTO `Order` VALUES (77,'NEW',90,'2018-01-22 09:03:54','2018-01-22 12:03:54','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345,0),(78,'NEW',82.5,'2018-01-22 09:04:06','2018-01-22 12:04:06','',NULL,NULL,NULL,'SUBSCRIPTION',3,12345,0),(79,'NEW',174.6,'2018-01-22 09:45:58','2018-01-22 12:45:58','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345,0),(80,'NEW',183.6,'2018-01-22 12:16:44','2018-01-23 03:16:00','','','','','SUBSCRIPTION',2,12345,0),(81,'NEW',151,'2018-01-22 20:47:50','2018-01-23 11:47:00','',NULL,NULL,NULL,'CREDITCARD',3,12345,0),(82,'NEW',174.6,'2018-01-22 21:52:24','2018-01-23 12:51:00','',NULL,NULL,NULL,'SUBSCRIPTION',2,12345,0),(83,'NEW',233,'2018-01-24 10:43:58','2018-01-24 13:43:58','','werwe','345345','455464','CREDITCARD',1,12345,0),(88,'CANCELED',327,'2018-01-24 13:07:38','2018-01-25 04:07:00','','asfa','sdfsdf','232342','CREDITCARD',1,1234,0),(94,'NEW',223,'2018-01-24 14:56:12','2018-01-24 17:56:12','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(95,'NEW',294.3,'2018-01-24 14:56:30','2018-01-24 17:56:30','','2342','42342','42342','SUBSCRIPTION',2,305022949,0),(96,'NEW',217,'2018-01-24 14:56:51','2018-01-24 17:56:51','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(97,'NEW',223,'2018-01-24 14:57:02','2018-01-24 20:50:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(98,'NEW',223,'2018-01-24 14:58:08','2018-01-26 17:58:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(99,'NEW',94,'2018-01-24 14:58:36','2018-01-30 17:58:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(100,'NEW',217,'2018-01-24 14:59:36','2018-01-24 17:59:36','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(101,'NEW',123,'2018-01-24 15:46:51','2018-01-31 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(102,'NEW',123,'2018-01-24 15:52:53','2018-02-10 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(103,'NEW',123,'2018-01-24 15:53:59','2018-02-09 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(104,'NEW',123,'2018-01-24 15:56:38','2018-02-01 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(105,'NEW',123,'2018-01-24 15:56:52','2018-02-15 12:12:00','',NULL,NULL,NULL,'CREDITCARD',1,305022949,0),(106,'CANCELED',100,'2018-01-24 18:23:53','2018-01-24 21:23:53','',NULL,NULL,NULL,'CREDITCARD',1,1234,0),(107,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0);
-/*!40000 ALTER TABLE `Order` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Product`
---
-
-DROP TABLE IF EXISTS `Product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Product` (
-  `ProductID` int(11) NOT NULL,
-  `ProductName` varchar(45) DEFAULT NULL,
-  `ProductType` varchar(45) DEFAULT NULL,
-  `ProductPrice` float DEFAULT NULL,
-  `ProductAmount` int(11) DEFAULT NULL,
-  `ProductColor` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`ProductID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Product`
---
-
-LOCK TABLES `Product` WRITE;
-/*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES (1,'roses bouquet','bouquet',90,15,'Red'),(2,'Chrysanthemums bouquet','bouquet',20,20,'White'),(3,'Avalanche bouquet','bouquet',15,10,'Purple'),(4,'Panter bouquet','bouquet',151,5,'Pink'),(5,'Buttercup bouquet','bouquet',94,10,'Red'),(6,'Anemone bouquet','bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red'),(11,'Small Gozmania','PLANT',33,20,'Yellow'),(12,'Medium Gozmania','PLANT',69,30,'Yellow'),(13,'Big Gozmania','PLANT',99,25,'Yellow'),(14,'Small Anthurium','PLANT',29,15,'Red'),(15,'Medium Anthurium','PLANT',79,20,'Red'),(16,'Big Anthurium','PLANT',109,30,'Red'),(17,'Small Cocktail','PLANT',19,30,'Pink'),(18,'Medium Cocktail','PLANT',49,20,'Pink'),(19,'Big Cocktail','PLANT',89,10,'Pink'),(20,'SnowWhite','Bridal Bouquet',149,20,'White'),(21,'Cinderella','Bridal Bouquet',159,20,'White'),(22,'Olive','Flower Pot',89,20,'Green'),(23,'Spathiphyllum','Flower Pot',199,20,'Green'),(24,'sunshine','Flowers Cluster',89,20,'Yellow'),(25,'Violet Winter','Flowers Cluster',129,20,'Purple');
-/*!40000 ALTER TABLE `Product` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `ProductInOrder`
---
-
-DROP TABLE IF EXISTS `ProductInOrder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ProductInOrder` (
-  `ProductID` int(11) NOT NULL,
-  `OrderID` int(11) NOT NULL,
-  `ProductGrettingCard` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`ProductID`,`OrderID`),
-  KEY `fk_ProductInOrder_2_idx` (`OrderID`),
-  CONSTRAINT `fk_ProductInOrder_1` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_ProductInOrder_2` FOREIGN KEY (`OrderID`) REFERENCES `Order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ProductInOrder`
---
-
-LOCK TABLES `ProductInOrder` WRITE;
-/*!40000 ALTER TABLE `ProductInOrder` DISABLE KEYS */;
-INSERT INTO `ProductInOrder` VALUES (4,77,''),(4,78,''),(4,79,''),(4,80,''),(4,81,'fgjgfj'),(4,82,''),(4,83,''),(4,88,''),(4,94,''),(4,95,''),(4,97,''),(4,98,''),(4,106,''),(5,79,''),(5,80,''),(5,82,''),(5,88,''),(5,95,''),(5,96,''),(5,99,''),(5,100,''),(6,78,''),(6,83,''),(6,88,''),(6,94,''),(6,95,''),(6,96,''),(6,97,''),(6,98,''),(6,100,''),(6,101,''),(6,102,''),(6,103,''),(6,104,''),(6,105,'');
-/*!40000 ALTER TABLE `ProductInOrder` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Store`
---
-
-DROP TABLE IF EXISTS `Store`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Store` (
-  `StoreID` int(11) NOT NULL,
-  `StoreAddress` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`StoreID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Store`
---
-
-LOCK TABLES `Store` WRITE;
-/*!40000 ALTER TABLE `Store` DISABLE KEYS */;
-INSERT INTO `Store` VALUES (0,'Base'),(1,'Haifa'),(2,'Karmiel'),(3,'Qiryat Biyalik');
-/*!40000 ALTER TABLE `Store` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `User`
---
-
-DROP TABLE IF EXISTS `User`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `User` (
-  `UserName` varchar(45) NOT NULL,
-  `UserPassword` varchar(45) DEFAULT NULL,
-  `UserPermission` varchar(45) DEFAULT NULL,
-  `personID` int(11) DEFAULT NULL,
-  `UserStatus` varchar(45) DEFAULT NULL,
-  `unsuccessfulTries` int(11) DEFAULT NULL,
-  PRIMARY KEY (`UserName`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `User`
---
-
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('deleteme','123456','STORE_WORKER',123456789,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('jenia2','123456','CUSTOMER',5555,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker1','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('serviceWorker2','123456','CUSTOMER_SERVICE_WORKER',12546,'REGULAR',0),('twain','123456','NETWORK_MANAGER',787878,'REGULAR',0);
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+LOCK TABLES `customers` WRITE;
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES (101,'customer 1','1111111111','CREDIT_CARD',0,'1111-1111-1111-1111',1,1,''),(101,'customer 1','1111111111','YEARLY_SUBSCRIPTION',200,'1111-1111-1111-1111',1,2,'15-01-2019'),(101,'customer 1','1111111111','CREDIT_CARD',-100,'1111-1111-1111-1111',0,3,NULL),(102,'customer 2','2222222222','MONTHLY_SUBSCRIPTION',50,'2222-2222-2222-2222',1,1,'15-01-2018');
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -335,7 +131,7 @@ CREATE TABLE `customersatisfactionsurveyresults` (
   PRIMARY KEY (`id`),
   KEY `fk_customersatisfactionsurveyresults_1_idx` (`storeID`),
   CONSTRAINT `fk_customersatisfactionsurveyresults_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,8 +140,66 @@ CREATE TABLE `customersatisfactionsurveyresults` (
 
 LOCK TABLES `customersatisfactionsurveyresults` WRITE;
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` DISABLE KEYS */;
-INSERT INTO `customersatisfactionsurveyresults` VALUES (1,'2018-01-03',2,2,2,2,2,2,1,'Sample Survey Analysis'),(2,'2018-01-03',5,5,5,5,5,5,1,''),(3,'2018-01-03',5,5,5,5,5,5,1,''),(4,'2018-01-14',5,6,9,8,7,4,1,''),(6,'2018-01-15',9,9,9,9,9,9,1,'');
+INSERT INTO `customersatisfactionsurveyresults` VALUES (11,'2017-07-06',7,10,6,4,10,4,2,'The customer thought we were the BEST flower shop ever!'),(12,'2017-07-23',1,8,4,7,2,2,3,'The customer thought we were the BEST flower shop ever!'),(13,'2017-07-02',5,7,6,6,5,10,1,'The customer thought we were the BEST flower shop ever!'),(14,'2017-07-07',2,7,9,3,10,5,3,'The customer thought we were the BEST flower shop ever!'),(15,'2017-07-04',9,2,9,5,1,10,1,'The customer thought we were the BEST flower shop ever!'),(16,'2017-07-10',9,3,5,9,7,9,3,'The customer thought we were the BEST flower shop ever!'),(17,'2017-07-19',7,8,3,3,9,10,1,'The customer thought we were the BEST flower shop ever!'),(18,'2017-07-09',2,5,9,4,7,3,3,'The customer thought we were the BEST flower shop ever!'),(19,'2017-07-05',10,10,4,6,4,4,2,'The customer thought we were the BEST flower shop ever!'),(20,'2017-07-25',9,9,8,7,1,10,2,'The customer thought we were the BEST flower shop ever!'),(21,'2017-09-06',10,3,2,3,4,8,2,'The customer thought we were the BEST flower shop ever!'),(22,'2017-09-26',6,10,6,3,7,6,3,'The customer thought we were the BEST flower shop ever!'),(23,'2017-09-14',3,1,1,3,3,5,1,'The customer thought we were the BEST flower shop ever!'),(24,'2017-09-24',9,3,1,6,6,7,3,'The customer thought we were the BEST flower shop ever!'),(25,'2017-09-18',2,4,8,5,8,7,1,'The customer thought we were the BEST flower shop ever!'),(26,'2017-09-17',1,4,2,5,9,1,2,'The customer thought we were the BEST flower shop ever!'),(27,'2017-09-27',4,6,1,9,10,7,3,'The customer thought we were the BEST flower shop ever!'),(28,'2017-09-20',10,9,2,4,5,1,3,'The customer thought we were the BEST flower shop ever!'),(29,'2017-09-04',1,10,8,9,2,10,3,'The customer thought we were the BEST flower shop ever!'),(30,'2017-09-15',7,2,1,5,1,7,2,'The customer thought we were the BEST flower shop ever!'),(31,'2017-10-11',5,1,1,5,6,3,1,'The customer thought we were the BEST flower shop ever!'),(32,'2017-10-05',9,9,3,10,9,8,1,'The customer thought we were the BEST flower shop ever!'),(33,'2017-10-08',8,9,2,10,6,6,3,'The customer thought we were the BEST flower shop ever!'),(34,'2017-10-07',7,6,3,10,10,9,1,'The customer thought we were the BEST flower shop ever!'),(35,'2017-10-03',3,4,3,3,4,8,3,'The customer thought we were the BEST flower shop ever!'),(36,'2017-10-18',10,9,8,3,6,8,3,'The customer thought we were the BEST flower shop ever!'),(37,'2017-10-21',3,1,9,3,1,9,1,'The customer thought we were the BEST flower shop ever!'),(38,'2017-10-10',5,8,8,5,2,5,1,'The customer thought we were the BEST flower shop ever!'),(39,'2017-10-06',1,9,8,10,4,4,3,'The customer thought we were the BEST flower shop ever!'),(40,'2017-10-04',9,9,7,8,10,6,1,'The customer thought we were the BEST flower shop ever!'),(41,'2017-11-03',5,9,1,1,1,9,1,'The customer thought we were the BEST flower shop ever!'),(42,'2017-11-08',5,1,5,10,7,8,2,'The customer thought we were the BEST flower shop ever!'),(43,'2017-11-24',3,5,4,4,10,8,2,'The customer thought we were the BEST flower shop ever!'),(44,'2017-11-26',1,3,3,8,10,5,1,'The customer thought we were the BEST flower shop ever!'),(45,'2017-11-07',2,3,1,7,9,1,1,'The customer thought we were the BEST flower shop ever!'),(46,'2017-11-24',8,1,3,6,10,9,2,'The customer thought we were the BEST flower shop ever!'),(47,'2017-11-11',7,4,4,9,9,7,1,'The customer thought we were the BEST flower shop ever!'),(48,'2017-11-25',10,9,6,6,3,1,1,'The customer thought we were the BEST flower shop ever!'),(49,'2017-11-20',10,5,1,9,8,8,1,'The customer thought we were the BEST flower shop ever!'),(50,'2017-11-26',2,9,4,6,6,3,3,'The customer thought we were the BEST flower shop ever!'),(51,'2017-12-28',7,4,4,1,6,5,3,'The customer thought we were the BEST flower shop ever!'),(52,'2017-12-24',4,6,7,1,1,9,3,'The customer thought we were the BEST flower shop ever!'),(53,'2017-12-11',4,7,10,10,6,9,1,'The customer thought we were the BEST flower shop ever!'),(54,'2017-12-27',6,7,3,3,10,6,1,'The customer thought we were the BEST flower shop ever!'),(55,'2017-12-10',10,8,9,8,7,1,3,'The customer thought we were the BEST flower shop ever!'),(56,'2017-12-04',4,7,6,1,9,9,1,'The customer thought we were the BEST flower shop ever!'),(57,'2017-12-04',7,4,10,1,4,5,2,'The customer thought we were the BEST flower shop ever!'),(58,'2017-12-11',7,1,10,4,10,10,2,'The customer thought we were the BEST flower shop ever!'),(59,'2017-12-23',1,2,5,5,5,4,1,'The customer thought we were the BEST flower shop ever!'),(60,'2017-12-16',5,8,4,1,9,2,2,'The customer thought we were the BEST flower shop ever!'),(61,'2018-01-06',6,4,2,1,3,7,2,''),(62,'2018-01-11',3,1,3,9,6,3,1,''),(63,'2018-01-18',2,7,9,10,5,10,2,''),(64,'2018-01-02',7,10,2,4,10,10,2,''),(65,'2018-01-06',10,6,3,9,1,3,1,''),(66,'2018-01-02',3,4,1,9,1,1,1,''),(67,'2018-01-27',8,6,4,6,5,2,2,''),(68,'2018-01-25',10,1,6,2,9,7,1,''),(69,'2018-01-24',3,3,9,8,2,1,2,''),(70,'2018-01-26',7,3,9,10,10,10,3,'');
 /*!40000 ALTER TABLE `customersatisfactionsurveyresults` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customitem`
+--
+
+DROP TABLE IF EXISTS `customitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customitem` (
+  `CustomItemID` int(11) NOT NULL AUTO_INCREMENT,
+  `CustomItemType` varchar(45) DEFAULT NULL,
+  `CustomItemPrice` float DEFAULT NULL,
+  `CustomItemColor` varchar(45) DEFAULT NULL,
+  `CustomItemGreetingCard` varchar(100) DEFAULT NULL,
+  `CustomItemOrderID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`CustomItemID`),
+  KEY `fk_CustomItem_1_idx` (`CustomItemOrderID`),
+  CONSTRAINT `fk_CustomItem_1` FOREIGN KEY (`CustomItemOrderID`) REFERENCES `order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customitem`
+--
+
+LOCK TABLES `customitem` WRITE;
+/*!40000 ALTER TABLE `customitem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customitemproduct`
+--
+
+DROP TABLE IF EXISTS `customitemproduct`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customitemproduct` (
+  `CustomItemID` int(11) NOT NULL AUTO_INCREMENT,
+  `ProductID` int(11) NOT NULL,
+  `Amount` int(11) NOT NULL,
+  `Price` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`CustomItemID`,`ProductID`),
+  KEY `fk_CustomItemProduct_2_idx` (`CustomItemID`),
+  KEY `fk_CustomItemProduct_2_idx1` (`ProductID`),
+  CONSTRAINT `fk_CustomItemProduct_1` FOREIGN KEY (`CustomItemID`) REFERENCES `customitem` (`CustomItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_CustomItemProduct_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customitemproduct`
+--
+
+LOCK TABLES `customitemproduct` WRITE;
+/*!40000 ALTER TABLE `customitemproduct` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customitemproduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -377,6 +231,43 @@ INSERT INTO `incomereport` VALUES ('FIRST','2017',1,3020.2),('SECOND','2017',2,1
 UNLOCK TABLES;
 
 --
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order` (
+  `OrderID` int(11) NOT NULL AUTO_INCREMENT,
+  `OrderStatus` varchar(45) DEFAULT NULL,
+  `OrderPrice` float DEFAULT NULL,
+  `OrderCreationDateTime` varchar(45) DEFAULT NULL,
+  `OrderRequiredDate` varchar(45) DEFAULT NULL,
+  `OrderRequiredTime` varchar(45) DEFAULT NULL,
+  `OrderShipmentAddress` varchar(45) DEFAULT NULL,
+  `OrderReceiverName` varchar(45) DEFAULT NULL,
+  `OrderReceiverPhoneNumber` varchar(45) DEFAULT NULL,
+  `OrderPaymentMethod` varchar(45) DEFAULT NULL,
+  `OrderOriginStore` int(11) DEFAULT NULL,
+  `OrderCustomerID` int(11) DEFAULT NULL,
+  `OrderRefund` float DEFAULT NULL,
+  PRIMARY KEY (`OrderID`),
+  KEY `fk_Order_1_idx` (`OrderCustomerID`),
+  CONSTRAINT `fk_Order_1` FOREIGN KEY (`OrderCustomerID`) REFERENCES `customers` (`personID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order`
+--
+
+LOCK TABLES `order` WRITE;
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (108,'NEW',178,'2018-01-27 23:06:24','2018-01-28 02:06:24','',NULL,NULL,NULL,'CASH',1,101,0);
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ordercomplaint`
 --
 
@@ -396,9 +287,9 @@ CREATE TABLE `ordercomplaint` (
   `maxCompensationAmount` float DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `orderID` int(11) DEFAULT NULL,
-   `addedBy` varchar(45) DEFAULT NULL,
+  `addedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,7 +298,6 @@ CREATE TABLE `ordercomplaint` (
 
 LOCK TABLES `ordercomplaint` WRITE;
 /*!40000 ALTER TABLE `ordercomplaint` DISABLE KEYS */;
-INSERT INTO `ordercomplaint` VALUES (8,305022949,'matan k','0507788765',1,'sdsddssd','2018-01-25','12:51',10,223,'CLOSED',94,NULL),(9,305022949,'matan k','0507788765',1,'I orderd hamburger, WTF?!','2018-01-25','12:51',30,217,'CLOSED',96,NULL),(10,305022949,'matan k','0507788765',1,'dsdsds','2018-01-25','13:43',22,217,'CLOSED',96,NULL),(11,305022949,'matan k','0507788765',1,'dssd','2018-01-25','13:48',20,94,'CLOSED',99,NULL),(12,305022949,'matan k','0507788765',1,'wtfff','2018-01-25','13:53',10,223,'CLOSED',97,NULL),(13,305022949,'matan k','0507788765',1,'dsdsgdsg','2018-01-25','13:55',20,223,'CLOSED',94,NULL),(14,305022949,'matan k','0507788765',1,'safdfdaf','2018-01-25','14:01',200,223,'CLOSED',94,'serviceWorker1'),(15,305022949,'Matan Keren','3523523',2,'dsvgdssdg','2018-01-25','14:02',20,294.3,'CLOSED',95,'serviceWorker1'),(16,305022949,'Matan Keren','3523523',2,'gsgdf','2018-01-25','14:04',0,294.3,'NEW',95,'serviceWorker1'),(17,305022949,'Matan Keren','3523523',2,'sfddsgdgss','2018-01-25','14:05',200,294.3,'CLOSED',95,'serviceWorker1'),(18,305022949,'matan k','0507788765',1,'dvfds','2018-01-25','14:07',2,94,'CLOSED',99,'serviceWorker1'),(19,305022949,'matan k','0507788765',1,'dsfad','2018-01-25','14:11',20,217,'CLOSED',96,'serviceWorker1'),(20,305022949,'Matan Keren','3523523',2,'sdfdssf','2018-01-25','14:11',222,294.3,'CLOSED',95,'serviceWorker1'),(21,305022949,'Matan Keren','3523523',2,'sssf','2018-01-25','14:13',NULL,294.3,'NEW',95,'serviceWorker1'),(22,305022949,'matan k','0507788765',1,'Blabla complaint','2018-01-27','14:56',10,223,'CLOSED',97,'serviceWorker1');
 /*!40000 ALTER TABLE `ordercomplaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,13 +335,93 @@ INSERT INTO `orderreport` VALUES ('FOURTH','2017',2,125,25,25,23,24,28),('THIRD'
 UNLOCK TABLES;
 
 --
--- Table structure for table `storeEmployees`
+-- Table structure for table `product`
 --
 
-DROP TABLE IF EXISTS `storeEmployees`;
+DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `storeEmployees` (
+CREATE TABLE `product` (
+  `ProductID` int(11) NOT NULL,
+  `ProductName` varchar(45) DEFAULT NULL,
+  `ProductType` varchar(45) DEFAULT NULL,
+  `ProductPrice` float DEFAULT NULL,
+  `ProductAmount` int(11) DEFAULT NULL,
+  `ProductColor` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ProductID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product`
+--
+
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'roses bouquet','Bouquet',90,15,'Red'),(2,'Chrysanthemums bouquet','Bouquet',20,20,'White'),(3,'Avalanche bouquet','Bouquet',15,10,'Purple'),(4,'Panter bouquet','Bouquet',151,5,'Pink'),(5,'Buttercup bouquet','Bouquet',94,10,'Red'),(6,'Anemone bouquet','Bouquet',123,15,'Red'),(7,'Chrysanthemums','FLOWER',9,30,'White'),(8,'Limonium','FLOWER',10,30,'Purple'),(9,'Sunflower','FLOWER',11,30,'Yellow'),(10,'roses','FLOWER',12,40,'Red'),(11,'Small Gozmania','PLANT',33,20,'Yellow'),(12,'Medium Gozmania','PLANT',69,30,'Yellow'),(13,'Big Gozmania','PLANT',99,25,'Yellow'),(14,'Small Anthurium','PLANT',29,15,'Red'),(15,'Medium Anthurium','PLANT',79,20,'Red'),(16,'Big Anthurium','PLANT',109,30,'Red'),(17,'Small Cocktail','PLANT',19,30,'Pink'),(18,'Medium Cocktail','PLANT',49,20,'Pink'),(19,'Big Cocktail','PLANT',89,10,'Pink'),(20,'SnowWhite','Bridal Bouquet',149,20,'White'),(21,'Cinderella','Bridal Bouquet',159,20,'White'),(22,'Olive','Flower Pot',89,20,'Green'),(23,'Spathiphyllum','Flower Pot',199,20,'Green'),(24,'sunshine','Flowers Cluster',89,20,'Yellow'),(25,'Violet Winter','Flowers Cluster',129,20,'Purple');
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productinorder`
+--
+
+DROP TABLE IF EXISTS `productinorder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `productinorder` (
+  `ProductID` int(11) NOT NULL,
+  `OrderID` int(11) NOT NULL,
+  `ProductGrettingCard` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ProductID`,`OrderID`),
+  KEY `fk_ProductInOrder_2_idx` (`OrderID`),
+  CONSTRAINT `fk_ProductInOrder_1` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_ProductInOrder_2` FOREIGN KEY (`OrderID`) REFERENCES `order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productinorder`
+--
+
+LOCK TABLES `productinorder` WRITE;
+/*!40000 ALTER TABLE `productinorder` DISABLE KEYS */;
+INSERT INTO `productinorder` VALUES (22,108,'To granny.'),(24,108,'To my dear mom.');
+/*!40000 ALTER TABLE `productinorder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `store`
+--
+
+DROP TABLE IF EXISTS `store`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `store` (
+  `StoreID` int(11) NOT NULL,
+  `StoreAddress` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`StoreID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `store`
+--
+
+LOCK TABLES `store` WRITE;
+/*!40000 ALTER TABLE `store` DISABLE KEYS */;
+INSERT INTO `store` VALUES (0,'Base'),(1,'Haifa'),(2,'Karmiel'),(3,'Qiryat Biyalik');
+/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `storeemployees`
+--
+
+DROP TABLE IF EXISTS `storeemployees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `storeemployees` (
   `username` varchar(45) NOT NULL,
   `storeID` int(11) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
@@ -460,13 +430,13 @@ CREATE TABLE `storeEmployees` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `storeEmployees`
+-- Dumping data for table `storeemployees`
 --
 
-LOCK TABLES `storeEmployees` WRITE;
-/*!40000 ALTER TABLE `storeEmployees` DISABLE KEYS */;
-INSERT INTO `storeEmployees` VALUES ('deckard',2,'STORE_MANAGER'),('matan',1,'STORE_WORKER');
-/*!40000 ALTER TABLE `storeEmployees` ENABLE KEYS */;
+LOCK TABLES `storeemployees` WRITE;
+/*!40000 ALTER TABLE `storeemployees` DISABLE KEYS */;
+INSERT INTO `storeemployees` VALUES ('storeManager1',1,'STORE_MANAGER'),('storeManager2',2,'STORE_MANAGER'),('storeManager3',3,'STORE_MANAGER'),('storeWorker1',1,'STORE_WORKER'),('storeWorker2',2,'STORE_WORKER'),('storeWorker3',3,'STORE_WORKER');
+/*!40000 ALTER TABLE `storeemployees` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -503,33 +473,31 @@ INSERT INTO `surveyreport` VALUES ('FOURTH','2017',2,1,3,5,7,9,4),('SECOND','201
 UNLOCK TABLES;
 
 --
--- Table structure for table `surveys`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `surveys`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `surveys` (
-  `surveyName` varchar(200) NOT NULL,
-  `question1` varchar(200) DEFAULT NULL,
-  `question2` varchar(200) DEFAULT NULL,
-  `question3` varchar(200) DEFAULT NULL,
-  `question4` varchar(200) DEFAULT NULL,
-  `question5` varchar(200) DEFAULT NULL,
-  `question6` varchar(200) DEFAULT NULL,
-  `analysis` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`surveyName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `user` (
+  `UserName` varchar(45) NOT NULL,
+  `UserPassword` varchar(45) DEFAULT NULL,
+  `UserPermission` varchar(45) DEFAULT NULL,
+  `personID` int(11) DEFAULT NULL,
+  `UserStatus` varchar(45) DEFAULT NULL,
+  `unsuccessfulTries` int(11) DEFAULT NULL,
+  PRIMARY KEY (`UserName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `surveys`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `surveys` WRITE;
-/*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES ('12','1','1','1','1','1','1','1'),('123','Question','Question','Question','Question','Question','Question','Bla bla'),('12355','1','1','1','1','1','1',NULL),('new survey','1','1','1','1','1','1',NULL);
-/*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('admin','123456','SYSTEM_MANAGER',98,'REGULAR',0),('customer1','123456','CUSTOMER',101,'REGULAR',0),('customer2','123456','CUSTOMER',102,'REGULAR',0),('customerService','123456','CUSTOMER_SERVICE',105,'REGULAR',0),('networkManager','123456','NETWORK_MANAGER',103,'REGULAR',0),('networkWorker','123456','NETWORK_WORKER',100,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',112,'REGULAR',0),('serviceExpert','123456','CUSTOMER_SERVICE_EXPERT',109,'REGULAR',0),('serviceWorker1','123456','CUSTOMER_SERVICE_WORKER',106,'REGULAR',4),('serviceWorker2','123456','CUSTOMER_SERVICE_WORKER',107,'REGULAR',0),('storeManager','123456','STORE_MANAGER',99,'REGULAR',0),('storeWorker1','123456','STORE_WORKER',104,'REGULAR',0),('storeWorker2','123456','STORE_WORKER',110,'REGULAR',0),('storeWorker3','123456','STORE_WORKER',111,'REGULAR',0),('systemManager1','123456','SYSTEM_MANAGER',108,'REGULAR',0),('systemManager2','123456','SYSTEM_MANAGER',112,'REGULAR',0),('systemManager3','123456','SYSTEM_MANAGER',113,'REGULAR',0);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -541,4 +509,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-25 14:25:42
+-- Dump completed on 2018-01-27 23:09:55
