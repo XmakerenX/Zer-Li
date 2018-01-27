@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="605.0" prefWidth="1285.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.CancelOrderGUI">
    <children>
-      <Label layoutX="583.0" layoutY="10.0" text="Your Orders">
+      <Label layoutX="592.0" layoutY="4.0" text="Your Orders">
          <font>
             <Font size="22.0" />
          </font>
@@ -28,6 +28,6 @@
             <TableColumn fx:id="cancelCol" text="Cancel" />
         </columns>
       </TableView>
-      <Button fx:id="backBtn" layoutX="614.0" layoutY="562.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
+      <Button fx:id="backBtn" layoutX="623.0" layoutY="563.0" mnemonicParsing="false" onAction="#onBack" prefWidth="60.0" text="Back" />
    </children>
 </AnchorPane>

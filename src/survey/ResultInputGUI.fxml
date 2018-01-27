@@ -7,11 +7,11 @@
 
 <AnchorPane prefHeight="241.0" prefWidth="295.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.ResultInputGUI">
    <children>
-      <TextField fx:id="answerTxtFld1" layoutX="100.0" layoutY="73.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld1" layoutX="97.0" layoutY="73.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="answerTxtFld2" layoutX="233.0" layoutY="73.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld3" layoutX="100.0" layoutY="113.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld3" layoutX="97.0" layoutY="113.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="answerTxtFld4" layoutX="233.0" layoutY="113.0" prefHeight="25.0" prefWidth="41.0" />
-      <TextField fx:id="answerTxtFld5" layoutX="100.0" layoutY="153.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="answerTxtFld5" layoutX="97.0" layoutY="153.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="answerTxtFld6" layoutX="233.0" layoutY="153.0" prefHeight="25.0" prefWidth="41.0" />
       <Button fx:id="sendBtn" layoutX="214.0" layoutY="202.0" mnemonicParsing="false" onAction="#onSendBtn" prefHeight="25.0" prefWidth="60.0" text="Send" />
       <Button fx:id="cancelBtn" layoutX="20.0" layoutY="202.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="25.0" prefWidth="60.0" text="Cancel" />

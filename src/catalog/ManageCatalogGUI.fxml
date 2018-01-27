@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.ManageCatalogGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalog.ManageCatalogGUI">
   <children>
       <Label layoutX="294.0" layoutY="15.0" text="Catalog">
          <font>
@@ -20,7 +20,7 @@
       </Label>
       <TableView fx:id="editCatalogView" layoutX="13.0" layoutY="72.0" prefHeight="224.0" prefWidth="681.0" />
       <TableView fx:id="editProductTable" layoutX="13.0" layoutY="351.0" prefHeight="224.0" prefWidth="681.0" />
-      <Button fx:id="newProdBtn" layoutX="312.0" layoutY="589.0" mnemonicParsing="false" onAction="#newProdBtn" prefHeight="30.0" text="New product" />
-      <Button fx:id="backBTN" layoutX="15.0" layoutY="598.0" mnemonicParsing="false" onAction="#onBackBTN" prefHeight="30.0" prefWidth="60.0" text="Back" />
+      <Button fx:id="newProdBtn" layoutX="312.0" layoutY="598.0" mnemonicParsing="false" onAction="#newProdBtn" prefHeight="25.0" text="New product" />
+      <Button fx:id="backBTN" layoutX="13.0" layoutY="598.0" mnemonicParsing="false" onAction="#onBackBTN" prefHeight="25.0" prefWidth="60.0" text="Back" />
    </children>
 </AnchorPane>

@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="468.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.SelectOrderForComplaintGUI">
+<AnchorPane prefHeight="445.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.SelectOrderForComplaintGUI">
    <children>
       <Label layoutX="20.0" layoutY="46.0" text="Select an order to add a complaint to:">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Button fx:id="backButton" layoutX="20.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="60.0" text="Back" />
+      <Button fx:id="backButton" layoutX="20.0" layoutY="405.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="60.0" text="Back" />
       <TableView fx:id="orderTable" layoutX="20.0" layoutY="72.0" prefHeight="310.0" prefWidth="500.0">
         <columns>
             <TableColumn fx:id="deliveryDateColumn" prefWidth="160.0" text="Order date" />
