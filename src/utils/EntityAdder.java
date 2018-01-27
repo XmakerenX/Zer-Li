@@ -450,13 +450,13 @@ public class EntityAdder {
 		String bouquetAmount = ""+orderReport.getBouquetAmount();
 		String brideBouquetAmount = ""+orderReport.getBrideBouquetAmount();
 		String flowerPotAmount = ""+orderReport.getFlowerPotAmount();
-		String flowerAmount = ""+orderReport.getFlowerAmount();
-		String plantAmount = ""+orderReport.getPlantAmount();
+		String customAmount = ""+orderReport.getFlowerAmount();
+		String flowerClusterAmount = ""+orderReport.getPlantAmount();
 
 		try
 		{
 			db.insertData("OrderReport", quarterly + "," + year + "," + storeID + "," + totalOrdersAmount + "," + bouquetAmount + ","
-					+ brideBouquetAmount + "," + flowerPotAmount + "," + flowerAmount + "," + plantAmount);
+					+ brideBouquetAmount + "," + flowerPotAmount + "," + customAmount + "," + flowerClusterAmount);
 			return true;
 		}
 		catch(Exception e)

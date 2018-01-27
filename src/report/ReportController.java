@@ -74,12 +74,12 @@ public class ReportController {
 	 * @param client - currently running client
 	 */
 	public static void createNewOrderReport(Quarterly quarterly, String year, long storeID, long totalOrdersAmount, long bouquetAmount,
-			long brideBouquetAmount, long flowerPotAmount, long flowerAmount, long plantAmount, Client client)
+			long brideBouquetAmount, long flowerPotAmount, long customAmount, long flowerClusterAmount, Client client)
 	{
 		OrderReport orderReport;
 		try {
 			orderReport = new OrderReport(quarterly, year, storeID, totalOrdersAmount, bouquetAmount, brideBouquetAmount, flowerPotAmount,
-					flowerAmount, plantAmount);
+					customAmount, flowerClusterAmount);
 			client.handleMessageFromClientUI(new AddRequest("OrderReport", orderReport));
 		} catch (OrderReport.ReportException e) {
 			System.out.println(e.getMessage());

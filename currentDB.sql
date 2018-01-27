@@ -424,8 +424,8 @@ CREATE TABLE `orderreport` (
   `BouquetAmount` int(11) DEFAULT NULL,
   `BrideBouquetAmount` int(11) DEFAULT NULL,
   `FlowerPotAmount` int(11) DEFAULT NULL,
-  `FlowerAmount` int(11) DEFAULT NULL,
-  `PlantAmount` int(11) DEFAULT NULL,
+  `CustomAmount` int(11) DEFAULT NULL,
+  `FlowerClusterAmount` int(11) DEFAULT NULL,
   PRIMARY KEY (`Quarterly`,`Year`,`StoreID`),
   KEY `OrderReport_idx` (`StoreID`),
   CONSTRAINT `fk_OrderReport_1` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
