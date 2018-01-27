@@ -799,46 +799,26 @@ public class ProtoTypeServer extends AbstractServer {
 		  }
 	  }
 	  
-	  public static void runTimedTasks(DBConnector db){
-
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.set(
-	           Calendar.DAY_OF_WEEK,
-	           Calendar.MONDAY
-	        );
-	        calendar.set(Calendar.HOUR_OF_DAY, 0);
-	        calendar.set(Calendar.MINUTE, 0);
-	        calendar.set(Calendar.SECOND, 0);
-	        calendar.set(Calendar.MILLISECOND, 0);
-
+	  public static void runTimedTasks(DBConnector db)
+	  {
+	        Calendar midnight = Calendar.getInstance();
+	        midnight.set(Calendar.HOUR_OF_DAY, 0);
+	        midnight.set(Calendar.MINUTE, 0);
+	        midnight.set(Calendar.SECOND, 0);
+	        midnight.set(Calendar.MILLISECOND, 0);
+	        midnight.setTimeInMillis(midnight.getTimeInMillis() + TimeUnit.DAYS.toMillis(1));
+	        
 	        Timer time = new Timer(); // Instantiate Timer Object
-	        
-	        Calendar now = Calendar.getInstance();
-	        //getting the quarter: 1/1, 1/4, 1/7, 1/
-	        int quarterForReports;
-	        int month = now.get(Calendar.MONTH);
-	        if (month == 0 || month ==1 || month== 2)
-	        {
-	        	quarterForReports = 4;
-	        }
-	        else if (month == 3 || month == 4 || month== 5)
-	        {
-	        	quarterForReports = 1;
-	        }
-	        else if (month == 6 || month == 7 || month== 8)
-	        {
-	        	quarterForReports = 2;
-	        }
-	        else
-	        	quarterForReports = 3;
-	        
-	        //getting current year:
-	        int year = now.get(Calendar.YEAR);
-	        String yearInString = String.valueOf(year);
-	        
-	        // Start running the task on Monday at 15:40:00, period is set to 8 hours
+	        	        
+	        // Start running the task on midnight tomorrow, period is set to start again everyday
 	        // if you want to run the task immediately, set the 2nd parameter to 0
-	        time.schedule(new QuarterlyReportCreation(quarterForReports, yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));
-	        time.schedule(new SubscriptionPayment(yearInString, db), calendar.getTime(), TimeUnit.DAYS.toMillis(1));
+	        QuarterlyReportCreation reportsCreator = new QuarterlyReportCreation(db);
+	        SubscriptionPayment subsPayment = new SubscriptionPayment(db);
+	        reportsCreator.run();
+	        subsPayment.run();
+	        time.scheduleAtFixedRate(reportsCreator, midnight.getTime(), TimeUnit.DAYS.toMillis(1));
+	        time.scheduleAtFixedRate(subsPayment, midnight.getTime(), TimeUnit.DAYS.toMillis(1));
+//	        time.scheduleAtFixedRate(reportsCreator, Calendar.getInstance().getTime(), TimeUnit.MINUTES.toMillis(1));
+//	        time.scheduleAtFixedRate(subsPayment, Calendar.getInstance().getTime(), TimeUnit.MINUTES.toMillis(1));
 	}
 }

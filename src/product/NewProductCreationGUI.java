@@ -46,7 +46,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 										"Bouquet",
 										"Bridal Bouquet",
 										"Flower Pot",
-										"Flower cluster");
+										"Flowers Cluster");
 				typeComboBox.getSelectionModel().selectFirst();
 
 
