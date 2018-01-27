@@ -320,7 +320,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	}
 	//===============================================================================================================
 	//waiting for the server to respond
-    public void waitForServerResponse()
+    protected void waitForServerResponse()
     {
     	synchronized(this) 
     	{

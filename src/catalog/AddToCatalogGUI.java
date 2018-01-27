@@ -26,7 +26,7 @@ import serverAPI.UploadImageRequest;
 import utils.FormController;
 import utils.ImageData;
 
-/*
+/**
  * provides a GUI to handle the process of adding a product to a store's catalog
  */
 public class AddToCatalogGUI extends FormController implements ClientInterface 
