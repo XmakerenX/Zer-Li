@@ -45,13 +45,13 @@ INSERT INTO `CatalogProduct` VALUES (2,-1,NULL,2),(3,-1,NULL,1),(4,100,'panter.j
 UNLOCK TABLES;
 
 --
--- Table structure for table `complaintreport`
+-- Table structure for table `ComplaintReport`
 --
 
-DROP TABLE IF EXISTS `complaintreport`;
+DROP TABLE IF EXISTS `ComplaintReport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `complaintreport` (
+CREATE TABLE `ComplaintReport` (
   `Quarterly` varchar(45) NOT NULL,
   `Year` varchar(45) NOT NULL,
   `StoreID` int(11) NOT NULL,
@@ -68,13 +68,13 @@ CREATE TABLE `complaintreport` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `complaintreport`
+-- Dumping data for table `ComplaintReport`
 --
 
-LOCK TABLES `complaintreport` WRITE;
-/*!40000 ALTER TABLE `complaintreport` DISABLE KEYS */;
-INSERT INTO `complaintreport` VALUES ('FIRST','2017',2,13,14,15,16,17,18),('THIRD','2017',2,20,10,51,46,23,31);
-/*!40000 ALTER TABLE `complaintreport` ENABLE KEYS */;
+LOCK TABLES `ComplaintReport` WRITE;
+/*!40000 ALTER TABLE `ComplaintReport` DISABLE KEYS */;
+INSERT INTO `ComplaintReport` VALUES ('FIRST','2017',2,13,14,15,16,17,18),('THIRD','2017',2,20,10,51,46,23,31);
+/*!40000 ALTER TABLE `ComplaintReport` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -286,13 +286,13 @@ INSERT INTO `Store` VALUES (0,'Base'),(1,'Haifa'),(2,'Karmiel'),(3,'Qiryat Biyal
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `User`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `User` (
   `UserName` varchar(45) NOT NULL,
   `UserPassword` varchar(45) DEFAULT NULL,
   `UserPermission` varchar(45) DEFAULT NULL,
@@ -304,13 +304,13 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `User`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('deleteme','123456','STORE_WORKER',123456789,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('jenia2','123456','CUSTOMER',5555,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'BLOCKED',0),('twain','123456','NETWORK_MANAGER',787878,'REGULAR',0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `User` WRITE;
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` VALUES ('admin','123456','SYSTEM_MANAGER',0,'REGULAR',0),('deckard','123456','STORE_MANAGER',55,'REGULAR',0),('deleteme','123456','STORE_WORKER',123456789,'REGULAR',0),('jenia','123456','CUSTOMER_SERVICE_EXPERT',1111,'REGULAR',0),('jenia2','123456','CUSTOMER',5555,'REGULAR',0),('matan','qwerty','STORE_WORKER',1,'REGULAR',0),('matan2','123456','CUSTOMER',305022949,'REGULAR',0),('matan3','123456','CUSTOMER',1234,'REGULAR',0),('matan4','123456','NETWORK_WORKER',2,'REGULAR',0),('service','123456','CUSTOMER_SERVICE',12546,'REGULAR',0),('serviceWorker','123456','CUSTOMER_SERVICE_WORKER',12546,'BLOCKED',0),('twain','123456','NETWORK_MANAGER',787878,'REGULAR',0);
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
