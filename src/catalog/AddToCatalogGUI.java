@@ -244,6 +244,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 				imageToUpload = new ImageData(imagePath);
 				
 				client.handleMessageFromClientUI(new UploadImageRequest(imageToUpload));
+				this.getStage().close();
 			} 
 			catch (IOException e)    {e.printStackTrace();} }
     }
