@@ -249,6 +249,7 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 				{	
 					this.wait();
 				}
+				imageToUpload.saveToDisk(ImageData.ClientImagesDirectory);
 				cancelBTN(null);
 			} 
 			catch (Exception e)    {e.printStackTrace();} }
