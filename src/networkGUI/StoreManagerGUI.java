@@ -81,7 +81,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 					Integer storeID = (Integer) replay.getMessage();
 					viewReportsGUI.setManagersStoreID((long)storeID);
 					
-					viewReportsGUI.setClinet(client);
+					viewReportsGUI.setClinet(Client.client);
 					Client.client.setUI(viewReportsGUI);
 					FormController.primaryStage.setScene(viewReportsGUI.getScene());
 					
@@ -105,7 +105,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 		
 		if (customerCreationGUI != null) {
 
-			client.handleMessageFromClientUI(new GetEmployeeStoreRequest(user.getUserName()));
+			Client.client.handleMessageFromClientUI(new GetEmployeeStoreRequest(user.getUserName()));
 
 			try {
 				synchronized (this) {
@@ -121,7 +121,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 
 					Integer storeID = (Integer) replay.getMessage();
 					customerCreationGUI.setManagersStoreID((long)storeID);
-					customerCreationGUI.setClinet(client);
+					customerCreationGUI.setClinet(Client.client);
 					Client.client.setUI(customerCreationGUI);
 					FormController.primaryStage.setScene(customerCreationGUI.getScene());
 					
@@ -143,7 +143,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     void onLogOut(ActionEvent event) {
     	
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.client);
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
     	Client.client.setUI(loginGUi);

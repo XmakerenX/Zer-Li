@@ -289,11 +289,21 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	@FXML
     void onFindUser(ActionEvent event) {
     	
+    	storeNameComboBox.setItems(null);
+    	storesNamesList.clear();
+    	customersPersonIDTxtField.setText("");
+    	firstNameTxtField.setText("");
+    	lastNameTxtField.setText("");
+    	phoneNumberTxtField.setText("");
+    	paymentMethodTxtField.setText("");
+    	accoundBalanceTxtField.setText("");
+    	creditCardNumberTxtField.setText("");
+    	accountStatusTxtField.setText("");
 		ArrayList<String> storeNames = new ArrayList<String>();
 
     	String userName = findUserNameTxtField.getText();
     	
-    	UserController.getUser(userName, client);
+    	UserController.getUser(userName, Client.client);
     	
 	    waitForResponse();
 			
@@ -317,7 +327,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
      		infosTabPane.getTabs().get(1).setDisable(false);
 	    	String personID = ""+userToUpdate.getPersonID();
 	    	
-	    	CustomerController.getCustomer(personID, null, client);
+	    	CustomerController.getCustomer(personID, null, Client.client);
 	    	
 			waitForResponse();
 					
@@ -368,7 +378,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 			try {
 		   		if(!newUsernameTxtField.getText().equals(""))
 		   		{
-					UserController.getUser(""+newUsernameTxtField.getText(), client);
+					UserController.getUser(""+newUsernameTxtField.getText(), Client.client);
 			    	
 					waitForResponse();
 									
@@ -402,7 +412,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		   		if(newUsersStatusComboBox.getValue() != null)
 		   		{
 		   			temporaryString = handleSplittedStringFromGUI(newUsersStatusComboBox.getValue());
-		   			System.out.println(temporaryString + "   AAAAAA");
 		   			userToUpdate.setUserStatus(User.Status.valueOf(temporaryString));
 		   		}
 		   		
@@ -418,7 +427,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 			
 			if(toUpdateFlag)
 			{
-				UserController.updateUserDetails(userToUpdate, formerUsername, client);
+				UserController.updateUserDetails(userToUpdate, formerUsername, Client.client);
 		    	
 				waitForResponse();
 							
@@ -491,7 +500,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    		return;
 			}
 
-	    	CustomerController.updateCustomerDetails(customerToUpdate, formerPersonID, client);
+	    	CustomerController.updateCustomerDetails(customerToUpdate, formerPersonID, Client.client);
 	
 			waitForResponse();
 					
@@ -550,7 +559,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	clearFieldsMethod(allTextFields, allComboBoxes);
     	
     	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
-    	client.setUI(sysManagerGUI);
+    	Client.client.setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
 

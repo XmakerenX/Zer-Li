@@ -71,7 +71,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     void onLogOut(ActionEvent event) {
     	
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.client);
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
     	Client.client.setUI(loginGUi);
@@ -89,7 +89,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	
 		if ( updateUserGUI != null)
 		{
-			client.handleMessageFromClientUI(new GetRequest("Store"));
+			Client.client.handleMessageFromClientUI(new GetRequest("Store"));
 			
 	     	waitForResponse();
 			
@@ -111,7 +111,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
 		  	replay = null;
 	     	
 			
-			updateUserGUI.setClinet(client);
+			updateUserGUI.setClinet(Client.client);
 			Client.client.setUI(updateUserGUI);
 			FormController.primaryStage.setScene(updateUserGUI.getScene());
 		}
@@ -131,7 +131,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	
     	if	(username != null)
     	{
-	    	UserController.getUser(username, client);
+	    	UserController.getUser(username, Client.client);
 	    	
 			waitForResponse();
 					
