@@ -1,0 +1,38 @@
+Main test:
+				---login (remember: custoemr must have subscription)
+				---replace haifa with karmiel
+				---enter catalog == actual test begin here
+		
+	Ariel:
+		testAllTypesOfImmidientOrders:
+							---createSubscriptionOrder
+							---createCreditCardOrder
+							---createCashOrder
+							---createStoreAccountOrder
+	Dani:
+		testAllTypesOfDeliveryOrders:
+							---createSubscriptionOrder
+							---createCreditCardOrder
+							---createCashOrder
+							---createStoreAccountOrder
+	Evgeny:	
+		testInvalidForm(aka: wrong date, form not filled...etc):
+						--test deliveryOption
+						--test immidateOption
+	
+		Test custom order
+						--test custom order
+						
+		
+		
+	
+
+		
+		
+
+		
+		
+		
+							
+							
+		
