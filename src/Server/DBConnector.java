@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
  * Including connecting and closing the connection
  */
 //*************************************************************************************************
-public class DBConnector {
+public class DBConnector implements DBInterface{
 	
 	final static String DBName = "prototype";
 	private static boolean isDriverLoaded = false;

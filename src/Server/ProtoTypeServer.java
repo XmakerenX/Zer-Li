@@ -82,7 +82,7 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param r The Replay message
 	   */
 	  //*************************************************************************************************
-	  private void sendToClient(ConnectionToClient client, Response r)
+	  public void sendToClient(ConnectionToClient client, Response r)
 	  {
 		  try
 		  {
