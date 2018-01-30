@@ -50,9 +50,25 @@ import utils.ImageData;
 public class ProtoTypeServer extends AbstractServer {
 
 	  final public static int DEFAULT_PORT = 5555;
-	  private DBConnector db;
+	  private DBInterface db;
 	  private Timer time;
-	
+	  private enum RefundResult {NoOrder, FailCustomerRefund, FailOrderRefund, SuccessRefund}
+	  
+	  public class CancelInfo
+	  {
+		  RefundResult resultStatus;
+		  float refundAmount;
+		  
+		public RefundResult getResultStatus() {
+			return resultStatus;
+		}
+		public float getRefundAmount() {
+			return refundAmount;
+		}
+		  
+		  
+	  }
+	  
 	  //*************************************************************************************************
 	  // Constructors 
 	  //*************************************************************************************************
@@ -70,6 +86,12 @@ public class ProtoTypeServer extends AbstractServer {
 	    db = new DBConnector(username, password);
 	  }
 
+	  public ProtoTypeServer(DBInterface db)
+	  {
+		  super(5555);
+		  this.db = db;
+	  }
+	  
 	  //*************************************************************************************************
 	  // Instance methods
 	  //*************************************************************************************************
@@ -428,6 +450,63 @@ public class ProtoTypeServer extends AbstractServer {
 			  sendToClient(client, new Response(Response.Type.ERROR,"Couldnt not add entry to table:"+addRequest.getTable()));
 	  }
 
+	  @SuppressWarnings("unchecked") //CancelInfo result
+	  public CancelInfo refundOrder(RemoveOrderRequest removeOrderRequest)
+	  {
+		  float refundAmount = 0.0f;
+		  CancelInfo result = new CancelInfo();
+		  
+		  ArrayList<String> key = new ArrayList<String>();
+		  key.add(""+removeOrderRequest.getOrderID());
+
+		  ArrayList<Order> order = (ArrayList<Order>)handleGetRequest(new GetRequestByKey("Order", key));
+		  if (order.size() > 0)
+		  {
+			  Calendar requiredDate = order.get(0).getOrderRequiredDateTime();
+			  if (order.get(0).getOrderPaymentMethod() != Order.PayMethod.SUBSCRIPTION)
+			  {
+				  float refundRate = CustomerController.calcCustomerRefund(requiredDate);
+
+				  if (refundRate != 0)
+				  {
+					  ArrayList<String> customerKeys = new ArrayList<String>();
+					  customerKeys.add(""+order.get(0).getCustomerID());
+					  customerKeys.add(""+order.get(0).getOrderOriginStore());
+					  try {
+						  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
+						  order.get(0).setRefund(refundAmount);
+					  } catch (SQLException e) {
+						  //sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
+						  e.printStackTrace();
+						  result.resultStatus = RefundResult.FailCustomerRefund;
+						  result.refundAmount = -1;
+						  return result;
+					  }
+				  }
+			  }
+		  }
+		  else
+		  {
+			  result.resultStatus = RefundResult.NoOrder;
+			  result.refundAmount = -1;
+			  return result;
+		  }
+		  // Cancel order(update its status and refund amount)
+		  order.get(0).setStatus(Order.Status.CANCELED);
+		  if (EntityUpdater.setEntity("Order", Integer.toString(order.get(0).getID()), order.get(0), db))
+		  {			  
+			  result.resultStatus = RefundResult.SuccessRefund;
+			  result.refundAmount = refundAmount;
+			  return result;
+		  }
+		  else
+		  {
+			  result.resultStatus = RefundResult.FailOrderRefund;
+			  result.refundAmount = -1;
+			  return result;
+		  }
+	  }
+	  
 	  //*************************************************************************************************
 	  /**
 	   * Handles all the different remove Requests from the client
@@ -435,7 +514,6 @@ public class ProtoTypeServer extends AbstractServer {
 	   * @param client:  The connection from which the message originated.
 	   */
 	  //*************************************************************************************************
-	  @SuppressWarnings("unchecked")
 	  private void handleRemoveRequests(Request request, ConnectionToClient client)
 	  {
 		  switch(request.getType())
@@ -456,52 +534,81 @@ public class ProtoTypeServer extends AbstractServer {
 			  }
 			  break;
 		  }
-
+		  
 		  case "RemoveOrderRequest":
 		  {
 			  RemoveOrderRequest removeOrderRequest = (RemoveOrderRequest)request;
-			  float refundAmount = 0;
-
-			  ArrayList<String> key = new ArrayList<String>();
-			  key.add(""+removeOrderRequest.getOrderID());
-
-			  ArrayList<Order> order = (ArrayList<Order>)handleGetRequest(new GetRequestByKey("Order", key));
-			  if (order.size() > 0)
+			  Float refundAmount = 0.0f;
+			  //RefundResult result = RefundResult.NoOrder;
+			  //String result = "";
+			  
+			  CancelInfo result = new CancelInfo();
+			  result = refundOrder(removeOrderRequest);
+			  //RefundResult result =  refundOrder(removeOrderRequest, refundAmount);
+			  
+			  
+			  switch (result.resultStatus)
 			  {
-				  Calendar requiredDate = order.get(0).getOrderRequiredDateTime();
-				  if (order.get(0).getOrderPaymentMethod() != Order.PayMethod.SUBSCRIPTION)
-				  {
-					  float refundRate = CustomerController.calcCustomerRefund(requiredDate);
-
-					  if (refundRate != 0)
-					  {
-						  ArrayList<String> customerKeys = new ArrayList<String>();
-						  customerKeys.add(""+order.get(0).getCustomerID());
-						  customerKeys.add(""+order.get(0).getOrderOriginStore());
-						  try {
-							  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
-							  order.get(0).setRefund(refundAmount);
-						  } catch (SQLException e) {
-							  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
-							  e.printStackTrace();
-							  break;
-						  }
-					  }
-				  }
-				  // Cancel order(update its status and refund ammount)
-				  order.get(0).setStatus(Order.Status.CANCELED);
-				  if (EntityUpdater.setEntity("Order", Integer.toString(order.get(0).getID()), order.get(0), db))
-					  sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+refundAmount));
-				  else
-					  sendToClient(client, new Response(Response.Type.ERROR, "Failed to cancel the order"));
-			  }
-			  else
+			  case NoOrder:
 				  sendToClient(client, new Response(Response.Type.ERROR, "No such Order exist"));
-
+				  break;
+				  
+			  case FailCustomerRefund:
+				  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
+				  break;
+				  
+			  case FailOrderRefund:
+				  sendToClient(client, new Response(Response.Type.ERROR, "Failed to cancel the order"));
+				  break;
+				  
+			  case SuccessRefund:
+				  sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+result.refundAmount));
+				  break;
+			  }
 		  }break;
-		  
 		  }
 	  }
+//
+//			  ArrayList<String> key = new ArrayList<String>();
+//			  key.add(""+removeOrderRequest.getOrderID());
+//
+//			  ArrayList<Order> order = (ArrayList<Order>)handleGetRequest(new GetRequestByKey("Order", key));
+//			  if (order.size() > 0)
+//			  {
+//				  Calendar requiredDate = order.get(0).getOrderRequiredDateTime();
+//				  if (order.get(0).getOrderPaymentMethod() != Order.PayMethod.SUBSCRIPTION)
+//				  {
+//					  float refundRate = CustomerController.calcCustomerRefund(requiredDate);
+//
+//					  if (refundRate != 0)
+//					  {
+//						  ArrayList<String> customerKeys = new ArrayList<String>();
+//						  customerKeys.add(""+order.get(0).getCustomerID());
+//						  customerKeys.add(""+order.get(0).getOrderOriginStore());
+//						  try {
+//							  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
+//							  order.get(0).setRefund(refundAmount);
+//						  } catch (SQLException e) {
+//							  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
+//							  e.printStackTrace();
+//							  break;
+//						  }
+//					  }
+//				  }
+//				  // Cancel order(update its status and refund ammount)
+//				  order.get(0).setStatus(Order.Status.CANCELED);
+//				  if (EntityUpdater.setEntity("Order", Integer.toString(order.get(0).getID()), order.get(0), db))
+//					  sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+refundAmount));
+//				  else
+//					  sendToClient(client, new Response(Response.Type.ERROR, "Failed to cancel the order"));
+//			  }
+//			  else
+//				  sendToClient(client, new Response(Response.Type.ERROR, "No such Order exist"));
+//
+//		  }break;
+//		  
+//		  }
+//	  }
 	  
 	  //*************************************************************************************************
 	  /**
@@ -805,7 +912,7 @@ public class ProtoTypeServer extends AbstractServer {
 		}
 		 
 	  }
-	  public void runTimedTasks(DBConnector db)
+	  public void runTimedTasks(DBInterface db)
 	  {
 	        Calendar midnight = Calendar.getInstance();
 	        midnight.set(Calendar.HOUR_OF_DAY, 0);

@@ -36,7 +36,7 @@ public class EntityAdder {
 	 * @return true if entity successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	public static Boolean addEntity(String table, Object entity, DBConnector db)
+	public static Boolean addEntity(String table, Object entity, DBInterface db)
 	{
 		switch (table)
 		{
@@ -87,7 +87,7 @@ public class EntityAdder {
 	 * @returns true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addProdcut(Product product, DBConnector db)
+	private static Boolean addProdcut(Product product, DBInterface db)
 	{
 		String productID = Long.toString(product.getID());
 		String productName = "'"+product.getName()+"'";
@@ -116,7 +116,7 @@ public class EntityAdder {
 	 * @returns true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addCatalogProduct(CatalogItem catalogItem, DBConnector db)
+	private static Boolean addCatalogProduct(CatalogItem catalogItem, DBInterface db)
 	{
 		String productID = Long.toString(catalogItem.getID());
 		String salesPrice = Float.toString(catalogItem.getSalePrice());
@@ -144,7 +144,7 @@ public class EntityAdder {
 	 * @returns true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addUser(User user, DBConnector db)
+	private static Boolean addUser(User user, DBInterface db)
 	{		  
 		String userName = "'"+user.getUserName()+"'";
 		String userPassword = "'"+user.getUserPassword()+"'";
@@ -171,7 +171,7 @@ public class EntityAdder {
 	 * @returns true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addSurveyResults(CustomerSatisfactionSurveyResults surveyResults, DBConnector db)
+	private static Boolean addSurveyResults(CustomerSatisfactionSurveyResults surveyResults, DBInterface db)
 	{		  
 		String answer1 = "'"+surveyResults.getAnswers()[0]+"'";
 		String answer2 = "'"+surveyResults.getAnswers()[1]+"'";
@@ -202,7 +202,7 @@ public class EntityAdder {
 	 */
 	//*************************************************************************************************
 	@SuppressWarnings("deprecation")
-	private static Boolean addOrder(Order order, DBConnector db)
+	private static Boolean addOrder(Order order, DBInterface db)
 	{
 		String orderStatus = "'"+order.getStatus()+"'";
 		float orderPrice = order.getPrice();
@@ -316,7 +316,7 @@ public class EntityAdder {
 	* @returns true if product successfully added ,false otherwise
 	*/
 	//*************************************************************************************************
-	private static Boolean addCustomer(Customer customer, DBConnector db)
+	private static Boolean addCustomer(Customer customer, DBInterface db)
 	{
 		String personID = ""+customer.getID();
 		String fullName = "'"+customer.getName()+"'";
@@ -349,7 +349,7 @@ public class EntityAdder {
 	* @returns true if product successfully added ,false otherwise
 	*/
 	//*************************************************************************************************
-	private static Boolean addOrderComplaint(OrderComplaint complaint, DBConnector db)
+	private static Boolean addOrderComplaint(OrderComplaint complaint, DBInterface db)
 	{
 		String personID = ""+complaint.getCustomerID();
 		String complaintTxt = "'"+complaint.getComplaintDescription() + "'";
@@ -384,7 +384,7 @@ public class EntityAdder {
 	 * @return true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addComplaintReports(ComplaintReport complaintReport, DBConnector db)
+	private static Boolean addComplaintReports(ComplaintReport complaintReport, DBInterface db)
 	{
 		String quarterly = "'"+complaintReport.getQuarterly()+"'";
 		String year = "'"+complaintReport.getYear()+"'";
@@ -417,7 +417,7 @@ public class EntityAdder {
 	 * @return true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addIncomeReports(IncomeReport incomeReport, DBConnector db)
+	private static Boolean addIncomeReports(IncomeReport incomeReport, DBInterface db)
 	{
 		String quarterly = "'"+incomeReport.getQuarterly()+"'";
 		String year = "'"+incomeReport.getYear()+"'";
@@ -443,7 +443,7 @@ public class EntityAdder {
 	 * @return true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addOrderReports(OrderReport orderReport, DBConnector db)
+	private static Boolean addOrderReports(OrderReport orderReport, DBInterface db)
 	{
 		String quarterly = "'"+orderReport.getQuarterly()+"'";
 		String year = "'"+orderReport.getYear()+"'";
@@ -475,7 +475,7 @@ public class EntityAdder {
 	 * @return true if product successfully added ,false otherwise
 	 */
 	//*************************************************************************************************
-	private static Boolean addSurveyReports(SurveyReport surveyReport, DBConnector db)
+	private static Boolean addSurveyReports(SurveyReport surveyReport, DBInterface db)
 	{
 		String quarterly = "'"+surveyReport.getQuarterly()+"'";
 		String year = "'"+surveyReport.getYear()+"'";

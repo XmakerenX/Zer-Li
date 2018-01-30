@@ -1,4 +1,4 @@
-package Server;
+package unittests;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -22,28 +22,66 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
 
-public class ResultSetCustomerStub implements ResultSet {
+import order.Order;
 
-	float customerAccountBalance;
+public class ResultSetOrderStub implements ResultSet {
+
+	private Order order = null;
 	private boolean dataSet = false;
-
-	public void setCustomerBalance(float customerAccountBalance)
+	
+	public void setOrder(Order order)
 	{
-		this.customerAccountBalance = customerAccountBalance;
+		this.order = order;
 	}
 	
 	public void setDataSet(boolean newStatus)
 	{
+		if (order != null)
 			this.dataSet = newStatus;
 	}
 	
 	@Override
-	public float getFloat(String columnLabel) throws SQLException {
-
-		if (columnLabel.equals("accountBalance"))
-			return customerAccountBalance;
-
+	public int getInt(String columnLabel) throws SQLException {
+		if (columnLabel.equals("OrderID"))
+			return order.getID();
+		
 		return 0;
+	}
+	
+	@Override
+	public float getFloat(String columnLabel) throws SQLException {
+		if (columnLabel.equals("OrderPrice"))
+				return order.getPrice();
+		else
+			return 0;
+	}
+	
+	@Override
+	public String getString(String columnLabel) throws SQLException {
+		if (columnLabel.equals("OrderStatus"))
+			return ""+order.getStatus();
+		
+		if (columnLabel.equals("OrderPaymentMethod"))
+			return ""+order.getOrderPaymentMethod();
+		
+		return null;
+	}
+	
+	@Override
+	public Timestamp getTimestamp(String columnLabel) throws SQLException {
+		if (columnLabel.equals("OrderCreationDateTime"))
+		{
+			Timestamp t =  new Timestamp(order.getOrderCreationDateTime().getTimeInMillis());
+			return t;
+		}
+		
+		if (columnLabel.equals("OrderRequiredDate"))
+		{
+			Timestamp t =  new Timestamp(order.getOrderRequiredDateTime().getTimeInMillis());
+			return t;
+		}
+		
+		return null;
 	}
 	
 	@Override
@@ -57,13 +95,13 @@ public class ResultSetCustomerStub implements ResultSet {
 	}
 	
 	@Override
-	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+	public boolean isWrapperFor(Class<?> arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public <T> T unwrap(Class<T> iface) throws SQLException {
+	public <T> T unwrap(Class<T> arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -334,11 +372,7 @@ public class ResultSetCustomerStub implements ResultSet {
 		return 0;
 	}
 
-	@Override
-	public int getInt(String columnLabel) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	@Override
 	public long getLong(int columnIndex) throws SQLException {
@@ -496,11 +530,7 @@ public class ResultSetCustomerStub implements ResultSet {
 		return null;
 	}
 
-	@Override
-	public String getString(String columnLabel) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public Time getTime(int columnIndex) throws SQLException {
@@ -532,11 +562,7 @@ public class ResultSetCustomerStub implements ResultSet {
 		return null;
 	}
 
-	@Override
-	public Timestamp getTimestamp(String columnLabel) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {

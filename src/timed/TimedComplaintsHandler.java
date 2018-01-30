@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.TimerTask;
 
 import Server.DBConnector;
+import Server.DBInterface;
 import Server.EntityFactory;
 import customer.Customer;
 import order.OrderComplaint;
@@ -22,8 +23,8 @@ import serverAPI.GetRequestByKey;
  */
 public class TimedComplaintsHandler extends TimerTask
 {
-	DBConnector db;
-	public TimedComplaintsHandler(DBConnector dateBaseConnector)
+	DBInterface db;
+	public TimedComplaintsHandler(DBInterface dateBaseConnector)
 	{
 		this.db = dateBaseConnector;
 	}

@@ -27,7 +27,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	public static Boolean setEntity(String table, String oldKey, Object entity, DBConnector db)
+	public static Boolean setEntity(String table, String oldKey, Object entity, DBInterface db)
 	{
 		try
 		{
@@ -74,7 +74,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	private static void setOrder(String oldKey, Order order, DBConnector db) throws SQLException
+	private static void setOrder(String oldKey, Order order, DBInterface db) throws SQLException
 	{         
 		  String OrderStatus = "OrderStatus=\""+order.getStatus().toString()+"\"";
 
@@ -94,7 +94,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	private static void setProdcut(String oldKey, Product product, DBConnector db) throws SQLException
+	private static void setProdcut(String oldKey, Product product, DBInterface db) throws SQLException
 	{
 		  String productID = "ProductID="+product.getID();
 		  String productName = "ProductName=\""+product.getName()+"\"";
@@ -117,7 +117,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	private static void setUser(String oldKey, User user, DBConnector db) throws SQLException
+	private static void setUser(String oldKey, User user, DBInterface db) throws SQLException
 	{		  
 		  String userName = "userName=\""+user.getUserName()+"\"";
 		  String userPassword = "userPassword=\""+user.getUserPassword()+"\"";
@@ -140,7 +140,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	private static void setCustomer(String oldKey, Customer customer, DBConnector db) throws SQLException
+	private static void setCustomer(String oldKey, Customer customer, DBInterface db) throws SQLException
 	{
 		String personID = "personID="+customer.getID();
 		String fullName = "fullName='"+customer.getName()+"'";
@@ -165,7 +165,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	private static void setCustomerSatisfactionSurveyResult(String oldKey, CustomerSatisfactionSurveyResults result, DBConnector db) throws SQLException
+	private static void setCustomerSatisfactionSurveyResult(String oldKey, CustomerSatisfactionSurveyResults result, DBInterface db) throws SQLException
 	{
 		String analysis = "analysis='"+result.getAnalysis()+"'";
 		String condition = "id=" + result.getID();
@@ -181,7 +181,7 @@ public class EntityUpdater {
 	 * @return true on entity updated successfully otherwise returns false
 	 */
 	//*************************************************************************************************
-	private static void setOrderComplaint(String oldKey, OrderComplaint order, DBConnector db) throws SQLException
+	private static void setOrderComplaint(String oldKey, OrderComplaint order, DBInterface db) throws SQLException
 	{
 		String compensationValue = "givenCompensationAmount= "+order.getComplaintCompensation();
 		String status = "status = 'CLOSED'";

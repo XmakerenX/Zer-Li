@@ -18,6 +18,7 @@ public interface DBInterface {
 	public Boolean removeEntry(String table,ArrayList<String> keys);
 	public Boolean doesExists(String table, ArrayList<String> keys);
 	public String generateConditionForPrimayKey(String table, ArrayList<String> keys, String condition);
+	public ArrayList<String> getTableKeyName(String table);
 	
 }
 

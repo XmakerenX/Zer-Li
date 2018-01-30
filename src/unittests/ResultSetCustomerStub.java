@@ -1,4 +1,4 @@
-package Server;
+package unittests;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -22,86 +22,87 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
 
-import order.Order;
+import customer.Customer;
 
-public class ResultSetOrderStub implements ResultSet {
+public class ResultSetCustomerStub implements ResultSet {
 
-	private Order order = null;
+	private Customer customer;
 	private boolean dataSet = false;
-	
-	public void setOrder(Order order)
+
+	public void setCustomer(Customer customer)
 	{
-		this.order = order;
+		this.customer = customer;
 	}
 	
 	public void setDataSet(boolean newStatus)
 	{
-		if (order != null)
 			this.dataSet = newStatus;
 	}
 	
 	@Override
-	public int getInt(String columnLabel) throws SQLException {
-		if (columnLabel.equals("OrderID"))
-			return order.getID();
-		
+	public float getFloat(String columnLabel) throws SQLException {
+
+		if (columnLabel.equals("accountBalance"))
+			return customer.getAccountBalance();
+
 		return 0;
 	}
 	
 	@Override
-	public float getFloat(String columnLabel) throws SQLException {
-		if (columnLabel.equals("OrderPrice"))
-				return order.getPrice();
-		else
-			return 0;
-	}
-	
-	@Override
 	public String getString(String columnLabel) throws SQLException {
-		if (columnLabel.equals("OrderStatus"))
-			return ""+order.getStatus();
+		if (columnLabel.equals("payMethod"))
+				return ""+customer.getPayMethod();
 		
-		if (columnLabel.equals("OrderPaymentMethod"))
-			return ""+order.getOrderPaymentMethod();
+		if (columnLabel.equals("fullname"))
+			return customer.getName();
+		
+		if (columnLabel.equals("phoneNumber"))
+			return customer.getPhoneNumber();
+		
+		if (columnLabel.equals("creditCardNumber"))
+			return customer.getCreditCardNumber();
+		
 		
 		return null;
 	}
 	
 	@Override
-	public Timestamp getTimestamp(String columnLabel) throws SQLException {
-		if (columnLabel.equals("OrderCreationDateTime"))
-		{
-			Timestamp t =  new Timestamp(order.getOrderCreationDateTime().getTimeInMillis());
-			return t;
-		}
+	public boolean getBoolean(String columnLabel) throws SQLException {
+		if (columnLabel.equals("AccountStatus"))
+			return customer.getAccountStatus();
 		
-		if (columnLabel.equals("OrderRequiredDate"))
-		{
-			Timestamp t =  new Timestamp(order.getOrderRequiredDateTime().getTimeInMillis());
-			return t;
-		}
-		
-		return null;
+		return false;
 	}
 	
 	@Override
 	public boolean next() throws SQLException {
 		if (dataSet)
 		{
-			dataSet =false;
+			dataSet = false;
 			return true;
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean isWrapperFor(Class<?> arg0) throws SQLException {
+	public int getInt(String columnLabel) throws SQLException {
+		if (columnLabel.equals("personID"))
+			return (int)customer.getID();
+		
+		if (columnLabel.equals("StoreID"))
+			return (int)customer.getStoreID();
+		
+		return 0;
+	}
+	
+	@Override
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public <T> T unwrap(Class<T> arg0) throws SQLException {
+	public <T> T unwrap(Class<T> iface) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -238,11 +239,7 @@ public class ResultSetOrderStub implements ResultSet {
 		return false;
 	}
 
-	@Override
-	public boolean getBoolean(String columnLabel) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public byte getByte(int columnIndex) throws SQLException {
@@ -562,7 +559,11 @@ public class ResultSetOrderStub implements ResultSet {
 		return null;
 	}
 
-
+	@Override
+	public Timestamp getTimestamp(String columnLabel) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {

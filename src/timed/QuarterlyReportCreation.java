@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimerTask;
 import Server.DBConnector;
+import Server.DBInterface;
 import report.Report.Quarterly;
 
 /**
@@ -16,11 +17,11 @@ import report.Report.Quarterly;
 public class QuarterlyReportCreation extends TimerTask
 {
 	//variables:
-	DBConnector conn = null;
+	DBInterface conn = null;
 	private Quarterly quarter;
 	
 	//constructor
-	public QuarterlyReportCreation(DBConnector conn)
+	public QuarterlyReportCreation(DBInterface conn)
 	{
 		this.conn = conn;
 	}

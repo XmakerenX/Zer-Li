@@ -1,16 +1,16 @@
-package Server;
+package unittests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javafx.scene.control.SplitPane;
+import Server.DBInterface;
+import customer.Customer;
 import order.Order;
 
 public class DBStab implements DBInterface {
 
-	private Order order;
-	private float refundValue;
+	//private Order order;
 	private ResultSetOrderStub resultSetOrder;
 	private ResultSetCustomerStub resultSetCustomer;
 	
@@ -18,10 +18,11 @@ public class DBStab implements DBInterface {
 	private long updatedOrderID;
 	private float updatedOrderRefund;
 	
+	private boolean customerUpdated = false;
 	private long updatedCustomerID;
 	private long updatedCustomerStore;
 	private float updatedCustomerBalance;
-	
+		
 	public DBStab(Order order)
 	{
 		resultSetOrder = new ResultSetOrderStub();
@@ -31,24 +32,41 @@ public class DBStab implements DBInterface {
 	
 	public void setOrder(Order order)
 	{
-		this.order = order;
+		//this.order = order;
 		resultSetOrder.setOrder(order);
 	}
 	
-	public void setCustomer(float accountBalance)
+	public void setCustomer(Customer customer)
 	{
-		resultSetCustomer.setCustomerBalance(accountBalance);
+		//this.customer = customer;
+		customerUpdated = false;
+		resultSetCustomer.setCustomer(customer);
 	}
-	
+		
+	public boolean isCustomerUpdated() {
+		return customerUpdated;
+	}
+
 	private String getColumnValue(String columnName, String updateString)
 	{
-		// updateString looks like this: UPDATE ..... columnName=value, columnNameX=valueX, .......
+		// updateString looks like this: ..... columnName=value, columnNameX=valueX, .......
+		// OR like this : ..... AND columnName=value AND columnNameX=valueX AND....
 		// cut to the start of the columnName
 		String sub = updateString.substring(updateString.indexOf(columnName));
 		// split around the = sign
 		String[] split = sub.split("=");
 		// take the right of the = sign and cut at the ','
-		String value = split[1].substring(0, split[1].indexOf(","));
+		String value;
+		int index = split[1].indexOf(",");
+		if (index == -1)
+		{
+			// split around space
+			split = split[1].split(" ");			
+			value = split[0];
+		}
+		else
+			value = split[1].substring(0, index);
+		
 		return value;
 	}
 	
@@ -66,30 +84,34 @@ public class DBStab implements DBInterface {
 			return resultSetCustomer;
 		}
 			
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void executeUpdate(String table, String fieldsToUpdate, String condition) throws SQLException {
-		if (table.equals("Order"))
+		
+		if (table.equals("prototype.Order"))
 		{
 			String orderStatus = getColumnValue("OrderStatus", fieldsToUpdate);
 			orderStatus= orderStatus.substring(1, orderStatus.length() - 1);
-			Order.Status.valueOf(orderStatus);
+			updatedOrderStatus = Order.Status.valueOf(orderStatus);
 			updatedOrderRefund = Float.parseFloat(getColumnValue("OrderRefund", fieldsToUpdate));
 			updatedOrderID = Long.parseLong(getColumnValue("OrderID", condition));
 		}
 		
 		if (table.equals("Customers"))
 		{
-			updatedCustomerID = Long.parseLong(getColumnValue("personID", condition));
+			customerUpdated = true;
+			updatedCustomerID = Long.parseLong(getColumnValue("PersonID", condition));
 			updatedCustomerStore = Long.parseLong(getColumnValue("StoreID", condition));
-			updatedCustomerBalance = Float.parseFloat(getColumnValue("accountBalance", condition));
+			updatedCustomerBalance = Float.parseFloat(getColumnValue("accountBalance", fieldsToUpdate));
 		}
 
 	}
+	
+	//******************************************************
+	// Un-needed and unImplemented functions
+	//******************************************************
 	
 	public Order.Status getUpdatedOrderStatus() {
 		return updatedOrderStatus;
@@ -173,6 +195,12 @@ public class DBStab implements DBInterface {
 
 	@Override
 	public String generateConditionForPrimayKey(String table, ArrayList<String> keys, String condition) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public ArrayList<String> getTableKeyName(String table)
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}

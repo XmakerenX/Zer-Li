@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TimerTask;
 
 import Server.DBConnector;
+import Server.DBInterface;
 /**
  * a task that takes care of the customer's need to pay for the subscription they've made
  * at the beginning of each month we take care of the last months orders
@@ -18,9 +19,9 @@ import Server.DBConnector;
  */
 public class SubscriptionPayment extends TimerTask
 {
-	DBConnector conn = null;
+	DBInterface conn = null;
 	//String year;
-	public SubscriptionPayment(DBConnector db)
+	public SubscriptionPayment(DBInterface db)
 	{
 		this.conn = db;
 		//this.year = year;
