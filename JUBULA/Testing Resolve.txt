@@ -17,8 +17,9 @@ Main test:
 							---createStoreAccountOrder
 	Evgeny:	
 		testInvalidForm(aka: wrong date, form not filled...etc):
-						--test deliveryOption
-						--test immidateOption
+			CreateOrderGUI:
+						--test deliveryOption  (done - checked all text fields)
+						--test immidateOption	(done - checked time)
 	
 		Test custom order
 						--test custom order
