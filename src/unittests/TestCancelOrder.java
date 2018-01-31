@@ -9,7 +9,11 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import Server.ProtoTypeServer;
+import Server.ProtoTypeServer.CancelInfo;
 import customer.Customer;
 import order.Order;
 import serverAPI.RemoveOrderRequest;
@@ -22,6 +26,8 @@ public class TestCancelOrder {
 	private Order moreThan3Hours;
 	private Order lessThan3Hours;
 	private Order lessThan1Hour;
+	
+	private Method refundOrder;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -46,16 +52,19 @@ public class TestCancelOrder {
 		stabDB = new DBStab(moreThan3Hours);
 		// the class under test injected with the stab database
 		server = new ProtoTypeServer(stabDB);
+		// get access to the private method refundOrder in ProtoTypeServer
+        refundOrder = ProtoTypeServer.class.getDeclaredMethod("refundOrder", RemoveOrderRequest.class);
+        refundOrder.setAccessible(true);
 	}
 
 	@Test
-	public void testCancelOrderMoreThan3Hour() 
+	public void testCancelOrderMoreThan3Hour() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
 		stabDB.setCustomer(customerStub);
 		stabDB.setOrder(moreThan3Hours);
 		// refund the loaded order
-		ProtoTypeServer.CancelInfo result = server.refundOrder(new RemoveOrderRequest(moreThan3Hours.getID()));
+		ProtoTypeServer.CancelInfo result = (CancelInfo)refundOrder.invoke(server, new RemoveOrderRequest(moreThan3Hours.getID()));
 		// assert refund amount
 		assertTrue("Assert refund amount",result.getRefundAmount() == moreThan3Hours.getPrice());
 		// assert the updated customer data
@@ -71,13 +80,13 @@ public class TestCancelOrder {
 	}
 	
 	@Test
-	public void testCancelOrderLessThan3Hour() 
+	public void testCancelOrderLessThan3Hour() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
 		stabDB.setCustomer(customerStub);
 		stabDB.setOrder(lessThan3Hours);
-		// refund the loaded order
-		ProtoTypeServer.CancelInfo result = server.refundOrder(new RemoveOrderRequest(lessThan3Hours.getID()));
+		// refund the loaded orders
+		ProtoTypeServer.CancelInfo result = (CancelInfo)refundOrder.invoke(server, new RemoveOrderRequest(lessThan3Hours.getID()));
 		// assert refund amount
 		assertTrue("Assert refund amount",result.getRefundAmount() == (lessThan3Hours.getPrice() / 2));
 		// assert the updated customer data
@@ -93,13 +102,13 @@ public class TestCancelOrder {
 	}
 	
 	@Test
-	public void testCancelOrderLessThan1Hour() 
+	public void testCancelOrderLessThan1Hour() throws InvocationTargetException, IllegalAccessException
 	{
-		// lessThan1Hour
+		// set customer and order data in the stab database
 		stabDB.setCustomer(customerStub);
 		stabDB.setOrder(lessThan1Hour);
 		// refund the loaded order
-		ProtoTypeServer.CancelInfo result = server.refundOrder(new RemoveOrderRequest(lessThan1Hour.getID()));
+		ProtoTypeServer.CancelInfo result = (CancelInfo)refundOrder.invoke(server, new RemoveOrderRequest(lessThan1Hour.getID()));
 		// assert refund amount
 		assertTrue("Assert refund amount", result.getRefundAmount() == 0);
 		// assert that customer wasn't updated

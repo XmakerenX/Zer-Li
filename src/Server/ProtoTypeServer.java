@@ -451,7 +451,7 @@ public class ProtoTypeServer extends AbstractServer {
 	  }
 
 	  @SuppressWarnings("unchecked") //CancelInfo result
-	  public CancelInfo refundOrder(RemoveOrderRequest removeOrderRequest)
+	  private CancelInfo refundOrder(RemoveOrderRequest removeOrderRequest)
 	  {
 		  float refundAmount = 0.0f;
 		  CancelInfo result = new CancelInfo();
