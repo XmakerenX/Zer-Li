@@ -10,10 +10,12 @@ import order.Order;
 
 public class DBStab implements DBInterface {
 
-	//private Order order;
+	private Order order;
+	private Customer customer;
 	private ResultSetOrderStub resultSetOrder;
 	private ResultSetCustomerStub resultSetCustomer;
 	
+	private boolean orderUpdated = false;
 	private Order.Status updatedOrderStatus;
 	private long updatedOrderID;
 	private float updatedOrderRefund;
@@ -32,13 +34,17 @@ public class DBStab implements DBInterface {
 	
 	public void setOrder(Order order)
 	{
-		//this.order = order;
+		this.order = order;
 		resultSetOrder.setOrder(order);
 	}
-	
+
+	public boolean isOrderUpdated() {
+		return orderUpdated;
+	}
+
 	public void setCustomer(Customer customer)
 	{
-		//this.customer = customer;
+		this.customer = customer;
 		customerUpdated = false;
 		resultSetCustomer.setCustomer(customer);
 	}
@@ -74,14 +80,37 @@ public class DBStab implements DBInterface {
 	public ResultSet selectTableData(String fields, String table, String condition) {
 		if (table.equals("Order"))
 		{
-			resultSetOrder.setDataSet(true);
-			return resultSetOrder;
+			long orderRequestedID = Long.parseLong(getColumnValue("OrderID", condition));
+			// verify the correct order was requested
+			if (orderRequestedID == order.getID())
+			{
+				// mark resultSet to have one order row in it
+				resultSetOrder.setDataSet(true);
+				return resultSetOrder;
+			}
+			else
+			{
+				//return empty resultSet
+				return resultSetOrder;
+			}
 		}
 	
 		if (table.equals("Customers"))
 		{
-			resultSetCustomer.setDataSet(true);
-			return resultSetCustomer;
+			long customerID = Long.parseLong(getColumnValue("personID", condition));
+			long storeID = Long.parseLong(getColumnValue("StoreID", condition));
+			// verify the correct customer was requested
+			if (customerID == customer.getID() && storeID == customer.getStoreID())
+			{
+				// mark resultSet to have one customer row in it
+				resultSetCustomer.setDataSet(true);
+				return resultSetCustomer;
+			}
+			else
+			{
+				//return empty resultSet
+				return resultSetCustomer;
+			}
 		}
 			
 		return null;
@@ -92,6 +121,7 @@ public class DBStab implements DBInterface {
 		
 		if (table.equals("prototype.Order"))
 		{
+			orderUpdated = true;
 			String orderStatus = getColumnValue("OrderStatus", fieldsToUpdate);
 			orderStatus= orderStatus.substring(1, orderStatus.length() - 1);
 			updatedOrderStatus = Order.Status.valueOf(orderStatus);
@@ -107,6 +137,22 @@ public class DBStab implements DBInterface {
 			updatedCustomerBalance = Float.parseFloat(getColumnValue("accountBalance", fieldsToUpdate));
 		}
 
+	}
+	
+	@Override
+	public String generateConditionForPrimayKey(String table, ArrayList<String> keys, String condition) {
+		
+		if (table.equals("Order"))
+		{
+			return "OrderID="+keys.get(0);
+		}
+		
+		if (table.equals("Customers"))
+		{
+			return "personID="+keys.get(0) + " AND " + "StoreID="+keys.get(1);
+		}
+		
+		return "";
 	}
 	
 	//******************************************************
@@ -189,12 +235,6 @@ public class DBStab implements DBInterface {
 
 	@Override
 	public Boolean doesExists(String table, ArrayList<String> keys) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String generateConditionForPrimayKey(String table, ArrayList<String> keys, String condition) {
 		// TODO Auto-generated method stub
 		return null;
 	}

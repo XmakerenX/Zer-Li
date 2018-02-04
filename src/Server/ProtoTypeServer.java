@@ -52,22 +52,20 @@ public class ProtoTypeServer extends AbstractServer {
 	  final public static int DEFAULT_PORT = 5555;
 	  private DBInterface db;
 	  private Timer time;
-	  private enum RefundResult {NoOrder, FailCustomerRefund, FailOrderRefund, SuccessRefund}
+	  //private enum RefundResult {NoOrder, FailCustomerRefund, FailOrderRefund, SuccessRefund}
 	  
-	  public class CancelInfo
-	  {
-		  RefundResult resultStatus;
-		  float refundAmount;
-		  
-		public RefundResult getResultStatus() {
-			return resultStatus;
-		}
-		public float getRefundAmount() {
-			return refundAmount;
-		}
-		  
-		  
-	  }
+//	  public class CancelInfo
+//	  {
+//		  RefundResult resultStatus;
+//		  float refundAmount;
+//		  
+//		public RefundResult getResultStatus() {
+//			return resultStatus;
+//		}
+//		public float getRefundAmount() {
+//			return refundAmount;
+//		}
+//	  }
 	  
 	  //*************************************************************************************************
 	  // Constructors 
@@ -260,7 +258,7 @@ public class ProtoTypeServer extends AbstractServer {
 		  String table = "";
 		  String condition = "";
 		  String fields = "*";
-		  
+		  		  
 		  switch (getRequest.getType())
 		  {
 		  case "GetRequest":
@@ -451,10 +449,9 @@ public class ProtoTypeServer extends AbstractServer {
 	  }
 
 	  @SuppressWarnings("unchecked") //CancelInfo result
-	  private CancelInfo refundOrder(RemoveOrderRequest removeOrderRequest)
+	  private float refundOrder(RemoveOrderRequest removeOrderRequest) throws RefundException
 	  {
 		  float refundAmount = 0.0f;
-		  CancelInfo result = new CancelInfo();
 		  
 		  ArrayList<String> key = new ArrayList<String>();
 		  key.add(""+removeOrderRequest.getOrderID());
@@ -476,34 +473,25 @@ public class ProtoTypeServer extends AbstractServer {
 						  refundAmount = refundCustomer(customerKeys, refundRate, order.get(0).getPrice());
 						  order.get(0).setRefund(refundAmount);
 					  } catch (SQLException e) {
-						  //sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
-						  e.printStackTrace();
-						  result.resultStatus = RefundResult.FailCustomerRefund;
-						  result.refundAmount = -1;
-						  return result;
+						  throw new RefundException("Failed to add refund to customer account balance in database");
 					  }
 				  }
 			  }
 		  }
 		  else
 		  {
-			  result.resultStatus = RefundResult.NoOrder;
-			  result.refundAmount = -1;
-			  return result;
+			  throw new RefundException("No such order found");
 		  }
+		  
 		  // Cancel order(update its status and refund amount)
 		  order.get(0).setStatus(Order.Status.CANCELED);
 		  if (EntityUpdater.setEntity("Order", Integer.toString(order.get(0).getID()), order.get(0), db))
 		  {			  
-			  result.resultStatus = RefundResult.SuccessRefund;
-			  result.refundAmount = refundAmount;
-			  return result;
+			  return refundAmount;
 		  }
 		  else
 		  {
-			  result.resultStatus = RefundResult.FailOrderRefund;
-			  result.refundAmount = -1;
-			  return result;
+			  throw new RefundException("Failed to update order refund in database");
 		  }
 	  }
 	  
@@ -538,32 +526,15 @@ public class ProtoTypeServer extends AbstractServer {
 		  case "RemoveOrderRequest":
 		  {
 			  RemoveOrderRequest removeOrderRequest = (RemoveOrderRequest)request;
-			  Float refundAmount = 0.0f;
-			  //RefundResult result = RefundResult.NoOrder;
-			  //String result = "";
+			  float refundAmount = 0.0f;
 			  
-			  CancelInfo result = new CancelInfo();
-			  result = refundOrder(removeOrderRequest);
-			  //RefundResult result =  refundOrder(removeOrderRequest, refundAmount);
-			  
-			  
-			  switch (result.resultStatus)
-			  {
-			  case NoOrder:
-				  sendToClient(client, new Response(Response.Type.ERROR, "No such Order exist"));
-				  break;
-				  
-			  case FailCustomerRefund:
-				  sendToClient(client, new Response(Response.Type.ERROR, "Aborted couldn't refund customer"));
-				  break;
-				  
-			  case FailOrderRefund:
-				  sendToClient(client, new Response(Response.Type.ERROR, "Failed to cancel the order"));
-				  break;
-				  
-			  case SuccessRefund:
-				  sendToClient(client, new Response(Response.Type.SUCCESS, "Order Canceled Successfully,  you were refunded "+result.refundAmount));
-				  break;
+			  try {
+				  refundAmount = refundOrder(removeOrderRequest);
+				  sendToClient(client, new Response(Response.Type.SUCCESS,
+						  "Order Canceled Successfully,  you were refunded "+refundAmount));
+			  } catch (RefundException e) {
+				  e.printStackTrace();
+				  sendToClient(client, new Response(Response.Type.ERROR, e.getMessage()));
 			  }
 		  }break;
 		  }

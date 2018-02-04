@@ -45,6 +45,12 @@ public class ResultSetOrderStub implements ResultSet {
 		if (columnLabel.equals("OrderID"))
 			return order.getID();
 		
+		if (columnLabel.equals("OrderCustomerID"))
+			return (int)order.getCustomerID();
+		
+		if (columnLabel.equals("OrderOriginStore"))
+			return (int)order.getOrderOriginStore();
+		
 		return 0;
 	}
 	
