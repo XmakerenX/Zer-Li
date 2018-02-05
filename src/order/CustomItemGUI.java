@@ -198,6 +198,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     void onBack(ActionEvent event) {
     	Client.client.setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.setTitle("Customer menu");
     }
     
     //*************************************************************************************************

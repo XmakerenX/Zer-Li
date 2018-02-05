@@ -93,6 +93,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	LoginGUI loginGUi = (LoginGUI)parent;
     	client.setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.setTitle("Zerli");
     }
 	
     //*************************************************************************************************
@@ -113,6 +114,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 			customItemGUI.setClinet(client);
 			customItemGUI.initFields();
 			FormController.primaryStage.setScene(customItemGUI.getScene());
+			FormController.primaryStage.setTitle("Custom order creation");
     	}
     }
 
@@ -137,6 +139,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
 	    		client.setUI(catalogGui);
 	    		catalogGui.setClinet(client);
 	    		FormController.primaryStage.setScene(catalogGui.getScene());
+	    		FormController.primaryStage.setTitle("Catalog");
     		}
     	}
     }
@@ -161,7 +164,9 @@ public class CustomerGUI extends FormController implements ClientInterface {
     		orderBySearchGUI.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
     		orderBySearchGUI.setCurrentCustomer(currentCustomer);
     		orderBySearchGUI.setCurrentUser(this.currentUser);
-	        FormController.primaryStage.setScene(orderBySearchGUI.getScene());	
+	        FormController.primaryStage.setScene(orderBySearchGUI.getScene());
+    		FormController.primaryStage.setTitle("Create order by search");
+
     	}
     }
     
@@ -193,6 +198,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     		client.setUI(cancelOrderGUI);
     		cancelOrderGUI.onRefresh(null);
     		FormController.primaryStage.setScene(cancelOrderGUI.getScene());
+    		FormController.primaryStage.setTitle("View orders");
     	}
     }
     

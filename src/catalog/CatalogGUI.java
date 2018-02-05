@@ -251,6 +251,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     void onBack(ActionEvent event) {
     	Client.client.setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.setTitle("Customer menu");
     }
 
     //*************************************************************************************************
@@ -284,6 +285,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
         		Client.client.setUI(createOrderGUI);
         		createOrderGUI.loadItemsInOrder(itemsSelected);
         		FormController.primaryStage.setScene(createOrderGUI.getScene());
+        		FormController.primaryStage.setTitle("Create order");
         	}
     	}
     	else

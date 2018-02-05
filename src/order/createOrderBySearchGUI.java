@@ -117,6 +117,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			customerGUI.loadStores();
 			FormController.primaryStage.setScene(customerGUI.getScene());
 		    FormController.primaryStage.hide();
+		    FormController.primaryStage.setTitle("Customer menu");
 		    FormController.primaryStage.show();
 	
 		}

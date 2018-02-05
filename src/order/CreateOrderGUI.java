@@ -350,6 +350,7 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 		}
 		
     	FormController.primaryStage.setScene(parent.getScene());
+    	FormController.primaryStage.setTitle("Catalog");
     	FormController.primaryStage.hide();
     	FormController.primaryStage.show();
 	}

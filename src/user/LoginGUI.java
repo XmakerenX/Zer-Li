@@ -255,7 +255,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
         				customerGUI.setCurrentUser(user);
         				customerGUI.loadStores();
 	        			FormController.primaryStage.setScene(customerGUI.getScene());
-	        			
+	        			FormController.primaryStage.setTitle("Customer menu");
 	        			//CustomerController.getCustomer(""+user.getPersonID(), client);
 	        			
 //	        			synchronized(this)
