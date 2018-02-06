@@ -20,12 +20,12 @@ import serverAPI.RemoveOrderRequest;
 public class TestCancelOrder {
 
 	private ProtoTypeServer server;
-	private DBStab stabDB;
+	private DBMock mockDB;
 	private Customer customerStub;
 	private Order moreThan3Hours;
 	private Order lessThan3Hours;
 	private Order lessThan1Hour;
-	private Order invalidOrder;
+	private Order OrderWithZeroPrice;
 	
 	private Method refundOrder;
 	
@@ -48,119 +48,121 @@ public class TestCancelOrder {
 		moreThan3Hours = new Order(5, Order.Status.NEW, 300, currentTime, morethan3, null, null, null, Order.PayMethod.CREDITCARD, 1, 10);
 		lessThan3Hours = new Order(6, Order.Status.NEW, 200, currentTime, lessThan3, null, null, null, Order.PayMethod.CREDITCARD, 1, 10);
 		lessThan1Hour = new Order(7, Order.Status.NEW, 100, currentTime, lessThan1, null, null, null, Order.PayMethod.CREDITCARD, 1, 10);
-		invalidOrder= new Order(8, Order.Status.NEW, 0, currentTime, lessThan1, null, null, null, Order.PayMethod.CREDITCARD, 1, 10);
+		OrderWithZeroPrice = new Order(8, Order.Status.NEW, 0, currentTime, lessThan1, null, null, null, Order.PayMethod.CREDITCARD, 1, 10);
 		// the stab database
-		stabDB = new DBStab(moreThan3Hours);
+		mockDB = new DBMock();
 		// the class under test injected with the stab database
-		server = new ProtoTypeServer(stabDB);
+		server = new ProtoTypeServer(mockDB);
 		// get access to the private method refundOrder in ProtoTypeServer
         refundOrder = ProtoTypeServer.class.getDeclaredMethod("refundOrder", RemoveOrderRequest.class);
         refundOrder.setAccessible(true);
 	}
 
 	@Test
+	// test Canceling order that is more htan 3 hours from now
 	public void testCancelOrderMoreThan3Hour() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
-		stabDB.setCustomer(customerStub);
-		stabDB.setOrder(moreThan3Hours);
+		mockDB.setCustomer(customerStub);
+		mockDB.setOrder(moreThan3Hours);
 		// refund the loaded order
 		float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(moreThan3Hours.getID()));
-		//ProtoTypeServer.CancelInfo result = (CancelInfo)refundOrder.invoke(server, new RemoveOrderRequest(moreThan3Hours.getID()));
 		// assert refund amount
 		assertTrue("Assert refund amount", refundAmount == moreThan3Hours.getPrice());
 		// assert the updated customer data
-		assertTrue("Assert updated customer ID",stabDB.getUpdatedCustomerID() == customerStub.getID());
-		assertTrue("Assert updated customer store ID",stabDB.getUpdatedCustomerStore() == customerStub.getStoreID());
+		assertTrue("Assert updated customer ID",mockDB.getUpdatedCustomerID() == customerStub.getID());
+		assertTrue("Assert updated customer store ID",mockDB.getUpdatedCustomerStore() == customerStub.getStoreID());
 		assertTrue("Assert updated customer account balance",
-				stabDB.getUpdatedCustomerBalance() == customerStub.getAccountBalance() + moreThan3Hours.getPrice());
+				mockDB.getUpdatedCustomerBalance() == customerStub.getAccountBalance() + moreThan3Hours.getPrice());
 		// assert the updated order data
-		assertTrue("Assert updated order ID",stabDB.getUpdatedOrderID() == moreThan3Hours.getID());
+		assertTrue("Assert updated order ID",mockDB.getUpdatedOrderID() == moreThan3Hours.getID());
 		assertTrue("Assert updated order Refund",
-				stabDB.getUpdatedOrderRefund() == moreThan3Hours.getRefund() + moreThan3Hours.getPrice());
-		assertTrue("Assert updated order status",stabDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
+				mockDB.getUpdatedOrderRefund() == moreThan3Hours.getRefund() + moreThan3Hours.getPrice());
+		assertTrue("Assert updated order status",mockDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
 	}
 	
 	@Test
+	// test Canceling order that is more than 3 hour from now but less than 3
 	public void testCancelOrderLessThan3Hour() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
-		stabDB.setCustomer(customerStub);
-		stabDB.setOrder(lessThan3Hours);
+		mockDB.setCustomer(customerStub);
+		mockDB.setOrder(lessThan3Hours);
 		// refund the loaded orders
 		float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(lessThan3Hours.getID()));
-		//ProtoTypeServer.CancelInfo result = (CancelInfo)refundOrder.invoke(server, new RemoveOrderRequest(lessThan3Hours.getID()));
 		// assert refund amount
 		assertTrue("Assert refund amount",refundAmount == (lessThan3Hours.getPrice() / 2));
 		// assert the updated customer data
-		assertTrue("Assert updated customer ID", stabDB.getUpdatedCustomerID() == customerStub.getID());
-		assertTrue("Assert updated customer store ID", stabDB.getUpdatedCustomerStore() == customerStub.getStoreID());
+		assertTrue("Assert updated customer ID", mockDB.getUpdatedCustomerID() == customerStub.getID());
+		assertTrue("Assert updated customer store ID", mockDB.getUpdatedCustomerStore() == customerStub.getStoreID());
 		assertTrue("Assert updated customer account balance",
-				stabDB.getUpdatedCustomerBalance() == customerStub.getAccountBalance() + lessThan3Hours.getPrice() / 2);
+				mockDB.getUpdatedCustomerBalance() == customerStub.getAccountBalance() + lessThan3Hours.getPrice() / 2);
 		// assert the updated order data
-		assertTrue("Assert updated order ID", stabDB.getUpdatedOrderID() == lessThan3Hours.getID());
+		assertTrue("Assert updated order ID", mockDB.getUpdatedOrderID() == lessThan3Hours.getID());
 		assertTrue("Assert updated order Refund",
-				stabDB.getUpdatedOrderRefund() == lessThan3Hours.getRefund() + lessThan3Hours.getPrice() /2);
-		assertTrue("Assert updated order status", stabDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
+				mockDB.getUpdatedOrderRefund() == lessThan3Hours.getRefund() + lessThan3Hours.getPrice() /2);
+		assertTrue("Assert updated order status", mockDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
 	}
 	
 	@Test
+	// test Canceling order that is less than 1 hour from now
 	public void testCancelOrderLessThan1Hour() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
-		stabDB.setCustomer(customerStub);
-		stabDB.setOrder(lessThan1Hour);
+		mockDB.setCustomer(customerStub);
+		mockDB.setOrder(lessThan1Hour);
 		// refund the loaded order
 		float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(lessThan1Hour.getID()));
-		//ProtoTypeServer.CancelInfo result = (CancelInfo)refundOrder.invoke(server, new RemoveOrderRequest(lessThan1Hour.getID()));
 		// assert refund amount
 		assertTrue("Assert refund amount", refundAmount == 0);
 		// assert that customer wasn't updated
-		assertTrue("Assert that customer wasn't updated",stabDB.isCustomerUpdated() == false);
+		assertTrue("Assert that customer wasn't updated",mockDB.isCustomerUpdated() == false);
 		// assert the updated order data
-		assertTrue("Assert updated order ID", stabDB.getUpdatedOrderID() == lessThan1Hour.getID());
-		assertTrue("Assert updated order Refund", stabDB.getUpdatedOrderRefund() == lessThan1Hour.getRefund());
-		assertTrue("Assert updated order status", stabDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
+		assertTrue("Assert updated order ID", mockDB.getUpdatedOrderID() == lessThan1Hour.getID());
+		assertTrue("Assert updated order Refund", mockDB.getUpdatedOrderRefund() == lessThan1Hour.getRefund());
+		assertTrue("Assert updated order status", mockDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
 	}
 	
 	@Test
+	// test Canceling order that doesn't exist
 	public void testCancelOrderNoneFound() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
-		stabDB.setCustomer(customerStub);
-		stabDB.setOrder(lessThan1Hour);
+		mockDB.setCustomer(customerStub);
+		mockDB.setOrder(lessThan1Hour);
 		// refund the loaded order
 		try
 		{
 			@SuppressWarnings("unused")
-			float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(invalidOrder.getID()));
+			float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(OrderWithZeroPrice.getID()));
 			// InvocationTargetException wasn't thrown despite it must have been, fail this test
-			assertTrue("Assert InvocationTargetException was thrown", false);
+			assertTrue("Assert InvocationTargetException was not thrown", false);
 		}
 		catch (InvocationTargetException e)
 		{
 			// make sure the correct Exception was thrown
 			assertTrue("Assert Order was not found", e.getCause().getMessage().equals("No such order found"));
 			// make sure the database was left unchanged
-			assertTrue("Assert Order was not changed in database", stabDB.isOrderUpdated() == false);
-			assertTrue("Assert Customer was not changed in database", stabDB.isCustomerUpdated() == false);
+			assertTrue("Assert Order was not changed in database", mockDB.isOrderUpdated() == false);
+			assertTrue("Assert Customer was not changed in database", mockDB.isCustomerUpdated() == false);
 		}
 	}
 	
 	@Test
+	// test Canceling order that has zero price
 	public void testCancelOrderZeroPrice() throws InvocationTargetException, IllegalAccessException
 	{
 		// set customer and order data in the stab database
-		stabDB.setCustomer(customerStub);
-		stabDB.setOrder(invalidOrder);
+		mockDB.setCustomer(customerStub);
+		mockDB.setOrder(OrderWithZeroPrice);
 		// refund the loaded order
-		float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(invalidOrder.getID()));
+		float refundAmount = (float)refundOrder.invoke(server, new RemoveOrderRequest(OrderWithZeroPrice.getID()));
 		assertTrue("Assert refund was zero", refundAmount == 0);
-		assertTrue("Assert that customer wasn't updated",stabDB.isCustomerUpdated() == false);
+		assertTrue("Assert that customer wasn't updated",mockDB.isCustomerUpdated() == false);
 		// assert the updated order data
-		assertTrue("Assert updated order ID", stabDB.getUpdatedOrderID() == invalidOrder.getID());
-		assertTrue("Assert updated order Refund", stabDB.getUpdatedOrderRefund() == lessThan1Hour.getRefund());
-		assertTrue("Assert updated order status", stabDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
+		assertTrue("Assert updated order ID", mockDB.getUpdatedOrderID() == OrderWithZeroPrice.getID());
+		assertTrue("Assert updated order Refund", mockDB.getUpdatedOrderRefund() == lessThan1Hour.getRefund());
+		assertTrue("Assert updated order status", mockDB.getUpdatedOrderStatus() == Order.Status.CANCELED);
 	}
 
 }

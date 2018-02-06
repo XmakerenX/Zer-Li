@@ -8,7 +8,13 @@ import Server.DBInterface;
 import customer.Customer;
 import order.Order;
 
-public class DBStab implements DBInterface {
+//*************************************************************************************************
+/**
+* Provides a Mock implementation of DBInterface
+* used to test CancelOrder
+*/
+//*************************************************************************************************
+public class DBMock implements DBInterface {
 
 	private Order order;
 	private Customer customer;
@@ -25,11 +31,10 @@ public class DBStab implements DBInterface {
 	private long updatedCustomerStore;
 	private float updatedCustomerBalance;
 		
-	public DBStab(Order order)
+	public DBMock()
 	{
 		resultSetOrder = new ResultSetOrderStub();
 		resultSetCustomer = new ResultSetCustomerStub();
-		setOrder(order);
 	}
 	
 	public void setOrder(Order order)
@@ -53,12 +58,32 @@ public class DBStab implements DBInterface {
 		return customerUpdated;
 	}
 
-	private String getColumnValue(String columnName, String updateString)
+	//*************************************************************************************************
+	/**
+	* Returns the column value from the given string
+	* @param fieldnName the column name to get
+	* @param updateString the string from which to get the column value
+	*/
+	//*************************************************************************************************
+	private String getFieldValue(String fieldnName, String updateString)
 	{
 		// updateString looks like this: ..... columnName=value, columnNameX=valueX, .......
-		// OR like this : ..... AND columnName=value AND columnNameX=valueX AND....
+		// OR like this : ..... AND columnName=value AND columnNameX=valueX AND ....
+
+		if (fieldnName == null || updateString == null)
+			return null;
+
 		// cut to the start of the columnName
-		String sub = updateString.substring(updateString.indexOf(columnName));
+		int fieldIndex = updateString.indexOf(fieldnName);
+		if (fieldIndex == -1)
+			return null;
+
+		String sub = updateString.substring(fieldIndex);
+		
+		//verify that there is an equal sign
+		if (updateString.substring(fieldIndex + fieldnName.length()).trim().charAt(0) != '=')
+			return null;
+
 		// split around the = sign
 		String[] split = sub.split("=");
 		// take the right of the = sign and cut at the ','
@@ -66,9 +91,21 @@ public class DBStab implements DBInterface {
 		int index = split[1].indexOf(",");
 		if (index == -1)
 		{
-			// split around space
-			split = split[1].split(" ");			
-			value = split[0];
+			split[1] = split[1].trim();
+			if (split[1].indexOf("'") == 0 || split[1].indexOf("\"") == 0)
+			{
+				char endingChar = split[1].charAt(0);
+				index = split[1].substring(1, split[1].length()).indexOf(""+endingChar);
+				if (index == -1)
+					return null;
+				value = split[1].substring(0, index + 2);
+			}
+			else
+			{
+				// split around space
+				split = split[1].split(" ");			
+				value = split[0];
+			}
 		}
 		else
 			value = split[1].substring(0, index);
@@ -80,7 +117,7 @@ public class DBStab implements DBInterface {
 	public ResultSet selectTableData(String fields, String table, String condition) {
 		if (table.equals("Order"))
 		{
-			long orderRequestedID = Long.parseLong(getColumnValue("OrderID", condition));
+			long orderRequestedID = Long.parseLong(getFieldValue("OrderID", condition));
 			// verify the correct order was requested
 			if (orderRequestedID == order.getID())
 			{
@@ -97,8 +134,8 @@ public class DBStab implements DBInterface {
 	
 		if (table.equals("Customers"))
 		{
-			long customerID = Long.parseLong(getColumnValue("personID", condition));
-			long storeID = Long.parseLong(getColumnValue("StoreID", condition));
+			long customerID = Long.parseLong(getFieldValue("personID", condition));
+			long storeID = Long.parseLong(getFieldValue("StoreID", condition));
 			// verify the correct customer was requested
 			if (customerID == customer.getID() && storeID == customer.getStoreID())
 			{
@@ -122,19 +159,19 @@ public class DBStab implements DBInterface {
 		if (table.equals("prototype.Order"))
 		{
 			orderUpdated = true;
-			String orderStatus = getColumnValue("OrderStatus", fieldsToUpdate);
+			String orderStatus = getFieldValue("OrderStatus", fieldsToUpdate);
 			orderStatus= orderStatus.substring(1, orderStatus.length() - 1);
 			updatedOrderStatus = Order.Status.valueOf(orderStatus);
-			updatedOrderRefund = Float.parseFloat(getColumnValue("OrderRefund", fieldsToUpdate));
-			updatedOrderID = Long.parseLong(getColumnValue("OrderID", condition));
+			updatedOrderRefund = Float.parseFloat(getFieldValue("OrderRefund", fieldsToUpdate));
+			updatedOrderID = Long.parseLong(getFieldValue("OrderID", condition));
 		}
 		
 		if (table.equals("Customers"))
 		{
 			customerUpdated = true;
-			updatedCustomerID = Long.parseLong(getColumnValue("PersonID", condition));
-			updatedCustomerStore = Long.parseLong(getColumnValue("StoreID", condition));
-			updatedCustomerBalance = Float.parseFloat(getColumnValue("accountBalance", fieldsToUpdate));
+			updatedCustomerID = Long.parseLong(getFieldValue("PersonID", condition));
+			updatedCustomerStore = Long.parseLong(getFieldValue("StoreID", condition));
+			updatedCustomerBalance = Float.parseFloat(getFieldValue("accountBalance", fieldsToUpdate));
 		}
 
 	}
