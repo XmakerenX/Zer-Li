@@ -9,9 +9,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Server.ProtoTypeServer;
-import serverAPI.RemoveOrderRequest;
-
+//*************************************************************************************************
+/**
+ * Tests the getColumnValue function in DBMock
+*/
+//*************************************************************************************************
 public class TestGetFieldValue {
 
 	private DBMock mockDB;

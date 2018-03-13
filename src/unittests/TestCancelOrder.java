@@ -17,6 +17,11 @@ import customer.Customer;
 import order.Order;
 import serverAPI.RemoveOrderRequest;
 
+//*************************************************************************************************
+/**
+* Tests the refundOrder function in ProtoTypeOrder
+*/
+//*************************************************************************************************
 public class TestCancelOrder {
 
 	private ProtoTypeServer server;

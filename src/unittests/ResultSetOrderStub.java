@@ -24,6 +24,11 @@ import java.util.Map;
 
 import order.Order;
 
+//*************************************************************************************************
+/**
+* Simulates a ReusltSet containing a single order
+*/
+//*************************************************************************************************
 public class ResultSetOrderStub implements ResultSet {
 
 	private Order order = null;

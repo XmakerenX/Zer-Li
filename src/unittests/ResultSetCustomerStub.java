@@ -24,6 +24,11 @@ import java.util.Map;
 
 import customer.Customer;
 
+//*************************************************************************************************
+/**
+ * Simulates a ReusltSet containing a single customer
+*/
+//*************************************************************************************************
 public class ResultSetCustomerStub implements ResultSet {
 
 	private Customer customer;
