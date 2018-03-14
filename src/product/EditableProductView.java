@@ -4,28 +4,18 @@ import java.io.Serializable;
 
 import javafx.scene.control.Button;
 /**
- *  Etity to enable storing products in tableview objects in order to show them in gui
+ *  Entity to enable storing products in tableview objects in order to show them in gui
  */
 public class EditableProductView extends Product implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * A button for the entity EditableProductView to be shown in the tableview and to point at its origin EditableProductView object whom he belong to.
 	 */
 	public class EditableProductViewButton extends Button implements Serializable
 	{
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
-		/**
-		 * 
-		 */
 		EditableProductView origin;
+		
 		public EditableProductViewButton(EditableProductView origin,String name)
 		{
 			super(name);
@@ -37,6 +27,9 @@ public class EditableProductView extends Product implements Serializable
 		}
 		
 	}
+	
+	private static final long serialVersionUID = 1L;
+
 	EditableProductViewButton addToCatalogBtn;
 	EditableProductViewButton editBtn;
 	EditableProductViewButton removeBtn;
@@ -58,7 +51,6 @@ public class EditableProductView extends Product implements Serializable
 	public void setEditBtn(EditableProductViewButton editBtn) {
 		this.editBtn = editBtn;
 	}
-
 
 	public Button getRemoveBtn() {
 		return removeBtn;

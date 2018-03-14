@@ -7,9 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import product.CatalogItem;
-import product.Product;
-
-
 
 //*************************************************************************************************
 	/**
@@ -20,30 +17,24 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 {
 	public class editableCatalogItemViewButton extends Button implements Serializable
 	{
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
-		/**
-		 * 
-		 */
 		EditableCatalogItemView origin;
+		
 		public editableCatalogItemViewButton(String buttonName,EditableCatalogItemView Origin)
 		{
 			super(buttonName);
 			this.origin = Origin;
 		}
 	}
-     /**
-	 * 
-	 */
-												 
+	
 	private static final long serialVersionUID = -4645756625966051562L;
-
+	editableCatalogItemViewButton removeButton = new editableCatalogItemViewButton("Remove",this);
+	editableCatalogItemViewButton editButton = new editableCatalogItemViewButton("Edit",this);
+	ImageView imageView;
+	
 	/**
 	 * @return the image view
 	 */ 
-
 	public ImageView getImageView() 
      {
 		return imageView;
@@ -67,13 +58,11 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
     {
     	this.stringSalePrice = stringSalePrice;
     }
+    
 	public void setImageView(ImageView imageView) 
 	{
 		this.imageView = imageView;
 	}
-
-
-	ImageView imageView;
      
 	public EditableCatalogItemView(CatalogItem catItem)
 	{
@@ -118,12 +107,4 @@ public class EditableCatalogItemView extends CatalogItem implements Serializable
 	public void setEditButton(editableCatalogItemViewButton editButton) {
 		this.editButton = editButton;
 	}
-
-
-	editableCatalogItemViewButton removeButton = new editableCatalogItemViewButton("Remove",this);
-	editableCatalogItemViewButton editButton = new editableCatalogItemViewButton("Edit",this);
-
-
-	
-
 }
