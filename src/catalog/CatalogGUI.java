@@ -144,7 +144,6 @@ public class CatalogGUI extends FormController implements ClientInterface {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -186,7 +185,6 @@ public class CatalogGUI extends FormController implements ClientInterface {
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -203,7 +201,6 @@ public class CatalogGUI extends FormController implements ClientInterface {
   	*/
     //*************************************************************************************************
     public void onRefresh(ActionEvent event) {
-    	//TODO: add check if customer is blocked
     	if (currentCustomer == null)
     		createOrderBtn.setDisable(true);
     	else
@@ -318,14 +315,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
 		}
     	    	
     }
-    
-    //TODO: delete this function
-//    @Override
-//	public void setClinet(Client client)
-//	{
-//    	onRefresh(null);
-//	}
-    
+        
     //*************************************************************************************************
     /**
      * Sets the current Customer that is viewing the catalog

@@ -218,7 +218,6 @@ public class CustomerGUI extends FormController implements ClientInterface {
 			try {
 				this.wait(ClientInterface.TIMEOUT);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -268,7 +267,6 @@ public class CustomerGUI extends FormController implements ClientInterface {
 			try {
 				this.wait(ClientInterface.TIMEOUT);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

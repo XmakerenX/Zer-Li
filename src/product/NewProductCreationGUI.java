@@ -277,7 +277,6 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 			} 
 			catch (InterruptedException e) 
 			{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 			}
 		}
@@ -294,7 +293,6 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 			} 
 		catch (InterruptedException e) 
 		{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 		}
 	   }
@@ -312,7 +310,6 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 		} 
 		catch (InterruptedException e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 		}
 			String outputMsg;

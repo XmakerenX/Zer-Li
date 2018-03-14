@@ -151,7 +151,6 @@ public class SubscriptionPayment extends TimerTask
 				   try {
 					conn.executeUpdate("prototype.Order", "OrderPaymentMethod = 'SUBSCRIPTION_PAID'", "OrderID = "+orderIDs.get(i));
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			   }

@@ -454,7 +454,6 @@ public class DBConnector implements DBInterface{
 		
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}

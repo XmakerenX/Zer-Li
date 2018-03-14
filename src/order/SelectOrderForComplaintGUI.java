@@ -230,7 +230,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -265,7 +264,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 					try {
 						this.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -350,7 +348,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 					try {
 						this.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -390,7 +387,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

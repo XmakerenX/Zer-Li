@@ -447,7 +447,6 @@ public class QuarterlyReportCreation extends TimerTask
 
 			} catch (SQLException e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -275,7 +275,6 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
     				newOrderRow.getCancelButton().setOnAction(cancelAction);
     				newOrderRow.getViewProductsButton().setOnAction(viewProducts);
     			} catch (OrderException e) {
-    				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
     		}

@@ -445,7 +445,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			} 
 			catch (InterruptedException e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			initProductsTableContent();

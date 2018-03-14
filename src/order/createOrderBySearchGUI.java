@@ -317,7 +317,6 @@ private void loadItem(CatalogItem catItem)
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -366,7 +365,6 @@ private void loadItem(CatalogItem catItem)
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -405,7 +403,6 @@ private void loadItem(CatalogItem catItem)
 					try {
 						this.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

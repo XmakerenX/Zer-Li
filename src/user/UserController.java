@@ -110,7 +110,6 @@ public class UserController implements ClientInterface
 			try {
 				thisUserController.wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -129,7 +128,6 @@ public class UserController implements ClientInterface
 			User newUser = new User(userName, userPassword, userPermission, personID, User.Status.valueOf("REGULAR"), 0);
 			client.handleMessageFromClientUI(new AddRequest("User", newUser));
 		} catch (UserException e) {
-			// TODO deal with error
 			// shouldn't get here!
 			e.printStackTrace();
 		}	
@@ -189,7 +187,5 @@ public class UserController implements ClientInterface
 		{
 			this.notify();
 		}
-		// TODO Auto-generated method stub
-		
 	}	
 }

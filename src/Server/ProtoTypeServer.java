@@ -822,7 +822,6 @@ public class ProtoTypeServer extends AbstractServer {
 		
 		catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw e;
 		}

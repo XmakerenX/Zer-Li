@@ -193,7 +193,6 @@ public class CatalogItemView extends CatalogItem
 	*  @see java.lang.Comparable
 	*/
 	//*************************************************************************************************
-	//TODO: do a smarter compareTO to sort by something...
 	@Override
 	public int compareTo(CatalogItem o)
 	{

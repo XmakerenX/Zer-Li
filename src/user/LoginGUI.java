@@ -131,7 +131,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
     		{
 				e.printStackTrace();
 
-				// TODO Auto-generated catch block
 				Alert mAlert = new Alert(Alert.AlertType.ERROR);
 				mAlert.setContentText("Failed to update serverip.\nPlease call our customer service for help.");
 				mAlert.showAndWait();
