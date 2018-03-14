@@ -48,8 +48,7 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     void manageCatalog(ActionEvent event)
     {
     	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
-    	client.setUI(manCatGui);
-    	manCatGui.setClinet(client);
+    	Client.getInstance().setUI(manCatGui);
     	manCatGui.setEmployeeStoreID(storeID);
     	manCatGui.doInit(user);  
     	FormController.primaryStage.setScene(manCatGui.getScene());
@@ -69,20 +68,13 @@ public class NetworkWorkerGUI extends  FormController  implements ClientInterfac
     void onLogOut(ActionEvent event) 
     {
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     }
     
-	@Override
-	public void onSwitch(Client newClient) 
-	{
-		
-		
-	}
-
 	@Override
 	public void display(Object message) {
 		// TODO Auto-generated method stub

@@ -81,7 +81,7 @@ public class SurveyAnalysisGUI extends FormController implements ClientInterface
 	    	clearFields();
 	    	currentResult=0;
 	    	CustomerServiceExpertGUI customerServiceExpertGUI = (CustomerServiceExpertGUI)parent;
-	    	client.setUI(customerServiceExpertGUI);
+	    	Client.getInstance().setUI(customerServiceExpertGUI);
 	    	FormController.primaryStage.setScene(parent.getScene());
 	    }
 	  //========================================================================
@@ -138,7 +138,7 @@ public class SurveyAnalysisGUI extends FormController implements ClientInterface
     	questionField4.setText(CustomerSatisfactionSurvey.question4);
     	questionField5.setText(CustomerSatisfactionSurvey.question5);
     	questionField6.setText(CustomerSatisfactionSurvey.question6);
-    	CustomerSatisfactionSurveyResultsController.getResultsWithoutAnalysis(client);
+    	CustomerSatisfactionSurveyResultsController.getResultsWithoutAnalysis(Client.getInstance());
     	waitForServerResponse();
     	// show success 
     	if (response.getType() == Response.Type.SUCCESS)
@@ -174,13 +174,6 @@ public class SurveyAnalysisGUI extends FormController implements ClientInterface
 			this.notify();
 		}
 	}
-	 //===============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	//===============================================================================================================
 	//waiting for the server to respond
     public void waitForServerResponse()

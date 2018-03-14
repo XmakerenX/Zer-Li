@@ -94,7 +94,7 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
     void onCancelButton(ActionEvent event) {
     	complaintBodyTextField.clear();
     	SelectOrderForComplaintGUI selectOrderForComplaintGUI = (SelectOrderForComplaintGUI)parent;
-    	client.setUI(selectOrderForComplaintGUI);
+    	Client.getInstance().setUI(selectOrderForComplaintGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
     //===============================================================================================================
@@ -120,7 +120,7 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
 	    		response = null;
 	    		complaintBodyTextField.clear();
 	        	SelectOrderForComplaintGUI selectOrderForComplaintGUI = (SelectOrderForComplaintGUI)parent;
-	        	client.setUI(selectOrderForComplaintGUI);
+	        	Client.getInstance().setUI(selectOrderForComplaintGUI);
 	        	FormController.primaryStage.setScene(parent.getScene());
 	    	}
 	    	else if(response.getType() == Response.Type.ERROR)
@@ -166,13 +166,6 @@ public class NewComplaintCreationGUI extends FormController implements ClientInt
   		}
   	}
   	//===============================================================================================================
-
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
-	//===============================================================================================================
  	public void setCustomer(Customer customer)
   	{
   		this.customer = customer;

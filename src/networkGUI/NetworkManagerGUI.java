@@ -56,10 +56,10 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
     @FXML
     void onLogOut(ActionEvent event) {
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	Client.client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     }
 
@@ -73,7 +73,7 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 		
     	if(viewDifferentReportsGUI != null)
     	{
-    		client.handleMessageFromClientUI(new GetRequest("Store"));
+    		Client.getInstance().handleMessageFromClientUI(new GetRequest("Store"));
     		
     		try
 	    	{
@@ -107,8 +107,7 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 			
 	    	}catch(InterruptedException e) {}
 		
-			viewDifferentReportsGUI.setClinet(client);
-			Client.client.setUI(viewDifferentReportsGUI);
+			Client.getInstance().setUI(viewDifferentReportsGUI);
 			FormController.primaryStage.setScene(viewDifferentReportsGUI.getScene());
     	}
     }
@@ -128,11 +127,6 @@ public class NetworkManagerGUI extends  FormController implements ClientInterfac
 		{
 			this.notify();
 		}
-	}
-
-	@Override
-	public void onSwitch(Client newClient) {
-		
 	}
 	
 	public User getUser() {

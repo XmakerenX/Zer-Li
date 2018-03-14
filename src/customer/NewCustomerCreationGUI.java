@@ -118,7 +118,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 			
 			String personID = personIDTxtField.getText();
 
-			CustomerController.getCustomer(personID, "" + managersStoreID, Client.client);
+			CustomerController.getCustomer(personID, "" + managersStoreID, Client.getInstance());
 
 			waitForResponse();
 			
@@ -130,7 +130,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 				// clear replay
 				replay = null;
 				
-				UserController.GetUserByCertainCondition(personID,"personID", Client.client);
+				UserController.GetUserByCertainCondition(personID,"personID", Client.getInstance());
 
 				waitForResponse();
 				
@@ -166,7 +166,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 
 					CustomerController.createNewCustomer(Long.parseLong(personID), managersStoreID, fullName,
 							phoneNumber, Customer.PayType.valueOf(paymentMethod), 0, creditCardNumber, true,
-							expirationDate, Client.client);
+							expirationDate, Client.getInstance());
 
 						
 						waitForResponse();
@@ -198,7 +198,7 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 		clearFieldsMethod();
 
 		StoreManagerGUI storeManagerGUI = (StoreManagerGUI) parent;
-		Client.client.setUI(storeManagerGUI);
+		Client.getInstance().setUI(storeManagerGUI);
 		FormController.primaryStage.setScene(parent.getScene());
 	}
 
@@ -216,11 +216,6 @@ public class NewCustomerCreationGUI extends FormController implements ClientInte
 		synchronized (this) {
 			this.notify();
 		}
-	}
-
-	@Override
-	public void onSwitch(Client newClient) {
-
 	}
 
 	/**

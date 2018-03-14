@@ -3,10 +3,6 @@ package order;
 
 import java.util.ArrayList;
 
-//import com.sun.jdi.NativeMethodException;
-
-import catalog.AddToCatalogGUI;
-import catalog.EditableCatalogItemView;
 import client.Client;
 import client.ClientInterface;
 import customer.Customer;
@@ -29,14 +25,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import networkGUI.CustomerServiceWorkerGUI;
-import networkGUI.StoreWorkerGUI;
-import product.CatalogItem;
-import product.Product;
-import product.EditableProductView.EditableProductViewButton;
 import serverAPI.GetRequest;
 import serverAPI.Response;
 import store.Store;
@@ -141,7 +131,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
      */
     private ArrayList<Store> getCurrentStores()
     {
-    	Client.client.handleMessageFromClientUI(new GetRequest("Store"));
+    	Client.getInstance().handleMessageFromClientUI(new GetRequest("Store"));
     	waitForServerResponse();
     	if(response.getType().name().equals("SUCCESS"))
     	{
@@ -176,7 +166,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     	userTable.getItems().clear();
     	
     	CustomerServiceWorkerGUI customerServiceWorkerGUI = (CustomerServiceWorkerGUI)parent;
-    	client.setUI(customerServiceWorkerGUI);
+    	Client.getInstance().setUI(customerServiceWorkerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
     //===============================================================================================================
@@ -235,13 +225,6 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
   			this.notify();
   		}
   	}
-  	//===============================================================================================================
-
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
 	//===============================================================================================================
 	//select button event handler:
 	EventHandler<ActionEvent> selectUser  = new EventHandler<ActionEvent>() 
@@ -255,23 +238,11 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 			
 			if (selectOrderForComplaintGUI != null)
 			{
-//				Stage newWindow = new Stage();
-//				getClient().setUI(selectOrderForComplaintGUI);
-//				selectOrderForComplaintGUI.setClinet(client);
-//				selectOrderForComplaintGUI.setCustomer(customer);
-//				newWindow.initOwner(FormController.primaryStage);
-//		    	newWindow.initModality(Modality.WINDOW_MODAL);  
-//				newWindow.setScene(selectOrderForComplaintGUI.getScene());
-//				newWindow.showAndWait();
-//				getClient().setUI(SelectOrderInterface);
-				Client.client.setUI(selectOrderForComplaintGUI);
-
-				selectOrderForComplaintGUI.setCustomer(customer);
-				
+				Client.getInstance().setUI(selectOrderForComplaintGUI);
+				selectOrderForComplaintGUI.setCustomer(customer);			
 				selectOrderForComplaintGUI.setUser(user);
 				selectOrderForComplaintGUI.setStoreAddress(customerView.getStoreAddress());
 				selectOrderForComplaintGUI.doInit();
-				selectOrderForComplaintGUI.setClinet(client);
 				
 				FormController.primaryStage.setScene(selectOrderForComplaintGUI.getScene());
 			}
@@ -330,7 +301,7 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
 			String phoneNumber = parts[1];
 			newCondition = customerID;
     	}
-	    	CustomerController.getCertainCustomers(column, newCondition, client);
+	    	CustomerController.getCertainCustomers(column, newCondition, Client.getInstance());
 	    	waitForServerResponse();
 	    	if(response.getType() == Response.Type.SUCCESS)
 	    	{
@@ -396,10 +367,11 @@ public class ComplaintCreationGUI extends FormController implements ClientInterf
     }
   //===============================================================================================================
     //allows us to hand over the client in event handlers
-    private Client getClient()
-	{
-		return this.client;
-	}
+//    private Client getClient()
+//	{
+//		return this.client;
+//	}
+    
   //===============================================================================================================
     public void clearForm()
     {

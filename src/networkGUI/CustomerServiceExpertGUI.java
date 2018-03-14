@@ -45,10 +45,10 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
     void onLogOut(ActionEvent event) {
 
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }
@@ -60,8 +60,7 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
     @FXML
     void onAnalyze(ActionEvent event) {
 
-		client.setUI(surveyAnalysisGUI);
-		surveyAnalysisGUI.setClinet(client);
+    	Client.getInstance().setUI(surveyAnalysisGUI);
 		surveyAnalysisGUI.initResults();
 		FormController.primaryStage.setScene(surveyAnalysisGUI.getScene());
     }
@@ -74,12 +73,6 @@ public class CustomerServiceExpertGUI extends FormController implements ClientIn
 	//===============================================================================================================
 	@Override
 	public void display(Object message) {
-		// TODO Auto-generated method stub
-		
-	}
-	//===============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
 		
 	}

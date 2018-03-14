@@ -196,7 +196,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     @FXML
     void onBack(ActionEvent event) {
-    	Client.client.setUI((ClientInterface)parent);
+    	Client.getInstance().setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     	FormController.primaryStage.setTitle("Customer menu");
     }
@@ -284,7 +284,7 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     	{
     		createOrderGUI.setCurrentCustomer(currentCustomer);
     		createOrderGUI.setCurrentStore(currentStoreID);
-    		Client.client.setUI(createOrderGUI);
+    		Client.getInstance().setUI(createOrderGUI);
     		createOrderGUI.loadCustomItemInOrder(customItemComp);
     		FormController.primaryStage.setScene(createOrderGUI.getScene());
     	}
@@ -320,7 +320,8 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     private ArrayList<Product> getCustomComponents(Product.Type type)
     {
     	replay = null;
-    	Client.client.handleMessageFromClientUI(new GetRequestWhere("Product", "ProductType", ""+type));
+    	Client.getInstance().handleMessageFromClientUI(
+    			new GetRequestWhere("Product", "ProductType", ""+type));
     	
    		synchronized(this)
 		{
@@ -644,12 +645,6 @@ public class CustomItemGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
 	public void setCurrentCustomer(Customer currentCustomer) {
 		this.currentCustomer = currentCustomer;
-	}
-
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
 	}
 	
 }

@@ -1,37 +1,10 @@
 package catalog;
 
-import java.util.ArrayList;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import client.Client;
-import client.ClientInterface;
-import customer.CustomerGUI;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -142,7 +115,6 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 	    			}
 	    		}
 	    		
-	    			String imagePath;
 		    		byte[] checkSum = null;
 		    		String ImageName = null;
 		    		System.out.println(imageField.getText());
@@ -164,18 +136,18 @@ public class EditCatalogItemGUI extends AddToCatalogGUI
 						catch(Exception e) {}
 					}
 				    		//upload Image to server
-							client.handleMessageFromClientUI(new UploadImageRequest(image));
+							Client.getInstance().handleMessageFromClientUI(
+									new UploadImageRequest(image));
 
 							//create new updated catItem:
 				    		catItem = new CatalogItem(prod, salesPrice, ImageName, checkSum, storeID);
 
 				    		
-				    		CatalogController.removeCatalogProductFromDataBase(eCatProd.getID(), eCatProd.getStoreID(), client);
+				    		CatalogController.removeCatalogProductFromDataBase(
+				    				eCatProd.getID(), eCatProd.getStoreID(), Client.getInstance());
 							
-							CatalogController.addCatalogProductToDataBase(catItem, client);
-							
-							String str = imageField.getText();
-							
+							CatalogController.addCatalogProductToDataBase(catItem, Client.getInstance());
+														
 							Alert mAlert = new Alert(Alert.AlertType.INFORMATION);
 							mAlert.setContentText("Catalog item was updated");
 							mAlert.showAndWait();

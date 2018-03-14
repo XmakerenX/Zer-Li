@@ -181,7 +181,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				case "Income":
 				{
 	
-					ReportController.getReport("incomereport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("incomereport", 
+							Quarterly.valueOf(firstQuarterly.toUpperCase()),
+							firstYear, firstStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -199,7 +201,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("incomereport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("incomereport", 
+							Quarterly.valueOf(secondQuarterly.toUpperCase())
+							, secondYear, secondStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -221,7 +225,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Order":
 				{
-					ReportController.getReport("orderreport", IncomeReport.Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("orderreport", 
+							Quarterly.valueOf(firstQuarterly.toUpperCase())
+							, firstYear, firstStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -246,7 +252,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("orderreport", IncomeReport.Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("orderreport", 
+							Quarterly.valueOf(secondQuarterly.toUpperCase()),
+							secondYear, secondStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -275,7 +283,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Survey":
 				{
-					ReportController.getReport("surveyreport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("surveyreport", 
+							Quarterly.valueOf(firstQuarterly.toUpperCase()),
+							firstYear, firstStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -291,7 +301,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("surveyreport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("surveyreport", 
+							Quarterly.valueOf(secondQuarterly.toUpperCase()),
+							secondYear, secondStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -312,7 +324,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 				
 				case "Complaint":
 				{
-					ReportController.getReport("ComplaintReport", Quarterly.valueOf(firstQuarterly.toUpperCase()), firstYear, firstStore, client);
+					ReportController.getReport("ComplaintReport", 
+							Quarterly.valueOf(firstQuarterly.toUpperCase()), 
+							firstYear, firstStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -330,7 +344,9 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 					
 					replay = null;
 					
-					ReportController.getReport("ComplaintReport", Quarterly.valueOf(secondQuarterly.toUpperCase()), secondYear, secondStore, client);
+					ReportController.getReport("ComplaintReport", 
+							Quarterly.valueOf(secondQuarterly.toUpperCase()),
+							secondYear, secondStore, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -367,7 +383,7 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 		clearFieldsMethod();
 		
 		NetworkManagerGUI networkManagerGUI = (NetworkManagerGUI) parent;
-		client.setUI(networkManagerGUI);
+		Client.getInstance().setUI(networkManagerGUI);
 		FormController.primaryStage.setScene(parent.getScene());
 
 	}
@@ -431,11 +447,6 @@ public class ViewDifferentReportsGUI extends FormController implements ClientInt
 		synchronized (this) {
 			this.notify();
 		}
-
-	}
-
-	@Override
-	public void onSwitch(Client newClient) {
 
 	}
 	

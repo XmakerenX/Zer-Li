@@ -25,7 +25,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import networkGUI.CustomerServiceWorkerGUI;
 import order.OrderRow.OrderViewButton;
 import order.OrderRow.orderRowButton;
 import serverAPI.Response;
@@ -109,7 +108,7 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
     	orderTable.getItems().clear();
     	
     	ComplaintCreationGUI complaintCreationGUI = (ComplaintCreationGUI)parent;
-    	client.setUI(complaintCreationGUI);
+    	Client.getInstance().setUI(complaintCreationGUI);
     	complaintCreationGUI.clearForm();
     	FormController.primaryStage.setScene(parent.getScene());
     }
@@ -127,12 +126,6 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   			this.notify();
   		}
   	}
-  	//==============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
 	//==============================================================================================================
   	public void setUser(User user)
   	{
@@ -199,24 +192,11 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
   	    	OrderViewButton src = (OrderViewButton)e.getSource();
   			Order order = src.getOrigin();
   			if (newComplaintCreationGUI != null)
-  			{
-//  				newComplaintCreationGUI.setCustomer(customer);
-//  				newComplaintCreationGUI.setOrder(order);
-//  				newComplaintCreationGUI.setUser(user);
-//  				newComplaintCreationGUI.setClinet(client);
-//  				getClient().setUI(newComplaintCreationGUI);
-//  				//getClient().setUI(SelectOrderInterface);
-//  				newComplaintCreationGUI.setClinet(client);
-//  				newComplaintCreationGUI.doInit();
-//  				FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
-  				
+  			{  				
   				newComplaintCreationGUI.setCustomer(customer);
   				newComplaintCreationGUI.setOrder(order);
-  	
   				newComplaintCreationGUI.setUser(user);
-  				getClient().setUI(newComplaintCreationGUI);
-  				newComplaintCreationGUI.setClinet(Client.client);
-  				
+  				Client.getInstance().setUI(newComplaintCreationGUI);
     			FormController.primaryStage.setScene(newComplaintCreationGUI.getScene());
   								
   			}
@@ -314,10 +294,10 @@ public class SelectOrderForComplaintGUI extends FormController implements Client
 	}
   	//===============================================================================================================
     //allows us to hand over the client in event handlers
-    private Client getClient()
-	{
-		return this.client;
-	}
+//    private Client getClient()
+//	{
+//		return this.client;
+//	}
 	//===============================================================================================================
 	//waiting for the server to respond
     protected void waitForServerResponse()

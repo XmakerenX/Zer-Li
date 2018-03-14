@@ -6,7 +6,6 @@ import client.Client;
 import serverAPI.AddRequest;
 import serverAPI.GetRequestWhere;
 import serverAPI.UpdateRequest;
-import survey.CustomerSatisfactionSurveyResults;
 
 /**
  * a class that holds the functionality related to order complaints
@@ -31,7 +30,7 @@ public class OrderComplaintController {
 			int storeID, float maxCompensationAmount,int orderID, String addedBy)
 	{		
 		OrderComplaint newComplaint = new OrderComplaint(customerID, name, phone, complaint, date, time, storeID, maxCompensationAmount,orderID, addedBy);
-		Client.client.handleMessageFromClientUI(new AddRequest("ordercomplaint", newComplaint));
+		Client.getInstance().handleMessageFromClientUI(new AddRequest("ordercomplaint", newComplaint));
 	}
 	//===============================================================================================================
 	/**
@@ -39,7 +38,7 @@ public class OrderComplaintController {
 	 */
 	public static void getActiveComplaints()
 	{
-		Client.client.handleMessageFromClientUI(new GetRequestWhere("ordercomplaint", "status", "NEW"));
+		Client.getInstance().handleMessageFromClientUI(new GetRequestWhere("ordercomplaint", "status", "NEW"));
 	}
 	//===============================================================================================================
 	/**
@@ -49,6 +48,6 @@ public class OrderComplaintController {
 	 */
 	public static void handleOrderComplaint(String key, OrderComplaint orderComplaint)
 	{
-		Client.client.handleMessageFromClientUI(new UpdateRequest("ordercomplaint", key, orderComplaint));
+		Client.getInstance().handleMessageFromClientUI(new UpdateRequest("ordercomplaint", key, orderComplaint));
 	}
 }

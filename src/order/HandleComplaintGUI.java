@@ -75,13 +75,15 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 	    	waitForServerResponse();
 	    	if(response.getType() == Response.Type.SUCCESS)			//updating complaint in data base success
 	    	{
-	    		CustomerController.getCertainCustomers("personID", complaint.getCustomerID()+"", client);
+	    		CustomerController.getCertainCustomers(
+	    				"personID", complaint.getCustomerID()+"", Client.getInstance());
 	    		waitForServerResponse();
 	    		if(response.getType() == Response.Type.SUCCESS)				//we got the right customer
 	    		{
 	    			Customer customer = ((ArrayList<Customer>)response.getMessage()).get(0);
 		    		customer.setAccountBalance(customer.getAccountBalance()+complaint.getComplaintCompensation());
-		    		CustomerController.updateCustomerDetails(customer, complaint.getCustomerID()+"", client);
+		    		CustomerController.updateCustomerDetails(
+		    				customer, complaint.getCustomerID()+"", Client.getInstance());
 		    		waitForServerResponse();
 		    		if(response.getType() == Response.Type.SUCCESS)				//refunding succeed
 		    		{
@@ -121,7 +123,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
 			    	    	orderPriceTextFiled.clear();
 			    	    	
 			    	    	ComplaintManageGUI complaintManageGUI = (ComplaintManageGUI)parent;
-			    	    	client.setUI(complaintManageGUI);
+			    	    	Client.getInstance().setUI(complaintManageGUI);
 			    	    	complaintManageGUI.doInit();
 			    	    	FormController.primaryStage.setScene(parent.getScene());
 			    	    	//*******************************
@@ -199,7 +201,7 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
     	orderPriceTextFiled.clear();
     	
     	ComplaintManageGUI complaintManageGUI = (ComplaintManageGUI)parent;
-    	client.setUI(complaintManageGUI);
+    	Client.getInstance().setUI(complaintManageGUI);
     	complaintManageGUI.doInit();
     	FormController.primaryStage.setScene(parent.getScene());
     }
@@ -228,13 +230,6 @@ public class HandleComplaintGUI extends FormController implements ClientInterfac
   			this.notify();
   		}
   	}
-  	//===============================================================================================================
-
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
 	//===============================================================================================================
 	//waiting for the server to respond
     protected void waitForServerResponse()

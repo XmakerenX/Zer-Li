@@ -71,10 +71,10 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     void onLogOut(ActionEvent event) {
     	
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, Client.client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	Client.client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }
@@ -89,7 +89,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	
 		if ( updateUserGUI != null)
 		{
-			Client.client.handleMessageFromClientUI(new GetRequest("Store"));
+			Client.getInstance().handleMessageFromClientUI(new GetRequest("Store"));
 			
 	     	waitForResponse();
 			
@@ -110,9 +110,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
 		  	//clear replay
 		  	replay = null;
 	     	
-			
-			updateUserGUI.setClinet(Client.client);
-			Client.client.setUI(updateUserGUI);
+			Client.getInstance().setUI(updateUserGUI);
 			FormController.primaryStage.setScene(updateUserGUI.getScene());
 		}
     }
@@ -131,7 +129,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	
     	if	(username != null)
     	{
-	    	UserController.getUser(username, Client.client);
+	    	UserController.getUser(username, Client.getInstance());
 	    	
 			waitForResponse();
 					
@@ -142,7 +140,7 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
 					alert.setTitle("User deletion");
 					alert.setHeaderText(username + " is successfully deleted");
 					alert.showAndWait();
-					UserController.RemoveUser(username, client);
+					UserController.RemoveUser(username, Client.getInstance());
 		  	}
 		  	else
 		  	{
@@ -158,13 +156,6 @@ public class SystemManagerGUI extends FormController implements ClientInterface 
     	}
     	
     }
-    
-    
-    
-	public void onSwitch(Client newClient)
-	{
-		
-	}
 	
 	/**
 	 * Display reply message from server

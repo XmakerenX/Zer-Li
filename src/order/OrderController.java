@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import serverAPI.AddRequest;
 import serverAPI.GetCustomItemRequest;
 import serverAPI.GetJoinedTablesWhereRequest;
-import serverAPI.GetRequest;
 import serverAPI.GetRequestWhere;
 import serverAPI.RemoveOrderRequest;
 import serverAPI.UpdateRequest;
@@ -31,7 +30,7 @@ public class OrderController
     			order.addItemToOrder(item.getID(), item.getGreetingCard().getText());
     		}
 
-    		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
+    		Client.getInstance().handleMessageFromClientUI(new AddRequest("Order", order));
 	}
 
 	//*************************************************************************************************
@@ -44,7 +43,7 @@ public class OrderController
 	public static void updateOrder(int orderID, Order order)
 	{
 		String key = Integer.toString(orderID);
-		Client.client.handleMessageFromClientUI(new UpdateRequest("Order", key, order));
+		Client.getInstance().handleMessageFromClientUI(new UpdateRequest("Order", key, order));
 	}
 	
 	//*************************************************************************************************
@@ -61,7 +60,7 @@ public class OrderController
     			order.addCustomItemToOrder((CustomItemView)item, item.getGreetingCard().getText());
     		}
 
-    		Client.client.handleMessageFromClientUI(new AddRequest("Order", order));
+    		Client.getInstance().handleMessageFromClientUI(new AddRequest("Order", order));
 	}
 	
 	//*************************************************************************************************
@@ -72,7 +71,7 @@ public class OrderController
 	//*************************************************************************************************
 	public static void getOrdersOfaUser(String customerID)
 	{
-		Client.client.handleMessageFromClientUI((new GetRequestWhere("Order", "OrderCustomerID", customerID)));
+		Client.getInstance().handleMessageFromClientUI((new GetRequestWhere("Order", "OrderCustomerID", customerID)));
 	}
 	
 	//*************************************************************************************************
@@ -83,7 +82,7 @@ public class OrderController
 	//*************************************************************************************************
 	public static void cancelOrder(Order order)
 	{	
-		Client.client.handleMessageFromClientUI(new RemoveOrderRequest(order.getID()));
+		Client.getInstance().handleMessageFromClientUI(new RemoveOrderRequest(order.getID()));
 	}
 	
 	//*************************************************************************************************
@@ -94,7 +93,7 @@ public class OrderController
 	//*************************************************************************************************
 	public static void requestCustomerOrders(long customerID)
 	{
-		Client.client.handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
+		Client.getInstance().handleMessageFromClientUI(new GetRequestWhere("Order", "OrderCustomerID", ""+customerID) );
 	}
 	
 	//*************************************************************************************************
@@ -105,7 +104,7 @@ public class OrderController
 	//*************************************************************************************************
 	public static void getOrderProducts(long orderID)
 	{
-		Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "ProductInOrder", 0,"OrderID", ""+orderID));
+		Client.getInstance().handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "ProductInOrder", 0,"OrderID", ""+orderID));
 	}
 	
 	//*************************************************************************************************
@@ -116,6 +115,6 @@ public class OrderController
 	//*************************************************************************************************
 	public static void getOrderCustomProducts(long orderID)
 	{
-		Client.client.handleMessageFromClientUI(new GetCustomItemRequest(orderID));
+		Client.getInstance().handleMessageFromClientUI(new GetCustomItemRequest(orderID));
 	}
 }

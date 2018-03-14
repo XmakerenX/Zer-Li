@@ -89,9 +89,9 @@ public class CustomerGUI extends FormController implements ClientInterface {
     @FXML
     void onLogOut(ActionEvent event) {
     	
-    	UserController.requestLogout(currentUser, client);
+    	UserController.requestLogout(currentUser, Client.getInstance());
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	FormController.primaryStage.setTitle("Zerli");
     }
@@ -110,8 +110,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	{
 	    	customItemGUI.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
 	    	customItemGUI.setCurrentCustomer(currentCustomer);
-			client.setUI(customItemGUI);
-			customItemGUI.setClinet(client);
+	    	Client.getInstance().setUI(customItemGUI);
 			customItemGUI.initFields();
 			FormController.primaryStage.setScene(customItemGUI.getScene());
 			FormController.primaryStage.setTitle("Custom order creation");
@@ -136,8 +135,8 @@ public class CustomerGUI extends FormController implements ClientInterface {
     		{
 	    		catalogGui.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
 	    		catalogGui.setCurrentCustomer(currentCustomer);
-	    		client.setUI(catalogGui);
-	    		catalogGui.setClinet(client);
+	    		Client.getInstance().setUI(catalogGui);
+	    		catalogGui.onRefresh(null);
 	    		FormController.primaryStage.setScene(catalogGui.getScene());
 	    		FormController.primaryStage.setTitle("Catalog");
     		}
@@ -158,8 +157,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	if (orderBySearchGUI != null)
     	{
     		currentCustomer = loadCustomer();
-    		client.setUI(orderBySearchGUI);
-    		orderBySearchGUI.setClinet(client);
+    		Client.getInstance().setUI(orderBySearchGUI);
     		orderBySearchGUI.doInit();
     		orderBySearchGUI.setCurrentStoreID(storeCombo.getSelectionModel().getSelectedIndex() + 1);
     		orderBySearchGUI.setCurrentCustomer(currentCustomer);
@@ -195,7 +193,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     	if (cancelOrderGUI != null)
     	{
     		cancelOrderGUI.setCurrentCustomer(currentCustomer);
-    		client.setUI(cancelOrderGUI);
+    		Client.getInstance().setUI(cancelOrderGUI);
     		cancelOrderGUI.onRefresh(null);
     		FormController.primaryStage.setScene(cancelOrderGUI.getScene());
     		FormController.primaryStage.setTitle("View orders");
@@ -211,7 +209,8 @@ public class CustomerGUI extends FormController implements ClientInterface {
     public Customer loadCustomer()
     {
 		replay = null;
-		CustomerController.getCustomer(""+currentUser.getPersonID(), ""+(storeCombo.getSelectionModel().getSelectedIndex() + 1), Client.client);
+		CustomerController.getCustomer(""+currentUser.getPersonID(),
+				""+(storeCombo.getSelectionModel().getSelectedIndex() + 1), Client.getInstance());
 		
 		synchronized(this)
 		{
@@ -261,7 +260,7 @@ public class CustomerGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     public void loadStores()
     {
-    	Client.client.handleMessageFromClientUI(new GetRequest("Store"));
+    	Client.getInstance().handleMessageFromClientUI(new GetRequest("Store"));
     	
    		synchronized(this)
 		{
@@ -336,8 +335,4 @@ public class CustomerGUI extends FormController implements ClientInterface {
 		this.currentUser = currentUser;
 	}
 
-	public void onSwitch(Client newClient)
-	{
-		
-	}
 }

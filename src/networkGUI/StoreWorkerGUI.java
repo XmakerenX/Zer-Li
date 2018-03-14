@@ -64,12 +64,6 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
 		
 	}
 	//===============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
-	//===============================================================================================================
     @FXML
     //Will be called by FXMLLoader
     public void initialize(){
@@ -87,8 +81,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     {
     	if (resultInputGUI != null)
 		{
-    		resultInputGUI.setClinet(client);
-			client.setUI(resultInputGUI);
+    		Client.getInstance().setUI(resultInputGUI);
 			resultInputGUI.initComboBox();
 			resultInputGUI.setUser(user);
 			resultInputGUI.setParent(this);
@@ -106,8 +99,7 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     	if (manCatGui != null)
 		{
 	    	ManageCatalogGUI manCatGui = FormController.<ManageCatalogGUI, AnchorPane>loadFXML(getClass().getResource("/catalog/ManageCatalogGUI.fxml"), this);
-	    	client.setUI(manCatGui);
-	    	manCatGui.setClinet(client);
+	    	Client.getInstance().setUI(manCatGui);
 	    	manCatGui.setEmployeeStoreID(storeID);
 	    	manCatGui.doInit(user);  
 	    	manCatGui.setParent(this);
@@ -123,9 +115,9 @@ public class StoreWorkerGUI extends FormController implements ClientInterface{
     @FXML
     void onLogOut(ActionEvent event) 
     {
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.getInstance());
     	LoginGUI loginGUi = (LoginGUI)thisParent;
-    	client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(thisParent.getScene());
 
     }

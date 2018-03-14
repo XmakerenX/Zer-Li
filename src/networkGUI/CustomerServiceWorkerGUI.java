@@ -2,6 +2,7 @@ package networkGUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import client.Client;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
 import order.ComplaintCreationGUI;
@@ -45,9 +46,8 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
     @FXML
     void OnAddNewComplaintButton(ActionEvent event) {
     	complaintCreationGUI.setUser(user);
-		client.setUI(complaintCreationGUI);
+    	Client.getInstance().setUI(complaintCreationGUI);
 		complaintCreationGUI.doInit();
-		complaintCreationGUI.setClinet(client);
 		FormController.primaryStage.setScene(complaintCreationGUI.getScene());
     }
   //===============================================================================================================
@@ -58,8 +58,7 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
     @FXML
     void onManageComplaintsButton(ActionEvent event)
     {
-		client.setUI(complaintManageGUI);
-		complaintManageGUI.setClinet(client);
+    	Client.getInstance().setUI(complaintManageGUI);
 		complaintManageGUI.setParent(this);
 		complaintManageGUI.setUser(user);
 		complaintManageGUI.doInit();
@@ -79,10 +78,10 @@ public class CustomerServiceWorkerGUI extends CustomerServiceGUI{
     @FXML
     void onLogOutButton(ActionEvent event) {
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
 
     }

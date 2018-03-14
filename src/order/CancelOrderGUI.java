@@ -85,7 +85,7 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
     //*************************************************************************************************
     @FXML
     void onBack(ActionEvent event) {
-    	Client.client.setUI((ClientInterface)parent);
+    	Client.getInstance().setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     	FormController.primaryStage.setTitle("Customer menu");
     }
@@ -316,10 +316,5 @@ public class CancelOrderGUI extends FormController implements ClientInterface{
 		this.currentCustomer = currentCustomer;
 	}
 				
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
 	
 }

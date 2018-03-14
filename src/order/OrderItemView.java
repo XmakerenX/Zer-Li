@@ -53,7 +53,7 @@ public class OrderItemView extends CatalogItem {
 	    	Product prod = (Product)b.getUserData();
 	    	Stage newWindow = new Stage();
 	    	EditProductGUI editProdGUI = FormController.<EditProductGUI, AnchorPane>loadFXML(getClass().getResource("/product/EditProductGUI.fxml"), null);
-	    	Client.client.setUI(editProdGUI);
+	    	Client.getInstance().setUI(editProdGUI);
 	    	    	
 	    	newWindow.initOwner(FormController.getPrimaryStage());
 	    	newWindow.initModality(Modality.WINDOW_MODAL);  

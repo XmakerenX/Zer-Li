@@ -168,7 +168,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	    	answers[3]=Integer.parseInt(answerTxtFld4.getText());
 	    	answers[4]=Integer.parseInt(answerTxtFld5.getText());
 	    	answers[5]=Integer.parseInt(answerTxtFld6.getText());
-	    	UserController.getStoreOfEmployee(user.getUserName(), client);
+	    	UserController.getStoreOfEmployee(user.getUserName(), Client.getInstance());
 	    	//=======================================================================
 	    	try
         	{
@@ -188,7 +188,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 	    	    	//clear response
 	    	    	response=null;
 	    	    	System.out.println("Store id is: " + storeID);
-	        		CustomerSatisfactionSurveyResultsController.addResults(answers, storeID, client);
+	        		CustomerSatisfactionSurveyResultsController.addResults(answers, storeID, Client.getInstance());
 	        		try
 	            	{
 	            		synchronized(this)
@@ -243,7 +243,7 @@ public class ResultInputGUI extends FormController implements ClientInterface {
     void onCancel(ActionEvent event) {
     	clearForm();
     	StoreWorkerGUI storeWorkerGUI = (StoreWorkerGUI)parent;
-    	client.setUI(storeWorkerGUI);
+    	Client.getInstance().setUI(storeWorkerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
@@ -259,12 +259,6 @@ public class ResultInputGUI extends FormController implements ClientInterface {
 		{
 			this.notify();
 		}
-	}
-	//===============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
 	}
 	//===============================================================================================================
 	public void setUser(User user)

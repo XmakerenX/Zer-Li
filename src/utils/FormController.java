@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
-import client.Client;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,10 +26,6 @@ public abstract class FormController {
 	public static Stage primaryStage;
 	protected Scene thisScene;
 	protected FormController parent;
-	protected Client client;
-	
-	
-	public abstract void onSwitch(Client newClient);
 	
     //*************************************************************************************************
     /**
@@ -118,12 +113,7 @@ public abstract class FormController {
 	{
 		this.parent = parent;
 	}
-	
-	public void setClinet(Client client)
-	{
-		this.client = client;
-	}
-	
+		
     //*************************************************************************************************
     /**
      * Load an fxml file and initialize it's controller with his scene and parent 

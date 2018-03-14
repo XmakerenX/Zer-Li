@@ -237,14 +237,14 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
 			
     		catItem = new CatalogItem(prod, salesPrice, ImageName, checkSum, storeID);
     		//imagePath = imagePath.replaceAll("/", "//");
-    		CatalogController.addCatalogProductToDataBase(catItem,Client.client);
+    		CatalogController.addCatalogProductToDataBase(catItem,Client.getInstance());
     		
 			try 
 			{
 	    		ImageData imageToUpload;
 				imageToUpload = new ImageData(imagePath);
 				
-				client.handleMessageFromClientUI(new UploadImageRequest(imageToUpload));
+				Client.getInstance().handleMessageFromClientUI(new UploadImageRequest(imageToUpload));
 				synchronized(this)
 				{	
 					this.wait();
@@ -368,22 +368,4 @@ public class AddToCatalogGUI extends FormController implements ClientInterface
     	    	
     }
     
-    @Override
-	public void setClinet(Client client)
-	{
-    	super.setClinet(client);
-    	
-	}
-    public Client getClinet()
-	{
-    	return super.client;
-	}
-    
-	@Override
-	public void onSwitch(Client newClient) {
-
-	}
-
-	
-	
 }

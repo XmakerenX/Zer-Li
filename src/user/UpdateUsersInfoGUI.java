@@ -303,7 +303,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 
     	String userName = findUserNameTxtField.getText();
     	
-    	UserController.getUser(userName, Client.client);
+    	UserController.getUser(userName, Client.getInstance());
     	
 	    waitForResponse();
 			
@@ -327,7 +327,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
      		infosTabPane.getTabs().get(1).setDisable(false);
 	    	String personID = ""+userToUpdate.getPersonID();
 	    	
-	    	CustomerController.getCustomer(personID, null, Client.client);
+	    	CustomerController.getCustomer(personID, null, Client.getInstance());
 	    	
 			waitForResponse();
 					
@@ -378,7 +378,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 			try {
 		   		if(!newUsernameTxtField.getText().equals(""))
 		   		{
-					UserController.getUser(""+newUsernameTxtField.getText(), Client.client);
+					UserController.getUser(""+newUsernameTxtField.getText(), Client.getInstance());
 			    	
 					waitForResponse();
 									
@@ -427,7 +427,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 			
 			if(toUpdateFlag)
 			{
-				UserController.updateUserDetails(userToUpdate, formerUsername, Client.client);
+				UserController.updateUserDetails(userToUpdate, formerUsername, Client.getInstance());
 		    	
 				waitForResponse();
 							
@@ -500,7 +500,8 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 	    		return;
 			}
 
-	    	CustomerController.updateCustomerDetails(customerToUpdate, formerPersonID, Client.client);
+	    	CustomerController.updateCustomerDetails(
+	    			customerToUpdate, formerPersonID, Client.getInstance());
 	
 			waitForResponse();
 					
@@ -559,7 +560,7 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
     	clearFieldsMethod(allTextFields, allComboBoxes);
     	
     	SystemManagerGUI sysManagerGUI = (SystemManagerGUI)parent;
-    	Client.client.setUI(sysManagerGUI);
+    	Client.getInstance().setUI(sysManagerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
 
@@ -583,13 +584,6 @@ public class UpdateUsersInfoGUI extends FormController implements ClientInterfac
 		}
 		
 	}
-
-	@Override
-	public void onSwitch(Client newClient) {
-		
-		
-	}
-	
 	
 	/**
 	 * Clear specific fields and combo boxes in the GUI

@@ -53,6 +53,7 @@ public class CustomerSatisfactionSurveyResultsController
 	public static void addResultAnalysis(String resultID, CustomerSatisfactionSurveyResults survey, Client client)
 	{
 		System.out.println(survey);
-		Client.client.handleMessageFromClientUI(new UpdateRequest("CustomerSatisfactionSurveyResults", resultID, survey));
+		Client.getInstance().handleMessageFromClientUI(
+				new UpdateRequest("CustomerSatisfactionSurveyResults", resultID, survey));
 	}
 }

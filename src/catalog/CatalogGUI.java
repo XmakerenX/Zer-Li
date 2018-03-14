@@ -134,7 +134,8 @@ public class CatalogGUI extends FormController implements ClientInterface {
     private void addStoreProductsToSet(long storeID, TreeSet<CatalogItem> catalogItemsSet)
     {
     	replay = null;
-    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0,"StoreID", ""+storeID));
+    	Client.getInstance().handleMessageFromClientUI(
+    			new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0,"StoreID", ""+storeID));
     	
     	// wait for response
 		synchronized(this)
@@ -177,7 +178,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
 		{
 			System.out.println("Missing images "+ missingImages);
 			replay = null;
-			CatalogController.requestCatalogImages(missingImages, Client.client);
+			CatalogController.requestCatalogImages(missingImages, Client.getInstance());
 
 			// wait for response 
 			synchronized(this)
@@ -249,7 +250,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
     //*************************************************************************************************
     @FXML
     void onBack(ActionEvent event) {
-    	Client.client.setUI((ClientInterface)parent);
+    	Client.getInstance().setUI((ClientInterface)parent);
     	FormController.primaryStage.setScene(parent.getScene());
     	FormController.primaryStage.setTitle("Customer menu");
     }
@@ -282,7 +283,7 @@ public class CatalogGUI extends FormController implements ClientInterface {
         	{
         		createOrderGUI.setCurrentCustomer(currentCustomer);
         		createOrderGUI.setCurrentStore(currentStoreID);
-        		Client.client.setUI(createOrderGUI);
+        		Client.getInstance().setUI(createOrderGUI);
         		createOrderGUI.loadItemsInOrder(itemsSelected);
         		FormController.primaryStage.setScene(createOrderGUI.getScene());
         		FormController.primaryStage.setTitle("Create order");
@@ -319,11 +320,11 @@ public class CatalogGUI extends FormController implements ClientInterface {
     }
     
     //TODO: delete this function
-    @Override
-	public void setClinet(Client client)
-	{
-    	onRefresh(null);
-	}
+//    @Override
+//	public void setClinet(Client client)
+//	{
+//    	onRefresh(null);
+//	}
     
     //*************************************************************************************************
     /**
@@ -345,13 +346,5 @@ public class CatalogGUI extends FormController implements ClientInterface {
 	{
 		this.currentStoreID = storeID;
 	}
-
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
-
-	
 	
 }

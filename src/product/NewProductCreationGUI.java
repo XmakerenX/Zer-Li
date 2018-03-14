@@ -269,7 +269,8 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
 		{
 		   Product updatedProd = new Product(Long.parseLong(idField.getText()), nameFIeld.getText(), typeComboBox.getValue(),
 				   Float.parseFloat(priceField.getText()), Integer.parseInt(amountFIeld.getText()), colorComboBox.getValue());
-		   ProdcutController.updateProduct(Long.parseLong(idField.getText()), updatedProd, client);
+		   ProdcutController.updateProduct(
+				   Long.parseLong(idField.getText()), updatedProd, Client.getInstance());
 		   try
 			{
 			this.wait();
@@ -285,7 +286,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     {
     	synchronized(this)
 		{
-		  ProdcutController.removeProductFromDataBase(Long.toString(id), client);
+		  ProdcutController.removeProductFromDataBase(Long.toString(id), Client.getInstance());
 
 			try
 			{
@@ -303,7 +304,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     {
     	synchronized(this)
 		{
-		  ProdcutController.addProductToDataBase(newProd, client);
+		  ProdcutController.addProductToDataBase(newProd, Client.getInstance());
 
 			try
 			{
@@ -335,7 +336,7 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     	{
     		ArrayList<String> primaryKey = new ArrayList<String>();
     		primaryKey.add(id);
-    		client.handleMessageFromClientUI(new CheckExistsRequest("Product",primaryKey));
+    		Client.getInstance().handleMessageFromClientUI(new CheckExistsRequest("Product",primaryKey));
     		
     		try 
     		{
@@ -358,11 +359,6 @@ public class NewProductCreationGUI extends  FormController implements ClientInte
     	 
    
     }
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
 //----------------------------------------------------------------------------------
 	@Override
 	public void display(Object message) 

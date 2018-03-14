@@ -339,13 +339,13 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 		if (!customOrder)
 		{
 			CatalogGUI catalogGUI = (CatalogGUI)parent;
-	    	Client.client.setUI(catalogGUI);
+	    	Client.getInstance().setUI(catalogGUI);
 	    	catalogGUI.onRefresh(null);
 		}
 		else
 		{
 			CustomerGUI customerGUI = (CustomerGUI)parent;
-			Client.client.setUI(customerGUI);
+			Client.getInstance().setUI(customerGUI);
 			customerGUI.loadStores();
 		}
 		
@@ -842,12 +842,6 @@ public class CreateOrderGUI extends FormController implements ClientInterface {
 		df.setMaximumFractionDigits(2);
 		orderTotalPrice += amount;
 		this.totalPrice.setText(""+df.format(orderTotalPrice)+" ILS");
-	}
-	
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
 	}
 	
 }

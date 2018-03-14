@@ -106,10 +106,4 @@ public class ViewCustomItemGUI extends FormController {
 		this.windowStage = windowStage;
 	}
 
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

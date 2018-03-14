@@ -79,7 +79,7 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
     {
     	complaintTable.getItems().clear();
     	CustomerServiceWorkerGUI customerServiceWorkerGUI = (CustomerServiceWorkerGUI)parent;
-    	client.setUI(customerServiceWorkerGUI);
+    	Client.getInstance().setUI(customerServiceWorkerGUI);
     	FormController.primaryStage.setScene(parent.getScene());
     }
   //===============================================================================================================
@@ -112,12 +112,6 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
   			this.notify();
   		}
   	}
-  	//===============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-		
-	}
 	//===============================================================================================================
 		//waiting for the server to respond
 	    protected void waitForServerResponse()
@@ -146,16 +140,9 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 				OrderComplaint complaint = src.getOrigin();
 				
 				if (handleComplaintGUI != null)
-				{
-//					handleComplaintGUI.setComplaint(complaint);
-//					getClient().setUI(handleComplaintGUI);
-//					handleComplaintGUI.setClinet(client);
-//					handleComplaintGUI.doInit();
-//					FormController.primaryStage.setScene(handleComplaintGUI.getScene());
-					
+				{					
 					handleComplaintGUI.setComplaint(complaint.getOrderComplaint());
-					client.setUI(handleComplaintGUI);
-					handleComplaintGUI.setClinet(client);
+					Client.getInstance().setUI(handleComplaintGUI);
 					handleComplaintGUI.doInit();
 					FormController.primaryStage.setScene(handleComplaintGUI.getScene());
 				}
@@ -163,10 +150,10 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 		};	
 		//===============================================================================================================
 	    //allows us to hand over the client in event handlers
-	    private Client getClient()
-		{
-			return this.client;
-		}
+//	    private Client getClient()
+//		{
+//			return this.client;
+//		}
 	  //===============================================================================================================
 	    /**
 	     * initializes the table view
@@ -219,7 +206,7 @@ public class ComplaintManageGUI extends FormController implements ClientInterfac
 	    	else if(response.getType() == Response.Type.ERROR)
 	    	{
 	    		complaintFound = false;
-	        	client.setUI((ClientInterface)parent);
+	    		Client.getInstance().setUI((ClientInterface)parent);
 	        	FormController.primaryStage.setScene(parent.getScene());
 	        	
 	    		Alert alert = new Alert(AlertType.INFORMATION, "No active complaints found!", ButtonType.OK);

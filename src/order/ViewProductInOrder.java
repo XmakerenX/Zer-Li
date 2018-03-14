@@ -108,11 +108,5 @@ public class ViewProductInOrder extends FormController {
 	public void setWindowStage(Stage windowStage) {
 		this.windowStage = windowStage;
 	}
-    
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

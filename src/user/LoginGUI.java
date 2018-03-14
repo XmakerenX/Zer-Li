@@ -108,14 +108,8 @@ public class LoginGUI extends FormController implements ClientInterface  {
     @FXML
     void changeServerIP(ActionEvent event) 
     {
-    	String serverIP;
-		String serverPort;
 		
 		Config clientConf = new Config("client.properties");
-
-
-		serverIP =clientConf.getProperty("SERVER_IP").trim();
-		
 		
     	TextInputDialog dialog = new TextInputDialog();
     	dialog.setTitle("Server ip changing");
@@ -128,7 +122,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	{
     		FileOutputStream out =null;
     		try {
-				Client.client.closeConnection();
+				Client.getInstance().closeConnection();
 				out = new FileOutputStream("client.properties");
 				 clientConf.configFile.setProperty("SERVER_IP",result.get().toString());
 		    	    clientConf.configFile.store(out, null);
@@ -185,7 +179,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	}
     	
     	
-    	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), Client.client);
+    	UserController.requestLogin(usernameTxt.getText(), passwordTxt.getText(), Client.getInstance());
     	
     	
 		
@@ -219,7 +213,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
     		replay = null;
     		//store the relevent store of the user( in case he is an employee)
     		
-    		UserController.getStoreOfEmployee(usernameTxt.getText(), Client.client);
+    		UserController.getStoreOfEmployee(usernameTxt.getText(), Client.getInstance());
         	try
         	{
         		synchronized(this) {this.wait();}
@@ -250,42 +244,11 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	        		if (customerGUI != null)
 	        		{	        			
-        				Client.client.setUI(customerGUI);
-        				customerGUI.setClinet(Client.client);
+        				Client.getInstance().setUI(customerGUI);
         				customerGUI.setCurrentUser(user);
         				customerGUI.loadStores();
 	        			FormController.primaryStage.setScene(customerGUI.getScene());
 	        			FormController.primaryStage.setTitle("Customer menu");
-	        			//CustomerController.getCustomer(""+user.getPersonID(), client);
-	        			
-//	        			synchronized(this)
-//	            		{
-//	            			// wait for server response
-//	            			this.wait(ClientInterface.TIMEOUT);
-//	            		}
-//	        			
-//	        			if (replay != null)
-//	        			{
-//	        				if (replay.getType() == Response.Type.SUCCESS)
-//	        				{
-//	        					ArrayList<Customer> customers = (ArrayList<Customer>)replay.getMessage();
-//	        					customerGUI.setCurrentCustomer(customers.get(0));
-//	        				}
-//	        				else
-//	        				{
-//	        					customerGUI.setCurrentCustomer(null);
-//	        				}
-//	        				
-//	        			}
-//	        			else
-//	        			{
-//	            			Alert alert = new Alert(AlertType.ERROR);
-//	            		  	alert.setTitle("Server Respone timed out");
-//	            	    	alert.setHeaderText("Server Failed to response to request after "+ClientInterface.TIMEOUT+" Seconds");
-//	            	    	
-//	            	    	alert.showAndWait();
-//	            			return;
-//	        			}
 	        		}
 	    		}break;
 	    			
@@ -295,8 +258,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		if (customerServiceWorkerGUI != null)
 	        		{
 	        			customerServiceWorkerGUI.setUser(user);
-	        			customerServiceWorkerGUI.setClinet(Client.client);
-	        			Client.client.setUI(customerServiceWorkerGUI);
+	        			Client.getInstance().setUI(customerServiceWorkerGUI);
 	        			FormController.primaryStage.setScene(customerServiceWorkerGUI.getScene());
 	        		}
 	    		}break;
@@ -307,8 +269,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		if (sysManagerGUI != null)
 	        		{
 	        			sysManagerGUI.setUser(user);
-	        			sysManagerGUI.setClinet(Client.client);
-	        			Client.client.setUI(sysManagerGUI);
+	        			Client.getInstance().setUI(sysManagerGUI);
 	        			FormController.primaryStage.setScene(sysManagerGUI.getScene());
 	        		}
 	    		}break;
@@ -317,10 +278,9 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	    			if (networkWorkerGui != null)
 	        		{
-	    				networkWorkerGui.setClinet(Client.client);
 						networkWorkerGui.setUser(user);
 						networkWorkerGui.setStoreID(releventStoreOfUserEmployee);
-						Client.client.setUI(networkWorkerGui);
+						Client.getInstance().setUI(networkWorkerGui);
 	        			FormController.primaryStage.setScene(networkWorkerGui.getScene());
 	        		}
 	    			break;
@@ -330,9 +290,8 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    		{
 	    			if (networkManagerGui != null)
 	        		{
-	    				networkManagerGui.setClinet(Client.client);
 	    				networkManagerGui.setUser(user);
-	    				Client.client.setUI(networkManagerGui);
+	    				Client.getInstance().setUI(networkManagerGui);
 	        			FormController.primaryStage.setScene(networkManagerGui.getScene());
 	        		}
 	    			break;
@@ -345,9 +304,8 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	        		{
 	    				storeWorkerGUI.setUser(user);
 	    				storeWorkerGUI.setStoreID(releventStoreOfUserEmployee);
-	    				storeWorkerGUI.setClinet(Client.client);
 	    				storeWorkerGUI.setFormParent(this);
-	    				Client.client.setUI(storeWorkerGUI);
+	    				Client.getInstance().setUI(storeWorkerGUI);
 	    				
 	        			FormController.primaryStage.setScene(storeWorkerGUI.getScene());
 	        		}
@@ -360,8 +318,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (customerServiceExpertGUI != null)
 	        		{
 	    				customerServiceExpertGUI.setUser(user);
-	    				customerServiceExpertGUI.setClinet(Client.client);
-	    				Client.client.setUI(customerServiceExpertGUI);
+	    				Client.getInstance().setUI(customerServiceExpertGUI);
 	        			FormController.primaryStage.setScene(customerServiceExpertGUI.getScene());
 	        		}
 	    			break;
@@ -373,8 +330,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (customerServiceGUI != null)
 	        		{
 	    				customerServiceGUI.setUser(user);
-	    				customerServiceGUI.setClinet(Client.client);
-	    				Client.client.setUI(customerServiceGUI);
+	    				Client.getInstance().setUI(customerServiceGUI);
 	        			FormController.primaryStage.setScene(customerServiceGUI.getScene());
 	        		}
 	    			break;
@@ -385,8 +341,7 @@ public class LoginGUI extends FormController implements ClientInterface  {
 	    			if (storeManagerGUI != null)
 	        		{
 	    				storeManagerGUI.setUser(user);
-		    			storeManagerGUI.setClinet(Client.client);
-		    			Client.client.setUI(storeManagerGUI);
+		    			Client.getInstance().setUI(storeManagerGUI);
 		        		FormController.primaryStage.setScene(storeManagerGUI.getScene());
 
 	        		}
@@ -412,13 +367,6 @@ public class LoginGUI extends FormController implements ClientInterface  {
     	
     	}catch(InterruptedException e) {}
 }
-	    
-	@Override
-	public void onSwitch(Client newClient) {
-		// TODO Auto-generated method stub
-
-	}
-	
 		
 	/**
 	 * updates the config file, when some one chooses to use the remember me function 

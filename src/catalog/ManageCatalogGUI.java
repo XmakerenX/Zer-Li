@@ -102,19 +102,18 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 					
 			    
 //action events for product buttons:
-			    
-			
-   /**
-    * Returns to the previous window
-    * @param event - "Back" button is clicked
-    */
+			    	
+	   /**
+	    * Returns to the previous window
+	    * @param event - "Back" button is clicked
+	    */
 	   @FXML
 	    void onBackBTN(ActionEvent event) 
 	    {
-		    this.client.setUI((ClientInterface)this.parent);
-	    	FormController.primaryStage.setScene(this.parent.getScene());
-	    	
+		   Client.getInstance().setUI((ClientInterface)this.parent);
+		   FormController.primaryStage.setScene(this.parent.getScene());
 	    }
+	   
 		/**
 		 * Opens a new product creation window								    
 		 * @param event - "New product" button is clicked
@@ -127,7 +126,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			{
 				Stage newWindow = new Stage();
 				getClient().setUI(createProductGUI);
-				createProductGUI.setClinet(client);
 				newWindow.initOwner(FormController.primaryStage);
 		    	newWindow.initModality(Modality.WINDOW_MODAL);  
 				newWindow.setScene(createProductGUI.getScene());
@@ -144,7 +142,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		 */
 		private Client getClient()
 		{
-			return Client.client;
+			return Client.getInstance();
 		}
 		/**
 		 * function to allow setting of user
@@ -168,7 +166,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		    	
 		    	getClient().setUI(editProdGUI);
 		    	
-		    	editProdGUI.setClinet( Client.client );
 		    	newWindow.initOwner(FormController.primaryStage);
 		    	newWindow.initModality(Modality.WINDOW_MODAL);  
 		    	newWindow.setScene(editProdGUI.getScene());
@@ -220,7 +217,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 					{
 						Stage newWindow = new Stage();
 						getClient().setUI(addToCatGUI);
-						addToCatGUI.setClinet(client);
 						addToCatGUI.setProd(prod);
 						addToCatGUI.setStoreID(employeeStoreID);
 						addToCatGUI.doInit();
@@ -254,7 +250,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			    		{
 			    			EditableProductViewButton src = (EditableProductViewButton)e.getSource();
 			    			String id =Long.toString(src.getOrigin().getID());
-		    				ProdcutController.removeProductFromDataBase(id, Client.client);
+		    				ProdcutController.removeProductFromDataBase(id, Client.getInstance());
 		    				
 		    				waitForResponse();
 		    				
@@ -277,7 +273,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			    			   {
 			    				   if(Long.toString(eci.getID()).equals(id))
 			    				   {
-			    				    CatalogController.removeCatalogProductFromDataBase(eci.getID(), eci.getStoreID(), Client.client);
+			    					   CatalogController.removeCatalogProductFromDataBase(
+			    							   eci.getID(), eci.getStoreID(), Client.getInstance());
 			    				   }	    				   
 			    			   }
 			    			   initProductsTableContent();
@@ -308,7 +305,8 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 						{
 			    			long prodID = selectedItem.getID();
 			    			int storeID = selectedItem.getStoreID();
-							CatalogController.removeCatalogProductFromDataBase(prodID, storeID, Client.client);
+							CatalogController.removeCatalogProductFromDataBase(
+									prodID, storeID, Client.getInstance());
 							
 							//wait for server Response:
 							waitForResponse();
@@ -342,7 +340,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 							{
 								Stage newWindow = new Stage();
 								getClient().setUI(editCatItemGui);
-								editCatItemGui.setClinet(client);
 								editCatItemGui.setProd(baseCatalogProduct.getBaseProduct());
 								editCatItemGui.setStoreID(storeID);
 								
@@ -496,7 +493,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	    private void requestProductsAndWait()
 	    {
 	    	//this.client.handleMessageFromClientUI(new GetRequest("Product"));
-	    	ProdcutController.requestProducts(Client.client);
+	    	ProdcutController.requestProducts(Client.getInstance());
 	    	waitForResponse();
 	    }
 //---------------------------------------------------------------------------------------
@@ -506,7 +503,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 	     */
 	    private ObservableList<EditableCatalogItemView> getEditableCatalogProducts()
 	    {
-	    	CatalogController.requestCatalogItems(this.client);
+	    	CatalogController.requestCatalogItems(Client.getInstance());
 	    	waitForResponse();
 	    	
 	    	ArrayList<EditableCatalogItemView> res = new ArrayList<EditableCatalogItemView>();
@@ -561,7 +558,7 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 			{
 				System.out.println("Missing images "+ missingImages);
 				response = null;
-				CatalogController.requestCatalogImages(missingImages, Client.client);
+				CatalogController.requestCatalogImages(missingImages, Client.getInstance());
 
 				waitForResponse();
 				
@@ -581,14 +578,6 @@ public class ManageCatalogGUI extends FormController implements ClientInterface
 		
 
 	}
-
-	@Override
-	public void onSwitch(Client newClient) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
 

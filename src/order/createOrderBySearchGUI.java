@@ -113,7 +113,7 @@ public class createOrderBySearchGUI extends CreateOrderGUI implements ClientInte
 			
 			CustomerGUI customerGUI = (CustomerGUI)parent;
 	    	//CustomerGUI customerGUI = FormController.<CustomerGUI, AnchorPane>loadFXML(getClass().getResource("/customer/CustomerGUI.fxml"), this);
-	    	Client.client.setUI(customerGUI);
+	    	Client.getInstance().setUI(customerGUI);
 			customerGUI.loadStores();
 			FormController.primaryStage.setScene(customerGUI.getScene());
 		    FormController.primaryStage.hide();
@@ -306,7 +306,7 @@ private void loadItem(CatalogItem catItem)
 	    private void addStoreProductsToSet(TreeSet<CatalogItem> productItemSet)
 	    {
 	    	res = null;
-	    	ProdcutController.requestProducts(Client.client);
+	    	ProdcutController.requestProducts(Client.getInstance());
 	    	
 	    	//Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
 	    	
@@ -356,7 +356,8 @@ private void loadItem(CatalogItem catItem)
 	    	res = null;
 	    
 	    	
-	    	Client.client.handleMessageFromClientUI(new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
+	    	Client.getInstance().handleMessageFromClientUI(
+	    			new GetJoinedTablesWhereRequest("Product", "CatalogProduct", 0, "StoreID", ""+storeID));
 	    	
 	    	// wait for response
 			synchronized(this)
@@ -396,7 +397,7 @@ private void loadItem(CatalogItem catItem)
 			{
 				System.out.println("Missing images "+ missingImages);
 				res = null;
-				CatalogController.requestCatalogImages(missingImages, Client.client);
+				CatalogController.requestCatalogImages(missingImages, Client.getInstance());
 
 				// wait for response 
 				synchronized(this)

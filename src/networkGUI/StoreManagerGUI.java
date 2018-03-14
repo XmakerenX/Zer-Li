@@ -64,7 +64,8 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 		
 		if (viewReportsGUI != null) {
 
-			client.handleMessageFromClientUI(new GetEmployeeStoreRequest(user.getUserName()));
+			Client.getInstance().handleMessageFromClientUI(
+					new GetEmployeeStoreRequest(user.getUserName()));
 
 			try {
 				synchronized (this) {
@@ -81,8 +82,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 					Integer storeID = (Integer) replay.getMessage();
 					viewReportsGUI.setManagersStoreID((long)storeID);
 					
-					viewReportsGUI.setClinet(Client.client);
-					Client.client.setUI(viewReportsGUI);
+					Client.getInstance().setUI(viewReportsGUI);
 					FormController.primaryStage.setScene(viewReportsGUI.getScene());
 					
 				} else
@@ -105,7 +105,8 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 		
 		if (customerCreationGUI != null) {
 
-			Client.client.handleMessageFromClientUI(new GetEmployeeStoreRequest(user.getUserName()));
+			Client.getInstance().handleMessageFromClientUI
+			(new GetEmployeeStoreRequest(user.getUserName()));
 
 			try {
 				synchronized (this) {
@@ -121,8 +122,7 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 
 					Integer storeID = (Integer) replay.getMessage();
 					customerCreationGUI.setManagersStoreID((long)storeID);
-					customerCreationGUI.setClinet(Client.client);
-					Client.client.setUI(customerCreationGUI);
+					Client.getInstance().setUI(customerCreationGUI);
 					FormController.primaryStage.setScene(customerCreationGUI.getScene());
 					
 				} else
@@ -143,10 +143,10 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
     void onLogOut(ActionEvent event) {
     	
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, Client.client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	Client.client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }
@@ -166,11 +166,6 @@ public class StoreManagerGUI extends FormController implements ClientInterface {
 		{
 			this.notify();
 		}
-	}
-
-	
-	public void onSwitch(Client newClient) {
-		
 	}
 	
 	public void setUser(User user)

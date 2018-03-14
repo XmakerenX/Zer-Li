@@ -16,7 +16,12 @@ import serverAPI.Request;
 public class Client extends AbstractClient{
 	
 	private ClientInterface UI;
-	public static Client client = new Client();
+	private static Client client = new Client();
+	
+	public static Client getInstance()
+	{
+		return client;
+	}
 	
 	//*************************************************************************************************
     /**

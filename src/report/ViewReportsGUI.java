@@ -112,7 +112,9 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				case "Income":
 				{
 	
-					ReportController.getReport("incomereport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("incomereport",
+							Quarterly.valueOf(quarterly.toUpperCase()),
+							year, managersStoreID, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -133,7 +135,9 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Order":
 				{
-					ReportController.getReport("orderreport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("orderreport", 
+							Quarterly.valueOf(quarterly.toUpperCase()),
+							year, managersStoreID, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -162,7 +166,9 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Survey":
 				{
-					ReportController.getReport("surveyreport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("surveyreport", 
+							Quarterly.valueOf(quarterly.toUpperCase()),
+							year, managersStoreID, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -206,7 +212,9 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 				
 				case "Complaint":
 				{
-					ReportController.getReport("ComplaintReport", Quarterly.valueOf(quarterly.toUpperCase()), year, managersStoreID, client);
+					ReportController.getReport("ComplaintReport", 
+							Quarterly.valueOf(quarterly.toUpperCase()),
+							year, managersStoreID, Client.getInstance());
 					
 					waitForResponse();
 									
@@ -266,7 +274,7 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 		quarterlyComboBox.setValue(null);
 		
 		StoreManagerGUI storeManageGui = (StoreManagerGUI) parent;
-		client.setUI(storeManageGui);
+		Client.getInstance().setUI(storeManageGui);
 		FormController.primaryStage.setScene(parent.getScene());
 
 	}
@@ -327,11 +335,6 @@ public class ViewReportsGUI extends FormController implements ClientInterface {
 		synchronized (this) {
 			this.notify();
 		}
-
-	}
-
-	@Override
-	public void onSwitch(Client newClient) {
 
 	}
 

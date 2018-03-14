@@ -61,14 +61,14 @@ public class Main extends Application
 				try
 				{
 					//client = new Client(host, port);
-					Client.client.startConnection(host, port);
+					Client.getInstance().startConnection(host, port);
 				}
 				catch(IOException e)
 				{
 					System.out.println("Failed to connect to "+host+":"+port);
 					throw e;
 				}
-				Client.client.setUI(controller);
+				Client.getInstance().setUI(controller);
 	}
 	
 	//*************************************************************************************************
@@ -102,7 +102,7 @@ public class Main extends Application
 	@Override
 	public void stop()
 	{
-		Client.client.quit();
+		Client.getInstance().quit();
 	}
 	
 	//*************************************************************************************************

@@ -47,8 +47,7 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     {
     	if ( addSurveyAnalysisToExistingSurveyGUI != null)
 		{
-	    	addSurveyAnalysisToExistingSurveyGUI.setClinet(client);
-			client.setUI(addSurveyAnalysisToExistingSurveyGUI);
+    		Client.getInstance().setUI(addSurveyAnalysisToExistingSurveyGUI);
 			addSurveyAnalysisToExistingSurveyGUI.setUser(user);
 			FormController.primaryStage.setScene(addSurveyAnalysisToExistingSurveyGUI.getScene());
 		}
@@ -63,22 +62,16 @@ public class CustomerServiceGUI extends FormController implements ClientInterfac
     {
     	
     	user.setUserStatus(User.Status.valueOf("REGULAR"));
-    	UserController.requestLogout(user, client);
+    	UserController.requestLogout(user, Client.getInstance());
     	
     	LoginGUI loginGUi = (LoginGUI)parent;
-    	client.setUI(loginGUi);
+    	Client.getInstance().setUI(loginGUi);
     	FormController.primaryStage.setScene(parent.getScene());
     	
     }
   //===============================================================================================================
 	@Override
 	public void display(Object message) {
-		// TODO Auto-generated method stub
-		
-	}
-	//===============================================================================================================
-	@Override
-	public void onSwitch(Client newClient) {
 		// TODO Auto-generated method stub
 		
 	}

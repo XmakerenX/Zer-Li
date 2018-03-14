@@ -77,7 +77,8 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	    void onSeachButton(ActionEvent event) {
 	    	if(!resultNumberField.getText().isEmpty())
 	    	{
-	    		CustomerSatisfactionSurveyResultsController.getSpecificResults(resultNumberField.getText(), client);
+	    		CustomerSatisfactionSurveyResultsController.getSpecificResults(
+	    				resultNumberField.getText(), Client.getInstance());
 	    		waitForServerResponse();
 	    		// show success 
 	        	if (response.getType() == Response.Type.SUCCESS)
@@ -116,7 +117,7 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	    void onCancelButton(ActionEvent event) {
 	    	clearForm();
 	    	CustomerServiceGUI customerServiceGUI = (CustomerServiceGUI)parent;
-	    	client.setUI(customerServiceGUI);
+	    	Client.getInstance().setUI(customerServiceGUI);
 	    	FormController.primaryStage.setScene(parent.getScene());
 	    }
 	    //===============================================================================================================
@@ -131,7 +132,8 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 	    		if(!analysisField.getText().contains("No analysis have been given to "))
 	    		{
 		    		result.setAnalysis(analysisField.getText());
-		    		CustomerSatisfactionSurveyResultsController.addResultAnalysis(Integer.toString(result.getID()), result, client);
+		    		CustomerSatisfactionSurveyResultsController.addResultAnalysis(
+		    				Integer.toString(result.getID()), result, Client.getInstance());
 		    		waitForServerResponse();
 		    		// show success 
 		        	if (response.getType() == Response.Type.SUCCESS)
@@ -186,12 +188,6 @@ public class AddSurveyAnalysisToExistingSurveyGUI  extends FormController implem
 			{
 				this.notify();
 			}
-		}
-		//===============================================================================================================
-		@Override
-		public void onSwitch(Client newClient) {
-			// TODO Auto-generated method stub
-			
 		}
 		//===============================================================================================================
 		/**
