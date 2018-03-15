@@ -1,17 +1,17 @@
 # Zer Li 2017
-Zer Li is a program for managing a bouquets shops network based on Cleint-Server implentaion of OCSF and uses a MySQL database to store the data
+Zer Li is a program for managing a bouquets shops network based on a Cleint-Server implentaion of OCSF and uses a MySQL database to store the data
 
-Zer li was created By Ariel Berkovich, Matan Keren, Evgeny Khanchin, Daniel Krutikov as project during a semester course.
+Zer Li was created By Ariel Berkovich, Matan Keren, Evgeny Khanchin, Daniel Krutikov as project during a semester course.
 
-## Zer li features:
+## Zer Li features:
 * Available actions are presented based on the logged in user.
 * Support for having multiple shops in database.
 * Adding products to store and to store catalog.
-* Create and edit of shop catalog and also supports a newwork catalog.
+* Create and edit of a shop catalog and also supports a newwork catalog.
 * Support for viewing the stores catalog and creating a order from it.
-* support for customer sutifaction surveys.
-* supprt for editing users information.
-* generates quarterly reports and displays them in client.
+* Support for customers sutifaction surveys.
+* Supprt for editing users information.
+* Generates quarterly reports and displays them in client.
 
 ## Running the Program
 Uzip the [Jars.zip](https://github.com/XmakerenX/Zer-Li/blob/master/Jars.zip) to a local directroy and run first the server jar and after it the client jar.
