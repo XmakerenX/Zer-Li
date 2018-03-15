@@ -13,8 +13,6 @@ Zer li was created By Ariel Berkovich, Matan Keren, Evgeny Khanchin, Daniel Krut
 * supprt for editing users information.
 * generates quarterly reports and displays them in client.
 
-## Screenshots
-
 ## Running the Program
 Uzip the [Jars.zip](https://github.com/XmakerenX/Zer-Li/blob/master/Jars.zip) to a local directroy and run first the server jar and after it the client jar.
 The client jar can be run on a diffrenet computer than the server but reqires you to setup the server ip.
@@ -28,3 +26,13 @@ Clone the git repositry to a local directory and than on the eclipse proejct usi
 
 ## Documentation
 The project documentation can viewed [here](https://rawgit.com/XmakerenX/Zer-Li/master/doc/index.html)
+
+## Screenshots
+#### Server:
+![server](screenshots/server.jpg)
+#### Client:
+![client login](screenshots/client.jpg)
+![client login](screenshots/catalog.jpg)
+![client login](screenshots/order.jpg)
+![client login](screenshots/viewOrders.jpg)
+![client login](screenshots/viewCustomer.jpg)
