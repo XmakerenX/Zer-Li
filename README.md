@@ -31,8 +31,4 @@ The project documentation can viewed [here](https://rawgit.com/XmakerenX/Zer-Li/
 #### Server:
 ![server](screenshots/server.jpg)
 #### Client:
-![client login](screenshots/client.jpg)
-![client login](screenshots/catalog.jpg)
-![client login](screenshots/order.jpg)
-![client login](screenshots/viewOrders.jpg)
-![client login](screenshots/viewCustomer.jpg)
+<p align="center"><img src="screenshots/client.jpg?raw=true" width="30%"/> <img src="screenshots/catalog.jpg?raw=true" width="60%" /> <img src="screenshots/viewCustomer.jpg?raw=true" width="40%" /> <img src="screenshots/order.jpg?raw=true" width="59%" /> <img src="screenshots/viewOrders.jpg?raw=true" width="100%" /> </p>
